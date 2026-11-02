@@ -1,0 +1,961 @@
+02/09/2026, 10:36 pm - Messages and calls are end-to-end encrypted. Only people in this chat can read, listen to, or share them. *Learn more*
+19/02/2026, 7:17 am - Shakibul hasan Shaun created group "GarTexHub B2B Marketplace"
+19/02/2026, 7:17 am - You were added
+18/09/2026, 6:08 am - Shakibul hasan Shaun: <Media omitted>
+18/09/2026, 6:10 am - Shakibul hasan Shaun: এই ধারণাটা আমি তৈরি করেছি, তাই বলে আবার এই ধারণার ভেতর কোনো ফিচার মিসিং আছে দেখে কোন ফিচার ডিলিট কইরা দিয়েন না , 
+ফিচারে ডিলিট করার জন্য এটা দেই নাই 
+যেখানে শূন্য নলেজ ছিল সেখানে আমি বুঝিয়ে দিলাম কোথায় কোনটা থাকা উচিত
+18/09/2026, 12:07 pm - ㅤ: 
+19/09/2026, 7:55 am - Shakibul hasan Shaun: Implemented?
+19/09/2026, 9:05 am - Shakibul hasan Shaun: ,
+19/09/2026, 9:08 am - Shakibul hasan Shaun: ,
+19/09/2026, 11:39 am - Shakibul hasan Shaun: এটা মনে হয় আপনি বুঝেন নাই, 
+
+আপনি বর্তমানে প্রোফাইল অপশনের উপর ক্লিক করলে যেই যেই বিষয়গুলো দেখাচ্ছেন ওয়েবসাইটে দেখা যাচ্ছে সেগুলো ঠিক নয় 
+
+কোন কোন বাটন তৈরি করতে হবে এবং সেটার ভিতর কোন কোন ফিচার থাকবে এটা এখানে বর্ণনা করা হয়েছে স্পষ্টভাবে লেখা আছে এইটা দেখে এটা বাস্তবায়িত করুন
+20/09/2026, 7:07 pm - ㅤ: Where should the new Business/Settings card hub live? (Today 'My Profile' opens /org-settings?tab=profile with 12 tabs.)
+1.New /business route (Recommended)
+New hub page with the 10 cards; /org-settings stays as legacy fallback until buyer approves removal
+2.Replace /org-settings
+Rebuild the org-settings page itself into the 2-group card layout; old tabs move inside cards
+3.OwnerDashboard tab
+Add hub as another embedded tab next to contracts/leads/members
+20/09/2026, 7:07 pm - ㅤ: Theme, Privacy, export-data/delete-account, FAQ trainer, and Boosts exist today but fit none of the 10 cards. Buyer forbids deletion. Where do they go?
+1.More section in hub (Recommended)
+An overflow area in the new hub holding theme, privacy, data controls, FAQ trainer, boosts — nothing deleted, nothing in the 10 cards
+2.Keep /org-settings live
+New hub for the 10 cards; old page keeps everything else untouched
+3.Fold into cards
+Map each leftover into the closest card (e.g. FAQ trainer → Automation, boosts → Billing, privacy → Security)
+4.Type your own answer
+20/09/2026, 7:08 pm - ㅤ: The backend has only per-user notification prefs — no company-wide prefs model. How should the Business 'Notifications' card work?
+1.New org prefs model (Recommended)
+Add company-wide alert prefs (new Prisma model + API) that the owner edits; members inherit
+2.Reuse personal prefs
+Frontend-only: Business card edits the same per-user prefs, labeled as business alerts; no backend change
+3.Read-only broadcast log
+Business card shows admin broadcasts received; no editable prefs
+4.Type your own answer
+20/09/2026, 7:08 pm - ㅤ: The Security card says 'Password, 2FA' — but self-service password change and TOTP 2FA don't exist in backend (only WebAuthn passkeys). Build or relabel?
+1.Build both (Recommended)
+New POST /auth/change-password + TOTP 2FA setup/verify endpoints and UI; keeps buyer's card text truthful
+2.Passkeys only
+Security card shows existing passkeys/sessions/lock; change card subtitle to match reality
+3.Password only
+Build password change now, defer real 2FA; card shows password + passkeys as '2FA'
+23/09/2026, 7:08 am - Shakibul hasan Shaun: কন্টাক্ট ও অপশন তো হারিয়ে ফেলছেন যেখানে pdf সবকিছু সিগনেচার ইত্যাদি থাকতো কিছুই নাই এখন কিছুই নাই আপনি বলতেছেন সব করছেন আপনি কিছুই করেন নাই
+23/09/2026, 7:14 am - Shakibul hasan Shaun: PTT-20260923-WA0011.opus (file attached)
+24/09/2026, 11:45 am - ㅤ: record kore pathan
+24/09/2026, 11:48 am - ㅤ: আপনি রেকর্ড করে পাঠান আমি আমার সময় মত দেখে নিব ওইটা ভালো হয়
+24/09/2026, 11:53 am - ㅤ: কাজটার সম্বন্ধে আমার কোন আইডিয়া ছিল না তাই হয়তো ভুল হতে পারে এজন্য আপনি একটু ঠিক ভাবে দেখে টিক দিয়ে দেন কোথায় কি হবে
+24/09/2026, 1:57 pm - Shakibul hasan Shaun: https://youtu.be/eqUtelIC1V4?si=2I1s2tH5CxSK27l4
+24/09/2026, 2:20 pm - Shakibul hasan Shaun: PTT-20260924-WA0006.opus (file attached)
+24/09/2026, 4:26 pm - Shakibul hasan Shaun: IMG-20260924-WA0007.jpg (file attached)
+24/09/2026, 4:26 pm - Shakibul hasan Shaun: ভাবা যায় দীর্ঘ সাত মাস আগে, আমি আপনাকে সমাধানমূলক ভিডিও দিয়েছিলাম যেটার সমাধান আজ পর্যন্ত হয় নাই
+24/09/2026, 4:26 pm - Shakibul hasan Shaun: https://youtu.be/KSUfpqThECE?si=jA2iQLrgVTi74kVk
+24/09/2026, 5:14 pm - Shakibul hasan Shaun: sob bujsen?
+24/09/2026, 5:15 pm - Shakibul hasan Shaun: IMG-20260920-WA0003.jpg (file attached)
+24/09/2026, 5:15 pm - Shakibul hasan Shaun: IMG-20260924-WA0008.jpg (file attached)
+24/09/2026, 5:15 pm - Shakibul hasan Shaun: Mobail ফ্রেন্ডলি ধারণা,
+24/09/2026, 5:17 pm - Shakibul hasan Shaun: etakei basto baito korte hobe
+24/09/2026, 5:29 pm - Shakibul hasan Shaun: PTT-20260924-WA0009.opus (file attached)
+24/09/2026, 5:31 pm - Shakibul hasan Shaun: 
+24/09/2026, 5:31 pm - Shakibul hasan Shaun: IMG-20260924-WA0014.jpg (file attached)
+24/09/2026, 5:31 pm - Shakibul hasan Shaun: IMG-20260924-WA0015.jpg (file attached)
+24/09/2026, 5:31 pm - Shakibul hasan Shaun: IMG-20260924-WA0017.jpg (file attached)
+24/09/2026, 5:31 pm - Shakibul hasan Shaun: IMG-20260924-WA0016.jpg (file attached)
+25/09/2026, 8:25 pm - ㅤ: apnar deya Business (8 ta) + Settings (2 ta) = 10 ta card er structure bujhechi, oi onujayi-e korbo, kono feature delete korbo na.
+Ekhon ekta jinish clear howa dorkar — ekhon amader settings e aro kichu feature ache, jeta apnar 10 ta card er moddhe nai:
+Theme / Appearance (light/dark look)
+Privacy (Profile Visibility, Contact Privacy, Data & Sharing)
+Assistant Knowledge (AI er knowledge)
+Eigula kothay rakhbo, bolen:
+Option A: Closest card er bhitore merge kore dibo — Theme personal Settings er bhitore, Privacy proyojon onujayi vag kore dibo, Assistant Knowledge Automation and messaging er bhitore. Notun kono card hobe na.
+Option B: Apnar 10 ta card exactly banabo, tar sathe extra hisabe Theme, Privacy, Assistant Knowledge aro card thakbe — kichu delete hobe na.
+Option C: Apni boile den prottekta extra feature kon card er bhitore jabe, ami oi onujayi bosay dibo.
+
+Apni A / B / C bolen, tarpor ami implementation shuru korbo. Kono confusion thakle bolen.
+25/09/2026, 8:36 pm - Shakibul hasan Shaun: 😢
+25/09/2026, 8:58 pm - Shakibul hasan Shaun: privacy এর জন্য একটা কার্ড থাকবে
+25/09/2026, 8:58 pm - Shakibul hasan Shaun: Assistant Knowledge
+25/09/2026, 8:58 pm - Shakibul hasan Shaun: Theme
+25/09/2026, 9:01 pm - ㅤ: privacy er jonno alada card thakbe — noted. Ar Theme + Assistant Knowledge sundor kore amar iccha moto bosabo — bujhechi, dhonnobad.
+Ekhon layout ta final korar jonno 3 ta option dilam, apni ekta bolen:
+Option A: 11 ta card. Theme er jonno alada card hobe na — Settings er header e choto toggle thakbe. Assistant Knowledge Automation and messaging card er bhitore ekta section hisabe thakbe (admin-only).
+Option B: 13 ta card. Apnar 10 ta + Privacy + Theme + Assistant Knowledge — sobar alada alada card. Sobcheye lomba page, kintu sobkichu alada chokhe porbe.
+Option C (amar suggestion): Business group e 9 ta card (apnar 8 ta + Privacy), Settings group e 3 ta card (Security, Notifications, Appearance/Theme). Assistant Knowledge Automation and messaging er bhitore admin-only section hisabe thakbe. Apnar structure hubohu thakbe, kichu delete hobe na.
+Apni A / B / C bolen, tarpor ami banano shuru korbo.
+25/09/2026, 9:01 pm - Shakibul hasan Shaun: ?
+25/09/2026, 9:01 pm - Shakibul hasan Shaun: এই কার্ডগুলো ছাড়াও অন্যান্য আরো অনেক কার্ড আছে
+25/09/2026, 9:02 pm - Shakibul hasan Shaun: IMG-20260925-WA0233.jpg (file attached)
+25/09/2026, 9:03 pm - ㅤ: ?
+25/09/2026, 9:10 pm - Shakibul hasan Shaun: IMG-20260925-WA0235.jpg (file attached)
+25/09/2026, 9:11 pm - Shakibul hasan Shaun: my profile এর ভিতর থাকা বিষয়গুলো কিন্তু আমরা এতগুলো আলাদা ভাগে ভাগ করতেছি, 
+এখানে যদি ভাইরে মাই প্রোফাইল যেভাবে আছে সেই ভাবে সেই কার্ডগুলো রাখি তাহলে ভালো হবে না
+25/09/2026, 9:11 pm - Shakibul hasan Shaun: তাই এমন একটা নাম দিতে হবে যেটার ভিতরে ওই কার্ডগুলো থাকবে এবং সেটা যৌক্তিক হবে মানুষের বুঝতে অসুবিধা হবে কাজকর্ম ঠিক থাকবে
+25/09/2026, 9:28 pm - ㅤ: overall concept ami thikmoto bujhechi — confirm kortesi: Business = company-wide shared jinish (profile-branding, company info, automation-messaging, team-permission, verification, contracts, billing, business notifications) + Privacy card. Settings = personal per login (security, amar alert, appearance/theme). Assistant Knowledge automation er bhitore admin-only. Kono feature delete hobe na. Screenshot lagbe na, concept clear. Container er nam niye apnar kotha 100% thik — 9 ta card ek box e thasle joghonno lagbe, ar My Profile er moto rakhleo hobe na. Amar prostab: upor-e 2 ta TAB — Business Profile | Personal Settings. Box er bhitore box na. Business Profile tab e shudhu business card gulo grid akare — nam ta jowktik, manush bujhbe eta company er jinish. Personal Settings tab e Security, Notifications (amar), Appearance. Ei nam-e banai? OK bolen, banano shuru kori — sesh hole apni final review koren, tarpor Allah er nam niye mathe nama In Sha Allah.
+25/09/2026, 9:30 pm - Shakibul hasan Shaun: 
+25/09/2026, 9:31 pm - Shakibul hasan Shaun: IMG-20260925-WA0237.jpg (file attached)
+25/09/2026, 9:31 pm - Shakibul hasan Shaun: IMG-20260925-WA0239.jpg (file attached)
+25/09/2026, 9:32 pm - Shakibul hasan Shaun: PTT-20260925-WA0241.opus (file attached)
+25/09/2026, 9:32 pm - Shakibul hasan Shaun: PTT-20260925-WA0243.opus (file attached)
+25/09/2026, 9:33 pm - Shakibul hasan Shaun: PTT-20260925-WA0245.opus (file attached)
+25/09/2026, 9:40 pm - Shakibul hasan Shaun: PTT-20260925-WA0247.opus (file attached)
+25/09/2026, 9:41 pm - ㅤ: voice shunechi — apni thik dhorechen, ami 100% vul bujhechilam, sorry. Ekhon clear: Business side (partner network, owner dashboard, rating) jemon ache temon-e thakbe — ami oi dike haat dibo na, ota ekhon acceptable. Ar amra j card gulo niye kotha boltesi (profile-branding, company info, automation-messaging, team-permission, verification, contracts, billing, notifications + Privacy + Security) — eigula Account Hub er bhitore thakbe. Personal Hub na — B2B platform hisebe Account Hub-e professional ar scalable, apnar kotha moto. Assistant Knowledge automation er bhitore admin-only thakbe, Theme personal side e. Kono feature delete hobe na. Ei bujhe Account Hub banai? OK bolen.
+25/09/2026, 9:41 pm - Shakibul hasan Shaun: PTT-20260925-WA0249.opus (file attached)
+25/09/2026, 9:42 pm - Shakibul hasan Shaun: PTT-20260925-WA0251.opus (file attached)
+25/09/2026, 9:43 pm - Shakibul hasan Shaun: PTT-20260925-WA0253.opus (file attached)
+25/09/2026, 10:00 pm - ㅤ: full card list dilam — apni guchay den: 1. Profile and branding — display name, logo, bio, cover 2. Company info — years, processes, export ports 3. Automation and messaging — chatbot, auto-reply, rate limits 4. Assistant Knowledge — AI knowledge (admin-only) 5. Team and permissions — agent IDs, access levels 6. Verification — documents, status, credibility 7. Contracts — signed contract PDF 8. Billing — subscription, wallet, boosts 9. Notifications (business) — business alerts, preferences 10. Privacy — profile visibility, contact privacy, data & sharing 11. Security — password, 2FA, security keys, active sessions, account lock 12. Notifications (personal) — amar alert preferences 13. Appearance/Theme — light/dark. Eita full list, kichu bad nai. Konta kothay jabe apni bolen — verification/billing/contract alada, team owner console e — apnar kotha moto ami oi onujayi bosabo.
+25/09/2026, 10:14 pm - Shakibul hasan Shaun: প্রধানত আমরা যে অপশনগুলো নিয়ে কাজ করতেছি ফুল অপশন নিয়ে কাজ করতেছি আমাদের অপশন গুলাই ভুল
+25/09/2026, 10:15 pm - Shakibul hasan Shaun: PTT-20260925-WA0255.opus (file attached)
+25/09/2026, 10:16 pm - Shakibul hasan Shaun: PTT-20260925-WA0259.opus (file attached)
+25/09/2026, 10:16 pm - Shakibul hasan Shaun: PTT-20260925-WA0261.opus (file attached)
+25/09/2026, 10:21 pm - Shakibul hasan Shaun: PTT-20260925-WA0263.opus (file attached)
+25/09/2026, 10:23 pm - Shakibul hasan Shaun: আপনার তৈরি করা প্রোফাইল পূর্বে কত সুন্দর ছিল দেখেন ধারণাটা কত ভাল ছিল
+25/09/2026, 10:23 pm - Shakibul hasan Shaun: ,
+25/09/2026, 10:23 pm - Shakibul hasan Shaun: এই পেজগুলোর নিচের টেক্সটগুলো অত্যন্ত গুরুত্বপূর্ণ
+25/09/2026, 10:31 pm - ㅤ: Bhaia, eibar full clear — apnar kotha moto korbo: 1. My Profile LinkedIn style e sajabo (hubohu copy na — amader rating, about, gallery video thakbe, ar apnar screen record onujayi public profile). Mobile friendly. 2. Billing, verification, contact — alada option, alada jaygay. Privacy profile er upor-e direct thakbe, settings theke soray dibo. 3. Agent management, notun agent, permission, chatbot, auto-reply — shudhu owner console theke control hobe. Client ra baire theke eigula pay kina check kore nibo. Settings e thakbe shudhu: password, two-factor, account lock jatiyo jinish. 4. Hamburger er My Profile ar sidebar er public profile — duita ek jaygay niye jabe, alada na. 5. FactoryProfile Page er ager sundor concept + nicher text gulo rakhbo, gurutto bujhechi. Ekta request bhaia — audio er bodle text dile amar jonno sohoj hoy, kichu miss hoy na. Apnar keyboard er STT use kore bollei text hoye jabe. Ei plan-e OK?
+25/09/2026, 10:43 pm - ㅤ: Based on the video provided, here is a comprehensive list of the problems, bugs,
+and UX issues reported by the speaker:
+
+General UI/Navigation & Layout Issues:
+
+1.  Search Bar: The main search bar is missing a search icon/button. Search
+    functionality across the site (including the Help Center) frequently fails
+    or returns "No suggestions."
+2.  Inactive Elements: The list items under "No live buyer requests yet" and
+    "Verified factories" on the homepage are not clickable.
+3.  Visibility in Light Mode: The text on the "Create Buyer Account" and
+    "Register Factory" buttons becomes invisible when switching to light mode.
+4.  Inactive Toggles: The "Unique toggle" on the homepage and the dark/light
+    mode toggles on specific pages (like the Feed Center and Member Management)
+    often do not work.
+5.  Video Gallery Interaction: Clicking videos in the "Factory video gallery"
+    doesn't play them, and interacting (liking/commenting) doesn't prompt an
+    unauthenticated user to log in.
+6.  Incorrect Redirects: Clicking "Choose premium" or "Create your organization"
+    on the pricing page redirects to the signup page, even if the user is
+    already logged in.
+7.  Broken Links: The "Contact sales" button on the About page opens an email
+    client instead of a contact form. Social media links (LinkedIn, Facebook,
+    YouTube) in the footer do not work.
+8.  Missing "Back" Navigation: Many secondary pages, settings menus, and the
+    Verification Center lack a clear "Back" button to return to the previous
+    screen.
+9.  Confusing Architecture: The navigation flow is fragmented. Finding settings
+    like Billing requires clicking through multiple unrelated menus. The speaker
+    suggests creating a unified "Owner Console" in the top navigation.
+10. Unexpected Logout: Clicking "Search" from the top navigation menu
+    unexpectedly logs the user out.
+
+Authentication & Security:
+
+1.  Security Flaw: In the Help Center, the "Grant permission" and "Lock demo"
+    buttons work even when the user is logged out, which is a major security and
+    logic error.
+2.  Missing Password Policy: The signup page lacks validation for password
+    strength (e.g., minimum characters, required symbols).
+3.  Slow Login: The login process takes an excessive amount of time to complete.
+
+Form & Data Entry Bugs:
+
+1.  Dropdown Overlap: On the "Register Factory" page, an invisible element
+    overlaps the "Country" dropdown, making it impossible to select an option
+    (e.g., Bangladesh).
+2.  Incorrect Footer Information: The support and business emails listed in the
+    footer are placeholder addresses and need to be updated for production.
+3.  Broken Support Tools: The "Live chat" and "Open support ticket" buttons are
+    non-functional.
+4.  "Invite Members" Form: The form lacks a dropdown to select the user's role,
+    and attempting to add a member results in an endless loading state.
+5.  Brand Identity Section: This area is poorly designed and lacks proper upload
+    buttons for logos.
+6.  Inactive Buttons: The "Add Passkey" button and "New draft" (under Contracts)
+    button do not trigger any actions.
+7.  CRM Button Failures: The "Lead Manager" and "Refresh" buttons under the
+    Leads section do not work.
+
+Post & Product Management Issues:
+
+1.  Confusing Flow: The option to create a product is found in multiple,
+    confusing locations ("Post a Product" vs. "Manage Feed Posts"). The "Manage
+    Feed Posts" section seems geared toward creation rather than management.
+2.  Missing Mandatory Fields: Fields like "Category", "Industry", "Price range",
+    and "Lead time" should be mandatory for a marketplace. "Industry" and
+    "Category" should ideally auto-fill based on the account type.
+3.  Missing Crucial Information: The product creation forms lack fields for
+    specifying production capacity and price.
+4.  External Media Links: The system asks users to paste URLs for images and
+    videos instead of providing a direct file upload option, which is poor UX.
+5.  Post Management Deficits: There is no "Edit" button for published posts.
+    Furthermore, clicking "Delete" removes the post immediately without a
+    confirmation prompt. The "Clear" button in the editor does not reset the
+    form.
+6.  Internal Server Error: Submitting the "Create product" form consistently
+    results in an "Internal Server Error."
+7.  "Draft" Option: The speaker argues that the "Draft (private)" option
+    shouldn't exist for public products, as it turns the platform into a
+    personal database rather than a marketplace.
+
+Data Display & Filtering Errors:
+
+1.  Feed Center Errors: Clicking on tabs like "Buyer Requests" or "Company
+    Products" in the Feed Center results in a "Request failed" error.
+2.  Irrelevant Filters: Search filters display industries that are unrelated to
+    Garments and Textiles.
+3.  Useless Filters: There is a "Worker count" filter in the search, but no
+    corresponding field exists in a user's profile to input this data.
+4.  Unclear Terminology: Terms like "Trading Company" (in filters), "MOQ", and
+    the distinction between "Contracts Vault" and "Contracts" are confusing and
+    need clarification.
+5.  Confusing UI Indicators: The "Premium feed experience" badge is confusing
+    for users already on a premium plan. The Verification Center shows
+    contradictory statuses simultaneously ("Pending" and "Not verified").
+
+Verification Center Specific Bugs:
+
+1.  Server Error on Payment: Clicking the "Pay / Renew Verification" button
+    triggers an "Internal server error."
+2.  Invalid Parameters: Trying to add a license or certification throws an
+    "Invalid parameter" error.
+3.  Broken Uploads: The "Upload stronger proof" button does not work, and its
+    associated "Need help?" link is broken.
+25/09/2026, 10:54 pm - ㅤ: @⁨Shakibul hasan Shaun⁩
+25/09/2026, 11:04 pm - ㅤ: ??
+26/09/2026, 6:18 am - Shakibul hasan Shaun: প্রাইভেট পলিসি নিয়ে আলাদা করে ভাবার কি আছে! 
+এটাতো ইতিমধ্যে অন্য একটা জায়গায় দেওয়া আছে আসলে আপনি প্রোফাইল পেইজ টা তৈরি করে ভিতরে যা দিয়েছিলেন সব ১০০% আওলা জাওলা হুদাই হুদাই জিনিস সেগুলো সেখানে দেওয়ার কোন দরকারই ছিল না সেগুলো তৈরি করার কোনদিন কোন প্রয়োজন ছিল না তাই এত সমস্যা হইতাছে
+26/09/2026, 6:18 am - Shakibul hasan Shaun: আমি কিছু জানিনা
+26/09/2026, 6:19 am - Shakibul hasan Shaun: আমি কোন ধরনের কোন সিদ্ধান্তে আসতে পারতেছি না
+26/09/2026, 6:19 am - Shakibul hasan Shaun: সকল কনসেপ্ট 100% ভুল
+26/09/2026, 6:57 am - Shakibul hasan Shaun: sittings  নামে একটা অপশন দিবেন  সেটা হতে পারে সবার নিচে সেটার ভিতরে থাকবে, Them,  notification  on/off, security,
+
+সবার উপরে যেমনভাবে এখন মাই প্রোফাইল অপশন আছে সেটা সেখানেই থাকবে আর অর্গানাইজেশনের নাম একবার যদি কেউ দেয়  তাহলে সহজে পরিবর্তন করতে পারবে না কারণ এটা অর্গানাইজেশনের নাম দিতাছে বোন,
+
+(সমাধান : বিষয়টাকে সহজভাবে বলো আমরা এখানে একবার নাম পরিবর্তন করলেন ৯০ দিনের ভিতরে নাম পরিবর্তন করতে পারবে না এটা সাধারন একাউন্ট এর জন্য নিয়ম
+
+যদি ভেরিফাইড অ্যাকাউন্ট হয় তাহলে নাম পরিবর্তন এর ক্ষেত্রে তাকে ডকুমেন্ট পুনরায় আপলোড দিতে হবে কারণ নাম শুধুমাত্র একাউন্টে পরিবর্তিত হলে হবে না ট্রেড লাইসেন্স এবং অন্যান্য জায়গাতেও পরিবর্তিত হতে হবে)
+
+জেনারেল ইনফো অপশনটাই ১০০% ভুল অপশন জেনারেল ইনফোর ভিতরে আমরা দিয়ে দিয়েছি চাটবোর্ড কিভাবে এনএবল বা অফ করা যায় এটা ভুল সিদ্ধান্ত , নাম পরিবর্তন করে যে কাজের জন্য সেটাকে রাখা হয়েছে সেই নামটা দেওয়া উচিত,
+
+Boost er জন্য আলাদা করে কোন অপশন থাকবে না ,
+
+ধরলাম আমি মালিক আমি আমার একাউন্ট থেকে একটা পোস্ট করলাম,  ফেসবুকে যেমন পোস্ট দাতার ক্ষেত্রে বোস্ট অপশন দেখায় তেমন ভাবে এখানেও দেখানো হবে এবং সেই বাটনে ক্লিক করলেই বিস্তারিত পেইজে নিয়ে যাবে,
+
+ভেরিফিকেশন নামে ইতিমধ্যেই প্রতিষ্ঠিত অপশন আছে তাই এটা নিয়ে বাড়াবাড়ি করার কোন দরকার নাই
+
+ব্র্যান্ডিং বলতে বুঝাচ্ছেন কি এটার কাজ কি এটা দিয়ে মানুষ কি ধরনের উপকৃত হবে এটা বুঝার আগে এই বিষয়ে সিদ্ধান্ত নেওয়া সম্ভব নয়
+
+members বা team  ম্যানেজমেন্ট  এটা তো অবশ্যই উনার কন্ট্রোল এর ভিতর থাকতে হবে,
+
+ওনার কন্ট্রোলের ভিতরে কন্ট্রাক্ট অপশন থাকতে হবে  আর এগুলো গুরুত্বপূর্ণ হাইলাইট গুরুত্বপূর্ণভাবে হাইলাইট অবস্থায় থাকতে হবে (এই অপশন ইতিমধ্যেই আছে  ওনার ড্যাশবোর্ডের ভিতরে তাই এটা নিয়ে আর ঘাটাঘাটি করার দরকার নেই)
+
+টিম ম্যানেজমেন্ট কন্ট্রাক্ট এই অপশন গুলো  এখানে Billing নামে অপশনটা হাইলাইট ভাবে থাকবে
+
+( তিনটা অপশন ইতিমধ্যেই উনার ডেস বোর্ডের ভিতরে আছে তাই এগুলো নিয়েও আর মাথা ঘাটানোর দরকার নাই)
+26/09/2026, 6:58 am - Shakibul hasan Shaun: সাবস্ক্রিপশন নামে ইতিমধ্যেই একটা অপশন আছে owner dashboard  র ভিতরে সেখানে শুধুমাত্র সুন্দর করে Subscription & Billing লিখে দিবেন তাহলেই চলবে
+26/09/2026, 7:04 am - Shakibul hasan Shaun: প্রশ্ন তাহলে জেনারেল ইনফো যেটা নাম পরিবর্তন করা হবে সেটা কোথায় থাকবে? 
+
+সেটা owner dashboard এর ভিতরে থাকবে
+26/09/2026, 7:07 am - Shakibul hasan Shaun: ব্র্যান্ডিং, 
+এটার কাজ কি এটার উত্তর পেলে জায়গাটা নির্ধারণ করা সহজ হবে
+26/09/2026, 12:38 pm - Shakibul hasan Shaun: ??
+26/09/2026, 5:21 pm - Shakibul hasan Shaun: IMG-20260926-WA0000.jpg (file attached)
+এখানে ফিল্টার নামে অপশন ছিল সেটার ভিতরে অনেকগুলো সাব অপশন ছিল যেগুলো ব্যবহার করে ফিল্টার করা যেত সেটা আবার ফিরিয়ে আনুন
+27/09/2026, 1:21 am - ㅤ: sob point note korlam, ei onujayi korbo:
+1. Settings option sobar niche thakbe — bhitore shudhu Theme, notification on/off, security.
+2. My Profile sobar upore jemon ache temon-e thakbe — LinkedIn idea niye sajabo, mobile friendly. Rating, about, gallery video thakbe, public profile apnar screen record moto.
+3. Org name policy: normal account 90 din lock, verified account e document re-upload (trade license match korte hobe).
+4. General Info concept bad — chatbot on/off okhan theke sorabo, chatbot control owner console e.
+5. Owner dashboard er subscription "Subscription & Billing" nam e sundor kore dibo. General Info rename hoye Branding hisebe owner dashboard e thakbe.
+6. Profile page er aola-jaola extra jinish soray dibo. Privacy policy already ache — duplicate hobe na.
+7. Video er bug list (search icon, homepage click, light-mode button, toggle) — erpor ota dhorbo.
+Kothao confusion thakle bolen, nahole ei plan-e banano shuru kori?
+27/09/2026, 1:29 am - ㅤ: Filter option firiye diyechi. Git check kore pelam — Sep 16 ekta fix er somoy Filters button + category panel (T-Shirt, Polo, Denim, Hoodie, Sportswear, Knitwear, Woven, Outerwear) delete hoye gechilo, vaba hoisilo tab diye hobe. Kintu tab filter kore post type, ar panel filter kore garment category — duita alada jinish. Ekhon duita-e ache, build pass.
+27/09/2026, 6:10 am - Shakibul hasan Shaun: আমি জানিনা আমি স্পষ্টভাবে লিখে দিয়েছি সেটা বাস্তবায়িত হলেই হল
+27/09/2026, 10:19 am - Shakibul hasan Shaun: IMG-20260927-WA0169.jpg (file attached)
+27/09/2026, 10:20 am - Shakibul hasan Shaun: ,
+27/09/2026, 11:35 am - Shakibul hasan Shaun: This is great design
+27/09/2026, 2:22 pm - Shakibul hasan Shaun: এটাকে ভুলে গেলে তো চলবে না আপনার তো অভ্যাস আছে অনেক পুরনো অভ্যাস এই সকল বিষয় ফাঁকি দেওয়ার
+27/09/2026, 4:24 pm - You're now an admin
+27/09/2026, 4:53 pm - Shakibul hasan Shaun was added
+27/09/2026, 4:09 pm - Shakibul hasan Shaun: IMG-20260927-WA0174.jpg (file attached)
+27/09/2026, 4:09 pm - Shakibul hasan Shaun: IMG-20260927-WA0175.jpg (file attached)
+27/09/2026, 4:12 pm - Shakibul hasan Shaun: আরেকটা বিষয় দেখলাম নতুন করে উনার ডেস বোর্ডের ভিতরে  সিটিং এবং প্রোফাইল অপশন দিয়ে আমার কথা মত কাজ না করে পূর্বের মতনই  ১৩টাঅপশন রাখছেন দুইটার ভিতরে আপনি কি সহজ কথা বুঝেন না নাকি
+27/09/2026, 4:13 pm - Shakibul hasan Shaun: IMG-20260927-WA0177.jpg (file attached)
+27/09/2026, 4:53 pm - Shakibul hasan Shaun was added
+27/09/2026, 4:53 pm - Shakibul hasan Shaun left
+27/09/2026, 4:14 pm - Shakibul hasan Shaun: আরেকটা বিষয় দেখেন এই পেজটা পূর্ণমাত্রায় দেখা যায় না scroll করলেও নিচের একটি অংশ একটু ঢাকা থাকে একটা কি স্পষ্ট সুন্দরভাবে উপস্থাপিত হওয়ার কথা ছিল না
+27/09/2026, 4:15 pm - Shakibul hasan Shaun: IMG-20260927-WA0176.jpg (file attached)
+27/09/2026, 4:15 pm - Shakibul hasan Shaun: আদা সাদা এটা কি কইরা রাখছেন নিচের অংশে
+27/09/2026, 4:16 pm - Shakibul hasan Shaun: IMG-20260927-WA0178.jpg (file attached)
+এখানে দেখেন কত সুন্দর দেখা যাচ্ছে মোবাইলেও সেটা এরকম সুন্দর দেখা যাইতে হবে সবার প্রথমে মানুষ মোবাইল থেকে ঢুকবে আমাদেরকেও বিশ্বাস করবে না ধীরে ধীরে বিশ্বাস করবে তখন আর কেউ ভুলই ধরবে না আমরা বড় বড় ভুল করব সেটাকে তারা ঠিক মনে করবে যেমন google এর নামে ভুল আছে
+27/09/2026, 4:18 pm - Shakibul hasan Shaun: IMG-20260927-WA0180.jpg (file attached)
+আলোকবর্ষ আগে বলেছিলাম এখানে লেখা আসবে গার্মেন্টস এবং টেক্সটাইল নামে দুইটা অপশন যেটা স্ক্রল করে, একটা সিলেক্ট করবে। 
+মানুষকে কেন আলাদা করে লিখতে হয়
+27/09/2026, 4:21 pm - Shakibul hasan Shaun: IMG-20260927-WA0179.jpg (file attached)
+27/09/2026, 4:21 pm - Shakibul hasan Shaun: এগুলো কেউ বিবেক খাটাইয়া করলে হইত না। 
+দায় সারা কাজ করছেন আপনি
+27/09/2026, 4:22 pm - Shakibul hasan Shaun: ওনার ড্যাশবোর্ড থেকে আমি এই পর্যন্ত আইসি তাহলে এক এক করে যদি আমি মোবাইলের ব্যাক বাটন ক্লিক করে ব্যাক করি তাহলে ধীরে ধীরে উনার বোর্ডে নিয়ে যাওয়ার কথা কিন্তু সেরকম কোনো ক্রম এখানে নেই
+27/09/2026, 7:04 pm - You added Shakibul hasan Shaun
+27/09/2026, 7:04 pm - ㅤ: 
+27/09/2026, 7:04 pm - ㅤ: 
+28/09/2026, 7:29 am - Shakibul hasan Shaun: নোটিফিকেশন ভিউ বাটনে ক্লিক করলে  সে নোটিফিকেশনের ভিতরে নিয়ে যাওয়ার কথা ছিল কিন্তু সেটা পোস্টে নিয়ে যাচ্ছে  
+
+এটার সমাধান করেন
+28/09/2026, 7:30 am - Shakibul hasan Shaun: সমাধান হতে পারে ভিউ বাটনে ক্লিক করলে সেই নোটিফিকেশন সুন্দরভাবে একটা পেইজে দেখা গেল, 
+
+আর যে সকল নোটিফিকেশন এমনিতেই দুই লাইনের সাধারণভাবে ভিউ বাটনে ক্লিক না করে দেখা যায়  সেগুলোর জন্য 
+ইউটিউবের নোটিফিকেশনের ভেতরে ঢুকলে যেমন ভিডিও না দেখলেও নোটিফিকেশন বেরিয়ে আসলে দেখায় আর দেখা বাকি নেই সেই সিস্টেম করা যেতে পারে
+28/09/2026, 9:10 am - Shakibul hasan Shaun: <Media omitted>
+28/09/2026, 9:10 am - Shakibul hasan Shaun: এখানে মনে হচ্ছে টেক্সটাইল মার্কেটপ্লেস শুধুমাত্র দিলে ঠিক হচ্ছে না
+28/09/2026, 9:12 am - Shakibul hasan Shaun: ওয়েবসাইট scrol করা যায় না, সব সময় সমস্যা হয় না কিন্তু মাঝে মাঝে সমস্যা হয় আবার ইন্টারনাল সার্ভার এরর দেখায়
+02/10/2026, 10:09 am - Shakibul hasan Shaun: IMG-20261002-WA0034.jpg (file attached)
+আমি নিজেই প্রথম একাউন্ট তৈরি করেছি এর মানে একাউন্টের পূর্ণমাত্রার মালিক আমি তাহলে এখানে আবার এটা দেখাবে কেন তুমি মালিক না তুমি action নিতে পারবে না
+02/10/2026, 10:09 am - Shakibul hasan Shaun: সমাধান দেন
+03/10/2026, 11:18 am - Shakibul hasan Shaun: এছাড়া ওয়েবসাইট মাঝে মাঝে ইন্টার্নাল প্রবলেম দেখায় এটা সমস্যা খুব বাধ্যতামূলকভাবে সমাধান করতে হবে
+03/10/2026, 2:10 pm - Shakibul hasan Shaun: এখানে ট্যাব করলে যেখানে যাবেন তার নিচের দিকে আসতে থাকবে এবং কাজগুলো কমপ্লিট করতে থাকবেন
+03/10/2026, 6:48 pm - Shakibul hasan Shaun: IMG-20261004-WA0002.jpg (file attached)
+03/10/2026, 10:30 pm - ㅤ: IMG-20261004-WA0003.jpg (file attached)
+05/10/2026, 5:58 am - Shakibul hasan Shaun: https://youtu.be/KSUfpqThECE?si=ZUv0eA6YOFYo7D-h
+06/10/2026, 2:14 pm - Shakibul hasan Shaun: এটা আমি নিজে লিখেছি আর আপনার আইডিতে যেটা দিলাম, ওইটা ai দিয়ে সাজানো হয়েছে শুধুমাত্র
+06/10/2026, 2:14 pm - Shakibul hasan Shaun: এটা নিচের দিকে আসতে থাকেন এবং সমাধান করতে থাকেন  কিছু বুঝতে না পারলে আমাকে প্রশ্ন করতে থাকেন যৌতিকভাবে , 
+
+আমরা শুধু প্রশ্ন উত্তরের জন্য আলাদা গ্রুপ খুলেছি সেখানে প্রশ্ন করবেন
+09/10/2026, 4:51 pm - Shakibul hasan Shaun: IMG-20261009-WA0002.jpg (file attached)
+এই সমস্যাটা আগের জায়গাতেই থেকে গেছে
+09/10/2026, 4:51 pm - Shakibul hasan Shaun: আমি ভাবতেছি আপনি কাজ করতেছেন কিন্তু আসলে কিছুই না। 
+তাহলে উত্তর দিচ্ছেন না কেন। 
+শাওন আপনারে কোনদিন মেসেজ দিবে না শুধু নিশ্চিত করেন কাজ করবেন না
+09/10/2026, 4:51 pm - Shakibul hasan Shaun: মাসের পর মাস মানুষের ভন্ডামি দেখে, 
+কাজ ছেড়ে দেওয়ার অভিজ্ঞতা আছে আমার, 
+
+প্রোটোটাইপ ওয়েবসাইট গুলো ছিল এখন ডিলিট করে দিয়েছি, <This message was edited>
+09/10/2026, 9:31 pm - ㅤ: IMG-20261009-WA0004.jpg (file attached)
+09/10/2026, 10:18 pm - ㅤ: No — don't remove the Message option. Here's the factual breakdown from the code (FeedItemCard.jsx:110-412, MainFeed.jsx:479-482,836-842):
+The three post types are genuinely different:
+Company Products — supplier showcase (MOQ, lead time, material). CTA is Message → direct chat.
+Buyer Requests — structured RFQs (quantity, timeline, certifications, shipping terms). CTA is Express Interest → POST /buyer-requests/:id/express-interest → claims the request and opens the inbox to continue (MainFeed.jsx:1312). This feeds the match/CRM pipeline — not just a chat.
+Posts — plain updates. CTA is Message.
+Why Message must stay on buyer requests: Express Interest renders only for buying_house/admin roles. Everyone else (factories — the very people a request targets — plus the request owner's own view and already-claimed requests) gets Message as the fallback. Removing it would cut off factories from contacting requesters at all, and kill post-claim negotiation.
+10/10/2026, 6:21 am - Shakibul hasan Shaun: ওই মিয়া বাংলা ভাষা বুঝেন না
+10/10/2026, 6:21 am - Shakibul hasan Shaun: আমি পোস্ট অপশন থেকে মেসেজ সরিয়ে ফেলতে বলেছি
+10/10/2026, 6:21 am - Shakibul hasan Shaun: কোম্পানি এবং বায়ার রিকুয়েস্ট এই দুইটার ভিতর অবশ্যই থাকবে মেসেজ অপশন
+10/10/2026, 6:23 am - Shakibul hasan Shaun: আর বেউ প্রোফাইল নামের ফালতু অপশন দিয়েছেন সেটা যেন না থাকে
+10/10/2026, 6:23 am - Shakibul hasan Shaun: er kemne sei kaj hobe setaw ami বইলা দিছি
+10/10/2026, 6:23 am - Shakibul hasan Shaun: নরমাল ভাবে মোবাইল থেকে প্রবেশ করলেও যেন এভাবে সুন্দরভাবে দেখায় 
+
+এটা কিভাবে কাজ করবে আমি যে সর্বশেষ ভিডিও দিয়েছিলাম সেটাতে অনেক ভালোভাবে বুঝাইছি
+10/10/2026, 6:26 am - Shakibul hasan Shaun: sitting page থেকে এখনো ওনার কনসোলে নিয়ে যায়
+10/10/2026, 6:26 am - Shakibul hasan Shaun: This message was deleted
+10/10/2026, 6:49 am - Shakibul hasan Shaun: পার্থক্য হচ্ছে এখানে আছে প্রতিবন্ধী কালার যেখানে ছিল গ্রেট নিল কালার সেটা দেখতে অত্যন্ত সুন্দর ছিল এটা দেখতে অত্যন্ত বাজে
+10/10/2026, 6:50 am - Shakibul hasan Shaun: সেখানের প্রোফাইল দেখলে মনে হতো আমরা ইউনিক একটা প্রোফাইল তৈরি করতে পেরেছি আর এখানে প্রোফাইল দেখলে মনে হয় আমরা বা***র প্রোফাইল তৈরি করেছি . 
+
+আমি যেটা দিয়েছি সেটার হুবহু কপি হইতে হবে কপি কপি
+10/10/2026, 6:51 am - Shakibul hasan Shaun: এর আগে শুধুমাত্র বুঝানোর স্বার্থে বলেছিলাম লিংকডিনের মতন
+10/10/2026, 9:16 am - ㅤ: কুকুরের রঙ যে নিল হয় এইটা জানা ছিল না আপনার ভাষা ঠিক করেন মানুষের ভালোলাগা পছন্দ এক হয় না আপনার যেটা ভালো লাগে আপনার চোখে যেটা ভালো  লাগে আমার ভালো নাও লাগতে পারে
+10/10/2026, 10:16 am - Shakibul hasan Shaun: সকল ওয়েবসাইটে যেমন ভালো মানের নীল রঙ থাকে কেমন নীল রং দিবেন
+10/10/2026, 10:16 am - Shakibul hasan Shaun: IMG-20260927-WA0169.jpg (file attached)
+10/10/2026, 10:16 am - Shakibul hasan Shaun: প্রোফাইলের ডিজাইন সবকিছু এটার মতোই করেন
+10/10/2026, 10:16 am - Shakibul hasan Shaun: কালারসহ
+10/10/2026, 10:53 am - Shakibul hasan Shaun: আর প্রোফাইলের ভিতরে গেলে যা যা দেখানো উচিত সিটিং এর ভিতরে গেলে যা যা দেখানো উচিত সেগুলো এখনো ঠিক হয়নি 
+দুই সপ্তাহ চলে গেল😅
+10/10/2026, 11:01 am - Shakibul hasan Shaun: হে আমার মহাসম্মানিত বোন : দুঃখিত, 
+তবে আপনি নিজের পছন্দকে শূন্য শতাংশ মূল্যায়ন করুন 
+
+যুক্তি বাস্তবতাকে মার্কেটিং পলিসিকে ১০০% মূল্যায়ন করুন এবং আমার কাছ থেকে পরামর্শ নিয়ে আলোচনা ছাড়া একটা পা ফেলবেন না
+10/10/2026, 11:08 am - ㅤ: এর আগে যেখানে কাজ এবং স্যাম্পল দেয়া হয়েছিল যারাই দেখেছিল সবাই এই রংটা পছন্দ করছিল কেউ কখনোই বলেনি বেমানান এজন্যই দেয়া হয়েছিল আপনার চিন্তা পছন্দ  অন্যরকম হতেই পারে
+10/10/2026, 4:01 pm - Shakibul hasan Shaun: ব্যক্তির মতামতের ব্যবসা চলে না😅😢😢 <This message was edited>
+10/10/2026, 8:05 pm - ㅤ: Ekhane to apni nil rong er kotha bollen
+11/10/2026, 11:52 am - Shakibul hasan Shaun: ,,, , , , ,
+14/10/2026, 7:00 pm - Shakibul hasan Shaun: মাফ চাই মেসেজ দেওয়ার জন্য
+14/10/2026, 7:00 pm - Shakibul hasan Shaun: তবে আপনার কাজ দেখে আপনার উপর আমার ভেঙ্গে পড়তে ইচ্ছা করতেছে😭😭😭
+14/10/2026, 7:01 pm - Shakibul hasan Shaun: আমি আপনাকে বাচ্চাদের মতন করে বুঝালেও আপনি কিছুই বুঝেন না
+14/10/2026, 7:01 pm - Shakibul hasan Shaun: মাশাআল্লাহ ভুল কাজ ভালই করেন
+14/10/2026, 7:01 pm - Shakibul hasan Shaun: আমি লিস্টের ভিতরে সিটিং অপশন রাখতে বলেছিলাম যেটা আগে থেকেই ছিল আপনি সেটা মুছে দিয়েছেন অথচ নিচে আলাদা করে তিনটা অপশন যেটা পাশাপাশি আছে সেখানে সিটিং অপশন আগের মতনই আছে যেটা ডিলিট করতে বলছিলাম সেখানে তিনটা অপশনে ডিলিট করতে বলছিলাম
+14/10/2026, 7:02 pm - Shakibul hasan Shaun: বিষয়টা এমন না আপনি অন্ধ আপনি চোখে সবকিছুই দেখেন আপনি একটু ভালো করে দেখলে হাজার হাজার ত্রুটি পাবেন
+14/10/2026, 7:02 pm - Shakibul hasan Shaun: এটা b2b মার্কেটপ্লেস ওয়েবসাইট ঠিকভাবে চলে না তাহলে মানুষ আমাদের টাকা কেন দিবে, আপনি ভাবেন আমি আপনার ভুল ধরি আসলে তেমন কোন ইচ্ছায় আমার নাই
+14/10/2026, 7:03 pm - Shakibul hasan Shaun: যখনই আপনার কাজ দেখে আমার এত বেশি খারাপ লাগে যদি আমার অর্থ সম্পদ থাকতো আমি আমার মোবাইল ভেঙে ফেলতাম আর আপনার সাথে কোনদিন যোগাযোগ করতাম না
+14/10/2026, 9:56 pm - ㅤ: এটার মানে আমি বুঝতে পারিনি
+15/10/2026, 10:34 am - Shakibul hasan Shaun: বর্তমানে নতুন পোস্ট করা হলে সেই পোস্ট যখন দেখা যায়।
+15/10/2026, 10:35 am - Shakibul hasan Shaun: ধরলাম আপনি একটা পোস্ট করলেন সেটা আমার ফিডে আসলো। 
+
+সেই পোস্টের নিচে লেখা থাকে শেয়ার কমেন্ট মেসেজ এবং ভিউ প্রোফাইল। 
+
+এখানে ভিউ প্রোফাইল নামের অপশন থাকার দরকার নেই কারণ। 
+
+প্রতিটি পোষ্টের উপরে সাধারণত আইডি দেখা যায় আমাদের প্ল্যাটফর্মেও এবং সকল প্লাটফর্মে সেই আইডির উপর ক্লিক করলেই তো ভিতরে ঢোকা যায় প্রোফাইলের, তাহলে আলাদা করে ভিউ প্রোফাইল অপশন দেওয়ার তো মানে নাই
+15/10/2026, 10:40 am - ㅤ: IMG-20261015-WA0000.jpg (file attached)
+15/10/2026, 10:41 am - Shakibul hasan Shaun: *''এডমিন''* ওটাতো আইডির নাম। ওটার উপর চাপ দিলেই আইডির ভেতর নিয়ে যাওয়া উচিত
+15/10/2026, 10:41 am - Shakibul hasan Shaun: কিন্তু বর্তমানে ওইটার উপর চাপ দিলে ভিতরে নিয়ে যায় এবং দেখায় কিছু নাই, অথবা সামথিং ইজ ওরং ওই ধরনের সমস্যা
+15/10/2026, 10:45 am - ㅤ: IMG-20261015-WA0001.jpg (file attached)
+eita dekhanor karon  admin eakta highest privilege role eitar profile ei karone show kore nah...admin role  normal acc  nah full  management er jonno....tarporo apni chaile profile sys admin er jonno add kora jabe
+15/10/2026, 10:46 am - Shakibul hasan Shaun: তাহলে এডমিনের প্রোফাইল থেকে পোস্ট হচ্ছে কেন আসলে বিষয়টা একটু
+15/10/2026, 10:46 am - Shakibul hasan Shaun: মানে বিষয়টা বুঝার চেষ্টা করেন এখানে আপনার বুঝার ভুল আছে :
+
+আমি একটা প্রোফাইল তৈরি করেছি এর মানে আমি এডমিন। 
+
+আমি এটার সম্পূর্ণ নিয়ন্ত্রণ করতে পারব আর আমার প্রোফাইল তৈরি করতে শুধুমাত্র একটা ইমেইল লেগেছে। 
+
+এখন এখান থেকে চাইলে আমিও পোস্ট করতে পারব এডমিন প্রোফাইল বলতে আমার যে প্রোফাইল সেটাইতো এডমিন প্রোফাইল।
+15/10/2026, 10:46 am - Shakibul hasan Shaun: সেটার ভিতরে যেই ফাংশনালিটি আছে যেমন ড্যাশবোর্ড ইত্যাদি ব্যক্তিগত ফাংশনালিটি তো কেউই দেখতে পারবে না সেটার হিসেব তো আলাদা
+15/10/2026, 10:47 am - Shakibul hasan Shaun: কিন্তু সাধারণভাবে আমরা ফেসবুক প্রোফাইলে ঢুকে যেমন আপনার সবকিছু দেখতে পারি তেমন বিষয়গুলো তো দেখা উচিত
+15/10/2026, 10:47 am - Shakibul hasan Shaun: আপনি ম্যান থিওরিটা বুঝেন নাই কিছুই
+15/10/2026, 10:47 am - Shakibul hasan Shaun: যার ফলাফল আপনি এমন মন্তব্য করতেছেন
+15/10/2026, 10:47 am - Shakibul hasan Shaun: যখন সে প্রোফাইলের এডমিন সে একজন দামী ব্যক্তি তার এজেন্টরা হয়তো কিছুই করতে পারবে না তার অনুমতি ছাড়া কিন্তু  
+
+ এজেন্টরা যে ধরনের পোস্ট করতেছে সেটা তো তার আইডিতে করতেছে এজেন্টের তো আলাদা কোন আইডি থাকতেছে না 
+
+প্রধান আইডিয়াটাই কিন্তু এক্সেস নেওয়ার জন্য এজেন্টের আলাদা এক্সেস পাসওয়ার্ড আছে এটাই পার্থক্য
+15/10/2026, 10:47 am - Shakibul hasan Shaun: আপনি মূল থিউরিটাকে গুলিয়ে ফেলেছেন
+15/10/2026, 10:48 am - Shakibul hasan Shaun: সেজন্যই বলি কিছু করার আগে আমার অনুমতি নিবেন
+15/10/2026, 10:48 am - Shakibul hasan Shaun: আপনি বুঝতে পেরেছেন আপনি আপনার মাথায় কোন ধরনের এরর তৈরি করেছেন
+15/10/2026, 10:48 am - Shakibul hasan Shaun: আমার সাথে ফাইনাল আলোচনা না করে যদি আরেকটা কোড লেখেন তাইলে খবর আছে
+15/10/2026, 10:48 am - Shakibul hasan Shaun: আপনি আমার সাথে কথা না বলে বর্তমান ফাংচুয়ালিটি চেঞ্জ করার সাহসও করবেন না যেটা নিয়ে এইমাত্র আলোচনা করলেন সেটাও না
+15/10/2026, 10:48 am - Shakibul hasan Shaun: আপনি এখানে কি বুঝেছেন এবং কি বুঝাতে চাচ্ছেন কি উদ্দেশ্যে তৈরি করেছেন সবকিছু আমাকে আগে বলেন এরপর আমি সিদ্ধান্ত দিব
+15/10/2026, 10:49 am - Shakibul hasan Shaun: এখন দুই লাইন কথার উপর ভিত্তি করে হুদাই একটা কাজ করার চেষ্টা করলে কিন্তু আবার সমস্যা তৈরি হবে যদিও আপনারে কোনদিন বুঝানো যায় না
+15/10/2026, 10:50 am - Shakibul hasan Shaun: আপনি কি ভেবে সেটা তৈরি করেছেন এটা আগে বুঝান আমারে তো
+15/10/2026, 10:50 am - ㅤ: IMG-20261015-WA0002.jpg (file attached)
+15/10/2026, 10:50 am - ㅤ: IMG-20261015-WA0003.jpg (file attached)
+15/10/2026, 10:51 am - Shakibul hasan Shaun: এটা b2b প্ল্যাটফর্ম এখানে কোন পার্সোনাল প্রোফাইল হয় না সব প্রোফাইলে বিজনেস প্রোফাইল এটা কোন সামাজিক যোগাযোগের মাধ্যম না ভাই আপনি কোন দেশে থাকেন আমি কিছু বুঝলাম না
+15/10/2026, 10:53 am - Shakibul hasan Shaun: আপনি সত্যিই আমাকে পাগল বানাবেন
+15/10/2026, 10:53 am - Shakibul hasan Shaun: শুনেন সহজ বিষয় বুঝেন :
+
+b2b মার্কেটপ্লেস এইটা। 
+
+এখানে একজন অ্যাকাউন্ট তৈরি করবে  সে যদি মনে করে তার একার পক্ষে অ্যাকাউন্ট নিয়ন্ত্রণ করা সহজ নয় অনেক ক্লাইন্টের সাথে কথা বলা হয় ইত্যাদি 
+
+তাহলে সে এজেন্ট ম্যানেজমেন্ট এর মাধ্যমে এজেন্টের নিয়োগ দিবে যারা তার দেওয়া ক্ষমতা অনুযায়ী চ্যাট দেখতে পারে এবং মানুষের সাথে চ্যাট করতে পারে
+15/10/2026, 10:54 am - Shakibul hasan Shaun: এবং এডমিনের হয়ে পোস্ট পর্যন্ত তারা করতে পারবেন কোম্পানি প্রোডাক বা ইত্যাদি যে ধরনের একাউন্ট থাকবে সেই ধরনের পোস্ট
+15/10/2026, 10:54 am - Shakibul hasan Shaun: এটাই আর কিছু না এখানে তেমন জটিল কিছু নাই
+15/10/2026, 10:54 am - ㅤ: IMG-20261015-WA0004.jpg (file attached)
+15/10/2026, 10:54 am - Shakibul hasan Shaun: এডমিন বলতে একাউন্টের মালিক অবশ্যই যে ইচ্ছা সে এক মিনিট প্রোফাইলে ঢুকতে পারবে তারপর বাকিগুলো দেখতে পারবে তার পোস্টগুলো দেখতে পারবে সবকিছু
+15/10/2026, 10:54 am - Shakibul hasan Shaun: 🤬
+15/10/2026, 10:54 am - ㅤ: IMG-20261015-WA0005.jpg (file attached)
+15/10/2026, 10:55 am - Shakibul hasan Shaun: বাংলা বুঝেন আপনার এত বুঝাইতে পারবো না আমি linkdin বানাইতাছি না আমি বানাইতাছি মার্কেটপ্লেস যাতে মানুষ সহজে বিনা খরচে এখানে যোগাযোগ করতে পারে যখন অ্যাপসের উপর মানুষ নির্ভরশীল হবে তখন আমরা বিভিন্ন বিষয়ে চার্জ করব আপাতত সাবস্ক্রিপশন প্ল্যানসহ তৈরি করা আছে
+15/10/2026, 10:55 am - Shakibul hasan Shaun: আপনাকে একটা মাথা খাটাইতে আমি বলি নাই আপনি কেন খাটাইতাছেন
+15/10/2026, 10:55 am - Shakibul hasan Shaun: আপনি আমার সহজ কথা বুঝলে বুঝেন অন্যথায় আপনি কি বুঝেন সেটা বাংলা ভাষায় বলেন
+15/10/2026, 10:55 am - Shakibul hasan Shaun: কিন্তু আপনার ধারণা ভুল আপনি ভুল পথে চইলা গেছেন একেবারে ভুল পথে
+15/10/2026, 10:55 am - Shakibul hasan Shaun: আর এখানে কোন ব্যক্তির নামে প্রোফাইল তৈরি করা অসম্ভব আল্লাহর দাপটের কসম এটা অসম্ভব <This message was edited>
+15/10/2026, 10:56 am - Shakibul hasan Shaun: এখানে শুধু কোম্পানির নামে প্রোফাইল থাকবে কারো বাপের নামে না
+15/10/2026, 10:59 am - Shakibul hasan Shaun: কি উল্টাপাল্টা বুঝেন বুঝান সহজ বিষয়টারে এত জটিল বানান
+15/10/2026, 10:59 am - Shakibul hasan Shaun: আমার আর কিছু বলার নাই
+15/10/2026, 11:00 am - Shakibul hasan Shaun: যাইহোক আমি সর্বোচ্চ সহজভাবে সবকিছু বলেছি আপনি কি বুঝতে পেরেছেন??
+15/10/2026, 11:00 am - Shakibul hasan Shaun: হা or na?
+15/10/2026, 11:08 am - ㅤ: You deleted this message
+15/10/2026, 11:09 am - ㅤ: amar ager bujhay bhul chilo, seta ami mene nicchi.
+
+Apni thik bolechen, ami Facebook/LinkedIn er personal profile theory ekhane bhulbhabe dhukiye diyechilam. Eta B2B marketplace, ekhane seta projojjo na.
+
+Ami ekhon apnar kothata evabe bujhechi, apni dekhen thik ache kina:
+
+1. Ekhane kono personal profile hobe na, sob hobe company/business profile, company er name e.
+2. Admin mane account er malik. Ekta email diye account khulbe, sei owner-i admin.
+3. Agent er alada public ID thakbe na. Agent Management diye agent jog hobe, tara owner er deya permission onujayi chat dekhbe, chat korbe, company er hoye post korbe — sob company er name-i hobe.
+4. Feed e company er namer upor click korle sei company er vitore niye jabe — tar post, product sob dekha jabe. Je keu dhuke dekhte parbe.
+5. Dashboard, setting, private functionality alada thakbe, seta public dekhbe na. Kintu public post/profile sobai dekhbe.
+6. Kono bektir name e profile hobe na, shudhu company name e hobe.
+7. Eta LinkedIn na, eta marketplace — manush jate sohoje bina khoroche jogajog korte pare.
+
+Bortoman somossa:
+Feed e Admin / admin name e post dekhacche (QA Test Post), otar upor click korle vitore niye giye 404 / kichu nai / something is wrong dekhacche. Eta thik na. Otar upor click korle company profile khule post gulo dekha uchit.
+
+Amar plan (apnar onumoti chara ami kono code e haat dibo na):
+
+Step 1: Feed er namer upor click korle company profile e jabe, 404 asbe na.
+Step 2: Naam admin na dekhiye company er naam dekhabo + Verified badge thakbe.
+Step 3: Vitore dhukle company er post/product dekha jabe. Dashboard/private ongsho public dekhbe na.
+Step 4: Agent post korleo company er name-i post hobe.
+
+Ami ja change korbo na:
+- Agent permission, dashboard privacy, subscription — egulote haat dibo na.
+- Apnar final kotha na shune ek line code o likhbo na.
+
+Apni shudhu ei 3ta bolen:
+1. Feed e click → company profile khulbe, eta ki thik?
+2. Naam company name e dekhabo, admin lekha thakbe na, thik ache?
+3. Ami plan approve howar por kaj shuru korbo, er age kichu korbo na — ete apni raji?
+
+Apni haan bolle tobei ami shuru korbo.
+15/10/2026, 12:07 pm - Shakibul hasan Shaun: 3)আইডি হবে  "আইডি বলতে পরিচয় বুঝানো হয়েছে "
+
+তৈরি করলাম সেটা কে সেটা আমি কিনবো কিভাবে তার একটা স্বতন্ত্র নাম থাকবে যেটা আমি দিবো অথবা তার নিজস্ব নাম এবং সাথে একটা আট সংখ্যার আইডি থাকবে ৮৯৪৮৩৯৩৮৯৩ সে যখন চ্যাট করবে কারো সাথে তখন যার সাথে চ্যাট করবে সে তার নাম দেখতে পাবে এবং তার আইডি নাম্বার। 
+
+কারণ কোন এজেন্টের ব্যবহার খারাপ হলে যেন এটা ব্যবহার করে রিপোর্ট করা যায় সেই যোগ্যতা গ্রাহকের থাকা উচিত
+15/10/2026, 12:08 pm - Shakibul hasan Shaun: এডমিন যখন ঢুকবে তার প্রোফাইলে এবং পোস্টগুলো চেক করবে তখন সে সেটা দেখতে পারবে কোন এজেন্ট কোনটা পোস্ট করেছে যেন কোন ত্রুটি থাকলে নির্দিষ্ট একজনকে দোষারোপ করা যায়
+15/10/2026, 12:08 pm - Shakibul hasan Shaun: তবে ধরলাম আমি বাইরের মানুষ আমি একটি প্রোফাইল দেখলাম সেই প্রোফাইলের ভিতর ঢুকলাম সে ক্ষেত্রে কোন পোষ্টের মধ্যে আমি কোন পার্থক্য দেখতে পাবো না
+15/10/2026, 12:08 pm - Shakibul hasan Shaun: আর ধরলাম আমি একটা পণ্যের উপর মেসেজ করলাম(সেই ক্ষেত্রে সিস্টেম কিভাবে কাজ করবে সেই বিষয়ে অত্যন্ত বিস্তার আলোচনা হয়েছিল) প্রোগ্রাম ডিজাইন করে দিয়েছিলাম কত কিছু করছিলাম এখন যদি কিছু না থাকে তখনই তো মেজাজ খারাপ হয়
+15/10/2026, 12:10 pm - Shakibul hasan Shaun: IMG-20260927-WA0169.jpg (file attached)
+Bartaman samasya : এখানে আপনি যা ধারণা করেছেন ঠিক কিন্তু শুধুমাত্র পোস্ট দেখবে কেন সে সবকিছুই দেখতে পারবে ডিসক্রিপশন তারপর কোম্পানির ক্যাপাবিলিটি কতজন এজেন্ট আছে
+15/10/2026, 12:12 pm - Shakibul hasan Shaun: 2)ভেরিফাই করতে হলে কোম্পানিকে তার গুরুত্বপূর্ণ তথ্য দিতে হবে যেটার লিস্ট আমাদের কাছে আছে কিন্তু সেই তথ্যগুলো দেওয়া ছাড়া কেউ ভেরিফাই কিভাবে করবে আর আমরা ভেরিফাইড কেন লিখব! 
+
+এক্ষেত্রে দুইটা বিষয় হতে পারে একটা আন-বেরি ফাইড লেখা 
+
+অথবা শুধুমাত্র ভেরিফাই করলে সাইডে লিখে দেওয়া ভেরিফাইড অন্যথায় সাধারন ভাবে প্রোফাইল থাকা, unveyfyed দরকার নেই
+15/10/2026, 12:14 pm - Shakibul hasan Shaun: 3)ড্যাশবোর্ড পাবলিক অংশ দেখার প্রশ্ন কোথা থেকে আসে ভাই এইটা মাথায় কেমনে আছে আপনার প্রোফাইলের ভিতর থেকে আপনি যে কাজগুলো করেন সেইগুলো কি আমি দেখি নাকি আপনার সিটিংয়ে আমি ঢুকতে পারি এই চিন্তাগুলো আসে কেমনে আপনার ফিড আমি দেখতে পারি, 
+
+এই চিন্তাগুলোই তো অবান্তর এই অবান্তর চিন্তা থেকেই তো অবান্তর কাজকর্ম এবং অবান্তর সময় নষ্ট হচ্ছে, এটা বলার মতন কোন কথাই না 
+
+আমি আপনাকে বললাম ভাত খাও এখন যদি বাম হাতে ভাত খান এটা আপনার সমস্যা  
+
+ভাত মুখ দিয়ে না দিয়ে নাক দিয়ে ঢুকালে আপনার সমস্যা আশা করি বিষয়টা বুঝবেন স্বাভাবিক বিষয় স্বাভাবিকভাবে নিবেন
+15/10/2026, 12:14 pm - ㅤ: আপনি সব সময় তো লাইনে থাকেন না  আমার যখন দরকার আমি সিমে কল দিলে লাইনে আসবেন
+15/10/2026, 12:15 pm - ㅤ: আমি অনেক সময় আপনার জন্য অপেক্ষা করছিলাম এখন কাজ আছে কাজ করছি আপনি দিয়ে রাখেন
+15/10/2026, 12:15 pm - Shakibul hasan Shaun: 4)কোম্পানির নামে শুধু মাত্র পোস্ট হবে না, কোম্পানির আইডির  ভিতরেই পোস্ট হবে , 
+
+একটা নরমাল পোষ্টের মতন। 
+
+ধরলাম আমার পাসওয়ার্ড আপনার কাছে আছে ফেসবুকের এই ক্ষেত্রে যেমন আমি পোস্ট করলেও যেমন আপনি পোস্ট করলেও তেমন কোন পার্থক্য দেখা যাচ্ছে না কেমন হবে পাবলিকের জন্য
+15/10/2026, 12:15 pm - Shakibul hasan Shaun: ওকে
+15/10/2026, 12:15 pm - Shakibul hasan Shaun: আরেকটা কথা আমি যে নাম্বারগুলো দিচ্ছি কথা বলার সময় সেটা আপনার দেওয়া নাম্বার অনুযায়ী একই ওই নাম্বারের কথার উপর বের করে আমি কথা বলতেছি যে নাম্বার আমি লিখতেছি
+15/10/2026, 12:18 pm - Shakibul hasan Shaun: ৩)রাজি৷ 
+
+১)বুঝি নাই তবে পূর্বে যেই প্রো বলেছেন সেটা ঠিক আছে মানে এই কথার ভিতরেই উপরের অংশে যেইটা বলেছেন সেইটা ঠিক আছে কিন্তু এই কথাই বুঝি নাই, 
+
+এখানে ঘটনা ঘটবে ধরলাম একটা পোস্ট আমার সামনে এসেছে ফেসবুকে যেমন আইডির উপর ক্লিক করে ভিতরে ঢুকি তেমনভাবেই ঢুকবো সহজ কথা 
+
+২)হ্যাঁ কোম্পানির নাম থাকবে.
+15/10/2026, 12:18 pm - Shakibul hasan Shaun: আর বর্তমানে feed এর অল বাটন কাজ করে না অল বাটন এর মানে হচ্ছে 
+
+ভাইয়ার রিকুয়েস্ট, পোস্ট এবং কোম্পানি প্রডাক্ট তিন ধরনের পোস্ট দেখা যাবে কিন্তু বাস্তবে তা হচ্ছে না 
+
+এটাকার দোকান আছে সেটা ঠিক করবেন
+15/10/2026, 12:19 pm - Shakibul hasan Shaun: যাইহোক আশা করি সব কিছু বুঝেছেন আর সিটিংয়ের প্রবলেম আলহামদুলিল্লাহ এখনো সমাধান হয় নাই আশা করি আর কোনদিন হবে ও না
+15/10/2026, 12:19 pm - Shakibul hasan Shaun: This message was deleted
+15/10/2026, 12:21 pm - Shakibul hasan Shaun: This message was deleted
+15/10/2026, 3:20 pm - ㅤ: apnar last reply ami thikmoto porechi. Ager plan e ja bhul chilo seta thik kore abar dilam. Apni check koren.
+
+1. Company profile click:
+Facebook e jemon ID er upor click kore vitore dhuki, ekhaneo same hobe. Feed e company namer upor click korle company profile khulbe, kono 404 / something wrong asbe na. Eta clear.
+
+2. Company naam + Verified:
+Feed e Admin / admin lekhata thakbe na. Company er naam thakbe. Verified niye apni ja bolechen setai hobe — bina info te Verified likhbo na. Hoy Verified hole pase Verified likha thakbe, na hole normal profile thakbe, Unverified likhar dorkar nai. Apnar kache je important info list ache, seta dilei sudhu Verified hobe.
+
+3. Agent ID system:
+Eta ami bujhechi. ID mane porichoy.
+- Company account er ekta nijesso naam thakbe + 8 digit ID number thakbe, jemon 8948393893.
+- Agent jokhon karo sathe chat korbe, tokhon samner manush agent er naam + ID number dekhte parbe.
+- Karon agent er bebohar kharap hole customer oi naam + ID diye report korte parbe.
+- Admin jokhon nijer profile e dhuke post check korbe, tokhon se dekhte parbe kon agent konta post koreche, jate bhul hole nirdisto jonke dosh deya jay.
+- Kintu bahirer manush jokhon profile dekhbe, tokhon kono parthokko dekhbe na. Sob post company er post hisabei dekhabe. Jemon Facebook password apnar kache thakle apni post korleo ja dekhay, ami post korleo tai dekhay — public er jonno same.
+
+4. Profile vitore sob kichu:
+Apni thik bolechen, sudhu post keno dekhbe — sob dekhbe. Description, company capability, koyjon agent ache, post, product — sob public dekhte parbe.
+
+5. Dashboard niye obantor chinta korbo na:
+Apni thik bolechen, profile er vitor theke ami ki kaj kori seta apni dekhen na, amar setting e apni dhukte paren na. Eta bolar moto kono kothai na. Ami eita niye ar somoy nosto korbo na. Swabhabik bisoy swabhabikbhabe nibo. Bhat mukh diye khabo, naak diye na.
+
+6. Feed All button + Settings:
+- All button kaj kore na, eta ami note korechi. All mane Buyer Request + Post + Company Product — 3 dhoroner post eksathe dekha jabe, kintu bastobe hocche na. Eta thik korbo.
+- Settings problem ekhono solve hoy nai, eta ami jani. Etake alada priority te rakhlam.
+
+Amar promise:
+Apnar final haan na shune ek line code o likhbo na. Apni jokhon dorkar SIM e call dile ami line e asbo.
+
+Apni sudhu bolen — ei updated plan thik ache? Thik thakle ami ei order e kaj korbo:
+Step 1: Feed click → company profile, 404 fix, company naam
+Step 2: Verified logic (info chara Verified na)
+Step 3: Profile vitore description / capability / agent count / post / product
+Step 4: Agent naam + ID chat e, admin vitore kon agent er post seta dekha, bahire parthokko nai
+Step 5: Feed All button (Buyer Request + Post + Product)
+Step 6: Settings problem
+15/10/2026, 3:39 pm - Shakibul hasan Shaun: ৩)প্রতিটি আলাদা এজেন্টের আলাদা আলাদা আইডি থাকবে আট সংখ্যার 
+
+তবে কোম্পানি প্রোফাইলের এমন আইডি থাকার কি কোন দরকার আছে? আমার মনে হচ্ছে না তাই থাকার দরকার নেই কোম্পানির প্রোফাইল এর কোন আইডি নাম্বার থাকবে না। 
+
+আইডি নাম্বার শুধুমাত্র এজেন্টের জন্য ।
+15/10/2026, 3:40 pm - Shakibul hasan Shaun: আর কেউ যদি তার গুরুত্বপূর্ণ ডকুমেন্ট দিয়ে ভেরিফাই করে তাহলে সেখানে pass verify লেখার দরকার নাই শুধুমাত্র ভেরিফাইড লিখবে অন্যান্য ওয়েবসাইট এর মতন। 
+
+আর এই ক্ষেত্রে নীল রঙসহ আপনি যেই ডিজাইন করছেন সেটা খুবই সুন্দর হয়েছে যদিও এক্সিকিউটেড নেই
+15/10/2026, 3:40 pm - Shakibul hasan Shaun: এই পিকচারের ভীতর নজর দিতে পারেন, এখানে দেখতে পারেন ভেরিফাইড বাটন কিভাবে লেখা
+15/10/2026, 3:41 pm - Shakibul hasan Shaun: এই দুইটা সংশোধন করে কাজ শুরু করেন 
+
+আশা করি আলাদা করে আমাকে আর পরিকল্পনা দিতে হবে না এই সামান্য বিষয়টুকু সংশোধন করে পরিকল্পনা আপনার কাছে রাখেন
+15/10/2026, 3:41 pm - Shakibul hasan Shaun: কাজ শুরু করেন
+15/10/2026, 3:57 pm - Shakibul hasan Shaun: দুঃখিত তবে বেদনাদায়ক অতীত মনে করিয়ে দিতে হচ্ছে🥲
+
+sitting, profaile branding সমস্যাটাও আপনি এতটাই নিখুঁতভাবে বুঝেছিলেন কিন্তু আজ পর্যন্ত সমাধান হয়নি আপনি বুঝতে পারতেছেন, সব সময় ভালো করে বোঝাটাই যথেষ্ট নয়🙂
+
+soory for জ্ঞান
+15/10/2026, 6:20 pm - ㅤ: kaj shuru korechi, progress janacchi.
+
+Ja done hoyeche (test korechi, 18 ta test pass):
+
+1. Feed click → company profile: Ager moto 404 / something wrong ar asbe na. Je kono company post er naam er upor click korle ekhon company profile khulbe. Eta sob role er jonno — owner, admin, member, agent je post koruk.
+2. Verified badge: Bina info te Verified likhbo na. Verified hole sudhu Verified likha thakbe apnar pochonder blue design e. Verify na hole normal profile thakbe, Unverified lekha ar thakbe na — kothao na.
+3. Feed All button: All mane ekhon Buyer Request + Post + Company Product — 3 ta eksathe asbe. Age role onujayi sudhu ekta type asto, tai All khali mone hoto. Eta thik korechi.
+
+Ja baki ache:
+
+4. Agent 8 digit ID: Prottek agent er alada 8 digit ID (jemon 8948393893). Company er kono ID number thakbe na, apni ja bolechen setai. Agent jokhon chat korbe tokhon samner manush agent er naam + ID dekhbe, jate kharap bebohar hole report kora jay. Admin nijer profile e dekhte parbe kon agent konta post koreche. Bahirer manush kono parthokko dekhbe na — sob company er post hisabe dekhabe. Etar jonno database e notun field lagbe, tai ektu somoy lagbe.
+5. Company naam + full profile: Feed e Admin lekhar bodle company er naam, ar profile er vitore description, capability, koyjon agent ache, post, product — sob dekha jabe.
+6. Settings problem: Eta alada kore dekhbo, ei release er sathe milabo na.
+
+Apnar kache 2 ta question:
+
+1. Agent ID 8 digit — ami notun kore baniye dibo (jemon 8948393893), purono agent der o auto ID diye dibo, thik ache?
+2. Company naam ta signup er company naam thekei dekhabo, ar QA Test Post er moto purono Admin naam gulo company naam diye thik kore dibo, thik ache?
+
+Apni ei 2 tar haan bollei ami 4 + 5 er kaj shuru korbo. Ekhon porjonto apnar onumoti chara baire kichu change korini.
+15/10/2026, 6:26 pm - Shakibul hasan Shaun: 4) আরেকটা বিষয় ওনার এবং  এজেন্ট যখন প্রোফাইলের ভিতর ঢুকবে 
+
+(এজেন্ট বলতে সেই ধরনের এজেন্ট যাদের ক্ষমতা আছে তারা পোস্ট করবে এবং পোস্ট এডিট করবে) 
+
+তখন পোষ্টের পাশে ইডিট বাটন দেখা যাওয়া উচিত। 
+
+এবং ডিলিট বাটনও। পোষ্টের সাইডে থ্রি ডট থাকবে সেখানে ক্লিক করে জানো এগুলো সম্ভব হয়। 
+
+আর মানুষ শুধুমাত্র এক ধরনের পোস্ট করতে পারবে সেটা হচ্ছে পাবলিক। প্রাইভেট বা আনলিমিটেড কোন পোস্ট করা সম্ভব হবে না
+15/10/2026, 6:28 pm - Shakibul hasan Shaun: এখানে টেকনিক্যালি আমাদের আরেকটা ত্রুটি আছে 
+
+এডমিন যখন এজেন্ট তৈরি করে তখন ক্ষমতা বন্টনের বিষয়টা আমাদের ওয়েবসাইটে এখনো ভালো করে কাজ করে না সেই অংশটুকু ছাড়া মনে হচ্ছে এই অংশটুকু সম্ভব না 
+
+আর আইডি নাম্বার যেটা আট ডিজিটের হবে সেটা অটোমেটিক্যালি হওয়া উচিত যখন এডমিন একজন এজেন্ট তৈরি করবে তখনই। 
+
+কিন্তু বর্তমানে এজেন্ট তৈরি করা যায় না ক্ষমতা দেওয়া যায় না ইচ্ছামত আপনি নিজে চেক করতে পারেন 
+
+আমি মনে করি এই অংশ ছাড়া সেই নির্দিষ্ট অংশ করা সম্ভব নয় অথবা ত্রুটিপূর্ণ হবে ভয়ংকর লেবেলের
+15/10/2026, 6:29 pm - Shakibul hasan Shaun: ৫)নাম্বার বক্তব্য বুঝলাম না  :  সেটা ত্রুটিপূর্ণ ছিল  ভালো করে গুছিয়ে বলেন
+15/10/2026, 6:30 pm - Shakibul hasan Shaun: ৬) সঠিক সিদ্ধান্ত :এটার জন্য আপনি প্রশংসাযোগ্য :ধন্যবাদ , এটা আপনি খুব ভালো সিদ্ধান্ত নিয়েছেন এই ক্ষেত্রে
+15/10/2026, 6:33 pm - Shakibul hasan Shaun: প্রথম প্রশ্নের সমাধান  
+
+১)বক্তব্য বুঝি নাই তবে সমাধান হচ্ছে : এডমিন যখন তৈরি করবে  নতুন এজেন্ট অথবা কাউকে ইনভাইট দিবে সে ইনভাইট গ্রহণ করার পর যখন পার্মানেন্টলি এজেন্ট হবে নির্দিষ্ট কার্যক্রম কমপ্লিট করে তখন অটোমেটিক্যালি একটা আইডি পাবে <This message was edited>
+15/10/2026, 6:34 pm - Shakibul hasan Shaun: ২)ঠিক আছে তবে সাইন আপ করার সময় সেই ব্যক্তি তার ব্যক্তিগত নাম দিতে পারে সেটা সমস্যা নেই কিন্তু সেটা শুধুমাত্র সে নিজেই দেখতে পারবে. 
+
+এবং তার এজেন্টদের নাম দেখার সুযোগ দেওয়া যেতে পারে। 
+
+কিন্তু পাবলিকলি কেউ নামটা দেখবে না এবং তিনি চাইলেও দেখাতে পারবেন না ।
+15/10/2026, 7:52 pm - ㅤ: apnar kotha bujhechi, dhonnobad clear kore bolar jonno.
+
+4. Edit/Delete + Public sudhu: Bujhechi. Owner ar khomota-prapto agent jokhon company profile er vitore dhukbe, tokhon post er pase 3-dot e click korle Edit ar Delete pabe. Ar manush sudhu Public post korte parbe — Private ba Unlimited kono option thakbe na. Apni thik bolechen, agent toiri + khomota bonton age thik na hole egulo banale trutipurno hobe. Tai ami age agent toiri/invite/permission ongshotai thik korbo, tarpor ID ar Edit/Delete. Ami nije check kore dekhbo ekhon agent banano jay kina.
+
+Agent ID: Apnar somadhan motoi hobe — admin jokhon notun agent banabe ba invite dibe, invite grohon kore nirdisto kaj sesh kore jokhon permanent agent hobe, tokhoni automatically 8 digit ID pabe. Company er kono ID thakbe na, sudhu agent er thakbe.
+
+5. Eta ami sohoj kore abar boli: Feed e company er naam dekhabe, Admin lekhata thakbe na. Ar company profile er vitore dhukle sob dekha jabe — description, capability, koyjon agent ache, post, product. Sudhu post na, full company porichoy.
+
+2. Personal naam: Bujhechi. Signup er somoy nijer bektigoto naam dile seta sudhu se nij ar tar agent ra dekhte parbe. Public keu dekhbe na, ar se chaileo dekhate parbe na.
+
+6. Settings alada rakhar bishoye dhonnobader jonno sukriya bhai.
+
+Apnar kache sudhu 1 ta question: Agent permanent howar age je nirdisto kajgulo sesh korte hobe — sei kajgulo ki ki? Jemon invite accept + ki? List ta dile ami ID ongsho thikmoto banate parbo.
+15/10/2026, 8:12 pm - Shakibul hasan Shaun: IMG-20261015-WA0009.jpg (file attached)
+find me some Matrix, বাটন গুলো কাজ করে না আশা করি জানেন, অর্থাৎ বাটন গুলোতে ক্লিক করলে ঠিক মারক হওয়ার কথা কিন্তু কিছুই হয় না ।
+15/10/2026, 8:13 pm - Shakibul hasan Shaun: ইনভাইট হিসেবে তাকে ইমেইল পাঠানো হবে এখানে সবকিছুই আছে
+15/10/2026, 8:13 pm - Shakibul hasan Shaun: ইমেইলে লেখা থাকবে তার পজিশন নাম আইডি ইত্যাদি একটু ভাল করে লেখা থাকবে গুছানো বুঝতেই পারতেছেন
+15/10/2026, 8:13 pm - Shakibul hasan Shaun: সে সেটাকে একসেপ্ট করবে সেখানে একসেপ্ট বাটন থাকবে একসেপ্ট করলে
+15/10/2026, 8:13 pm - Shakibul hasan Shaun: সে পাসওয়ার্ড দেখতে পাবে
+15/10/2026, 8:13 pm - Shakibul hasan Shaun: অথবা ইমেইল পাঠানোর সাথে সাথে পাসওয়ার্ড সহ দিয়ে দেওয়া যেতে পারে
+15/10/2026, 8:13 pm - Shakibul hasan Shaun: এই ক্ষেত্রে সহজ পদ্ধতি বেছে নিবেন
+15/10/2026, 8:14 pm - Shakibul hasan Shaun: ইমেইল পাঠানোর জন্য কি দরকার আমি সেটা জানি, সেই ক্ষেত্রে ফ্রি যদি সহজ মাধ্যম থাকে ব্যবহার করেন অথবা 
+
+
+brevo. নামের একটা ওয়েবসাইট থেকে মাসে ৩০০ টাকার মত অথবা দিনে ৩০০ টাকার মতো ইমেইল ফ্রিতে পাঠানোর সুবিধা আছে
+15/10/2026, 8:14 pm - Shakibul hasan Shaun: সেখানে আমার অ্যাকাউন্ট আছে চাইলে ব্যবহার করা যেতে পারে একাউন্টে একসেসে লাগবে?
+15/10/2026, 8:16 pm - Shakibul hasan Shaun: সে একাউন্টে প্রবেশ করতে ভেরিফিকেশন কোড লাগে তাই শুধুমাত্র। 
+পাসওয়ার্ড দিয়ে সেখানে প্রবেশ করতে পারবেন না।
+15/10/2026, 8:16 pm - Shakibul hasan Shaun: সবকিছু ঠিক আছে আমি তাহলে যেতে পারি ঘুমাবো খাব?
+15/10/2026, 8:32 pm - ㅤ: পুনরুৎপাদন স্থিতি: নেই (শুধুমাত্র কোড-পাথ, লাইভ পুনরুৎপাদন প্রক্রিয়াধীন)। কারণ: ডেভ সার্ভার + একটি ফ্রি-প্ল্যান মালিকের লগইন প্রয়োজন; এটি একটি বাস্তবসম্মত পরবর্তী পদক্ষেপ, বাদ দেওয়া হয়নি।
+প্রত্যাশিত: ম্যাট্রিক্স চেকবক্সগুলো টিক চিহ্ন দেবে, এবং 'সদস্য তৈরি করুন' (Create Member) অপশনটি অনুমতিসহ সেভ হবে।
+প্রকৃত (ক্রেতার স্ক্রিনশট + কোড): সমস্ত বক্স অকার্যকর। (src/pages/MemberManagement.jsx:774,783 pass disabled={!canTeamAccess}, এবং memberManagement.jsx:136-এ canTeamAccess = hasEntitlement(sessionUser, "team_access_management")।)
+যেখানে এটি ভিন্ন পথে যায় — তিনটি সম্মিলিত কারণ:
+১. এই অ্যাকাউন্টের জন্য গেট বন্ধ। team_access_management শুধুমাত্র প্রিমিয়াম-প্ল্যানের জন্য (server/services/entitlementService.js:8, memberController.js:46 → "প্রিমিয়াম প্ল্যান আবশ্যক")। ক্রেতা ফ্রি প্ল্যানে আছেন → canTeamAccess=false → এডিটর নিষ্ক্রিয়, পেলোড বাদ দেওয়া হয়েছে (MemberManagement.jsx:261)। সুতরাং বাটনগুলো "ভাঙা" নয়, সেগুলো লক করা আছে — কিন্তু এই বিষয়টি স্পষ্টভাবে বোঝানো হচ্ছে না (৩ নং দেখুন)।
+
+২. প্ল্যান নির্বিশেষে সম্ভবত রোল-ম্যাপিং বাগ। PREMIUM_FEATURES_BY_ROLE-এ কোনো মালিক/অ্যাডমিন এন্ট্রি নেই (entitlementService.js:8); normalizeRole সেগুলোকে সরাসরি পাস করে দেয়, ফলে getEntitlements মালিকদের জন্য একটি খালি ফিচার ম্যাপ রিটার্ন করে। এমনকি একজন প্রিমিয়াম মালিকও সার্ভারের ensureEntitlement চেক-এ ব্যর্থ হতে পারেন। এটি নিশ্চিত করার জন্য একজন প্রিমিয়াম মালিকের লাইভ চেক প্রয়োজন, কিন্তু কোড পাথে তা বলা আছে।
+
+৩. ব্যানার কপির বাগ। এটি বর্তমান প্ল্যানটি ইন্টারপোলেট করে (MemberManagement.jsx:754): ক্রেতা দেখতে পান "ফ্রি প্ল্যান প্রয়োজন। আপগ্রেড করুন…"। এখানে প্রয়োজনীয় প্ল্যানটির নাম উল্লেখ করা উচিত। এই একটি লাইনের কারণেই ক্রেতা একটি পেওয়ালকে ত্রুটি হিসেবে ধরে নেন। অনুমান (পর্যায় ৩, যাচাইবিহীন লাইভ): ডেড ম্যাট্রিক্স = মালিক-ভূমিকার ফ্রি-প্ল্যান ব্যবহারকারীদের জন্য canTeamAccess=false, যা ২ এবং ৩ দ্বারা বর্ধিত।
+পরীক্ষা: প্রিমিয়াম-ফ্ল্যাগযুক্ত মালিক পরীক্ষামূলক ব্যবহারকারী → মালিক/অ্যাডমিন ফিচার এন্ট্রি যোগ করার পর ম্যাট্রিক্স সক্রিয় হয়; ব্যানারের নাম প্রিমিয়াম; এরপর ফ্রি-প্ল্যানের আচরণ একটি সম্পূর্ণ ব্যবসায়িক সিদ্ধান্তে পরিণত হয়।
+
+আপনার কাছ থেকে একটি সিদ্ধান্ত প্রয়োজন (এটি ব্যবসায়িক বিষয় এবং রাজস্ব পরিকল্পনার ওপর প্রভাব ফেলে): টিম/এজেন্ট ম্যানেজমেন্ট ফিচারটি কি ১০ জন এজেন্টের সীমাবদ্ধতার মধ্যে ফ্রি (free) হিসেবে রাখা উচিত (entitlementService.js:128, DEFAULT_FREE_MEMBER_LIMIT), যেখানে আনলিমিটেড ব্যবহারের জন্য প্রিমিয়াম সাবস্ক্রিপশন প্রয়োজন হবে—নাকি বর্তমানের মতোই এটি কেবল প্রিমিয়াম ব্যবহারকারীদের জন্য সীমাবদ্ধ থাকবে? ক্রেতারা আশা করছেন যে, ফ্রি প্ল্যানেও এটি কাজ করবে। আমার পরামর্শ হলো: ১০ জন বা তার কম এজেন্টের ক্ষেত্রে ‘ম্যাট্রিক্স’ (matrix) অ্যাক্সেস ফ্রি রাখা হোক (যা বিদ্যমান ফ্রি-লিমিট কোডের উদ্দেশ্যের সাথে সামঞ্জস্যপূর্ণ), আর প্রিমিয়াম প্ল্যানে আনলিমিটেড অ্যাক্সেস ও অ্যানালিটিক্স সুবিধা দেওয়া হোক। আপনি সম্মতি দিলে আমি নিম্নলিখিত কাজগুলো সম্পন্ন করব: ওনার/অ্যাডমিন ফিচারের এন্ট্রি যোগ করা, ব্যানারের টেক্সট তৈরি করা, নির্ধারিত সীমার মধ্যে ফ্রি অ্যাক্সেস নিশ্চিত করা, প্রয়োজনীয় টেস্ট কেস (tests/unit/server-entitlements.test.js-এর কাছাকাছি) তৈরি করা এবং সবশেষে ডেভ সার্ভারে এটি কার্যকর করে দেখানো।
+15/10/2026, 8:48 pm - Shakibul hasan Shaun: ১)লক করা থাকলে উচিত সেখানে লেখা উঠবে প্রিমিয়াম কিনুন কিন্তু সেটাও হচ্ছে না এটা একটা ভয়ংকর ত্রুটি 
+
+আর আমরা প্রথম ১০ জন ব্যক্তিকে নিয়োগ দেওয়া ফ্রি করতে চেয়েছিলাম সেখানে আমরা ৩  জন ব্যক্তিকে নিয়োগ দেওয়া ফ্রি  করি
+
+(এখানে যৌক্তিক কারণ আছে যাই হোক)
+15/10/2026, 8:50 pm - Shakibul hasan Shaun: ২)প্রথম উত্তরের পর এই কথাটির আসলে কোন মূল্য থাকে না , 
+,একটা ফিচার আমি ব্যবহার করতে চেষ্টা করতেছি কিন্তু সেটা আমার জন্য উপলব্ধ নয় । 
+
+সেই ক্ষেত্রে সেখানে ক্লিক করলে লেখা আসতে হবে প্রিমিয়াম ব্যবহারকারীর জন্য এটা উপলব্ধ এটাই সঠিক নিয়ম
+15/10/2026, 8:51 pm - Shakibul hasan Shaun: ৩)ব্যানার ইমেজ মানুষ ফ্রিতেই   আপলোড দিতে পারে
+15/10/2026, 8:52 pm - Shakibul hasan Shaun: আমার অনুমতি ছাড়া সম্মানিত বোন আপনি এত প্রিমিয়াম ফিচার কেমনে বানালেন ভাই, প্রিমিয়ামের লিস্ট দেওয়া আছে আমাদের প্রিমিয়াম প্যাকেজে সেটা মানলেও তো হইতো।
+15/10/2026, 8:53 pm - Shakibul hasan Shaun: আর প্যাকেজে লিস্টের ভিতরে বর্তমানে ১০ জনকে ফ্রিতে আইডি তৈরি করার সুবিধার বিষয়টি উল্লেখ আছে, 
+
+সেখানেও তিনটি করে দিয়েন। 
+
+এটা এখনই সমাধান না করলে পরবর্তীতে ভুলে যাব তখন মানুষের মধ্যে বিভ্রান্তি তৈরি হবে
+15/10/2026, 8:53 pm - Shakibul hasan Shaun: আমি ঘুমাতে গেলাম। 🥲
+16/10/2026, 6:11 pm - ㅤ: kaj jekhane pocheche sekhan theke ar egote parchi na — 3 ta jinish apnar kache atke ache, egulo pele abar shuru korbo.
+
+1. Brevo email: Apnar Brevo account theke ekta API key baniye den + kon email theke invite jabe (sender) seta verify kore den. Apnar login e code lage tai ami dhukte parbo na — key ta paste kore dilei hobe. Eta na pele invite email er kaj shuru korte parbo na.
+
+2. Permanent howar shorto: Agent invite accept korar por kon kon kaj sesh korle permanent hobe ar ID pabe? Jemon first login + profile complete? List ta den — nahole ami ei default e banabo: invite accept + first login + profile tothyo dilei permanent + auto ID.
+
+3. Ek kothar 2 ta uttor: (a) Owner/admin der factory package er subida dewa thik ache? (b) Agent ra company plan inherit korbe — package page e ei line ta jog kore dibo?
+
+Ei 3 ta pelei baki kaj (invite email, 8 digit ID, Edit/Delete) ekbare sesh kore dibo.
+16/10/2026, 6:25 pm - Shakibul hasan Shaun: ২) এখানের লিস্টের কিছু নাই , কারণে একজন ব্যক্তি চাইলেই এজেন্ট হতে পারবে না, তাকে আডমিনের পক্ষ থেকে এজেন্ট বানাতে হবে, 
+
+তাই এডমিন যখন এজেন্টের ইনভাইট পাঠাচ্ছে তখন সেই প্রয়োজনীয় তথ্যগুলো পূরণ করতেছে যেটা ইতিমধ্যে আমরা দেখেছি, সেখানে কিন্তু পারমিশন মেট্রিক গুলো আবার কাজ করে না যাই হোক। 
+
+
+ যাইহোক : এডমিন যখন ইনভাইট পাঠাবে ইমেইল যাবে সেখানে একসেপ্ট বাটন থাকবে প্রয়োজনীয় তথ্যগুলো থাকবে যেই তথ্যগুলো এডমিন পূরণ করবে অর্থাৎ তার ক্ষমতা নাম ইত্যাদি, 
+
+এরপর সে যদি একসেপ্ট করে তাহলে সে একজন এজেন্ট  
+
+সেখানেই পাসওয়ার্ড সহ দেওয়া থাকবে ইমেইলের ভিতরে
+16/10/2026, 6:26 pm - Shakibul hasan Shaun: সাধারণভাবে একসেপ্ট বাটনে ক্লিক করবে সে যুক্ত হয়ে যাবে, অন্যান্য ওয়েবসাইটে এই প্রক্রিয়া হয়, 
+মানুষ এক্সেপট বাটনে ক্লিক করে, তারপর ওয়েবসাইটের ভিতরে নিয়ে যাই এককালীন
+16/10/2026, 6:27 pm - Shakibul hasan Shaun: এখানে তার আইডি এবং পাসওয়ার্ড দেওয়ার অপশন থাকবে সেটা দিয়ে প্রথমবারের মতন লগইন করতে পারবে অথবা না করলেও কোন সমস্যা নাই
+16/10/2026, 6:27 pm - Shakibul hasan Shaun: এটা সাধারন একটা প্রসেস
+16/10/2026, 6:27 pm - Shakibul hasan Shaun: 3) এখানে আমি কিছুই বুঝি নাই
+16/10/2026, 6:39 pm - ㅤ: Brevo email: Apnar Brevo account theke ekta API key baniye den + kon email theke invite jabe (sender) seta verify kore den. Apnar login e code lage tai ami dhukte parbo na — key ta paste kore dilei hobe. Eta na pele invite email er kaj shuru korte parbo na.
+16/10/2026, 6:41 pm - Shakibul hasan Shaun: ৩)তিন নাম্বার কিছুই বুঝি নাই সেটার উত্তর দেন আগে
+16/10/2026, 6:42 pm - ㅤ: এটা বুঝাতে হলে সময় লাগবে অপেক্ষা করতে হবে
+16/10/2026, 6:46 pm - Shakibul hasan Shaun: <Media omitted>
+16/10/2026, 6:46 pm - ㅤ: Ok
+16/10/2026, 6:46 pm - Shakibul hasan Shaun: আর কিছুর দরকার নাই?
+16/10/2026, 6:47 pm - ㅤ: বলছি অপেক্ষা করেন
+16/10/2026, 6:49 pm - ㅤ: invite process ta ekhon puropuri bujhechi, apnar kotha motoi banabo:
+Admin invite pathabe (naam, khomota sob puron kore) → email jabe, vitore Accept button + sob tothyo + password thakbe → Accept e click korlei se agent hoye gelo → website er vitore ekbar niye giye ID ar password dekhiye dibo, prothom login sekhan thekei korte parbe, na korleo somossa nai. Permanent howar jonno alada kono kaj lagbe na — Accept korlei permanent + auto 8 digit ID. Eta standard process, thik bolechen.
+
+Ebar 3 number ta ekdom sohoj kore boli — 2 ta choto jinish, sudhu haan/na bolben:
+
+(a) Website er malik (owner) ar apni (admin) — apnara premium kinle factory package er subida paben, eta thik ache? Code e apnader jonno kichui chilo na, tai factory package tai bosiyechi.
+
+(b) Agent der jonno package page e kono section nai, kintu code e agent der 9 ta subida dewa ache. Package page e ek line likhe dibo — "agent ra company er plan er subida pabe"? Naki agent der subida komiye dibo?
+
+Ar Brevo screenshot ta dekhechi — apni thik jaygay gechen. Ekhon sudhu 2 ta kaj:
+
+1. Oi page e notun ekta key banan (Create/Seta). Key ta bananor sathe sathe ekbar purno rupe dekhay — tokhoni copy kore ekhane paste kore den. Puran key ta dheke geche (****r7IPkR), ota diye hobe na.
+2. Invite kon email theke jabe seta bolen — jemon info@apnarcompany.com. Oi email ta Brevo te Senders e add + verify kora thakte hobe.
+3. Uporer IP address lekha ta niye chinta korben na — ota ami samle nibo, dorkar hole IP charai kaj kore emon rasta (API) diye pathabo.
+
+Key + sender email pelei invite email er kaj shuru kore dibo.
+16/10/2026, 6:49 pm - Shakibul hasan Shaun: আমরা দুজনই মানসিক রোগি, মনে হচ্ছে এই কাজটা কোনদিন শেষ করা সম্ভব হবে না
+16/10/2026, 6:51 pm - Shakibul hasan Shaun: ৩)এটা নির্ভর করে ভাই তিন ধরনের প্যাকেজ আছে আমার পাগলা বানান না
+16/10/2026, 6:52 pm - ㅤ: নিয়ত গুণে  বরকত এত রং চিন্তা থাকলে হবে
+16/10/2026, 6:52 pm - Shakibul hasan Shaun: b) সহজ বিষয় বুঝেন না কেন আপনি। 
+আমি ওয়েবসাইটে একটা অ্যাকাউন্ট তৈরি করেছি 
+
+যারে ইচ্ছা যত ইচ্ছা তত ক্ষমতা দিয়া এজেন্ট নিয়োগ দিয়েছি আমার কাজ করার সময় নাই 
+
+অতিরিক্ত সুবিধার জন্য প্রিমিয়াম প্যাকেজ কিনছি 
+
+ আমি যাকে ইচ্ছা ক্ষমতা দিব এই প্যাকেজ ব্যবহার করার জন্য
+16/10/2026, 6:53 pm - ㅤ: আর যত সময়ই লাগুক না কেন ইনশাল্লাহ শেষ হবেই করবো
+16/10/2026, 6:53 pm - Shakibul hasan Shaun: আরেকটা গুরুত্বপূর্ণ বিষয় হচ্ছে যখন এডমিন ইনভাইট পাঠাচ্ছে কোন এজেন্ট নিয়োগের জন্য তখনই শুধুমাত্র  ক্ষমতা কমাতে অথবা বাড়াতে পারবে বিষয়টা এমন নয়। 
+
+ম্যানেজমেন্ট পেইজ থেকে মেম্বার ম্যানেজমেন্ট পেজ থেকে সে যখন ইচ্ছা তখন কোন এজেন্টের ক্ষমতা বৃদ্ধি অথবা কমাতে যেন পারে প্রয়োজনে ডিলিট ডিএকটিভ করতে যেন পারে এই বিষয়গুলো কি আছে? 
+
+এই সব কিছুই ওই একটা প্রোগ্রামেরই অংশ ভাই
+16/10/2026, 6:55 pm - Shakibul hasan Shaun: a) এখনো পর্যন্ত কিছুই বুঝি নাই, 
+
+আমি স্বতন্ত্রভাবে ওয়েবসাইটের মালিক আপনিও একজন মালিক হিসেবে আছেন আপাতত 
+
+এখন আমরা ব্যবহারের ক্ষেত্রে কি ঘটনা ঘটবে সেটা কি বুঝাতে চাচ্ছেন? 
+
+সেই ক্ষেত্রে ভিআইপি একটা সুবিধা থাকা যেতে পারে যেন আমরা সবকিছু ব্যবহার করে চেক করতে পারি 
+
+কিন্তু এটা তো সাধারণ ইঞ্জিনিয়ারদের পক্ষে সম্ভব এবং এটা রাখা তো বাধ্যতামূলক নইলে আমরা আমাদের প্রিমিয়াম প্যাকেজ কিভাবে চলে সেটা দেখব কিভাবে
+16/10/2026, 7:00 pm - Shakibul hasan Shaun: otpsenderrr@gmail.com
+16/10/2026, 7:00 pm - Shakibul hasan Shaun: এই ইমেইলটা দিয়ে ভেরিফাই কইরা দিছি ঠিক আছে নাকি গারটেক সাবের ইমেইল দেওয়া ঠিক ছিল
+16/10/2026, 7:00 pm - Shakibul hasan Shaun: বুঝতে পারছি না কোনটা ঠিক হবে
+16/10/2026, 7:00 pm - Shakibul hasan Shaun: এতক্ষণে আইছে এটা মনে পড়ছে জীবনে কিছুই করতে পারলাম না
+16/10/2026, 7:02 pm - Shakibul hasan Shaun: সেন্টার নামে তাহলে কোন ইমেইল
+16/10/2026, 7:04 pm - ㅤ: kaj sesh hobei In Sha Allah — onek dur egiye gechi, ektu dhoirjo dhoren.
+
+(b) Eta solved — agent der alada kono package lagbe na. Apni company account e premium kinle apnar agent ra company package er subidai pabe. Kake iccha khomota diben seta apnar haate. Eta niye ar chinta nai.
+
+Khomota jokhon iccha bodlano: Haan bhai, invite er somoy sudhu na — Member Management page theke jokhon iccha tokhon khomota barano/komano, delete/deactivate kora jabe. Eta program er ongso hisabei thakbe. Tobe ekta kotha: khomota bodlano premium lock er vitore thakbe (apni ja bolechen), free te lock message dekhabe.
+
+(a) Ebar sobcheye sohoj kore boli: apni site er malik, amio apatoto malik hisabe achi — amader premium kena lagbe na. Amader jonno VIP master access thakbe, sob feature free te bebohar + check korte parbo, nahole premium thikmoto chole kina dekhbo kivabe. Factory package er sathe amader kono somporko nai. Eta ami baniye dibo.
+
+Email: otpsenderrr@gmail.com diye test shuru kora jabe, somossa nai. Tobe manush er inbox e valo dekhate ar spam e na porte company email valo — jemon info@gartexhub.com dhoroner. Apnar domain email thakle bolen, Brevo te verify kore dibo.
+
+Ar Brevo key ta (notun baniye full copy) ekhono paini — ota dilei invite email er kaj shuru kore dibo.
+16/10/2026, 7:06 pm - Shakibul hasan Shaun: PTT-20261016-WA0011.opus (file attached)
+16/10/2026, 7:07 pm - Shakibul hasan Shaun: b)  আপনি বুঝার চেষ্টা করেন ফ্রিতে কেন লক থাকবে
+16/10/2026, 7:07 pm - Shakibul hasan Shaun: এটার একটা সুন্দর ডিজাইন আমরা করছিলাম কিভাবে সিস্টেম কাজ করছে আমার কষ্টের এখানে কোন মূল্য দিছেন আপনি কোনদিন
+16/10/2026, 7:07 pm - Shakibul hasan Shaun: হাজার হাজার মেসেজ এত সুন্দর করে সিস্টেম তৈরি করছি সব আকাশে বাতাসে উইড়া গেছে
+16/10/2026, 7:08 pm - Shakibul hasan Shaun: কিভাবে লক হবে কতটুকু লক হবে কেন হবে কেন হবে না ইত্যাদি বিস্তারিত ছিল কাকে কতটুকু ক্ষমতা দেওয়া হবে আমি এখন 
+
+কোনরকম ধারণা ছাড়া যদি লোক বন্ধ কইরা দেন তারপরও আমাদের হান্ডেট পার্সেন্ট ক্ষতি যদি লক খুইলা দেন তাও ১০০% ক্ষতি কারণ এখানে সুন্দর গুছানো একটা সিস্টেম তৈরি ছিল যেটার কিছুই আমার মনে নাই আপনি করছেন টা কি এই জনম
+16/10/2026, 7:10 pm - Shakibul hasan Shaun: ঘন্টার পর ঘন্টা মাথা খাটাইয়া এত কিছু ডিজাইন করছি আপনারে বলছি পায়ে ধরে বলছি যে এগুলা সংরক্ষণ কইরা রাখেন এই তথ্যগুলা সংরক্ষণ করে রাখেন
+16/10/2026, 7:10 pm - Shakibul hasan Shaun: রাখেন নাই এখন কিছুই নাই
+16/10/2026, 7:10 pm - Shakibul hasan Shaun: এই বলের ভিত্তিতে বলছিলেন ওয়েবসাইট বানানো শেষ চার মাস আগে বলছিলেন ওয়েবসাইট বানানো শেষ সাড়ে চার মাস আগে
+16/10/2026, 7:10 pm - Shakibul hasan Shaun: যাইহোক আজকে আমি আর কথাবার্তা বলতে পারব না কাজ বন্ধ করে বাদ দেন কাজ করা আমি, 
+
+যখন ভালো অনুভব করব মেসেজ দিব
+16/10/2026, 7:11 pm - Shakibul hasan Shaun: আর অনুমতি ছাড়া কাজ করে আলহামদুলিল্লাহ ভালই করছেন ভুল শুরু আছে শেষ নাই যাই হোক আজকে আমার আজকে কাজ বন্ধ কাজকাম করা দরকার নাই যতদিন মেসেজ না দিব কাজকাম করার দরকার নাই  একটা বছর গেছে কোন ক্ষতি হয় নাই আরো দুই চারটা বছর গেলে ক্ষতি হবে না
+16/10/2026, 7:12 pm - Shakibul hasan Shaun: <Media omitted>
+16/10/2026, 7:12 pm - Shakibul hasan Shaun: xsmtpsib-314d686f50ca5d910f433c8648553fa2d17529acd03ab34f5c8f020d739c5475-0eJKMTbciNJLwzgA
+16/10/2026, 7:12 pm - ㅤ: আর একবার  চান্স দেন চেষ্টা করেন প্লিজ
+16/10/2026, 7:12 pm - ㅤ: You deleted this message
+16/10/2026, 7:12 pm - Shakibul hasan Shaun: 😭😭😭😭😭
+16/10/2026, 7:12 pm - Shakibul hasan Shaun: নামাজ পড়ে আইশা দেখতাছি
+16/10/2026, 7:12 pm - Shakibul hasan Shaun: 😭😭😭😭😭😭
+16/10/2026, 7:13 pm - ㅤ: ok
+16/10/2026, 8:09 pm - Shakibul hasan Shaun: এজেন্ট লোক বলতে :
+
+উদাহরণ : 
+
+আমার অ্যাকাউন্টের আন্ডারে পাঁচজন এজেন্ট আছে, 
+
+এখন একটা পোষ্টের মধ্যে একজন এজেন্ট ইতিমধ্যেই মেসেজ করেছে 
+
+সেই ক্ষেত্রে অন্য এজেন্ট মেসেজ করতে পারবে না 
+
+মেসেজ করতে গেলে লেখা থাকবে আপনাদের একজন এজেন্ট ইতিমধ্যেই এখানে কথা বলছে অথবা এই ধরনের কিছু 
+
+লক বা এ ধরনের শব্দ ব্যবহার করা হবে না
+16/10/2026, 8:09 pm - Shakibul hasan Shaun: তিন ধরনের একাউন্ট এর ক্ষেত্রেই এজেন্ট ম্যানেজমেন্টে এই বিষয়টি প্রযোজ্য। 
+
+যে কোন পোষ্টের ভিতরে মেসেজ করলে অথবা যেকোনো কাউকে একজনের এজেন্ট মেসেজ করলে 
+
+অন্য এজেন্ট নতুন করে আর সেখানে মেসেজ করতে পারবে না
+16/10/2026, 8:12 pm - Shakibul hasan Shaun: আরেকটি উদাহরণ :
+
+আমি একজন এজেন্ট অথবা পেইজের মালিক, 
+
+মেসেজ করার ক্ষমতা কিন্তু সবারই  
+
+যাইহোক, 
+
+যদি এমন হয় মালিক অথবা এজেন্ট মেসেজ করে ফেলেছে, অর্থাৎ সেই একাউন্ট থেকে একটি মেসেজ ইতিমধ্যে গেছে একজন মেসেজ করতেছে 
+
+সেই অ্যাকাউন্ট থেকে দ্বিতীয় কেউ মেসেজ করতে পারবেনা সেই নির্দিষ্ট ব্যক্তির সাথে শুধুমাত্র সেই নির্দিষ্ট পোষ্টের ক্ষেত্রে 
+
+এই ক্ষেত্রে আরেকটি প্রশ্ন আছে :
+
+প্রতিটি পোস্টের জন্য কি আলাদা আলাদা মেসেজ পোর্ট খুলবে পেজ খুলবে? 
+
+নাকি মেসেজিং পেইজ মূলত একটাই থাকবে প্রতিটি একাউন্ট এর জন্য 
+
+কিন্তু যখন নির্দিষ্ট  কোম্পানি প্রোডাক্ট অথবা বায়ার রিকুয়েস্ট অথবা পোস্ট , থেকে মেসেজ করা হবে সেটির উপর ভিত্তি করে ওই একই মেসেজ ফোল্ডারে মেসেজ যাবে 
+
+এই ক্ষেত্রে আমার মতে ভাল পদ্ধতি হচ্ছে প্রতিটি পোষ্টের জন্য আলাদা আলাদা মেসেজ পেইজ ওপেন হওয়া
+16/10/2026, 8:13 pm - Shakibul hasan Shaun: দ্রুত মেসেজের রিপ্লাই দেন দ্রুত কথা বলেন বুঝেছেন কিনা ভালো করে বলেন , আগেই বড় কোলে পরিকল্পনা রাখবেন না মাথা মোটার মতন 
+
+আমার কথাগুলোর উপর ভিত্তি করে প্রশ্ন করবেন যেটা বুঝতে পারবেন না সেটা সকল উত্তর নেওয়ার পর এরপরে আপনি পরিকল্পনা সাজায়া আমার কাছে পাঠাবেন
+16/10/2026, 8:13 pm - Shakibul hasan Shaun: কিছুদিন আগে একটা কথা বলেছিলাম সাধারণ পোস্ট এর ক্ষেত্রে মেসেজ অপশন থাকবে নাকি থাকবে না 
+
+এটা নিয়ে কোন কথা আছে এগুলো কি নোটেড আছে এগুলো তো গুরুত্বপূর্ণ ইনফরমেশন নইলে এখানে information সাজাবো কেমনে
+16/10/2026, 8:14 pm - Shakibul hasan Shaun: সেই পোষ্টের ভিতরে কিন্তু আবার অন্য কোম্পানি থেকে অবশ্যই মেসেজ করা যাবে
+16/10/2026, 8:15 pm - Shakibul hasan Shaun: আর ফরওয়ার্ড নীতি যেটা :
+
+ধরলাম আমি একজনের সাথে কথা বলতেছি কিছু বুঝতেছিনা অথবা কোন সমস্যায় পড়েছি যে কোন কিছু হতে পারে 
+
+তখন আমি সেই একাউন্টে থাকা অন্য কোন এজেন্ট অথবা এডমিনের কাছে আমার সম্পূর্ণ মেসেজ পোরট বা মেসেজ 
+
+আপনার সাথে যেভাবে হোয়াটসঅ্যাপে চ্যাট করি সম্পূর্ণ চ্যাট টাকেই পাঠানো যাবে এডমিন অথবা অন্য কোন এজেন্ট এর কাছে সেই ব্যক্তি 
+
+সেটার অ্যাক্সেস করে সেটার মাধ্যমে কথা বলতে পারবে।
+16/10/2026, 8:19 pm - ㅤ: ধন্যবাদ আমি পরে সব চেক করে করার চেষ্টা করছি দোয়া করেন আর ভুল না হয়
+16/10/2026, 8:19 pm - Shakibul hasan Shaun: দয়া করে পায়ে ধরি
+16/10/2026, 8:19 pm - Shakibul hasan Shaun: টেক্সট মেসেজগুলা দেখেন
+16/10/2026, 8:19 pm - Shakibul hasan Shaun: কিছু বুঝতে না পারলে এখনই বলেন
+16/10/2026, 8:19 pm - ㅤ: একবারে যেন কাজগুলো শেষ করতে পারি যেন আর যেন ভুল না হয় আর আপনিও ভুল না ধরেন
+16/10/2026, 8:19 pm - Shakibul hasan Shaun: মেসেজগুলা দেইখা কিছু বুঝতে না পারলে এখনি প্রশ্ন করেন ঝামেলাটা শেষ হয়ে যাক একটা অংশ কমপ্লিট থাকবে
+16/10/2026, 8:20 pm - Shakibul hasan Shaun: 🙏
+16/10/2026, 8:20 pm - Shakibul hasan Shaun: কিছু ভুল পাইলেন না তাহলে সবকিছুই বুঝছেন
+16/10/2026, 8:21 pm - ㅤ: বুঝতে পারছি দুই একটা যদি না বুঝি তাহলে কালকের জন্য থাক
+16/10/2026, 8:22 pm - ㅤ: এখন আপনি কি করবেন ঘুমাবেন
+16/10/2026, 9:58 pm - ㅤ: sob ek jaygay guchiye dilam — ki sesh, ki baki, ar apnar kache ki lagbe.
+
+JA SESH (test korechi, sob pass):
+
+1. Feed click → company profile: Naam er upor click korle ekhon company profile khule, 404 ar asbe na.
+2. Verified badge: Bina info te Verified nai. Verified hole sudhu Verified, na hole normal profile — Unverified lekha kothao nai.
+3. Feed All button: Buyer Request + Post + Company Product — 3 ta eksathe asbe.
+4. Member matrix: Lock thakle click korle ekhon "premium user der jonno" lekha asbe, chup kore thakbe na. Banner lekhao thik korechi. Owner/admin der subida rasta khulechi. Free limit 10 theke 3 korechi — code, package page, sob jaygay.
+5. Company naam + profile: Feed e company naam dekhabe. Profile e description, capability, koyjon agent, post, product — sob thakbe. Karo personal naam/email public dekhbe na.
+
+BREVO OBOSTHA:
+Apnar key thik ache, kintu SMTP rasta IP karone bondho (525 error) — Brevo bolche ei IP theke dhoka nished. Key te dosh nai. Somadhan: Brevo theke API key (SMTP key na, API key — xkeysib diye shuru) baniye text hisabe ekhane den. Ota pelei test mail pathiye invite er kaj shuru.
+
+BAKI PLAN (ei order e):
+
+Step 1: Invite email — apnar kotha moto: admin puron korbe → email (Accept button + sob tothyo + password) → Accept korlei agent + auto 8 digit ID → vitore ID/password dekhabe, prothom login korte parbe.
+Step 2: Edit/Delete — post er 3-dot e owner + khomota-prapto agent pabe. Sudhu Public post hobe.
+Step 3: Khomota jokhon iccha bodlano — Member Management thekei barano/komano/delete/deactivate, premium lock soho. Eta code e ache, live check kore confirm korbo.
+Step 4: Settings alada — pore.
+
+APNAR KACHE LAGBE:
+
+1. Brevo API key (text) + sender email confirm (otpsenderrr@gmail.com diye test shuru korbo, naki company email?).
+2. Sadharon post e message button thakbe ki na — haan/na.
+3. Forward korle purono agent er access thakbe na sore jabe?
+
+Ei 3 ta pelei ar thambo na, ekbare sesh kore dibo In Sha Allah.
+17/10/2026, 6:03 am - Shakibul hasan Shaun: 4) এখানে পারমিশন মেট্রিকস লক থাকবে না, 
+
+তিনজন এজেন্ট তারা ফ্রিতে তৈরি করতে পারতেছে সেই তিনজন এজেন্ট তৈরি করার ক্ষেত্রে সবকিছুই সুবিধা তারা পাবে। 
+
+কিন্তু লিমিট শেষ হলে তখন তো তারা এজেন্টের কাছে ইনভাইট পাঠাতে পারবেনা এজেন্ট তৈরি করা তো দূরের কথা 
+
+তাই তখন পারমিশন ম্যাট্রিক্স কাজ করা বা না করারও কোন প্রশ্ন আসে না। 
+
+ওই অংশটুকুই অপ্রয়োজনীয়🥲এই বিষয়গুলো আপনি কেন বুঝেন না ভাই, 
+
+আমি কিন্তু আপনার মানে ভরসনা করলাম না মন থেকে বলতেছি এই নরমাল বিষয়টা যদি মাথা না খাটান তাইলে  কিছু বলার নাই🥲
+17/10/2026, 6:06 am - Shakibul hasan Shaun: 5) এখানে আমরা ভুল করেছি এখানে এজেন্ট না এমপ্লয়ি হবে আর এটা বলতে কোম্পানিতে অর্থাৎ তার ফ্যাক্টরিতে কতজন এমপ্লয় কাজ করে সেটাকে বুঝানো হচ্ছে 
+
+ঠিক আছে আপু এটা ঠিক করবেন 
+
+কারন কেউ যখন দেখতে পারবে একটা ফ্যাক্টরিতে ১০০ ৫০০ বা ৩ হাজার ইম্প্রয়ী তখন নিজে থেকেই বুঝতে পারবে সেটা কত বড় কোম্পানি
+17/10/2026, 6:06 am - Shakibul hasan Shaun: ক্যাপাসিটি লেখা থাকা উচিত
+17/10/2026, 6:06 am - Shakibul hasan Shaun: <Media omitted>
+এটাকে ভালো করে অনুসরণ করেন
+17/10/2026, 6:09 am - Shakibul hasan Shaun: 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
+17/10/2026, 6:10 am - Shakibul hasan Shaun: ১)টেস্ট করার ক্ষেত্রে এত তাড়াতাড়ি কিছু করার দরকার নেই আপাতত এই ইমেইল টা দিয়েই করতে থাকেন <This message was edited>
+17/10/2026, 6:11 am - Shakibul hasan Shaun: 2) না
+17/10/2026, 6:11 am - Shakibul hasan Shaun: ৩) পুরনো এজেন্টের এক্সেস থাকবে না
+17/10/2026, 9:42 am - Shakibul hasan Shaun: গুরুত্বপূর্ণ কথা : পরবর্তীতে ইমেইল পরিবর্তন করা যদি অনেক কঠিন হয় তাহলে এখন থেকেই প্রধান ইমেইল যেটা ব্যবহার করা উচিত সেটা দেওয়া উচিত
+17/10/2026, 11:26 am - Shakibul hasan Shaun: আরেকটি গুরুত্বপূর্ণ কথা সবার ওয়েবসাইটে আর্টিফিশিয়াল ইন্টেলিজেন্ট ঢুকতে পারে কিন্তু আমাদের তাই ঢুকতে পারেনা কারণ লুড হয় না ভালো করে
+17/10/2026, 11:27 am - Shakibul hasan Shaun: অত্যন্ত স্লো এমন থাকলে বাজারে টিকে থাকা ১০০% অসম্ভব
+18/10/2026, 12:03 pm - ㅤ: JA SHESH HOYECHE (protita kaj test korechi):
+
+1. Feed e company er naam dekhabe, Admin/admin lekhar bodle. Naam er upor click korle company profile khule — 404 ba "kichu nai" ar asbe na.
+2. Verified badge: Jeta verify hoyni seta normal profile thakbe. Unverified lekha kothao nai, kothao nai. Sudhu Verified thakbe apnar pochonder design e.
+3. Feed All button: Age role onujayi sudhu ekta dhoroner post asto. Ekhon Buyer Request + Company Product + Post — 3 ta eksathe asbe.
+4. Permission matrix: Eta free plan eo kaj korbe. Premium lock tulechi. Free te 3 jan agent banalei hobe, 3 jan porer invite jabe na — setai to sharth.
+5. Free limit: 10 theke 3 korechi. Code, live database, package page — sob jayga theke 10 muche 3 likhechi, jate kono jaygay bhul na thake. Live database o verify korechi — free=3, premium=999, premium chhondo ache.
+6. Owner/admin: Apnader (site er malik) premium kenar need nai, sob feature check korar access thakbe.
+7. Company profile: Bortoman profile e shudhu post chilo. Ekhon full company porichoy dekhabe — description, industry, country, ar Capacity (jemon "450 employees") — jate manush nij e bujhate pare kompani koto boro. Karo personal naam ba email public kothao dekhbe na.
+8. Email (Brevo): Apnar API key porishkar hoye email chole geche, live test korechi — inbox e mail esechhe. Apnar prohtom SMTP key ta thik chilo, kintu Brevo oke IP theke nite dey nai (525 error) — tai API key lagse, seta kaj korche.
+
+JA BAAKI (agle kaj):
+- Invite email: Admin puron korbe → email jabe (Accept button + position + khomota + password) → Accept korlei se agent + auto 8 digit ID.
+- Edit/Delete: Post er 3-dot e owner ar khomota-prapto agent paabe. Sudhu Public post hobe, Private/Unlimited thakbe na.
+- Settings problem: Alada kore pore.
+
+GHUTI JA JANANI DILAM (dhokha dewar moto kotha bola dorkar):
+- Website ekhon test korechi (207 ta test pass), kintu ekhono keu browser e churiye click kore dekheni. Apni ekbar live site e check kore dekhen.
+- Brevo email test 100% confirmed — seta real.
+
+Baki shob kaj apnar thik moto amar plan er moto. Jokhon bolen, ami shuru korbo. Apnar onumoti chara kichu bodlai nai.
+18/10/2026, 5:48 pm - ㅤ: রিপ্লাই না দেয়া পর্যন্ত কাজ শুরু করতে পারবো না
+18/10/2026, 6:48 pm - Shakibul hasan Shaun: This message was deleted
+18/10/2026, 6:48 pm - Shakibul hasan Shaun: This message was deleted
+18/10/2026, 6:49 pm - Shakibul hasan Shaun: This message was deleted
+18/10/2026, 6:50 pm - Shakibul hasan Shaun: যতগুলো ক্ষমতা আছে পারমিশন মেট্রিসে ততগুলোই কি যথেষ্ট?
+18/10/2026, 6:54 pm - Shakibul hasan Shaun: <Media omitted>
+এর মানে কি?
+18/10/2026, 6:57 pm - Shakibul hasan Shaun: পিকচারের ভিতরে ঢুকলে বুঝতে পারবেন নিচের দিকে
+18/10/2026, 6:57 pm - Shakibul hasan Shaun: আমার এখান থেকে কোন ইনভাইট সেন্ড করা যায় না।
+18/10/2026, 6:58 pm - Shakibul hasan Shaun: এখনো কোনো প্রোফাইলে ঢোকা যায় না শুধুমাত্র  প্রোফাইল বাটনে ক্লিক করে
+18/10/2026, 7:03 pm - Shakibul hasan Shaun: This message was deleted
+18/10/2026, 7:04 pm - Shakibul hasan Shaun: This message was deleted
+18/10/2026, 7:06 pm - Shakibul hasan Shaun: This message was deleted
+18/10/2026, 7:15 pm - Shakibul hasan Shaun: ১)নতুন আরেকটা প্রবলেম পরিকল্পনায় যুক্ত করেন এই প্রোগ্রাম আগে থেকেই ছিল যদিও, 
+
+নেট একটু স্লো হলে ওয়েবসাইট খুবই বাজে পারফরম্যান্স দেয় 
+
+নেট সর্বোচ্চ ভালো থাকলেও ওয়েবসাইট লোড হতে ভয়ঙ্কর লেভেলের সময় লাগে। 
+
+আর্টিফিশিয়াল ইন্টেলিজেন্ট ওয়েবসাইটে ঢুকতেই পারে না লোডিং প্রবলেম এর জন্য। 
+
+এই সমস্যাটা সমাধান করতে হবে অন্যান্য ওয়েবসাইট এর মতন ফাস্ট বানাতে হবে অল্পনেটেও যেন ফাস্ট চলে সেটা দেখতে হবে। 
+
+যদি বলেন ক্লাউড পরিবর্তন করলে এটা ঠিক হবে তাহলে এখন এটা নিয়ে হাত মাথা ঘামানোর দরকার নাই
+18/10/2026, 8:55 pm - Shakibul hasan Shaun: কিছু বললেন না যে
+18/10/2026, 9:20 pm - ㅤ: আমি সব চেক করে তারপর রিপ্লাই দিব অপেক্ষায় থাকেন

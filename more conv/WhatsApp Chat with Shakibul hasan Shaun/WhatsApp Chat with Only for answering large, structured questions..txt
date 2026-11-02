@@ -1,0 +1,302 @@
+3/11/26, 7:27 AM - Messages and calls are end-to-end encrypted. Only people in this chat can read, listen to, or share them. *Learn more*
+3/11/26, 7:27 AM - You created this group
+3/11/26, 7:27 AM - Cyber Code Master Mira Dev was added
+3/11/26, 7:27 AM - Shakibul hasan Shaun: যদিও এখানে বাড়তি মেসেজ দেয়া নিষেধ তারপরও বলি চতুর্থ দিন চলে গেছে আর ২ দিন আছে ! <This message was edited>
+3/13/26, 10:08 PM - Shakibul hasan Shaun: ,
+3/17/26, 11:01 PM - Shakibul hasan Shaun: Hi,  
+
+I’ve completed the implementation + documentation for the following pages:
+
+*Public Pages*
+• `/` (Landing page — TexHub)
+• `/pricing` (Pricing/Subscription)
+• `/about` (About)
+• `/terms` (Terms)
+• `/privacy` (Privacy)
+• `/help` (Help Center)
+• `/login` (Login)
+• `/signup` (Signup)
+• `/access-denied` (Access denied)
+
+*Protected Pages (Login Required — available to all authenticated roles: buyer, buying_house, factory, owner, admin, agent)*
+• `/feed`
+• `/search`
+• `/buyer/:id`
+• `/factory/:id`
+• `/buying-house/:id`
+• `/contracts`
+• `/notifications`
+• `/chat`
+• `/call`
+• `/verification`
+• `/verification-center` (same page component as `/verification`)
+
+*Code + Docs*
+• GitHub repo (frontend + backend code + docs): https://github.com/gamertoky1188gro/A-Peronson-s-Website
+• Web preview URL: https://newest-guild-folder-term.trycloudflare.com/
+
+*Completed Pages — Live URLs*
+• `/` → https://newest-guild-folder-term.trycloudflare.com/
+• `/pricing` → https://newest-guild-folder-term.trycloudflare.com/pricing
+• `/about` → https://newest-guild-folder-term.trycloudflare.com/about
+• `/terms` → https://newest-guild-folder-term.trycloudflare.com/terms
+• `/privacy` → https://newest-guild-folder-term.trycloudflare.com/privacy
+• `/help` → https://newest-guild-folder-term.trycloudflare.com/help
+• `/login` → https://newest-guild-folder-term.trycloudflare.com/login
+• `/signup` → https://newest-guild-folder-term.trycloudflare.com/signup
+• `/access-denied` → https://newest-guild-folder-term.trycloudflare.com/access-denied
+• `/feed` → https://newest-guild-folder-term.trycloudflare.com/feed
+• `/search` → https://newest-guild-folder-term.trycloudflare.com/search
+• `/buyer/:id` → https://newest-guild-folder-term.trycloudflare.com/buyer/1
+• `/factory/:id` → https://newest-guild-folder-term.trycloudflare.com/factory/1
+• `/buying-house/:id` → https://newest-guild-folder-term.trycloudflare.com/buying-house/1
+• `/contracts` → https://newest-guild-folder-term.trycloudflare.com/contracts
+• `/notifications` → https://newest-guild-folder-term.trycloudflare.com/notifications
+• `/chat` → https://newest-guild-folder-term.trycloudflare.com/chat
+• `/call` → https://newest-guild-folder-term.trycloudflare.com/call
+• `/verification` → https://newest-guild-folder-term.trycloudflare.com/verification
+• `/verification-center` → https://newest-guild-folder-term.trycloudflare.com/verification-center
+
+*Completed Pages — Docs URLs (GitHub)*
+• `/` (TexHub) → https://github.com/gamertoky1188gro/A-Peronson-s-Website/blob/main/docs/pages/TexHub.md
+• `/pricing` → https://github.com/gamertoky1188gro/A-Peronson-s-Website/blob/main/docs/pages/Pricing.md
+• `/about` → https://github.com/gamertoky1188gro/A-Peronson-s-Website/blob/main/docs/pages/About.md
+• `/terms` → https://github.com/gamertoky1188gro/A-Peronson-s-Website/blob/main/docs/pages/Terms.md
+• `/privacy` → https://github.com/gamertoky1188gro/A-Peronson-s-Website/blob/main/docs/pages/Privacy.md
+• `/help` → https://github.com/gamertoky1188gro/A-Peronson-s-Website/blob/main/docs/pages/HelpCenter.md
+• `/login` → https://github.com/gamertoky1188gro/A-Peronson-s-Website/blob/main/docs/pages/Login.md
+• `/signup` → https://github.com/gamertoky1188gro/A-Peronson-s-Website/blob/main/docs/pages/Signup.md
+• `/access-denied` → https://github.com/gamertoky1188gro/A-Peronson-s-Website/blob/main/docs/pages/AccessDenied.md
+• `/feed` → https://github.com/gamertoky1188gro/A-Peronson-s-Website/blob/main/docs/pages/MainFeed.md
+• `/search` → https://github.com/gamertoky1188gro/A-Peronson-s-Website/blob/main/docs/pages/SearchResults.md
+• `/buyer/:id` → https://github.com/gamertoky1188gro/A-Peronson-s-Website/blob/main/docs/pages/BuyerProfile.md
+• `/factory/:id` → https://github.com/gamertoky1188gro/A-Peronson-s-Website/blob/main/docs/pages/FactoryProfile.md
+• `/buying-house/:id` → https://github.com/gamertoky1188gro/A-Peronson-s-Website/blob/main/docs/pages/BuyingHouseProfile.md
+• `/contracts` → https://github.com/gamertoky1188gro/A-Peronson-s-Website/blob/main/docs/pages/ContractVault.md
+• `/notifications` → https://github.com/gamertoky1188gro/A-Peronson-s-Website/blob/main/docs/pages/NotificationsCenter.md
+• `/chat` → https://github.com/gamertoky1188gro/A-Peronson-s-Website/blob/main/docs/pages/ChatInterface.md
+• `/call` → https://github.com/gamertoky1188gro/A-Peronson-s-Website/blob/main/docs/pages/CallInterface.md
+• `/verification` → https://github.com/gamertoky1188gro/A-Peronson-s-Website/blob/main/docs/pages/VerificationPage.md
+• `/verification-center` → https://github.com/gamertoky1188gro/A-Peronson-s-Website/blob/main/docs/pages/VerificationCenter.md
+
+Please review:
+• Functionality (API calls, navigation, auth-protected routing, etc.)
+• UI/UX in both *Light mode* and *Dark mode* across all pages above
+
+Once you confirm everything looks good (or send any fixes you want), I’ll wait for your reply and then we’ll start coding these next pages:
+
+*Role-specific Protected Pages*
+• `/partner-network` → roles: buying_house, admin, factory, agent, owner
+• `/product-management` → roles: factory, buying_house, admin
+• `/buyer-requests` → roles: buyer, buying_house, admin
+• `/member-management` → roles: owner, admin, buying_house, factory
+• `/org-settings` → roles: owner, admin
+• `/insights` → roles: owner, admin
+• `/owner` → roles: owner, admin
+• `/agent` → roles: buying_house, owner, admin, agent
+
+*Extra/Dev Route*
+• `/mvp` → MVP dashboard/test page
+
+Thanks—waiting for your feedback.
+3/17/26, 11:08 PM - Shakibul hasan Shaun: web off kore disen? Er duka jasse na
+3/18/26, 12:58 AM - Cyber Code Master Mira Dev: hm
+3/18/26, 8:01 AM - Shakibul hasan Shaun: গুরুত্বপূর্ণ কিছু কথা আমি আপনাকে ডকুমেন্ট আকারে দিয়েছিলাম
+3/18/26, 8:01 AM - Shakibul hasan Shaun: যখন একাউন্ট তৈরি করতেছে বায়ার তখন কিন্তু তারা যদি ue দেশভক্ত হয় তাদের জন্য ডকুমেন্ট আলাদা এবং মার্কিন যুক্তরাষ্ট্রের জন্য ডকুমেন্ট আলাদা
+3/18/26, 8:02 AM - Shakibul hasan Shaun: (Buyer acvount ভেরিফিকেশন করতে গেলে, 
+এই তথ্যগুলো লাগবে যদি তারা ব্যাচ নিতে চায় তাহলে, 
+এক্ষেত্রে একটু কষ্ট করে EU এর অন্তর্ভুক্ত দেশগুলোর নামগুলোর লিস্ট বের কইরেন
+EU
+Business Registration (রেজিস্ট্রেশন)
+নিশ্চিত করে যে আপনার কোম্পানি আইনগতভাবে EU তে স্বীকৃত।
+নিরাপত্তা: আইনগত বৈধতা, কোম্পানির আইডেন্টিটি ও 
+করদায়িত্ব প্রমাণ।
+VAT Number
+EU তে মালবিক্রয়/সার্ভিস ট্যাক্সের জন্য স্বীকৃত আইডি।
+নিরাপত্তা: করদাতার বৈধতা যাচাই; EU ভ্যাট সিস্টেমে ট্রেড লেনদেনের নিরাপত্তা।
+EORI (Economic Operators Registration and Identification)
+কাস্টমস ট্রেড/ইমপোর্ট-এক্সপোর্টে ব্যবহৃত আইডি।
+নিরাপত্তা: কাস্টমস প্রসেসে কোম্পানির বৈধতা; আন্তর্জাতিক শিপমেন্টে অনুমোদন ও ট্র্যাকিং।
+Bank proof (ব্যাংক অ্যাকাউন্ট প্রমাণ)
+ব্যাংকে কোম্পানির বৈধ অ্যাকাউন্টের প্রমাণ।
+নিরাপত্তা: অর্থ লেনদেনের বৈধতা ও বিশ্বাসযোগ্যতা; পাইরেসি/ফ্রড কমানো।
+USA
+Business Registration
+কোম্পানির আইনগত বৈধতা নিশ্চিত করে।
+নিরাপত্তা: আইনগত স্বীকৃতি, কনট্র্যাক্ট বা লেনদেনে আইনি সুরক্ষা।
+EIN (Employer Identification Number)
+IRS দ্বারা প্রদত্ত ট্যাক্স আইডি।
+নিরাপত্তা: করদাতা স্বীকৃতি; ফেডারাল ট্যাক্স লেনদেনে বৈধতা।
+IOR (Importer of Record)
+কাস্টমস ট্রেড/ইমপোর্ট আইডেন্টিটি।
+নিরাপত্তা: আমদানি-রপ্তানিতে লিগ্যাল কনফার্মেশন; কাস্টমস ফাইন বা লেনদেনে ঝুঁকি কমানো।
+Bank proof
+অর্থ লেনদেনের স্বচ্ছতা ও বৈধতা প্রমাণ।
+নিরাপত্তা: ট্রানজেকশন ফ্রড রোধ; লেনদেনে বিশ্বাসযোগ্যতা।
+
+
+EU: Business Registration + VAT Number + EORI + Bank proof
+
+USA: Business Registration + EIN + IOR + Bank proof
+3/18/26, 7:10 PM - Shakibul hasan Shaun: IMG-20260221-WA0011.jpg (file attached)
+3/18/26, 7:10 PM - Shakibul hasan Shaun: IMG-20260221-WA0012.jpg (file attached)
+3/18/26, 7:10 PM - Shakibul hasan Shaun: IMG-20260221-WA0013.jpg (file attached)
+3/18/26, 7:10 PM - Shakibul hasan Shaun: IMG-20260221-WA0014.jpg (file attached)
+3/18/26, 7:10 PM - Shakibul hasan Shaun: IMG-20260221-WA0015.jpg (file attached)
+3/18/26, 7:10 PM - Shakibul hasan Shaun: IMG-20260221-WA0016.jpg (file attached)
+Owner Page
+3/18/26, 7:10 PM - Shakibul hasan Shaun: IMG-20260221-WA0017.jpg (file attached)
+Agent Page
+3/18/26, 7:11 PM - Shakibul hasan Shaun: এগুলো কি বাস্তবায়িত হয়েছে?
+3/22/26, 10:39 PM - Shakibul hasan Shaun: আজকে কয়টা পর্যন্ত কাজ করবেন? 
+কারণ আপনি যতক্ষণ প্রশ্ন করবেন আমি এখানেই থাকতে বাধ্য।
+3/22/26, 11:04 PM - Shakibul hasan Shaun: আমি ঘুমাতে গেলাম আপু আল্লাহ হাফেজ
+3/23/26, 10:46 AM - Shakibul hasan Shaun: একটা গুরুত্বপূর্ণ তথ্য দিন একটু আমাকে। 
+
+আমরা বর্তমানে আমাদের তিনটি আলাদা আলাদা প্ল্যানে। 
+
+কোন কোন প্রিমিয়াম ফিচারগুলো দিচ্ছি। 
+প্রিমিয়াম ব্যবহার না করলে কোন কোন সীমাবদ্ধতা গুলো থাকছে তার একটা লিস্ট দেন। 
+
+আলাদা করে উল্লেখ করে করে সব দিবেন
+3/23/26, 10:02 PM - Shakibul hasan Shaun: আপনি ডিপ্লোমেন্ট এর কথা বলেছেন। 
+ব্যক্তিগতভাবে আপাতত আপনি কোথায় রাখতে চাচ্ছেন অ্যাপ্লিকেশন? 
+আমার একটা ব্যক্তিগত render অ্যাকাউন্ট আছে ৭৫০ ঘন্টা প্রতি মাসে ফ্রিতে ব্যবহার করা যায়। 
+
+আপনাকে এক্সেস এক্সেস দিতে পারি 
+প্রয়োজন হলে জানাবেন
+3/23/26, 10:02 PM - Shakibul hasan Shaun: ?
+3/27/26, 7:41 AM - Shakibul hasan Shaun: You deleted this message
+3/29/26, 11:41 AM - Shakibul hasan Shaun: IMG-20260329-WA0006.jpg (file attached)
+3/29/26, 11:42 AM - Shakibul hasan Shaun: এখানে ওই লেখাগুলোর নিচে পূর্বের পেইজের লেখাগুলো দেখা যাচ্ছে এটা তো ভালো কথা না  । আবার ভালো কথা হতে পারে বুঝতেছিনা  
+
+ ডোন্ট জাজ কিডিং এটা আবার দিছেন কেন
+3/29/26, 11:43 AM - Shakibul hasan Shaun: এই পেজ থেকে ব্যাক আসার কার্যকরী কোন সিস্টেম নেই অথবা তিল চিহ্ন কিছুই নেই ফোনের ব্যাক বাটনে ক্লিক করলেও সরাসরি ওয়েবসাইট থেকে বের করে দিচ্ছে
+3/29/26, 11:44 AM - Shakibul hasan Shaun: এগুলো সমাধান করেন এবং একটি গুরুত্বপূর্ণ প্রশ্ন বর্তমানে কি আপনি এই ধরনের সমস্যা সমাধান করতেছেন? নাকি code bug fix করতেছেন বিষয়টা একটু ক্লিয়ার করে বলেন।
+3/29/26, 11:45 AM - Shakibul hasan Shaun: দয়া করে অন্যান্য গ্রুপ এবং অন্যান্য সকল জায়গায় করার সকল প্রশ্নের দয়া করে একটু উত্তর দেন ক্লিয়ার আর উত্তরের অভাবে  অনেক সমস্যায় পড়ি আমি তাই দয়া করে🙏
+3/29/26, 2:04 PM - Cyber Code Master Mira Dev: Thanks for the detailed feedback — these are valid UX issues.
+
+We have already addressed them as bugs:
+
+1) The “previous page text showing below” was caused by scroll retention and page background layering.
+   We fixed it so every new page resets scroll and renders on a clean background.
+
+2) The repeated “please login” message happened when a logged‑in user hit /login again.
+   That now redirects to the correct home page automatically.
+
+3) The back/navigation issue on mobile has been fixed by adding an explicit Back button.
+   If the phone back button has no history, users can still return safely to the home page.
+
+So yes — this was a UX/navigation bug, and we are actively fixing it.
+If anything still looks wrong after this update, please share a screenshot and the page name so we can patch it quickly.
+3/29/26, 9:46 PM - Shakibul hasan Shaun: IMG-20260329-WA0011.jpg (file attached)
+3/29/26, 9:47 PM - Shakibul hasan Shaun: dark obostai এই বাজে কালার দেখাচ্ছে এটা নীল হওয়া উচিত
+3/29/26, 9:47 PM - Shakibul hasan Shaun: Bot logo ভালো হওয়া উচিত
+3/29/26, 9:48 PM - Shakibul hasan Shaun: পাসওয়ার্ড লেখার সময় সেটা দৃশ্যমান করা  এবং  দুইবার লেখার মত ব্যবস্থা  দেওয়া উচিত
+3/29/26, 9:49 PM - Shakibul hasan Shaun: IMG-20260329-WA0012.jpg (file attached)
+3/29/26, 9:50 PM - Shakibul hasan Shaun: অ্যাকাউন্ট টাইপের ক্লিক করলে এইভাবে তিনটা অপশন আসতেছে  
+
+যেটা দেখতে ভয়ংকর অপেশাদার এবং খারাপ। 
+
+স্মোধ ভাবে তিনটা অপশন নিচে নিচে দেখাবে যেটাতে ক্লিক করবে সেটা কার্যকর হবে
+3/29/26, 9:51 PM - Shakibul hasan Shaun: দেশের জায়গায়  নিজে থেকে নাম লেখার সিস্টেম আছে। 
+কিন্তু পেশাদার হচ্ছে সেখানে নামের প্রথম অক্ষর অথবা সেই নাম দেশের নাম টাইপ করলে আমাদের সিস্টেম থেকে সেই নাম দেখাবে সেটার উপর ক্লিক করবে
+3/29/26, 9:52 PM - Shakibul hasan Shaun: ডারকে থাকা অবস্থায়, 
+
+ অলরেডি হ্যাভ এ একাউন্ট এই অপশন গুলো অত্যন্ত দেখা যাচ্ছে না এগুলোকে হাইলাইট করতে হবে
+3/31/26, 11:45 AM - Shakibul hasan Shaun: ভিউ প্ল্যান বাটনে ক্লিক করলে  নিচের থাকা সাবস্ক্রিপশন প্ল্যানগুলোতে  নিয়ে যাবে
+3/31/26, 11:45 AM - Shakibul hasan Shaun: বর্তমানে এটা নেই সমাধান করেন
+3/31/26, 11:45 AM - Shakibul hasan Shaun: IMG-20260331-WA0004.jpg (file attached)
+3/31/26, 11:46 AM - Shakibul hasan Shaun: ডারকে থাকলে এখানে লেখাগুলো হাইলাইট হচ্ছে না, 
+
+ফুল নেম ইমেইল পাসওয়ার্ড কন বাম পাসওয়ার্ড একাউন্ট টাইপ এগুলো হাইলাইট হওয়া উচিত ছিল ডার্কে   থাকলেও
+3/31/26, 11:47 AM - Shakibul hasan Shaun: অ্যাকাউন্ট টাইপ এ ক্লিক করলে তিনটা অপশন আসবে সুন্দরভাবে সেটা আসতেছে না সরাসরি তিনটা অপশন দেখাচ্ছে
+3/31/26, 11:48 AM - Shakibul hasan Shaun: ডারকে থাকা অবস্থায় তিনটা অপশন এর ভিতর ঠিক যেটাতে ক্লিক করতেছি লেখাগুলো বিশেষ একটা কালার হচ্ছে 
+
+এই কালার টা নীল হওয়া উচিত
+3/31/26, 11:49 AM - Shakibul hasan Shaun: এগুলো অত্যন্ত সাধারণ সমস্যা  যেগুলো যে কেউ বুঝতে পারে  তাই এইভাবে তো  সমস্যাগুলো সনাক্ত করলে নতুন সমস্যা হয়ে যাচ্ছে , 
+
+তাই আপনি ওয়েবসাইটের ভিতরে ঘোরাফেরা করেন এবং এই অত্যন্ত সাধারণ সমস্যাগুলো সমাধান করেন
+
+ok?
+3/31/26, 11:55 AM - Shakibul hasan Shaun: ব্যাক বাটন থাকার পাশাপাশি সেখানে একটা তীর চিহ্ন থাকা প্রয়োজন যেটা সব জায়গায় থাকে
+3/31/26, 11:58 AM - Shakibul hasan Shaun: এটাই সব কিছুর সমাধান তাই ওকে তে সম্মতি জানান দয়া করে
+3/31/26, 12:00 PM - Shakibul hasan Shaun: IMG-20260331-WA0008.jpg (file attached)
+3/31/26, 12:00 PM - Shakibul hasan Shaun: এই ভিউ প্ল্যান বাটনে সমস্যা আছে ঠিকঠাক কাজ করতেছে না
+3/31/26, 12:01 PM - Shakibul hasan Shaun: IMG-20260331-WA0009.jpg (file attached)
+3/31/26, 12:01 PM - Shakibul hasan Shaun: এখান থেকে ব্যাক করার এখনো কোন সিস্টেম নেই
+3/31/26, 12:01 PM - Shakibul hasan Shaun: IMG-20260331-WA0010.jpg (file attached)
+3/31/26, 12:02 PM - Shakibul hasan Shaun: এটা এখানে থাকার কোন যুক্তি কথা নেই, 
+এই বিষয়ে উল্লেখ থাকতে পারে কিন্তু এখানে এটা বাটন থাকাটা অত্যন্ত খারাপ দেখা যাচ্ছে, 
+
+এছাড়া এখানেই বাটন টি কাজ পর্যন্ত করতেছে যেটা ভালো দেখা যাচ্ছে না
+3/31/26, 5:48 PM - Shakibul hasan Shaun: IMG-20260331-WA0012.jpg (file attached)
+3/31/26, 5:49 PM - Shakibul hasan Shaun: এরকম একটা চিহ্ন চাচ্ছিলাম, অ্যাকাউন্ট টাইপ সিলেক্ট করার জায়গাতেও, 
+সেখানে শুরু থেকেই প্রথমে দেখানো থাকবে লেখা থাকবে buyer এবং সাইটে এই চিহ্নটি থাকবে যেটা আমি স্ক্রিনশটে মার্ক করে দিয়েছি। 
+
+সেখানে ক্লিক করলে অন্য একাউন্টের নাম গুলো আসবে  
+
+দেশের   জায়গাতেও কান্ট্রি গুলো এখনো যুক্ত হয়নি , এখানে পৃথিবীর সব দেশের নাম যুক্ত করলেও কোন সমস্যা নেই শুধু ইসরাইল যুক্ত করবেন না
+4/1/26, 6:17 PM - Shakibul hasan Shaun: IMG-20260401-WA0005.jpg (file attached)
+4/1/26, 6:20 PM - Shakibul hasan Shaun: {1 of 6 এরপর ওইটা কি লেখা এবং কতটুকু যৌক্তিক বা প্রয়োজনীয়? 
+(a£ খেয়াল করেন সেটাকেই বলতেছি }
+
+আরেকটি গুরুত্বপূর্ণ বিষয় হচ্ছে আপু, 
+এখানে যখন একটি স্টেপ থেকে আরেকটি স্টেপে যাইতেছি তখন পূর্ববর্তী স্টেপে  ভুলভাল লেখলেও কোন প্রবলেম হচ্ছে না, 
+
+এটা ঠিক করা দরকার অর্থাৎ টাইটেল এর জায়গায় শুধুমাত্র abcd লিখলে হয়ে যাচ্ছে এটা তো ঠিক না, 
+এখানে ন্যূনতম  তোমার একটা শব্দ লিখতে হবে এমন কিছু থাকা উচিত , 
+কত পিস দরকার এখানে সংখ্যায় অথবা ইংরেজিতে লিখে অথবা বাংলায় লিখে, 
+
+যেই কয়টা ভাষা সমর্থন করে আর কি সেই ভাষায় লিখে অথবা সংখ্যায় লিখে বলতে হবে 
+Example : 100, hundred , 
+
+কেউ যদি এখানে এরকম যৌক্তিক কিছু না লিখে হুদাই একটা লিখল এবং সামনে স্টেপে যাচ্ছে এটা ঠিক না <This message was edited>
+4/1/26, 6:20 PM - Shakibul hasan Shaun: এরকম বিষয়গুলোকে বুঝিয়েছি
+4/5/26, 8:22 AM - Shakibul hasan Shaun: Bot বাস্তবে কাম করেনা
+4/7/26, 9:17 AM - Shakibul hasan Shaun: IMG-20260407-WA0001.jpg (file attached)
+4/7/26, 9:17 AM - Shakibul hasan Shaun: ক্রস আইকন কাম করেনা আর আগে থেকে এইটা আইসা থাকে
+4/7/26, 10:31 PM - Shakibul hasan Shaun: ,
+4/7/26, 10:31 PM - You changed this group's icon
+4/8/26, 1:42 PM - Shakibul hasan Shaun: Ui ehon aro beahi prblem kortase
+4/20/26, 5:54 AM - Shakibul hasan Shaun: IMG-20260420-WA0002.jpg (file attached)
+4/20/26, 5:54 AM - Shakibul hasan Shaun: এগুলোর ভিতরে প্রবেশ করা যায় না । 
+সমাধান দরকার
+4/20/26, 5:56 AM - Shakibul hasan Shaun: IMG-20260420-WA0003.jpg (file attached)
+4/20/26, 5:59 AM - Shakibul hasan Shaun: এখানে যা কিছু আছে সবই ঠিক। কিন্তু সাধারণত কোন একাউন্টে ঢুকলে যেমন দেখায় তেমন দেখানো উচিত। 
+
+যেমন একটা ফেসবুক পেইজে ঢুকলে আপনি প্রোফাইল পেইজের নাম এবং ব্যাটারি ইমেজ দেখতে পারবেন কমপক্ষে সেই অংশটুকু বা ঐ ছাচ ওই ধরনটা থাকে । 
+
+সেটা থাকতে হবে এবং প্রোফাইল পিকচার ব্যানার ইমেজ আপলোডের অপশন তো বাধ্যতামূল । 
+
+আর এখানে সবচেয়ে গুরুত্বপূর্ণ বিষয় এরপর নিচে সাজানো আকার এই অপশনগুলো থাকতে হবে। 
+বিডি অপশন থাকতে হবে রিলস অপশন থাকতে হবে। 
+
+এবং এখানে যতগুলো অপশন আছে সেইগুলো থাকতে হবে পর্যায়ক্রমিকভাবে ঠিক যেমনভাবে ইউটিউবে থাকে ফেসবুকে থাকে অন্যান্য প্লাটফর্ম গুলোতে থাকে  
+
+একটা নিচে আরেকটা না একটার পাশে আরেকটা এবং সক্রলযজ্ঞ
+4/20/26, 6:03 AM - Shakibul hasan Shaun: তবে এখানে যদি আপনি ভাল কোন ভিন্ন কোন আরো বেশি উচ্চমানের কোন  ডিজাইন সৃষ্টি করতে পারেন তাহলে আরো ভালো হয়🙂🙂
+4/20/26, 8:13 AM - Cyber Code Master Mira Dev: Ok pore dekhchi
+4/26/26, 11:29 PM - Shakibul hasan Shaun: IMG-20260426-WA0002.jpg (file attached)
+5/2/26, 11:52 AM - Shakibul hasan Shaun: IMG-20260502-WA0001.jpg (file attached)
+5/2/26, 11:52 AM - Shakibul hasan Shaun: image আপলোড এর অপশন থাকবে
+5/2/26, 11:56 AM - Shakibul hasan Shaun: IMG-20260502-WA0002.jpg (file attached)
+5/2/26, 11:56 AM - Shakibul hasan Shaun: কিছুই কাম করে না, ভিতরে গেলে লগইন দেখাচ্ছে এজেন্টের, কিন্তু এখান থেকে এজেন্ট আইডি ক্রিয়েট করার কথা ছিল কিন্তু করতে পারতেছি না
+5/2/26, 11:57 AM - Shakibul hasan Shaun: IMG-20260502-WA0003.jpg (file attached)
+5/2/26, 11:57 AM - Shakibul hasan Shaun: এই সমস্যাটা অন্যান্য পেইজেও হচ্ছে
+5/2/26, 6:31 PM - Shakibul hasan Shaun: নরমাল কোন feed নাই, কিন্তু এটা থাকা দরকার প্রত্যেক  ধরনের অ্যাকাউন্ট
+5/3/26, 10:29 AM - Shakibul hasan Shaun: ,
+5/6/26, 4:15 AM - Shakibul hasan Shaun: 
+5/6/26, 4:15 AM - Shakibul hasan Shaun: IMG-20260506-WA0000.jpg (file attached)
+5/6/26, 4:15 AM - Shakibul hasan Shaun: IMG-20260506-WA0001.jpg (file attached)
+5/6/26, 4:16 AM - Shakibul hasan Shaun: Ei information gula consol e thakne
+5/6/26, 4:16 AM - Shakibul hasan Shaun: Full video dekhle amar kotha gula bujte parben
+5/6/26, 3:50 PM - Cyber Code Master Mira Dev: ?
+5/6/26, 3:50 PM - Shakibul hasan Shaun: আমি যেই ভিডিওটা দিয়েছি সেটা সম্পূর্ণ দেখলেই বুঝতে পারবেন
+5/6/26, 3:50 PM - Shakibul hasan Shaun: কিন্তু দয়া করে টানবেন না সম্পূর্ণ দিবেন
+5/6/26, 3:50 PM - Shakibul hasan Shaun: অনুরোধ
+5/6/26, 3:51 PM - Shakibul hasan Shaun: https://drive.google.com/file/d/1V-Cty72NIN0yFIewDoRbbsczXIWKjvP-/view?usp=drivesdk
+5/6/26, 4:37 PM - Shakibul hasan Shaun: Computer থেকে দেখবেন , সবচেয়ে বেশি ভালোভাবে দেখতে পারবেন,  অন্যথায় অনেক কিছু হয়তো আমি দেখিয়েছি কিন্তু আপনি দেখতে পাবেন না <This message was edited>
+8/15/26, 11:38 PM - Your security code with Cyber Code Master Mira Dev changed. Tap to learn more.
+8/18/26, 6:16 PM - Your security code with Cyber Code Master Mira Dev changed. Tap to learn more.
+9/2/26, 10:39 PM - Your security code with Cyber Code Master Mira Dev changed. Tap to learn more.
