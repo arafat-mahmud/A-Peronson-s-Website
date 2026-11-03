@@ -13,6 +13,7 @@ import {
 import { feedStream } from "../controllers/feedStreamController.js";
 import { uploadFeedMedia } from "../controllers/feedUploadController.js";
 import { requireAuth } from "../middleware/auth.js";
+import { getAdminConfig } from "../services/adminConfigService.js";
 import { getShareablePost } from "../services/feedService.js";
 
 const router = Router();
@@ -147,6 +148,18 @@ const upload = multer({
 });
 
 router.get("/stream", feedStream);
+// The feed page's labels and messages. They are UI copy, so every signed-in
+// user may read them; only admins may change them (/api/admin/config/feed-page).
+// Members used to call the admin route, get 403 and fall back to defaults.
+router.get("/page-config", requireAuth, async (_req, res) => {
+	try {
+		const config = await getAdminConfig();
+		res.set("Cache-Control", "private, max-age=300");
+		res.json(config.feed_page || {});
+	} catch {
+		res.status(500).json({ error: "Failed to fetch feed page config" });
+	}
+});
 router.get("/share/:entityType/:entityId", async (req, res) => {
 	try {
 		const post = await getShareablePost(req.params.entityType, req.params.entityId);

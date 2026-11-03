@@ -63,6 +63,17 @@
         };
         const storedName = localStorage.getItem("themeName");
         root.setAttribute("data-theme", storedName && VALID[storedName] ? storedName : "blue");
+        // The saved theme's own stylesheet, requested now and render-blocking,
+        // so the page does not flash the default palette first. The file names
+        // are filled in at build time (themeCssMapPlugin in vite.config.js).
+        const THEME_CSS = /*__THEME_CSS_MAP__*/ {};
+        if (storedName && THEME_CSS[storedName]) {
+          const link = document.createElement("link");
+          link.rel = "stylesheet";
+          link.href = THEME_CSS[storedName];
+          link.setAttribute("blocking", "render");
+          document.head.appendChild(link);
+        }
         const stored = localStorage.getItem("theme");
         let resolved = "light";
         if (stored === "dark" || stored === "light") {

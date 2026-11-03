@@ -1239,7 +1239,12 @@ export default function OwnerDashboard() {
 										<div className="rounded-2xl bg-slate-50 p-5 dark:bg-white/5">
 											<div className="text-sm text-slate-500 dark:text-slate-400">Billing Settings</div>
 											<button
-												onClick={() => go("/owner?tab=subscription")}
+												type="button"
+												onClick={() =>
+													document
+														.getElementById("billing-controls")
+														?.scrollIntoView({ behavior: "smooth", block: "start" })
+												}
 												className="mt-2 text-lg font-semibold text-slate-950 hover:text-sky-600 dark:text-white dark:hover:text-sky-300"
 											>
 												Open billing →
@@ -1256,6 +1261,16 @@ export default function OwnerDashboard() {
 										</div>
 									</div>
 								</SectionCard>
+
+								{/* Upgrade / extend Premium, cancel, and the wallet that pays for it.
+								    "Open billing" used to link back to this same tab and did nothing. */}
+								<div id="billing-controls" className="scroll-mt-24">
+									<Settings
+										embedded={true}
+										initialTabProp="subscription"
+										tabIds={["subscription"]}
+									/>
+								</div>
 
 								<SectionCard title="Plan Features" subtitle="Limits and capability summary.">
 									<div className="grid gap-4 md:grid-cols-4">

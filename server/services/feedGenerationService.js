@@ -22,7 +22,12 @@ export function viewerSegment(user) {
 	return String(user.role || "user");
 }
 
-export async function getFeedGeneration({ user = null, filters = {} } = {}) {
+/**
+ * `ledgerHead` (a number or a promise of one) is the sync ledger's max seq
+ * when the caller already has it - the sync head does - so the fallback does
+ * not query the same aggregate a second time.
+ */
+export async function getFeedGeneration({ user = null, filters = {}, ledgerHead } = {}) {
 	const segment = viewerSegment(user);
 	const filterHash = feedFilterHash(filters);
 	const key = `${APP_STATE_KEY}:${segment}:${filterHash}`;
@@ -37,9 +42,13 @@ export async function getFeedGeneration({ user = null, filters = {} } = {}) {
 	}
 	let fallback = 0;
 	try {
-		const head = await prisma.syncChange.aggregate({ _max: { seq: true } });
-		const max = head?._max?.seq;
-		fallback = max == null ? 0 : Number(max);
+		if (ledgerHead !== undefined) {
+			fallback = Number(await ledgerHead) || 0;
+		} else {
+			const head = await prisma.syncChange.aggregate({ _max: { seq: true } });
+			const max = head?._max?.seq;
+			fallback = max == null ? 0 : Number(max);
+		}
 	} catch {
 		fallback = 0;
 	}

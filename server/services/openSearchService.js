@@ -1,4 +1,3 @@
-import { Client } from "@opensearch-project/opensearch";
 import { logInfo, logWarn } from "../utils/logger.js";
 import prisma from "../utils/prisma.js";
 import { getAdminConfig } from "./adminConfigService.js";
@@ -141,6 +140,7 @@ async function getClient() {
 	}
 	const key = buildClientKey(cfg);
 	if (!clientState.client || clientState.key !== key) {
+		const { Client } = await import("@opensearch-project/opensearch");
 		clientState = {
 			key,
 			client: new Client({

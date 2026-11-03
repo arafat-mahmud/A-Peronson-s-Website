@@ -2,7 +2,6 @@ import { spawn } from "node:child_process";
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
-import sharp from "sharp";
 
 const COMPRESSED_SUFFIX = ".compressed";
 
@@ -101,6 +100,7 @@ export async function compressImage(inputPath) {
 }
 
 async function compressWithSharp(inputPath, outputPath) {
+	const { default: sharp } = await import("sharp");
 	let pipeline = sharp(inputPath).rotate();
 
 	const ext = path.extname(inputPath).toLowerCase();

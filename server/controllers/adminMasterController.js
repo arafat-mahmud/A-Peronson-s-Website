@@ -1,5 +1,4 @@
 import crypto from "node:crypto";
-import PDFDocument from "pdfkit";
 import { performAdminAction } from "../services/adminActionService.js";
 import { getAdminConfig, updateAdminConfig } from "../services/adminConfigService.js";
 import { getAdminMasterSummary } from "../services/adminMasterService.js";
@@ -65,7 +64,8 @@ function toCsv(rows = []) {
 	return lines.join("\n");
 }
 
-function generatePdf(data, dataset, res) {
+async function generatePdf(data, dataset, res) {
+	const { default: PDFDocument } = await import("pdfkit");
 	return new Promise((resolve, reject) => {
 		try {
 			const doc = new PDFDocument({ margin: 50, size: "A4" });

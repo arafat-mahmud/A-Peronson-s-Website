@@ -2,10 +2,10 @@ import { spawn } from "node:child_process";
 import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
-import { GoogleGenAI } from "@google/genai";
 import { OpenCode } from "@opencode/client";
 import { updateLocalJson } from "../utils/localStore.js";
 import { logError, logInfo, logWarn } from "../utils/logger.js";
+import { canAffordChildProcess } from "../utils/memoryBudget.js";
 import prisma from "../utils/prisma.js";
 import {
 	deleteSessionMeta,
@@ -925,6 +925,7 @@ async function callGemini(prompt, systemPrompt = "You are a helpful GarTex assis
 	logInfo("Calling Gemini", { model: cfg.model });
 
 	try {
+		const { GoogleGenAI } = await import("@google/genai");
 		const ai = new GoogleGenAI({ apiKey: cfg.apiKey });
 
 		const response = await ai.models.generateContent({
@@ -1121,6 +1122,50 @@ function cachedSessionMatchesModel(meta) {
  *
  * @returns {Promise<number|null>} The port, or null when there is no server.
  */
+let _opencodeStarting = null;
+let _opencodeRetryAt = 0;
+let _opencodeLastUsedAt = 0;
+let _opencodeIdleTimer = null;
+let _opencodeGuardLogged = false;
+
+function envMs(name, fallback) {
+	const value = Number(process.env[name]);
+	return Number.isFinite(value) && value >= 0 ? value : fallback;
+}
+
+/** Stops the child after a quiet period so its memory goes back to the API. */
+function scheduleOpencodeIdleStop() {
+	const idleMs = envMs("OPENCODE_IDLE_STOP_MS", 15 * 60_000);
+	if (!idleMs || _opencodeIdleTimer) return;
+	_opencodeIdleTimer = setInterval(
+		() => {
+			if (!_opencodeServer) {
+				clearInterval(_opencodeIdleTimer);
+				_opencodeIdleTimer = null;
+				return;
+			}
+			if (Date.now() - _opencodeLastUsedAt >= idleMs) {
+				logInfo("opencode_idle_stop", { idle_ms: Date.now() - _opencodeLastUsedAt });
+				_opencodeServer.kill();
+			}
+		},
+		Math.min(idleMs, 60_000),
+	);
+	_opencodeIdleTimer.unref?.();
+}
+
+/**
+ * The assistant's opencode server, started on first use.
+ *
+ * - One start at a time: concurrent questions share the same start instead of
+ *   each spawning a server.
+ * - Memory guard: the server is not started when the container cannot hold
+ *   it (Render Free, 512 MiB). Starting it anyway got the whole API
+ *   OOM-killed every few minutes. The assistant answers from its FAQ engine
+ *   (or an HTTP provider) instead.
+ * - Back-off after a failed start, so every question does not pay for (and
+ *   re-run) a start that just failed.
+ */
 async function ensureOpencodeServer() {
 	if (isOpencodeDisabled()) {
 		return null;
@@ -1129,12 +1174,42 @@ async function ensureOpencodeServer() {
 	if (!(cfg.baseUrl && cfg.modelID)) {
 		return null;
 	}
-
-	// Our own server, already running: reuse it. Its isolation is ours.
 	if (_opencodeServer && opencodePort) {
+		_opencodeLastUsedAt = Date.now();
 		return opencodePort;
 	}
+	if (_opencodeStarting) {
+		return _opencodeStarting;
+	}
+	if (Date.now() < _opencodeRetryAt) {
+		return null;
+	}
+	const budget = canAffordChildProcess(envMs("OPENCODE_MIN_FREE_MB", 450));
+	if (!budget.ok) {
+		if (!_opencodeGuardLogged) {
+			_opencodeGuardLogged = true;
+			logWarn("opencode_not_started_memory_guard", budget);
+		}
+		_opencodeRetryAt = Date.now() + envMs("OPENCODE_RETRY_BACKOFF_MS", 10 * 60_000);
+		return null;
+	}
+	_opencodeStarting = spawnOpencodeServer()
+		.then((port) => {
+			if (port) {
+				_opencodeLastUsedAt = Date.now();
+				scheduleOpencodeIdleStop();
+			} else {
+				_opencodeRetryAt = Date.now() + envMs("OPENCODE_RETRY_BACKOFF_MS", 10 * 60_000);
+			}
+			return port;
+		})
+		.finally(() => {
+			_opencodeStarting = null;
+		});
+	return _opencodeStarting;
+}
 
+async function spawnOpencodeServer() {
 	let binary = null;
 	try {
 		binary = resolveOpencodeBinary();
@@ -1189,7 +1264,10 @@ async function ensureOpencodeServer() {
 		child.stdout.on("data", (d) => {
 			logInfo("Opencode server stdout", { data: d.toString() });
 		});
+		const killWithParent = () => child.kill();
+		process.once("exit", killWithParent);
 		child.on("exit", (code) => {
+			process.removeListener("exit", killWithParent);
 			logError("Opencode server process exited", { code, port });
 			if (opencodePort === port) {
 				opencodePort = null;

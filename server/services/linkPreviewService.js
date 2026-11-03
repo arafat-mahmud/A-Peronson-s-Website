@@ -1,4 +1,3 @@
-import { getLinkPreview as fetchPreview } from "link-preview-js";
 import prisma from "../utils/prisma.js";
 
 const CACHE_TTL_MS = 24 * 60 * 60 * 1000;
@@ -28,6 +27,7 @@ export async function getLinkPreview(url) {
 	}
 
 	try {
+		const { getLinkPreview: fetchPreview } = await import("link-preview-js");
 		const result = await fetchPreview(url, {
 			timeout: 5000,
 			followRedirects: "follow",

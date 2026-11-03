@@ -636,12 +636,18 @@ export default function ContractVaultPage({ embedded = false }) {
 
 	const shell = theme === "dark" ? "dark" : "";
 
+	// Every contract action (sign, lock, archive, e-sign session...) runs here.
+	// The contract list is reloaded afterwards so the card shows the new state,
+	// and a refusal (e.g. "a completed video call is required") is shown to the
+	// user - both used to go only to the console.
 	const runAction = async (actionFn, errorMsg) => {
 		setSaving(true);
 		try {
 			await actionFn();
+			await loadContracts();
 		} catch (err) {
 			logger.error(err.message || errorMsg);
+			setFeedback(err.message || errorMsg);
 		} finally {
 			setSaving(false);
 		}
@@ -845,7 +851,19 @@ export default function ContractVaultPage({ embedded = false }) {
 		}, "Failed to submit proof");
 	};
 
-	const canSign = currentUser && isOwnerLevel(currentUser);
+	// Each party signs its own side; owner/admin staff may record either side
+	// (the API enforces the same rule).
+	const isStaff = Boolean(currentUser && isOwnerLevel(currentUser));
+	const currentUserId = String(currentUser?.id || "");
+	const canSignBuyer =
+		isStaff || (currentUserId !== "" && currentUserId === String(contract?.raw?.buyer_id || ""));
+	const canSignFactory =
+		isStaff || (currentUserId !== "" && currentUserId === String(contract?.raw?.factory_id || ""));
+	const signSubtitle = (side, signed, allowed) => {
+		if (signed) return "Signed";
+		if (!allowed) return `Only the ${side} can sign this side`;
+		return isStaff ? `Record ${side} signature` : `Sign as ${side}`;
+	};
 
 	if (pageLoading) {
 		if (embedded) {
@@ -1122,15 +1140,19 @@ export default function ContractVaultPage({ embedded = false }) {
 													<ActionButton
 														icon={<icons.check className="h-4 w-4" />}
 														title="Buyer sign"
-														subtitle={canSign ? "Sign as buyer" : "Already signed."}
-														disabled={!canSign || contract.buyerSign === "signed"}
+														subtitle={signSubtitle("buyer", contract.buyerSign === "signed", canSignBuyer)}
+														disabled={saving || !canSignBuyer || contract.buyerSign === "signed"}
 														onClick={handleBuyerSign}
 													/>
 													<ActionButton
 														icon={<icons.shield className="h-4 w-4" />}
 														title="Factory sign"
-														subtitle={canSign ? "Sign as factory" : "Already signed."}
-														disabled={!canSign || contract.factorySign === "signed"}
+														subtitle={signSubtitle(
+															"factory",
+															contract.factorySign === "signed",
+															canSignFactory,
+														)}
+														disabled={saving || !canSignFactory || contract.factorySign === "signed"}
 														onClick={handleFactorySign}
 													/>
 													<ActionButton

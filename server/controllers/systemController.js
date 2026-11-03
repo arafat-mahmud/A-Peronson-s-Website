@@ -1,5 +1,6 @@
 import { getAdminConfig } from "../services/adminConfigService.js";
 import prisma from "../utils/prisma.js";
+import { memoizeAsync } from "../utils/ttlMemo.js";
 
 export async function systemMeta(_req, res) {
 	return res.json({
@@ -346,10 +347,22 @@ export async function systemHome(_req, res) {
 	});
 }
 
+// Two full-table COUNT(*)s on a public page: computed at most every 10 minutes
+// instead of on every visit (their cost grows with the tables).
+const pricingCounters = memoizeAsync(
+	async () => {
+		const [messageCount, metricCount] = await Promise.all([
+			prisma.message.count(),
+			prisma.metricTransition.count(),
+		]);
+		return { messageCount, metricCount };
+	},
+	{ ttlMs: 10 * 60_000 },
+);
+
 export async function systemPricing(_req, res) {
-	const [messageCount, metricCount, config] = await Promise.all([
-		prisma.message.count(),
-		prisma.metricTransition.count(),
+	const [{ messageCount, metricCount }, config] = await Promise.all([
+		pricingCounters(),
 		getAdminConfig(),
 	]);
 

@@ -1,3 +1,4 @@
+import { appStateGeneration, getCachedAppState, setCachedAppState } from "./appStateCache.js";
 import prisma from "./prisma.js";
 
 const _mem = new Map();
@@ -45,8 +46,13 @@ export async function readLocalJson(fileName, fallback = []) {
 		return _mem.has(fileName) ? _mem.get(fileName) : fallback;
 	}
 	const key = String(fileName);
+	const cached = getCachedAppState(key);
+	if (cached !== undefined) return cached;
+	const startedAt = appStateGeneration();
 	const row = await ensureStateRow(key, fallback);
-	return row?.data ?? fallback;
+	const data = row?.data ?? fallback;
+	setCachedAppState(key, data, startedAt);
+	return data;
 }
 
 export async function writeLocalJson(fileName, data) {

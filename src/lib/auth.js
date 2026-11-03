@@ -88,17 +88,32 @@ async function refreshAuthToken() {
 	return refreshPromise;
 }
 
+// getCurrentUser() runs during renders. Once the memory copy was stale it
+// started a /users/me request on EVERY call - and while the API was down,
+// every render added another one. One request at a time, and a pause after a
+// failure.
+let userFetchPromise = null;
+let userFetchRetryAt = 0;
+
 async function fetchAndCacheUser(token) {
-	try {
-		const user = await fetchCurrentUser(token);
-		if (user) {
-			cachedUser = user;
-			cacheTime = Date.now();
+	if (userFetchPromise) return userFetchPromise;
+	if (Date.now() < userFetchRetryAt) return cachedUser;
+	userFetchPromise = (async () => {
+		try {
+			const user = await fetchCurrentUser(token);
+			if (user) {
+				cachedUser = user;
+				cacheTime = Date.now();
+			}
+			return user;
+		} catch {
+			userFetchRetryAt = Date.now() + 15_000;
+			return null;
+		} finally {
+			userFetchPromise = null;
 		}
-		return user;
-	} catch {
-		return null;
-	}
+	})();
+	return userFetchPromise;
 }
 
 /**
@@ -251,10 +266,20 @@ export function saveSession(user, token, { remember = true } = {}) {
  * Clears the session user and token from storage.
  * @returns {void}
  */
+export const SESSION_CLEARED_EVENT = "gartexhub:session-cleared";
+
 export function clearSession() {
+	const hadToken = Boolean(getToken());
 	localStorage.removeItem(USER_KEY);
 	localStorage.removeItem(TOKEN_KEY);
 	sessionStorage.removeItem(TOKEN_KEY);
+	cachedUser = null;
+	cacheTime = 0;
+	// Protected pages listen for this and send the user to the login page,
+	// instead of leaving them on a page whose requests now all fail.
+	if (hadToken && typeof window !== "undefined") {
+		window.dispatchEvent(new Event(SESSION_CLEARED_EVENT));
+	}
 }
 
 /**
@@ -268,10 +293,110 @@ export function clearSession() {
  * @param {Object} [options.headers={}] - HTTP headers.
  * @returns {Promise<any>} The response data.
  */
-export async function apiRequest(
-	path,
-	{ method = "GET", token = "", body, signal, headers = {} } = {},
-) {
+export async function apiRequest(path, options = {}) {
+	const method = String(options.method || "GET").toUpperCase();
+	const token = options.token || "";
+	// Identical GETs in flight at the same time share one request: several
+	// components ask for /users/me (and pages for their config) on mount.
+	if (method === "GET" && !options.signal && !options.body) {
+		const key = `${path}|${token || getToken()}`;
+		const pending = inflightGets.get(key);
+		if (pending) {
+			return pending.then(copyResponse);
+		}
+		const promise = performApiRequest(path, { ...options, method }).finally(() => {
+			inflightGets.delete(key);
+		});
+		inflightGets.set(key, promise);
+		return promise;
+	}
+	return performApiRequest(path, { ...options, method });
+}
+
+const inflightGets = new Map();
+
+// Each caller of a shared GET gets its own copy of the response.
+function copyResponse(data) {
+	if (!data || typeof data !== "object") return data;
+	return typeof structuredClone === "function"
+		? structuredClone(data)
+		: JSON.parse(JSON.stringify(data));
+}
+
+// Render restarts and cold starts answer 502/503/504 (often with an HTML
+// page, not JSON) for a few seconds. Reads are retried; writes only when the
+// request provably never reached a handler.
+const RETRYABLE_STATUS = new Set([502, 503, 504]);
+const RETRY_DELAYS_MS = [800, 2000, 4000];
+const DEFAULT_TIMEOUT_MS = 30_000;
+const UPLOAD_TIMEOUT_MS = 5 * 60_000;
+
+function sleep(ms, signal) {
+	return new Promise((resolve, reject) => {
+		const id = setTimeout(resolve, ms);
+		signal?.addEventListener(
+			"abort",
+			() => {
+				clearTimeout(id);
+				reject(signal.reason || new DOMException("Aborted", "AbortError"));
+			},
+			{ once: true },
+		);
+	});
+}
+
+function retryDelay(res, attempt) {
+	const header = Number(res?.headers?.get?.("Retry-After"));
+	if (Number.isFinite(header) && header > 0) return Math.min(header * 1000, 5000);
+	return RETRY_DELAYS_MS[attempt] ?? 4000;
+}
+
+/** Was this failure answered before any handler ran? Then a write is safe to repeat. */
+function neverReachedHandler(res, data) {
+	if (!res) return true; // network error before a response
+	if (data?.code === "AUTH_BACKEND_UNAVAILABLE") return true;
+	// The platform's own 503 (no instance up yet) is not JSON from the API.
+	return res.status === 503 && !res.headers.get("content-type")?.includes("application/json");
+}
+
+async function sendOnce(url, { method, headers, body, signal, timeoutMs }) {
+	const timeout = new AbortController();
+	const timer = setTimeout(
+		() => timeout.abort(new DOMException("Request timed out", "TimeoutError")),
+		timeoutMs,
+	);
+	const onAbort = () => timeout.abort(signal.reason);
+	signal?.addEventListener("abort", onAbort, { once: true });
+	try {
+		return await fetch(url, { method, cache: "no-store", signal: timeout.signal, headers, body });
+	} finally {
+		clearTimeout(timer);
+		signal?.removeEventListener("abort", onAbort);
+	}
+}
+
+async function readJson(res, method, path) {
+	const type = res.headers.get("content-type") || "";
+	if (res.status === 204) return {};
+	if (!type.includes("application/json")) {
+		// A platform error page or an empty body: not worth an error log.
+		await res.text().catch(() => "");
+		return {};
+	}
+	try {
+		return await res.json();
+	} catch (parseErr) {
+		logger.error("[api] failed to parse JSON response", {
+			method,
+			path,
+			status: res.status,
+			error: parseErr.message,
+		});
+		return {};
+	}
+}
+
+async function performApiRequest(path, { method = "GET", token = "", body, signal, headers = {} } = {}) {
 	const debugRequests = import.meta.env.DEV;
 	const startedAt = debugRequests ? performance.now() : 0;
 
@@ -285,43 +410,61 @@ export async function apiRequest(
 	}
 
 	const isFormData = body instanceof FormData;
-	let res;
-	try {
-		res = await fetch(`${API_BASE}${path}`, {
-			method,
-			cache: "no-store",
-			signal,
-			headers: {
-				...(isFormData ? {} : { "Content-Type": "application/json" }),
-				...(activeToken ? { Authorization: `Bearer ${activeToken}` } : {}),
-				...headers,
-			},
-			body: body instanceof FormData ? body : body ? JSON.stringify(body) : undefined,
-		});
-	} catch (err) {
-		if (debugRequests) {
-			const elapsed = performance.now() - startedAt;
-			logger.warn("[api] request failed", {
+	const payload = isFormData ? body : body ? JSON.stringify(body) : undefined;
+	const buildHeaders = (authToken) => ({
+		...(isFormData ? {} : { "Content-Type": "application/json" }),
+		...(authToken ? { Authorization: `Bearer ${authToken}` } : {}),
+		...headers,
+	});
+	const timeoutMs = isFormData ? UPLOAD_TIMEOUT_MS : DEFAULT_TIMEOUT_MS;
+	const idempotent = method === "GET" || method === "HEAD";
+	const url = `${API_BASE}${path}`;
+
+	let res = null;
+	let data = {};
+	for (let attempt = 0; ; attempt++) {
+		let networkError = null;
+		try {
+			res = await sendOnce(url, {
 				method,
-				path,
-				ms: Math.round(elapsed),
+				headers: buildHeaders(activeToken),
+				body: payload,
+				signal,
+				timeoutMs,
 			});
+			data = await readJson(res, method, path);
+		} catch (err) {
+			if (signal?.aborted) throw err;
+			networkError = err;
+			res = null;
+			data = {};
 		}
-		throw err;
+		const retryable = networkError ? true : RETRYABLE_STATUS.has(res.status);
+		const safeToRepeat = idempotent || (!isFormData && neverReachedHandler(res, data));
+		if (retryable && safeToRepeat && attempt < RETRY_DELAYS_MS.length) {
+			await sleep(retryDelay(res, attempt), signal);
+			continue;
+		}
+		if (networkError) {
+			if (debugRequests) {
+				logger.warn("[api] request failed", {
+					method,
+					path,
+					ms: Math.round(performance.now() - startedAt),
+				});
+			}
+			const error = new Error(
+				networkError?.name === "TimeoutError"
+					? "The server is taking too long to respond. Please try again."
+					: "Unable to reach the server. Check your connection and try again.",
+			);
+			error.status = 0;
+			error.cause = networkError;
+			throw error;
+		}
+		break;
 	}
 
-	let data;
-	try {
-		data = await res.json();
-	} catch (parseErr) {
-		logger.error("[api] failed to parse JSON response", {
-			method,
-			path,
-			status: res.status,
-			error: parseErr.message,
-		});
-		data = {};
-	}
 	if (debugRequests) {
 		const elapsed = performance.now() - startedAt;
 		const entry = { method, path, status: res.status, ms: Math.round(elapsed) };
@@ -332,26 +475,22 @@ export async function apiRequest(
 		}
 	}
 	if (!res.ok) {
-		// BUG-033: On 401, try refreshing the token once before clearing the session
-		if (res.status === 401 && path !== "/auth/refresh") {
+		// BUG-033: On 401, try refreshing the token once before clearing the session.
+		// The API answers 401 only for a token that is really invalid or expired;
+		// a slow or unavailable backend is a 503 and never ends the session.
+		if (res.status === 401 && path !== "/auth/refresh" && activeToken) {
 			const refreshed = await refreshAuthToken();
 			if (refreshed) {
-				// Retry the request with the new token
 				try {
-					const retryRes = await fetch(`${API_BASE}${path}`, {
+					const retryRes = await sendOnce(url, {
 						method,
-						cache: "no-store",
+						headers: buildHeaders(refreshed),
+						body: payload,
 						signal,
-						headers: {
-							...(isFormData ? {} : { "Content-Type": "application/json" }),
-							Authorization: `Bearer ${refreshed}`,
-							...headers,
-						},
-						body: body instanceof FormData ? body : body ? JSON.stringify(body) : undefined,
+						timeoutMs,
 					});
 					if (retryRes.ok) {
-						const retryData = await retryRes.json().catch(() => ({}));
-						return retryData;
+						return await readJson(retryRes, method, path);
 					}
 				} catch {
 					// Fall through to original error handling
@@ -364,7 +503,11 @@ export async function apiRequest(
 				localStorage.setItem("ght_account_locked", "1");
 			} catch {}
 		}
-		const error = new Error(data.error || "Request failed");
+		const fallbackMessage =
+			res.status >= 500
+				? "The server is busy or restarting. Please try again in a moment."
+				: "Request failed";
+		const error = new Error(data.error || fallbackMessage);
 		error.status = res.status;
 		error.details = data;
 		throw error;

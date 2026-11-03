@@ -19,7 +19,13 @@ import ScrollToTop from "./components/ScrollToTop.jsx";
 import ThemeSwitcher from "./components/ThemeSwitcher.jsx";
 import { ToastProvider } from "./components/ToastContainer.jsx";
 import NeonAtom from "./components/ui/NeonAtom.jsx";
-import { clearSession, getCurrentUser, getToken, verifyAndSyncUser } from "./lib/auth.js";
+import {
+	clearSession,
+	getCurrentUser,
+	getToken,
+	SESSION_CLEARED_EVENT,
+	verifyAndSyncUser,
+} from "./lib/auth.js";
 import { trackClientEvent } from "./lib/events.js";
 import { logger } from "./lib/logger.js";
 
@@ -189,6 +195,15 @@ function ProtectedRoute({ children, roles }) {
 	const location = useLocation();
 	const token = getToken();
 	const [user, setUser] = useState(() => getCurrentUser());
+	// A request found the session invalid and cleared it: re-render, which
+	// sends the user to the login page (and back here after signing in)
+	// instead of leaving them on a page where every request fails.
+	const [, setSessionEpoch] = useState(0);
+	useEffect(() => {
+		const onCleared = () => setSessionEpoch((n) => n + 1);
+		window.addEventListener(SESSION_CLEARED_EVENT, onCleared);
+		return () => window.removeEventListener(SESSION_CLEARED_EVENT, onCleared);
+	}, []);
 
 	// Background sync: if user is null on mount, poll until cached or redirect after timeout.
 	// Hooks run before any early return - a token that disappears mid-session

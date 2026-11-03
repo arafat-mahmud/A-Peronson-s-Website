@@ -1069,7 +1069,10 @@ export default function SearchResults() {
 	const [companies, setCompanies] = useState([]);
 	const [feedPosts, setFeedPosts] = useState([]);
 	const [users, setUsers] = useState([]);
-	const [pageLoading, setPageLoading] = useState(true);
+	// Recent views, the alert quota and the filter options all have usable
+	// defaults, so the page no longer hides behind a full-screen spinner until
+	// all three have answered; each fills in when it arrives.
+	const [pageLoading, setPageLoading] = useState(false);
 	const pageLoadCountRef = useRef(0);
 	const [filterOptions, setFilterOptions] = useState({
 		industries: DEFAULT_FILTERS.industries,

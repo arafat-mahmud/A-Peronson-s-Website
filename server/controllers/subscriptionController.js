@@ -8,17 +8,32 @@ import { findUserById } from "../services/userService.js";
 import { markVerificationExpiringSoon } from "../services/verificationService.js";
 import { debitWallet } from "../services/walletService.js";
 
+// What /me/renew-monthly charges to the wallet. The billing UI reads these
+// from GET /me, so the amount a user is shown is the amount they pay.
+const PREMIUM_FIRST_MONTH_USD = 1.99;
+const PREMIUM_RENEWAL_USD = 6.99;
+
+function premiumPricing(sub) {
+	const isPremium = String(sub?.plan || "").toLowerCase() === "premium";
+	return {
+		first_month_usd: PREMIUM_FIRST_MONTH_USD,
+		renewal_usd: PREMIUM_RENEWAL_USD,
+		next_charge_usd: isPremium ? PREMIUM_RENEWAL_USD : PREMIUM_FIRST_MONTH_USD,
+		currency: "USD",
+		period_days: 30,
+	};
+}
+
 export async function getMySubscription(req, res) {
 	const sub = await getSubscription(req.user.id);
-	return res.json(
-		sub || {
-			user_id: req.user.id,
-			plan: "free",
-			start_date: "",
-			end_date: "",
-			auto_renew: true,
-		},
-	);
+	const current = sub || {
+		user_id: req.user.id,
+		plan: "free",
+		start_date: "",
+		end_date: "",
+		auto_renew: true,
+	};
+	return res.json({ ...current, pricing: premiumPricing(sub) });
 }
 
 // Self-service can only cancel (move to Free). Premium is granted by a paid
@@ -57,12 +72,8 @@ export async function getMyVerificationPricing(_req, res) {
 }
 
 export async function renewMyPremiumMonthly(req, res) {
-	const FIRST_MONTH_PRICE_USD = 1.99;
-	const RENEWAL_PRICE_USD = 6.99;
-
 	const existing = await getSubscription(req.user.id);
-	const isFirstTime = !existing || String(existing.plan || "").toLowerCase() !== "premium";
-	const priceUsd = isFirstTime ? FIRST_MONTH_PRICE_USD : RENEWAL_PRICE_USD;
+	const priceUsd = premiumPricing(existing).next_charge_usd;
 
 	try {
 		const charge = await debitWallet({

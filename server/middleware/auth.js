@@ -5,6 +5,8 @@ import {
 	touchSession,
 } from "../services/sessionService.js";
 import { findUserById } from "../services/userService.js";
+import { cachedSession, cachedUser } from "../utils/authCache.js";
+import { logWarn } from "../utils/logger.js";
 import { deny, hasRole } from "../utils/permissions.js";
 
 const JWT_SECRET = process.env.JWT_SECRET;
@@ -41,6 +43,42 @@ export function signToken(user, options = {}) {
 	return jwt.sign(payload, JWT_SECRET, tokenOptions);
 }
 
+/** The user and session behind a verified token (cached briefly; writes invalidate it). */
+function loadAuthRows(claims) {
+	return Promise.all([
+		cachedUser(claims.id, () => findUserById(claims.id)),
+		claims.sid
+			? cachedSession(claims.sid, () => findActiveSession(claims.sid, claims.id)).then((session) =>
+					// The cache holds the row; expiry and ownership are re-checked every time.
+					session &&
+					session.user_id === String(claims.id) &&
+					!session.revoked_at &&
+					new Date(session.expires_at).getTime() > Date.now()
+						? session
+						: null,
+				)
+			: null,
+	]);
+}
+
+/**
+ * A database that is slow or down is NOT a bad token. Answering 401 there
+ * made the browser throw away a perfectly valid session ("Invalid token")
+ * whenever the API was struggling; 503 tells it to retry instead.
+ */
+function backendUnavailable(res, error) {
+	logWarn("auth_backend_unavailable", {
+		name: error?.name,
+		code: error?.code,
+		message: String(error?.message || "").slice(0, 200),
+	});
+	res.set("Retry-After", "3");
+	return res.status(503).json({
+		error: "Service temporarily unavailable. Please try again.",
+		code: "AUTH_BACKEND_UNAVAILABLE",
+	});
+}
+
 export async function requireAuth(req, res, next) {
 	const authHeader = req.headers.authorization || "";
 	const token = authHeader.startsWith("Bearer ") ? authHeader.slice(7) : null;
@@ -53,45 +91,59 @@ export async function requireAuth(req, res, next) {
 			issuer: JWT_ISSUER,
 			audience: JWT_AUDIENCE,
 		});
-		const [user, session] = await Promise.all([
-			findUserById(req.user.id),
-			req.user.sid ? findActiveSession(req.user.sid, req.user.id) : null,
-		]);
-		if (!user) {
-			return res.status(401).json({ error: "Invalid token" });
-		}
-		// A token tied to a session dies with it (logout, revoke, password reset).
-		if (req.user.sid && !session) {
+	} catch {
+		return res.status(401).json({ error: "Invalid token", code: "INVALID_TOKEN" });
+	}
+
+	let user;
+	let session;
+	try {
+		[user, session] = await loadAuthRows(req.user);
+	} catch (error) {
+		return backendUnavailable(res, error);
+	}
+
+	if (!user) {
+		return res.status(401).json({ error: "Invalid token", code: "INVALID_TOKEN" });
+	}
+	// The row this request was authenticated with; handlers that only need the
+	// current user read it here instead of querying for it again.
+	req.authUser = user;
+	// A token tied to a session dies with it (logout, revoke, password reset).
+	if (req.user.sid && !session) {
+		return res.status(401).json({ error: "Session expired" });
+	}
+	touchSession(session);
+	if (user.password_reset_at) {
+		const tokenIssuedAt = Number(req.user.iat || 0) * 1000;
+		const resetAt = new Date(user.password_reset_at).getTime();
+		if (Number.isFinite(resetAt) && tokenIssuedAt && tokenIssuedAt < resetAt) {
 			return res.status(401).json({ error: "Session expired" });
 		}
-		touchSession(session);
-		if (user.password_reset_at) {
-			const tokenIssuedAt = Number(req.user.iat || 0) * 1000;
-			const resetAt = new Date(user.password_reset_at).getTime();
-			if (Number.isFinite(resetAt) && tokenIssuedAt && tokenIssuedAt < resetAt) {
-				return res.status(401).json({ error: "Session expired" });
-			}
-		}
-		if (user.status === "locked") {
-			const allowedWhileLocked = [
-				{ method: "DELETE", path: "/api/users/me/lock" },
-				{ method: "POST", path: "/api/auth/logout" },
-			];
-			const isAllowed = allowedWhileLocked.some(
-				(r) => r.method === req.method && req.path.startsWith(r.path),
-			);
-			if (!isAllowed) {
-				return res.status(403).json({
-					error: "Account locked",
-					code: "ACCOUNT_LOCKED",
-					message: "Your account is currently locked. Unlock it to regain access.",
-				});
-			}
-		}
-		return next();
-	} catch {
-		return res.status(401).json({ error: "Invalid token" });
 	}
+	if (user.status === "locked") {
+		const allowedWhileLocked = [
+			{ method: "DELETE", path: "/api/users/me/lock" },
+			{ method: "POST", path: "/api/auth/logout" },
+		];
+		// Full path: inside a router (mounted at /api/users) req.path is only
+		// "/me/lock", so comparing it with "/api/users/me/lock" never matched and
+		// a locked account could not unlock itself.
+		const fullPath = req.originalUrl
+			? String(req.originalUrl).split("?")[0]
+			: `${req.baseUrl || ""}${req.path || ""}`;
+		const isAllowed = allowedWhileLocked.some(
+			(r) => r.method === req.method && fullPath.startsWith(r.path),
+		);
+		if (!isAllowed) {
+			return res.status(403).json({
+				error: "Account locked",
+				code: "ACCOUNT_LOCKED",
+				message: "Your account is currently locked. Unlock it to regain access.",
+			});
+		}
+	}
+	return next();
 }
 
 export async function optionalAuth(req, _res, next) {
@@ -110,10 +162,7 @@ export async function optionalAuth(req, _res, next) {
 			issuer: JWT_ISSUER,
 			audience: JWT_AUDIENCE,
 		});
-		const [user, session] = await Promise.all([
-			findUserById(req.user.id),
-			req.user.sid ? findActiveSession(req.user.sid, req.user.id) : null,
-		]);
+		const [user, session] = await loadAuthRows(req.user);
 		if (req.user.sid && !session) {
 			req.user = null;
 			return next();

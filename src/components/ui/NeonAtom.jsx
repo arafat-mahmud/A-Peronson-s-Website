@@ -20,19 +20,21 @@ export default function NeonAtom({ size = 180, className = "", text = "", fill =
 		return () => clearTimeout(id);
 	}, [timeout]);
 
-	if (timedOut) {
-		return (
-			<div
-				className={`flex flex-col items-center justify-center gap-3 overflow-hidden ${
-					fill
-						? "min-h-screen w-full bg-[#050212] bg-[radial-gradient(circle_at_center,#150833_0%,#050212_60%)]"
-						: ""
-				} ${className}`}
+	// Past the timeout the page is usually a moment away (a slow network or a
+	// server waking up), so the spinner stays and the user gets a way out -
+	// not a dead end that replaces the page that is about to arrive.
+	const slowNotice = timedOut ? (
+		<div className="mt-4 flex flex-col items-center gap-2 text-center" role="status">
+			<p className="text-sm text-slate-300">This is taking longer than usual…</p>
+			<button
+				type="button"
+				onClick={() => window.location.reload()}
+				className="rounded-full bg-white/10 px-4 py-1.5 text-xs font-semibold text-white ring-1 ring-white/20 hover:bg-white/15"
 			>
-				<p className="text-sm text-red-400">Loading timed out. Please refresh the page.</p>
-			</div>
-		);
-	}
+				Reload
+			</button>
+		</div>
+	) : null;
 
 	const s = fill ? 200 : size;
 	const orbitSize = s * 0.89;
@@ -149,6 +151,7 @@ export default function NeonAtom({ size = 180, className = "", text = "", fill =
 			{text && (
 				<span className="text-sm text-gray-400 animate-pulse tracking-wider uppercase">{text}</span>
 			)}
+			{slowNotice}
 		</div>
 	);
 }

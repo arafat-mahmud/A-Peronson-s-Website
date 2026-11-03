@@ -6,6 +6,7 @@ import { addImageToQueue } from "../services/imageQueue.js";
 import { PRIVATE_ENTITY_TYPE, recordPrivateUpload } from "../services/privateDocumentService.js";
 import { handleControllerError } from "../utils/permissions.js";
 import prisma from "../utils/prisma.js";
+import { memoizeAsync } from "../utils/ttlMemo.js";
 
 function normalizeSearchText(value) {
 	return String(value || "")
@@ -220,11 +221,10 @@ export async function searchHistoryList(req, res) {
 	}
 }
 
-export async function trendingSearches(req, res) {
-	try {
-		const currentQ = String(req.query.q || "")
-			.trim()
-			.toLowerCase();
+// Trending searches are the same for every viewer (per query text), and each
+// computation reads the last 500 search events: computed once per 2 minutes.
+const computeTrending = memoizeAsync(
+	async (currentQ) => {
 		const searchEvents = await prisma.eventLog.findMany({
 			where: { event_type: "search_run" },
 			select: { payload: true },
@@ -252,7 +252,7 @@ export async function trendingSearches(req, res) {
 					...reqCats.map((c) => c.category).filter(Boolean),
 				]),
 			];
-			return res.json({
+			return {
 				trending:
 					fallback.length > 0
 						? fallback
@@ -268,7 +268,7 @@ export async function trendingSearches(req, res) {
 							],
 				source: "fallback",
 				...(currentQ ? { related: [] } : {}),
-			});
+			};
 		}
 		const queryCounts = {};
 		const categoryCounts = {};
@@ -309,11 +309,22 @@ export async function trendingSearches(req, res) {
 						.slice(0, 5)
 						.map(([label]) => label)
 				: undefined;
-		return res.json({
+		return {
 			trending,
 			source: "events",
 			...(related ? { related } : {}),
-		});
+		};
+	},
+	{ ttlMs: 2 * 60_000, key: (currentQ) => currentQ },
+);
+
+export async function trendingSearches(req, res) {
+	try {
+		const currentQ = String(req.query.q || "")
+			.trim()
+			.toLowerCase()
+			.slice(0, 120);
+		return res.json(await computeTrending(currentQ));
 	} catch (error) {
 		return handleControllerError(res, error);
 	}

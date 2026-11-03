@@ -77,7 +77,6 @@ import verificationRoutes from "./routes/verificationRoutes.js";
 import walletRoutes from "./routes/walletRoutes.js";
 import workflowLifecycleRoutes from "./routes/workflowLifecycleRoutes.js";
 import {
-	initAllUserSessions,
 	initOpencodeServer,
 	streamOpencodeReply,
 } from "./services/assistantService.js";
@@ -113,6 +112,8 @@ import { logError, logInfo, logWarn } from "./utils/logger.js";
 import { consumePendingInvites, enqueuePendingInvites } from "./utils/pendingInvites.js";
 import prisma from "./utils/prisma.js";
 import { closeRedis, initRedis } from "./utils/redis.js";
+import { corsOptions } from "./utils/corsPolicy.js";
+import { requestStatsMiddleware } from "./utils/requestContext.js";
 import { startCaseRetentionWorker } from "./workers/caseRetentionWorker.js";
 
 const RECOMMENDED_ENV_VARS = [
@@ -237,43 +238,6 @@ setInterval(
 
 startEventQualityReporter();
 
-// CORS configuration - stricter in production.
-// In development mode (NODE_ENV !== "production"), all origins are intentionally
-// allowed to support local dev servers, mobile app testing, and tools like Postman.
-// This is safe because:
-//   1. No cookie-based sessions are used (JWT via Authorization header)
-//   2. The dev server is not exposed to the public internet
-//   3. CSRF is mitigated by JWT-in-Header pattern (see helmet note below)
-// In production, only explicit origins in `allowedOrigins` are permitted.
-const corsOptions = {
-	origin(origin, callback) {
-		const allowedOrigins = [
-			"http://localhost:5173", // dev frontend
-			"http://localhost:4173", // preview
-			"http://127.0.0.1:5173",
-			"https://gartexhub.onrender.com", // production
-		];
-
-		// Allow requests with no origin (curl, health checks, server-to-server, mobile apps)
-		// Safe because auth is JWT-in-Header, not cookies — CSRF is not a concern.
-		if (!origin) {
-			callback(null, true);
-			return;
-		}
-
-		if (allowedOrigins.includes(origin)) {
-			callback(null, true);
-		} else if (process.env.NODE_ENV === "production") {
-			callback(new Error("Not allowed by CORS"));
-		} else {
-			callback(null, true); // Dev: allow all
-		}
-	},
-	credentials: true,
-	methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
-	allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
-};
-
 // CSRF is mitigated by JWT-in-Authorization-header pattern + strict CORS.
 // No cookie-based sessions are used; state-changing operations require
 // a Bearer token which browsers do not auto-attach cross-origin.
@@ -338,7 +302,9 @@ app.use("/api/files", fileAccessRoutes);
 app.use("/uploads", createGatedStaticGuard({ root: uploadsRoot }));
 app.use("/uploads", express.static(uploadsRoot));
 
-const distRoot = path.join(process.cwd(), "dist");
+const distRoot = process.env.DIST_DIR
+	? path.resolve(process.env.DIST_DIR)
+	: path.join(process.cwd(), "dist");
 const serveDist = process.env.SERVE_DIST === "true";
 if (serveDist) {
 	logInfo("SERVE_DIST=true", { distExists: fs.existsSync(distRoot) });
@@ -391,6 +357,7 @@ if (serveDist && fs.existsSync(distRoot)) {
 	});
 }
 
+app.use("/api", requestStatsMiddleware);
 app.use(requestCapture());
 app.use("/api", requestLogger({ timeoutMs: Number(process.env.REQUEST_TIMEOUT_MS || 45_000) }));
 
@@ -1310,9 +1277,14 @@ async function start() {
 		5 * 60 * 1000,
 	);
 
-	initOpencodeServer()
-		.then(() => initAllUserSessions())
-		.catch((err) => logError("init_opencode_failed", err));
+	// The assistant's opencode server starts on the first question, not here.
+	// Starting it at boot (and then opening a session for EVERY user) put a
+	// several-hundred-MiB child next to the API on a 512 MiB instance: the
+	// container was OOM-killed every few minutes. Per-user sessions are
+	// created lazily by the first question each user asks.
+	if (String(process.env.OPENCODE_EAGER_START || "").toLowerCase() === "true") {
+		initOpencodeServer().catch((err) => logError("init_opencode_failed", err));
+	}
 
 	// Log hub + live transport (WS + HTTP).
 	startLogTransport(server);
@@ -1358,11 +1330,18 @@ async function start() {
 		}
 	}, 5000);
 
-	try {
-		startSyslogServer();
-		markWorker("syslog");
-	} catch (err) {
-		logError("start_syslog_server_failed", err);
+	// Render routes only $PORT to the instance, so the TLS syslog listener is
+	// unreachable there - and creating its certificate is a blocking openssl
+	// run on every boot (the disk is ephemeral). On by default elsewhere.
+	const syslogFlag = String(process.env.SYSLOG_ENABLED || "").toLowerCase();
+	const syslogEnabled = syslogFlag ? syslogFlag === "true" : !process.env.RENDER;
+	if (syslogEnabled) {
+		try {
+			startSyslogServer();
+			markWorker("syslog");
+		} catch (err) {
+			logError("start_syslog_server_failed", err);
+		}
 	}
 
 	try {
@@ -1476,6 +1455,9 @@ async function gracefulShutdown(reason, exitCode = 0) {
 			}
 		}
 		await closeRedis().catch(() => {});
+		await import("./services/analyticsService.js")
+			.then(({ flushAnalyticsEvents }) => flushAnalyticsEvents())
+			.catch(() => {});
 		await closeDatabaseConnection().catch(() => {});
 		logInfo("shutdown_complete", { reason, exit_code: exitCode });
 	})()

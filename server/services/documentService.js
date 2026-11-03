@@ -953,9 +953,11 @@ export async function updateContractSignatures(contractId, patch, actor) {
 		is_draft: patch.is_draft === undefined ? existing.is_draft : Boolean(patch.is_draft),
 		buyer_signature_state: nextBuyerState,
 		factory_signature_state: nextFactoryState,
-		buyer_signed_at: nextBuyerState === "signed" ? existing.buyer_signed_at || toIsoNow() : "",
+		// DateTime columns: an unsigned side is null. "" was rejected by Prisma,
+		// so every first signature on a contract failed with a 500.
+		buyer_signed_at: nextBuyerState === "signed" ? existing.buyer_signed_at || toIsoNow() : null,
 		factory_signed_at:
-			nextFactoryState === "signed" ? existing.factory_signed_at || toIsoNow() : "",
+			nextFactoryState === "signed" ? existing.factory_signed_at || toIsoNow() : null,
 		updated_at: new Date(),
 	};
 

@@ -338,11 +338,15 @@ export default function MainFeed() {
 		setNextCursor(val);
 		nextCursorRef.current = val;
 	}, []);
-	const [pageLoading, setPageLoading] = useState(true);
-	const loadFlags = useRef({ user: false, config: false, feed: false });
+	// The page shell renders as soon as the user is known - a signed-in user is
+	// already cached from login. The feed list shows its own skeleton, and the
+	// labels/config arrive in the background. Waiting for user + config + feed
+	// before rendering anything kept a full-screen spinner up for seconds.
+	const [pageLoading, setPageLoading] = useState(() => !sessionUser);
+	const loadFlags = useRef({ user: Boolean(sessionUser), config: false, feed: false });
 	const markLoaded = useCallback((key) => {
 		loadFlags.current[key] = true;
-		if (loadFlags.current.user && loadFlags.current.config && loadFlags.current.feed) {
+		if (loadFlags.current.user) {
 			setPageLoading(false);
 		}
 	}, []);
@@ -634,9 +638,16 @@ export default function MainFeed() {
 		if (!token) {
 			return markLoaded("config");
 		}
-		apiRequest("/admin/config/feed-page", { token })
+		apiRequest("/feed/page-config", { token })
 			.then((data) => {
-				if (!cancelled) setFeedConfig({ ...DEFAULT_FEED_CONFIG, ...data });
+				if (cancelled || !data || typeof data !== "object") return;
+				const next = { ...DEFAULT_FEED_CONFIG, ...data };
+				setFeedConfig(next);
+				const previousAll = liveRef.current.feedConfig?.labels?.categories;
+				const nextAll = next.labels?.categories;
+				if (nextAll && previousAll !== nextAll) {
+					setActiveCategory((current) => (current === previousAll ? nextAll : current));
+				}
 			})
 			.catch(() => logger.warn("Failed to load feed config"))
 			.finally(() => {
@@ -652,7 +663,7 @@ export default function MainFeed() {
 		setNextCursorBoth(0);
 		loadFeedPage({ reset: true });
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [loadFeedPage, activeCategory, activeType, unique, feedConfig]);
+	}, [loadFeedPage, activeCategory, activeType, unique]);
 
 	useEffect(() => {
 		const node = sentinelRef.current;
@@ -1337,6 +1348,24 @@ export default function MainFeed() {
 											Retry
 										</button>
 									</div>
+								</div>
+							) : null}
+
+							{loading && items.length === 0 && !error ? (
+								<div className="grid gap-5" aria-busy="true" aria-label="Loading feed">
+									{[0, 1, 2].map((n) => (
+										<div
+											key={n}
+											className="animate-pulse rounded-[32px] border border-slate-200/70 bg-white/70 p-6 dark:border-slate-800 dark:bg-slate-950/70"
+										>
+											<div className="flex items-center gap-3">
+												<div className="h-10 w-10 rounded-full bg-slate-200 dark:bg-slate-800" />
+												<div className="h-3 w-40 rounded bg-slate-200 dark:bg-slate-800" />
+											</div>
+											<div className="mt-5 h-3 w-full rounded bg-slate-200 dark:bg-slate-800" />
+											<div className="mt-3 h-3 w-2/3 rounded bg-slate-200 dark:bg-slate-800" />
+										</div>
+									))}
 								</div>
 							) : null}
 

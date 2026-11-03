@@ -8,6 +8,8 @@ import {
 	forbiddenError,
 	scopeRecordsForUser,
 } from "../utils/permissions.js";
+import { createBatchWriter } from "../utils/batchWriter.js";
+import { logWarn } from "../utils/logger.js";
 import prisma from "../utils/prisma.js";
 import { getAdminConfig } from "./adminConfigService.js";
 import {
@@ -33,20 +35,50 @@ async function getSearchMinEvents() {
 	}
 }
 
-export async function trackEvent({ type, actor_id, entity_id, metadata = {} }) {
-	if (USE_SQL_CRM) {
-		await prisma.analyticsEvent.create({
-			data: {
-				id: crypto.randomUUID(),
-				type,
-				actor_id: actor_id || null,
-				entity_id: entity_id || null,
-				metadata,
-				created_at: new Date(),
-			},
-		});
+// Analytics events are written behind the request, in batches.
+//
+// A page view sends several events, and each one used to hold a database
+// connection for a full round trip (~250 ms to production's database) - with
+// a small pool, page views queued behind their own analytics. Events are now
+// buffered and written with one createMany per batch. A crash can lose at
+// most one flush interval of analytics; nothing else depends on these rows.
+function eventFlushIntervalMs() {
+	const raw = process.env.ANALYTICS_FLUSH_INTERVAL_MS;
+	if (raw !== undefined && raw !== "" && Number.isFinite(Number(raw)) && Number(raw) >= 0) {
+		return Number(raw);
 	}
-	// Legacy fallback is intentionally read-only during the verification window.
+	// Tests write straight through unless they ask for batching.
+	return process.env.NODE_ENV === "test" ? 0 : 1000;
+}
+
+const analyticsWriter = createBatchWriter({
+	write: (rows) => prisma.analyticsEvent.createMany({ data: rows }),
+	onError: (error, size) => logWarn("analytics_flush_failed", { code: error?.code, size }),
+	intervalMs: Math.max(1, eventFlushIntervalMs()),
+});
+
+export function flushAnalyticsEvents() {
+	return analyticsWriter.flush();
+}
+
+export async function trackEvent({ type, actor_id, entity_id, metadata = {} }) {
+	if (!USE_SQL_CRM) {
+		// Legacy fallback is intentionally read-only during the verification window.
+		return;
+	}
+	const row = {
+		id: crypto.randomUUID(),
+		type,
+		actor_id: actor_id || null,
+		entity_id: entity_id || null,
+		metadata,
+		created_at: new Date(),
+	};
+	if (!eventFlushIntervalMs()) {
+		await prisma.analyticsEvent.create({ data: row });
+		return;
+	}
+	analyticsWriter.add(row);
 }
 
 function ensureAnalyticsAccess(user) {

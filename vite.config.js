@@ -41,6 +41,45 @@ function packageName(id) {
 	return parts[0].startsWith("@") ? `${parts[0]}/${parts[1]}` : parts[0];
 }
 
+// The saved theme's stylesheet is requested by the inline bootstrap script in
+// index.html, before the app's JS runs: without it a non-default theme showed
+// the default palette until its CSS chunk arrived. Vite only knows the hashed
+// file names after bundling, so they are written into that script here.
+function themeCssMapPlugin() {
+	let base = "/";
+	return {
+		name: "gartexhub-theme-css-map",
+		apply: "build",
+		configResolved(config) {
+			base = config.base || "/";
+		},
+		transformIndexHtml: {
+			order: "post",
+			handler(html, ctx) {
+				const map = {};
+				const prefix = base.endsWith("/") ? base : `${base}/`;
+				const THEME_FILE = /[\\/]theme[\\/]themes[\\/]([a-z-]+)\.css$/;
+				for (const file of Object.values(ctx.bundle || {})) {
+					// A dynamic import of a .css file is emitted as a CSS asset...
+					if (file.type === "asset" && file.fileName.endsWith(".css")) {
+						for (const original of file.originalFileNames || []) {
+							const match = String(original).match(THEME_FILE);
+							if (match) map[match[1]] = `${prefix}${file.fileName}`;
+						}
+					}
+					// ...or, depending on the Vite version, as a stub chunk with importedCss.
+					if (file.type === "chunk") {
+						const match = String(file.facadeModuleId || "").match(THEME_FILE);
+						const css = file.viteMetadata?.importedCss;
+						if (match && css?.size) map[match[1]] = `${prefix}${[...css][0]}`;
+					}
+				}
+				return html.replace("/*__THEME_CSS_MAP__*/ {}", JSON.stringify(map));
+			},
+		},
+	};
+}
+
 // https://vite.dev/config/
 export default defineConfig({
 	base: process.env.VITE_BASE_URL || "./",
@@ -74,6 +113,7 @@ export default defineConfig({
 	plugins: [
 		tailwindcss(),
 		react(),
+		themeCssMapPlugin(),
 		VitePWA({
 			strategies: "injectManifest",
 			srcDir: "src",

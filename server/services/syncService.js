@@ -22,20 +22,18 @@ function toSeqNumber(value) {
 }
 
 export async function getHead({ user = null, filters = {} } = {}) {
-	let serverSequence = 0;
-	try {
-		const agg = await prisma.syncChange.aggregate({ _max: { seq: true } });
-		serverSequence = toSeqNumber(agg?._max?.seq);
-	} catch {
-		serverSequence = 0;
-	}
-	let feedGeneration = serverSequence;
-	try {
-		const gen = await getFeedGeneration({ user, filters });
-		feedGeneration = Number(gen?.generation ?? serverSequence) || 0;
-	} catch {
-		feedGeneration = serverSequence;
-	}
+	// Every page asks for the head. The ledger aggregate and the stored feed
+	// generation are independent, so they run together (one round trip, not
+	// three - the generation's fallback used to repeat the same aggregate).
+	const ledger = prisma.syncChange
+		.aggregate({ _max: { seq: true } })
+		.then((agg) => toSeqNumber(agg?._max?.seq))
+		.catch(() => 0);
+	const [serverSequence, gen] = await Promise.all([
+		ledger,
+		getFeedGeneration({ user, filters, ledgerHead: ledger }).catch(() => null),
+	]);
+	const feedGeneration = Number(gen?.generation ?? serverSequence) || 0;
 	return {
 		serverSequence,
 		feedGeneration,

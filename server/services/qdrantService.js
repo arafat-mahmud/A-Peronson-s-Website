@@ -1,4 +1,3 @@
-import { QdrantClient } from "@qdrant/qdrant-js";
 import { logError } from "../utils/logger.js";
 import prisma from "../utils/prisma.js";
 import { getAdminConfig } from "./adminConfigService.js";
@@ -49,6 +48,8 @@ async function getClient() {
 	}
 	const key = buildClientKey(cfg);
 	if (!clientState.client || clientState.key !== key) {
+		// Loaded on first use only (AI search is off on most deployments).
+		const { QdrantClient } = await import("@qdrant/qdrant-js");
 		clientState = {
 			key,
 			client: new QdrantClient({

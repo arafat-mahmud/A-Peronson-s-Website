@@ -1,4 +1,3 @@
-import { createClient } from "redis";
 import { logger } from "./logger.js";
 
 let client = null;
@@ -13,6 +12,9 @@ export async function initRedis() {
 	}
 
 	try {
+		// Loaded only when Redis is configured: the client library alone is
+		// ~20 MB of heap, paid on every boot of an instance that has no Redis.
+		const { createClient } = await import("redis");
 		client = createClient({
 			url: redisUrl,
 			socket: {

@@ -567,10 +567,16 @@ export async function getCombinedFeed({
 				ends_at: { gte: now },
 			},
 		}),
-		prisma.rating.findMany({
-			where: { profile_key: { startsWith: "user:" } },
-		}),
+		// Only the authors on this page: the rating table grows with every
+		// review, and reading all of it for every feed request does not scale.
+		cappedAuthorIds.length > 0
+			? prisma.rating.findMany({
+					where: { profile_key: { in: cappedAuthorIds.map((id) => `user:${id}`) } },
+					select: { profile_key: true, score: true },
+				})
+			: [],
 	]);
+	const usersById = new Map(users.map((u) => [u.id, u]));
 
 	const paidBoostByUser = buildPaidBoostMap(Array.isArray(boosts) ? boosts : []);
 	const ratingByUser = buildRatingMap(ratingsStore);
@@ -642,7 +648,7 @@ export async function getCombinedFeed({
 
 	const ranked = combined.map((item) => {
 		const authorId = getAuthorId(item);
-		const author = users.find((u) => u.id === authorId) || null;
+		const author = usersById.get(authorId) || null;
 		const certification = authorId ? orderCertMap.get(String(authorId)) : null;
 		const profileCompleteness = computeProfileCompleteness(author);
 		const authorItems = itemsByAuthor[authorId] || [];

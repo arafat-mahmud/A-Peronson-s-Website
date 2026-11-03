@@ -1,5 +1,6 @@
 import chalk from "chalk";
 import gradient from "gradient-string";
+import { redact } from "../utils/crashReporter.js";
 import { LEVELS } from "./levels.js";
 
 const neonBlue = gradient(["#0EA5E9", "#38BDF8", "#818CF8"]);
@@ -110,6 +111,24 @@ export function formatConsoleEntry(entry, { width = 120, detailed = false } = {}
 		}
 		if (extras.length) {
 			lineParts.push(` ${extras.join(" ")}`);
+		}
+		// Warnings and errors keep their details on the console line: on Render
+		// stdout is the only log there is, and "Unhandled API error" with no
+		// code or cause cannot be diagnosed.
+		if (
+			(level === "warn" || level === "error" || level === "critical") &&
+			entry.data &&
+			typeof entry.data === "object"
+		) {
+			let details = "";
+			try {
+				details = redact(JSON.stringify(entry.data));
+			} catch {
+				details = "";
+			}
+			if (details && details !== "{}") {
+				lineParts.push(chalk.gray(` ${truncate(details, 600)}`));
+			}
 		}
 	}
 

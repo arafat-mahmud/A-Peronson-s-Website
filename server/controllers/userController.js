@@ -30,7 +30,8 @@ import {
 } from "../services/userService.js";
 
 export async function me(req, res) {
-	const user = await findUserById(req.user.id);
+	const user =
+		req.authUser?.id === req.user.id ? req.authUser : await findUserById(req.user.id);
 	if (!user) {
 		return res.status(404).json({ error: "User not found" });
 	}
@@ -189,7 +190,9 @@ export async function lockMyAccount(req, res) {
 		if (!password) {
 			return res.status(400).json({ error: "Password is required to lock your account" });
 		}
-		const bcrypt = await import("bcrypt");
+		// bcryptjs is the hashing library the project uses; "bcrypt" (native) is
+		// not installed, so this import failed and locking always answered 500.
+		const bcrypt = await import("bcryptjs");
 		const user = await prisma.user.findUnique({ where: { id: req.user.id } });
 		if (!user) {
 			return res.status(404).json({ error: "User not found" });

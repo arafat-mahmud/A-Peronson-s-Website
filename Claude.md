@@ -165,16 +165,40 @@ Evidence: `bugs/WhatsApp Chat with রহস্য/` (chat txt, 18 screenshots, 
   - Known gap: Contract Vault sign buttons শুধু staff (owner/admin)-এর জন্য enabled; party-রা UI থেকে sign করতে পারে না (product decision দরকার)।
     Premium upgrade-এর UI নেই (`renew-monthly` API আছে) — support দিয়ে activate।
 
+## 8b. Production stability pass — 2026-11-04 (branch `fix/production-stability-2026-11-04`)
+
+Symptoms (live): login spinner → "Loading timed out", feed "Invalid token / Retry", endless loading, Render 503.
+Verified root causes (Render events + logs, read-only DB inspection, local repro with a 125 ms/way latency proxy):
+- **OOM loop:** Render events show `oomKilled` (512 Mi) every 3–10 min, each inside the opencode start window. Boot spawned the
+  opencode child, then `initAllUserSessions` (all users, and writes setup codes) re-spawned it. Fix: lazy, single-flight start,
+  cgroup memory guard (`OPENCODE_MIN_FREE_MB`, default 450), failure back-off, idle stop; eager only with `OPENCODE_EAGER_START=true`.
+  The configured model `minimax-m3.1-flash-free` is no longer offered by opencode Zen ("Model is unavailable").
+- **"Invalid token":** `requireAuth` mapped DB errors to 401 and the client cleared the session. Now: JWT errors → 401,
+  backend errors → 503 `AUTH_BACKEND_UNAVAILABLE` (+ Prisma P1001/P1002/P1008/P1017/P2024 → 503 in the error handler).
+- **Latency:** Render = Oregon, DB = Aiven Bengaluru (~250 ms/query), pool `connection_limit=3` (DB max 20, ~15 free).
+  Code: `DATABASE_CONNECTION_LIMIT` / `DATABASE_POOL_TIMEOUT` override the URL; 30 s in-process user/session cache
+  (invalidated by a Prisma query extension on every write); `app_state` read cache; analytics write-behind batches;
+  sync head / feed queries parallel; `Server-Timing: db;desc="<n> queries"` on every API response.
+- Client: `apiRequest` timeout (30 s), retries 502/503/504 + network errors (writes only when no handler ran), coalesces
+  identical GETs; session-cleared event → login; feed renders without waiting for user/config; no admin 403 on the feed.
+- Also fixed: CORS threw → 500 for the site's own JS/CSS on any unlisted host; account lock always 500 (`bcrypt` not installed)
+  and unlock always 403 (path compare inside router); every first contract signature 500 (`""` into DateTime); Contract Vault
+  actions never refreshed/never showed errors; buyers' Settings loaded nothing and showed a permission error; Settings
+  subscription tab was unreachable (now embedded in Owner Dashboard → Subscription & Billing).
+- Measured (same latency bench): submit→feed 6.1 → ~3.5 s, API calls 34 → 14, console errors 3 → 0; sync head 1.5 s → 0.26 s;
+  server heap after boot 47.7 → 27.7 MB. Jest: 80 suites, all pass except one pre-existing (`server-file-access` reads a
+  `docs/superpowers/...md` that is deleted in the working tree).
+
 ## 9. Open items
 
+- **Owner (Render):** set `OPENCODE_ENABLED=false` (or keep the memory guard) and `DATABASE_CONNECTION_LIMIT=8`; biggest remaining
+  lever is region: move the web service to Singapore (next to the DB and the users) or the DB to Oregon.
+- Pricing page shows Premium "$29" while billing charges $1.99 first month / $6.99 renewal — client decision.
+- `/api/system/pricing` tiles are derived from table counts with modulo arithmetic (not real metrics) — client decision.
 - **Owner:** rotate the credentials exposed in `render.yaml` / old `.env` history; move them to the dashboard (`sync: false`); set
   `ESIGN_WEBHOOK_SECRET` before enabling an e-sign provider.
-- PR #101 (`1879ed8b`) is merged and live: `/health` 200, `/ready` 200, `index.html` `max-age=0`; read-only e2e on live 6 pass /
-  1 fail (forgot-password link — not merged yet) / 2 skipped (write tests).
-- **Owner:** review and merge the follow-up PR (`fix/client-feedback-2026-11-03`, commits after `1879ed8b`) → Render deploys `main`;
-  then verify `/health`, `/ready`, the migrate log (2 new: `20261104000000_add_sessions_and_password_reset`,
-  `20261104010000_documents_ai_early_exit_default`) and run `tests/e2e` read-only against the live URL (`docs/developer/deployment.md`).
-- Product decisions: party-side signing UI in Contract Vault; Premium upgrade UI (wallet-charged renew-monthly).
+- PRs #101 and #102 are merged; `main` = `b7001fe6` is live (Render deploy `dep-dbkv4et9el5s73f26jr0`, 2026-11-03 14:44 UTC).
+- **Owner:** review and merge the stability PR (`fix/production-stability-2026-11-04`) → Render deploys `main`; then check
+  Render events for `oomKilled`, `/health`, `/ready`, and the `Server-Timing` header on `/api/feed`. No new migrations.
 - Lint backlog (~2,600 Biome findings, mostly style + CRLF) — this pass added no new errors in touched files.
 - `/api/chatbot/settings` 403 for free plans is the intended Premium gate.
-- A user on a non-default theme briefly sees the default palette while that theme's CSS chunk loads.
