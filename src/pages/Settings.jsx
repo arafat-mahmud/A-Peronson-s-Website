@@ -2,6 +2,7 @@ import { Monitor, Moon, Settings as SettingsIcon, Sun } from "lucide-react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Mosaic, ThreeDot } from "react-loading-indicators";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import { passwordProblems } from "../../shared/config/passwordPolicy.js";
 import { COUNTRY_OPTIONS, FACTORY_SECTOR_OPTIONS } from "../../shared/config/platformTaxonomy.js";
 import OfflineStorageSection from "../components/OfflineStorageSection.jsx";
 import LazyImage from "../components/ui/LazyImage.jsx";
@@ -1068,8 +1069,9 @@ export default function Settings({ embedded = false, initialTabProp = "", tabIds
 			setPasswordFeedback("Passwords don't match");
 			return;
 		}
-		if (newPassword.length < 6) {
-			setPasswordFeedback("Must be at least 6 characters");
+		const problems = passwordProblems(newPassword);
+		if (problems.length > 0) {
+			setPasswordFeedback(`Password needs: ${problems.join(", ").toLowerCase()}`);
 			return;
 		}
 		const token = getToken();
@@ -1084,7 +1086,7 @@ export default function Settings({ embedded = false, initialTabProp = "", tabIds
 				token,
 				body: { current_password: currentPassword, new_password: newPassword },
 			});
-			setPasswordFeedback("Password changed successfully.");
+			setPasswordFeedback("Password changed. Other devices were signed out.");
 			setCurrentPassword("");
 			setNewPassword("");
 			setConfirmPassword("");

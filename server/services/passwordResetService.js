@@ -5,7 +5,7 @@ import prisma from "../utils/prisma.js";
 import { logWarn } from "../utils/logger.js";
 import { sendEmail } from "./emailService.js";
 import { revokeAllSessions } from "./sessionService.js";
-import { findUserByEmail } from "./userService.js";
+import { findUserByEmail, findUserById } from "./userService.js";
 
 // Self-service password reset.
 // - The emailed token is 32 random bytes; only its SHA-256 is stored.
@@ -118,4 +118,27 @@ export async function resetPassword(token, newPassword) {
 	});
 	await revokeAllSessions(row.user_id);
 	return { userId: row.user_id };
+}
+
+// Signed-in password change (Settings -> Security). Requires the current
+// password; keeps the caller's session and signs out every other one.
+export async function changePassword(userId, currentPassword, newPassword, { keepSessionId = "" } = {}) {
+	const user = await findUserById(userId);
+	const matches = user?.password_hash
+		? await bcrypt.compare(String(currentPassword || ""), user.password_hash)
+		: false;
+	if (!matches) {
+		throw Object.assign(new Error("Current password is incorrect."), { status: 400, code: "CURRENT_PASSWORD_INCORRECT" });
+	}
+	const problems = passwordProblems(newPassword);
+	if (problems.length > 0) {
+		throw Object.assign(new Error(`Password: ${problems.join(", ").toLowerCase()}.`), { status: 400 });
+	}
+	if (String(newPassword) === String(currentPassword)) {
+		throw Object.assign(new Error("Choose a password different from the current one."), { status: 400 });
+	}
+	const passwordHash = await bcrypt.hash(String(newPassword), 10);
+	await prisma.user.update({ where: { id: user.id }, data: { password_hash: passwordHash } });
+	const revoked = await revokeAllSessions(user.id, { exceptId: keepSessionId });
+	return { revokedSessions: revoked };
 }

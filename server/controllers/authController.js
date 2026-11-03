@@ -18,7 +18,7 @@ import {
 import { upsertSubscription } from "../services/subscriptionService.js";
 import { assertCouponRedeemable, creditWallet } from "../services/walletService.js";
 import { getAdminConfig } from "../services/adminConfigService.js";
-import { requestPasswordReset, resetPassword } from "../services/passwordResetService.js";
+import { changePassword, requestPasswordReset, resetPassword } from "../services/passwordResetService.js";
 import {
 	createSession,
 	extendSession,
@@ -252,6 +252,13 @@ export async function forgotPassword(req, res) {
 		ok: true,
 		message: "If an account exists for that email, a reset link has been sent. It expires in 30 minutes.",
 	});
+}
+
+export async function changeMyPassword(req, res) {
+	const result = await changePassword(req.user.id, req.body?.current_password, req.body?.new_password, {
+		keepSessionId: req.user.sid || "",
+	});
+	return res.json({ ok: true, message: "Password changed. Other devices were signed out.", ...result });
 }
 
 export async function completePasswordReset(req, res) {

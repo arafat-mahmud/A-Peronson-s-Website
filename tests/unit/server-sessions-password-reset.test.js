@@ -128,3 +128,31 @@ describe("session tokens (server/middleware/auth.js + sessionService.js)", () =>
 		expect(describeUserAgent("Mozilla/5.0 (Macintosh; Mac OS X 14) Safari/605.1")).toBe("Safari on macOS");
 	});
 });
+
+describe("signed-in password change (passwordResetService.changePassword)", () => {
+	test("needs the current password, enforces the policy, keeps only the caller's session", async () => {
+		jest.resetModules();
+		const store = makeStore();
+		const bcrypt = (await import("bcryptjs")).default;
+		store.db.users.set("u-1", { id: "u-1", email: "a@co.example", password_hash: await bcrypt.hash("Old-pass-2026", 4) });
+		store.db.sessions.push({ id: "s-me", user_id: "u-1", revoked_at: null }, { id: "s-other", user_id: "u-1", revoked_at: null });
+		jest.unstable_mockModule("../../server/utils/prisma.js", () => ({ default: store.prisma }));
+		jest.unstable_mockModule("../../server/services/userService.js", () => ({
+			findUserByEmail: async () => null,
+			findUserById: async (id) => store.db.users.get(id) || null,
+		}));
+		jest.unstable_mockModule("../../server/services/emailService.js", () => ({ sendEmail: async () => ({ ok: true }) }));
+		const { changePassword } = await import("../../server/services/passwordResetService.js");
+
+		await expect(changePassword("u-1", "wrong", "New-pass-2026")).rejects.toMatchObject({
+			code: "CURRENT_PASSWORD_INCORRECT",
+		});
+		await expect(changePassword("u-1", "Old-pass-2026", "short")).rejects.toMatchObject({ status: 400 });
+		await expect(
+			changePassword("u-1", "Old-pass-2026", "New-pass-2026", { keepSessionId: "s-me" }),
+		).resolves.toEqual({ revokedSessions: 1 });
+		expect(await bcrypt.compare("New-pass-2026", store.db.users.get("u-1").password_hash)).toBe(true);
+		expect(store.db.sessions.find((s) => s.id === "s-me").revoked_at).toBeNull();
+		expect(store.db.sessions.find((s) => s.id === "s-other").revoked_at).toBeInstanceOf(Date);
+	});
+});

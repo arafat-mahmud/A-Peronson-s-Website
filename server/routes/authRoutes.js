@@ -1,5 +1,6 @@
 import { Router } from "express";
 import {
+	changeMyPassword,
 	login,
 	completePasswordReset,
 	forgotPassword,
@@ -36,6 +37,7 @@ router.post("/logout", requireAuth, logout);
 router.get("/sessions", requireAuth, listMySessions);
 router.delete("/sessions/:sessionId", requireAuth, revokeMySession);
 router.post("/sessions/revoke-others", requireAuth, revokeOtherSessions);
+router.put("/password", requireAuth, authLimiter, changeMyPassword);
 router.post("/password/forgot", authLimiter, forgotPassword);
 router.post("/password/reset", authLimiter, completePasswordReset);
 
