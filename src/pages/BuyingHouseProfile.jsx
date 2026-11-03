@@ -61,6 +61,7 @@ import { useFallbackCover } from "../lib/fallbackCover.js";
 import { trackClientEvent } from "../lib/events.js";
 import { recordLeadSource } from "../lib/leadSource.js";
 import { logger } from "../lib/logger.js";
+import { industryLabel } from "../../shared/config/platformTaxonomy.js";
 
 const Motion = motion;
 
@@ -226,7 +227,7 @@ function ActionButton({ children, icon: Icon, onClick, variant = "primary", disa
 			className={`inline-flex items-center justify-center gap-2 rounded-2xl px-4 py-2.5 text-sm font-medium transition-all focus:outline-none focus:ring-2 focus:ring-sky-400/50 disabled:cursor-not-allowed disabled:opacity-60 ${styles[variant]}`}
 		>
 			{loading ? (
-				<ThreeDot variant="bounce" color="#0ea5e9" size="small" text="" textColor="" />
+				<ThreeDot variant="bounce" color="#337ab0" size="small" text="" textColor="" />
 			) : Icon ? (
 				<Icon size={16} />
 			) : null}
@@ -813,14 +814,14 @@ export default function BuyingHouseProfile() {
 	}
 	if (error) {
 		return (
-			<div className="min-h-screen bg-[radial-gradient(circle_at_top,rgba(14,165,233,0.12),transparent_30%),linear-gradient(180deg,#eff9ff_0%,#ffffff_35%,#f8fbff_100%)] dark:bg-[radial-gradient(circle_at_top,rgba(14,165,233,0.14),transparent_35%),linear-gradient(180deg,#050816_0%,#07111f_40%,#020617_100%)] p-6 text-rose-700 dark:text-rose-200">
+			<div className="min-h-screen bg-[radial-gradient(circle_at_top,rgba(51,122,176,0.12),transparent_30%),linear-gradient(180deg,#eff9ff_0%,#ffffff_35%,#f8fbff_100%)] dark:bg-[radial-gradient(circle_at_top,rgba(51,122,176,0.14),transparent_35%),linear-gradient(180deg,#050816_0%,#07111f_40%,#020617_100%)] p-6 text-rose-700 dark:text-rose-200">
 				{error}
 			</div>
 		);
 	}
 	if (!user) {
 		return (
-			<div className="min-h-screen bg-[radial-gradient(circle_at_top,rgba(14,165,233,0.12),transparent_30%),linear-gradient(180deg,#eff9ff_0%,#ffffff_35%,#f8fbff_100%)] dark:bg-[radial-gradient(circle_at_top,rgba(14,165,233,0.14),transparent_35%),linear-gradient(180deg,#050816_0%,#07111f_40%,#020617_100%)] p-6 text-slate-700 dark:text-slate-200">
+			<div className="min-h-screen bg-[radial-gradient(circle_at_top,rgba(51,122,176,0.12),transparent_30%),linear-gradient(180deg,#eff9ff_0%,#ffffff_35%,#f8fbff_100%)] dark:bg-[radial-gradient(circle_at_top,rgba(51,122,176,0.14),transparent_35%),linear-gradient(180deg,#050816_0%,#07111f_40%,#020617_100%)] p-6 text-slate-700 dark:text-slate-200">
 				Profile not found.
 			</div>
 		);
@@ -831,7 +832,7 @@ export default function BuyingHouseProfile() {
 		: "Buying House";
 	const displayName = user?.name || roleLabel;
 	const country = user?.profile?.country || "—";
-	const industry = user?.profile?.industry || "";
+	const industry = user?.profile?.industry_label || industryLabel(user?.profile?.industry) || "";
 	const organization =
 		user?.profile?.organization_name || user?.profile?.organization || user?.name || "—";
 	const avg = ratingSummary?.aggregate?.average_score ?? 0;
@@ -860,7 +861,7 @@ export default function BuyingHouseProfile() {
 	const timeline = profile?.crm_timeline || profile?.timeline || [];
 
 	return (
-		<div className="min-h-screen bg-[radial-gradient(circle_at_top,rgba(14,165,233,0.12),transparent_30%),linear-gradient(180deg,#eff9ff_0%,#ffffff_35%,#f8fbff_100%)] text-slate-900 dark:bg-[radial-gradient(circle_at_top,rgba(14,165,233,0.14),transparent_35%),linear-gradient(180deg,#050816_0%,#07111f_40%,#020617_100%)] dark:text-white">
+		<div className="min-h-screen bg-[radial-gradient(circle_at_top,rgba(51,122,176,0.12),transparent_30%),linear-gradient(180deg,#eff9ff_0%,#ffffff_35%,#f8fbff_100%)] text-slate-900 dark:bg-[radial-gradient(circle_at_top,rgba(51,122,176,0.14),transparent_35%),linear-gradient(180deg,#050816_0%,#07111f_40%,#020617_100%)] dark:text-white">
 			<Lightbox
 				open={lightbox.open}
 				image={lightbox.image}
@@ -880,7 +881,7 @@ export default function BuyingHouseProfile() {
 					</div>
 				</div>
 
-				<div className="overflow-hidden rounded-[2rem] border border-slate-200/80 bg-white/90 shadow-[0_20px_60px_-25px_rgba(2,132,199,0.35)] backdrop-blur dark:border-slate-800 dark:bg-slate-950/70">
+				<div className="overflow-hidden rounded-[2rem] border border-slate-200/80 bg-white/90 shadow-[0_20px_60px_-25px_rgba(32,101,152,0.35)] backdrop-blur dark:border-slate-800 dark:bg-slate-950/70">
 					<div className="relative">
 						<div className="h-56 w-full bg-gradient-to-r from-sky-600 via-cyan-500 to-blue-600 sm:h-64">
 							{coverImage || fallbackCover ? (
@@ -1090,6 +1091,13 @@ export default function BuyingHouseProfile() {
 											icon={Star}
 										/>
 										<InfoTile label="Country" value={country} icon={MapPin} />
+										{user?.profile?.employee_count ? (
+											<InfoTile
+												label="Employees"
+												value={Number(user.profile.employee_count).toLocaleString("en-US")}
+												icon={Users}
+											/>
+										) : null}
 									</div>
 
 									<SoftCard>
@@ -1148,7 +1156,7 @@ export default function BuyingHouseProfile() {
 											<div className="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400">
 												<ThreeDot
 													variant="bounce"
-													color="#0ea5e9"
+													color="#337ab0"
 													size="small"
 													text=""
 													textColor=""
@@ -1219,7 +1227,7 @@ export default function BuyingHouseProfile() {
 												<div className="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400">
 													<ThreeDot
 														variant="bounce"
-														color="#0ea5e9"
+														color="#337ab0"
 														size="small"
 														text=""
 														textColor=""

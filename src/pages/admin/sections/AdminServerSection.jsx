@@ -33,15 +33,15 @@ import { cn } from "../../../lib/cn.js";
 function MetricCard({ label, value, hint, icon: CardIcon, loading = false }) {
 	if (loading) {
 		return (
-			<div className="rounded-3xl border border-slate-200/80 bg-white/80 p-5 shadow-[0_20px_60px_-30px_rgba(14,165,233,0.35)] backdrop-blur-xl dark:border-white/10 dark:bg-slate-950/70">
+			<div className="rounded-3xl border border-slate-200/80 bg-white/80 p-5 shadow-[0_20px_60px_-30px_rgba(51,122,176,0.35)] backdrop-blur-xl dark:border-white/10 dark:bg-slate-950/70">
 				<div className="flex items-center justify-center">
-					<ThreeDot variant="bounce" color="#0ea5e9" size="small" text="" textColor="" />
+					<ThreeDot variant="bounce" color="#337ab0" size="small" text="" textColor="" />
 				</div>
 			</div>
 		);
 	}
 	return (
-		<div className="group rounded-3xl border border-slate-200/80 bg-white/80 p-5 shadow-[0_20px_60px_-30px_rgba(14,165,233,0.35)] backdrop-blur-xl transition hover:-translate-y-0.5 hover:border-sky-300/70 hover:shadow-[0_24px_80px_-28px_rgba(14,165,233,0.45)] dark:border-white/10 dark:bg-slate-950/70">
+		<div className="group rounded-3xl border border-slate-200/80 bg-white/80 p-5 shadow-[0_20px_60px_-30px_rgba(51,122,176,0.35)] backdrop-blur-xl transition hover:-translate-y-0.5 hover:border-sky-300/70 hover:shadow-[0_24px_80px_-28px_rgba(51,122,176,0.45)] dark:border-white/10 dark:bg-slate-950/70">
 			<div className="flex items-start justify-between gap-4">
 				<div>
 					<p className="text-sm text-slate-500 dark:text-slate-400">{label}</p>
@@ -903,7 +903,7 @@ export function AdminServerSection({
 									)}
 								>
 									{openSearchConfigBusy ? (
-										<ThreeDot variant="bounce" color="#0ea5e9" size="small" text="" textColor="" />
+										<ThreeDot variant="bounce" color="#337ab0" size="small" text="" textColor="" />
 									) : (
 										"Save settings"
 									)}
@@ -1177,7 +1177,7 @@ export function AdminServerSection({
 									className="inline-flex items-center gap-2 rounded-2xl bg-sky-500 px-4 py-2.5 text-sm font-semibold text-white shadow-lg shadow-sky-500/20 transition hover:translate-y-[-1px] disabled:opacity-60"
 								>
 									{emailConfigBusy ? (
-										<ThreeDot variant="bounce" color="#0ea5e9" size="small" text="" textColor="" />
+										<ThreeDot variant="bounce" color="#337ab0" size="small" text="" textColor="" />
 									) : (
 										"Save settings"
 									)}
@@ -1258,7 +1258,7 @@ export function AdminServerSection({
 							)}
 						>
 							{adminUiSettingsBusy ? (
-								<ThreeDot variant="bounce" color="#0ea5e9" size="small" text="" textColor="" />
+								<ThreeDot variant="bounce" color="#337ab0" size="small" text="" textColor="" />
 							) : (
 								"Save settings"
 							)}
@@ -1415,7 +1415,7 @@ export function AdminServerSection({
 										}));
 									}}
 									rows={4}
-									placeholder="#38bdf8\n#60a5fa\n#0f172a"
+									placeholder="#6dabdf\n#6aa1d4\n#0f172a"
 									className={cn(
 										"w-full resize-y rounded-2xl border px-4 py-3 font-mono text-xs outline-none",
 										adminDark

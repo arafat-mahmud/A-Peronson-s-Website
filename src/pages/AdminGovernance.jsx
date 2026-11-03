@@ -116,7 +116,7 @@ import { cn } from "../lib/cn.js";
  */
 function SectionCard({ icon: Icon, title, subtitle, children, right }) {
 	return (
-		<section className="overflow-hidden rounded-3xl border border-sky-200/70 bg-white/80 shadow-[0_20px_60px_-25px_rgba(14,116,144,0.45)] backdrop-blur dark:border-slate-700/70 dark:bg-slate-950/70">
+		<section className="overflow-hidden rounded-3xl border border-sky-200/70 bg-white/80 shadow-[0_20px_60px_-25px_rgba(0,106,106,0.45)] backdrop-blur dark:border-slate-700/70 dark:bg-slate-950/70">
 			<div className="flex flex-col gap-4 border-b border-sky-100 px-5 py-5 sm:flex-row sm:items-center sm:justify-between dark:border-slate-800">
 				<div className="flex items-start gap-3">
 					<div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-sky-500 to-cyan-400 text-white shadow-lg shadow-sky-500/25">
@@ -266,8 +266,8 @@ export default function AdminGovernance() {
 	);
 
 	const shellClass = darkMode
-		? "dark bg-[radial-gradient(circle_at_top_left,_rgba(14,165,233,0.22),_transparent_26%),radial-gradient(circle_at_top_right,_rgba(56,189,248,0.16),_transparent_23%),linear-gradient(180deg,_#020617_0%,_#0f172a_100%)] text-slate-100"
-		: "bg-[radial-gradient(circle_at_top_left,_rgba(14,165,233,0.14),_transparent_26%),radial-gradient(circle_at_top_right,_rgba(125,211,252,0.16),_transparent_23%),linear-gradient(180deg,_#eff8ff_0%,_#f8fbff_100%)] text-slate-900";
+		? "dark bg-[radial-gradient(circle_at_top_left,_rgba(51,122,176,0.22),_transparent_26%),radial-gradient(circle_at_top_right,_rgba(109,171,223,0.16),_transparent_23%),linear-gradient(180deg,_#020617_0%,_#0f172a_100%)] text-slate-100"
+		: "bg-[radial-gradient(circle_at_top_left,_rgba(51,122,176,0.14),_transparent_26%),radial-gradient(circle_at_top_right,_rgba(155,202,242,0.16),_transparent_23%),linear-gradient(180deg,_#eff8ff_0%,_#f8fbff_100%)] text-slate-900";
 
 	const stats = useMemo(
 		() => [
@@ -415,7 +415,7 @@ export default function AdminGovernance() {
 	return (
 		<div className={cn("min-h-dvh flex-1 transition-colors", shellClass)}>
 			<div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-				<div className="mb-6 flex flex-col gap-4 rounded-3xl border border-sky-200/70 bg-white/80 p-5 shadow-[0_20px_60px_-25px_rgba(14,116,144,0.45)] backdrop-blur dark:border-white/10 dark:bg-slate-950/40 lg:flex-row lg:items-center lg:justify-between">
+				<div className="mb-6 flex flex-col gap-4 rounded-3xl border border-sky-200/70 bg-white/80 p-5 shadow-[0_20px_60px_-25px_rgba(0,106,106,0.45)] backdrop-blur dark:border-white/10 dark:bg-slate-950/40 lg:flex-row lg:items-center lg:justify-between">
 					<div className="flex items-start gap-4">
 						<div className="flex h-14 w-14 items-center justify-center rounded-3xl bg-gradient-to-br from-sky-500 via-cyan-400 to-sky-300 text-white shadow-lg shadow-sky-500/25">
 							<ShieldCheck className="h-7 w-7" />
@@ -484,7 +484,7 @@ export default function AdminGovernance() {
 						return (
 							<div
 								key={item.label}
-								className="rounded-3xl border border-sky-200/70 bg-white/80 p-5 shadow-[0_20px_60px_-35px_rgba(14,116,144,0.42)] backdrop-blur dark:border-slate-800 dark:bg-slate-950/60"
+								className="rounded-3xl border border-sky-200/70 bg-white/80 p-5 shadow-[0_20px_60px_-35px_rgba(0,106,106,0.42)] backdrop-blur dark:border-slate-800 dark:bg-slate-950/60"
 							>
 								<div className="flex items-center justify-between gap-4">
 									<div>

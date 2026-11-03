@@ -23,7 +23,7 @@ function SectionCard({ title, subtitle, children, className = "" }) {
 	return (
 		<section
 			class={cx(
-				"rounded-3xl border border-sky-200/60 bg-white/80 p-5 shadow-[0_20px_60px_-30px_rgba(14,165,233,0.45)] backdrop-blur dark:border-slate-800 dark:bg-slate-950/75",
+				"rounded-3xl border border-sky-200/60 bg-white/80 p-5 shadow-[0_20px_60px_-30px_rgba(51,122,176,0.45)] backdrop-blur dark:border-slate-800 dark:bg-slate-950/75",
 				className,
 			)}
 		>
@@ -221,34 +221,42 @@ const hasRoleAccess = (userRole, requiredRole) => {
 	return userIndex >= requiredIndex && userIndex !== -1;
 };
 
+// Order and names follow the client's final decision (26/09/2026): My Profile
+// first, account settings (notifications, security, theme) last; "General Info"
+// is named for what it controls.
 const TABS = [
-	{ id: "general", label: "General Info", requiredRole: "viewer" },
 	{ id: "profile", label: "My Profile", requiredRole: "observer" },
-	{ id: "theme", label: "Theme", requiredRole: "viewer" },
-	{ id: "privacy", label: "Privacy", requiredRole: "observer" },
 	{ id: "verification", label: "Verification", requiredRole: "factory" },
+	{ id: "general", label: "Chatbot & Auto-reply", requiredRole: "viewer" },
 	{ id: "branding", label: "Branding", requiredRole: "factory" },
-	{ id: "security", label: "Security", requiredRole: "factory" },
 	{ id: "members", label: "Members", requiredRole: "factory" },
-	{ id: "subscription", label: "Subscription", requiredRole: "factory" },
-	{ id: "notifications", label: "Notifications", requiredRole: "viewer" },
+	{ id: "subscription", label: "Subscription & Billing", requiredRole: "factory" },
 	{
 		id: "assistant_knowledge",
 		label: "Assistant Knowledge",
 		requiredRole: "admin",
 	},
+	{ id: "privacy", label: "Privacy", requiredRole: "observer" },
+	{ id: "notifications", label: "Notifications", requiredRole: "viewer" },
+	{ id: "security", label: "Security", requiredRole: "factory" },
+	{ id: "theme", label: "Theme", requiredRole: "viewer" },
 ];
 
 const STANDALONE_TAB_IDS = ["profile", "theme", "security", "notifications", "verification"];
 
-export default function Settings({ embedded = false, initialTabProp = "" }) {
+export default function Settings({ embedded = false, initialTabProp = "", tabIds = null }) {
 	const navigate = useNavigate();
 	const [searchParams, setSearchParams] = useSearchParams();
 	const tabParamName = embedded ? "settingsTab" : "tab";
-	const visibleTabs = embedded ? TABS : TABS.filter((t) => STANDALONE_TAB_IDS.includes(t.id));
+	// Inside the Owner Dashboard each section shows only its own tabs: the
+	// dashboard menu already lists the others, and repeating every tab here
+	// duplicated them (client rule: nothing in two places).
+	const visibleTabs = embedded
+		? TABS.filter((t) => !Array.isArray(tabIds) || tabIds.includes(t.id))
+		: TABS.filter((t) => STANDALONE_TAB_IDS.includes(t.id));
 	const initialTab = useMemo(() => {
 		const candidate = searchParams.get(tabParamName) || initialTabProp || "profile";
-		return visibleTabs.some((t) => t.id === candidate) ? candidate : "profile";
+		return visibleTabs.some((t) => t.id === candidate) ? candidate : visibleTabs[0]?.id || "profile";
 	}, [searchParams, tabParamName, initialTabProp]);
 
 	const [tab, setTab] = useState(initialTab);
@@ -337,8 +345,11 @@ export default function Settings({ embedded = false, initialTabProp = "" }) {
 
 	// Profile tab state
 	const [profileDisplayName, setProfileDisplayName] = useState(() =>
-		String(currentUser?.display_name || currentUser?.name || ""),
+		String(
+			currentUser?.profile?.organization_name || currentUser?.display_name || currentUser?.name || "",
+		),
 	);
+	const [orgNameChangedAt, setOrgNameChangedAt] = useState(0);
 	const [profileHeadline, setProfileHeadline] = useState(() =>
 		String(currentUser?.profile?.headline || ""),
 	);
@@ -685,14 +696,12 @@ export default function Settings({ embedded = false, initialTabProp = "" }) {
 		try {
 			const data = await apiRequest("/users/me", { token });
 			if (data) {
-				setProfileDisplayName(String(data.display_name || data.name || ""));
-				try {
-					if (!localStorage.getItem("orgNameInitial")) {
-						localStorage.setItem("orgNameInitial", String(data.display_name || data.name || ""));
-					}
-				} catch {
-					/* ignore */
-				}
+				// The company name buyers see is profile.organization_name; the
+				// field used to show (and save) the personal account name instead.
+				setProfileDisplayName(
+					String(data.profile?.organization_name || data.display_name || data.name || ""),
+				);
+				setOrgNameChangedAt(Date.parse(data.profile?.organization_name_changed_at || "") || 0);
 				setProfileHeadline(String(data.profile?.headline || ""));
 				setProfileBio(String(data.profile?.bio || ""));
 				setProfileAvatarUrl(String(data.avatar_url || data.profile?.avatar_url || ""));
@@ -1001,7 +1010,7 @@ export default function Settings({ embedded = false, initialTabProp = "" }) {
 				method: "PATCH",
 				token,
 				body: {
-					display_name: profileDisplayName,
+					organization_name: profileDisplayName,
 					headline: profileHeadline,
 					bio: profileBio,
 					avatar_url: profileAvatarUrl,
@@ -1011,15 +1020,7 @@ export default function Settings({ embedded = false, initialTabProp = "" }) {
 				},
 			});
 			setProfileFeedback("Profile saved.");
-			try {
-				const initial = localStorage.getItem("orgNameInitial") || "";
-				if (initial && profileDisplayName !== initial) {
-					localStorage.setItem("orgNameChangedAt", String(Date.now()));
-				}
-				localStorage.setItem("orgNameInitial", profileDisplayName);
-			} catch {
-				/* ignore */
-			}
+			loadUserProfile();
 		} catch (err) {
 			setProfileFeedback(err.message || "Failed to save");
 		} finally {
@@ -1719,6 +1720,7 @@ export default function Settings({ embedded = false, initialTabProp = "" }) {
 		<>
 			<LockModal />
 			{/* Tab Navigation */}
+			{accessibleTabs.length > 1 ? (
 			<div
 				class="mb-6 overflow-x-auto rounded-[1.75rem] border border-sky-200/60 bg-white/75 p-2 shadow-lg backdrop-blur dark:border-slate-800 dark:bg-slate-950/70"
 				style={{ WebkitOverflowScrolling: "touch", touchAction: "pan-x pan-y" }}
@@ -1745,30 +1747,18 @@ export default function Settings({ embedded = false, initialTabProp = "" }) {
 					))}
 				</div>
 			</div>
+			) : null}
 
-			{/* Status Bar */}
-			<div class="mb-6 rounded-3xl border border-sky-200/60 bg-white/80 p-4 shadow-sm backdrop-blur dark:border-slate-800 dark:bg-slate-950/70">
-				<div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-					<div>
-						<p class="text-sm font-medium text-slate-500 dark:text-slate-400">Status</p>
-						<p class="text-sm text-slate-900 dark:text-white">{statusMessage}</p>
-					</div>
-					<div class="grid grid-cols-2 gap-3 sm:flex sm:flex-wrap">
-						<div class="rounded-2xl bg-slate-50 px-4 py-3 dark:bg-slate-900">
-							<div class="text-xs text-slate-500 dark:text-slate-400">Wallet</div>
-							<div class="font-semibold text-slate-900 dark:text-white">
-								${walletBalance.toFixed(2)}
-							</div>
-						</div>
-						<div class="rounded-2xl bg-slate-50 px-4 py-3 dark:bg-slate-900">
-							<div class="text-xs text-slate-500 dark:text-slate-400">Restricted</div>
-							<div class="font-semibold text-slate-900 dark:text-white">
-								${walletRestricted.toFixed(2)}
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
+			{/* Save feedback. The old permanent "Status: Ready." panel with wallet
+			    balances is gone - balances live in Subscription & Billing. */}
+			{statusMessage && statusMessage !== "Ready." ? (
+				<p
+					role="status"
+					class="mb-6 rounded-2xl border border-sky-200/60 bg-white/80 px-4 py-3 text-sm text-slate-700 dark:border-slate-800 dark:bg-slate-950/70 dark:text-slate-200"
+				>
+					{statusMessage}
+				</p>
+			) : null}
 
 			{/* Tab Content Sections */}
 			{activeTab === "general" && (
@@ -1987,7 +1977,8 @@ export default function Settings({ embedded = false, initialTabProp = "" }) {
 							<div>
 								<Label>Organization Name</Label>
 								{(() => {
-									const changedAt = Number(localStorage.getItem("orgNameChangedAt") || 0);
+									// Enforced by the API too (90-day lock; verified = re-verify).
+									const changedAt = orgNameChangedAt;
 									const locked = changedAt > 0 && Date.now() - changedAt < 90 * 24 * 3600 * 1000;
 									const verified =
 										String(verification?.status || "").toLowerCase() === "verified" ||
@@ -2091,7 +2082,7 @@ export default function Settings({ embedded = false, initialTabProp = "" }) {
 						<div class="mt-4 flex gap-3">
 							<PrimaryButton onClick={saveProfileSettings} disabled={loadingProfile}>
 								{loadingProfile ? (
-									<ThreeDot variant="bounce" color="#0ea5e9" size="small" text="" textColor="" />
+									<ThreeDot variant="bounce" color="#337ab0" size="small" text="" textColor="" />
 								) : (
 									"Save Profile"
 								)}
@@ -2176,7 +2167,7 @@ export default function Settings({ embedded = false, initialTabProp = "" }) {
 								<div class="space-y-3">
 									{loadingSessions ? (
 										<Mosaic
-											color="#0ea5e9"
+											color="#337ab0"
 											size="large"
 											style={{ fontSize: "40px" }}
 											text=""
@@ -2574,7 +2565,7 @@ export default function Settings({ embedded = false, initialTabProp = "" }) {
 						<div class="space-y-3">
 							{loadingSessions ? (
 								<Mosaic
-									color="#0ea5e9"
+									color="#337ab0"
 									size="large"
 									style={{ fontSize: "40px" }}
 									text=""
@@ -2715,7 +2706,7 @@ export default function Settings({ embedded = false, initialTabProp = "" }) {
 										{logoUploading ? (
 											<ThreeDot
 												variant="bounce"
-												color="#0ea5e9"
+												color="#337ab0"
 												size="small"
 												text=""
 												textColor=""
@@ -2761,7 +2752,7 @@ export default function Settings({ embedded = false, initialTabProp = "" }) {
 										{bannerUploading ? (
 											<ThreeDot
 												variant="bounce"
-												color="#0ea5e9"
+												color="#337ab0"
 												size="small"
 												text=""
 												textColor=""
@@ -3030,7 +3021,7 @@ export default function Settings({ embedded = false, initialTabProp = "" }) {
 							)}
 							{loadingBoosts ? (
 								<div class="flex justify-center py-4">
-									<ThreeDot variant="bounce" color="#0ea5e9" size="small" text="" textColor="" />
+									<ThreeDot variant="bounce" color="#337ab0" size="small" text="" textColor="" />
 								</div>
 							) : boosts.length > 0 ? (
 								<div class="space-y-2">
@@ -3122,7 +3113,7 @@ export default function Settings({ embedded = false, initialTabProp = "" }) {
 										return;
 									}
 									try {
-										const data = await apiRequest("/org/knowledge", {
+										const data = await apiRequest("/assistant/knowledge", {
 											method: "POST",
 											token,
 											body: {
@@ -3184,7 +3175,7 @@ export default function Settings({ embedded = false, initialTabProp = "" }) {
 
 			<div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
 				{/* Header */}
-				<div class="mb-6 flex flex-col gap-4 rounded-[2rem] border border-sky-200/70 bg-white/80 p-5 shadow-[0_24px_80px_-35px_rgba(2,132,199,0.6)] backdrop-blur dark:border-slate-800 dark:bg-slate-950/70 lg:flex-row lg:items-center lg:justify-between">
+				<div class="mb-6 flex flex-col gap-4 rounded-[2rem] border border-sky-200/70 bg-white/80 p-5 shadow-[0_24px_80px_-35px_rgba(32,101,152,0.6)] backdrop-blur dark:border-slate-800 dark:bg-slate-950/70 lg:flex-row lg:items-center lg:justify-between">
 					<div class="flex items-center gap-4">
 						<Icon>
 							<SettingsIcon className="h-5 w-5" />

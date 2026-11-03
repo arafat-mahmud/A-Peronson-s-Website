@@ -560,7 +560,7 @@ export default function VerificationPage({ embedded = false }) {
 
 	const cardBg = isDark
 		? "bg-white/5 border-white/10 shadow-[0_20px_80px_rgba(2,8,23,0.55)]"
-		: "bg-white/80 border-slate-200 shadow-[0_20px_70px_rgba(14,165,233,0.12)] backdrop-blur";
+		: "bg-white/80 border-slate-200 shadow-[0_20px_70px_rgba(51,122,176,0.12)] backdrop-blur";
 
 	const softText = isDark ? "text-slate-300" : "text-slate-600";
 	const mutedText = isDark ? "text-slate-400" : "text-slate-500";
@@ -714,7 +714,7 @@ export default function VerificationPage({ embedded = false }) {
 								</select>
 								{savingCountry && (
 									<span className="flex items-center">
-										<ThreeDot variant="bounce" color="#0ea5e9" size="small" text="" textColor="" />
+										<ThreeDot variant="bounce" color="#337ab0" size="small" text="" textColor="" />
 									</span>
 								)}
 							</div>
@@ -795,7 +795,7 @@ export default function VerificationPage({ embedded = false }) {
 											{busyDoc === requiredDocs[idx] ? (
 												<ThreeDot
 													variant="bounce"
-													color="#0ea5e9"
+													color="#337ab0"
 													size="small"
 													text=""
 													textColor=""
@@ -983,7 +983,7 @@ export default function VerificationPage({ embedded = false }) {
 							/>
 							{verifyingCode && (
 								<div className="mt-3 flex items-center gap-2 text-sm text-sky-400">
-									<ThreeDot variant="bounce" color="#0ea5e9" size="small" text="" textColor="" />
+									<ThreeDot variant="bounce" color="#337ab0" size="small" text="" textColor="" />
 									<span>Verifying code...</span>
 								</div>
 							)}

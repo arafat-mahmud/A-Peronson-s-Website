@@ -110,7 +110,7 @@ export const fetchRoles = createAsyncThunk("config/fetchRoles", async (_, { reje
 	}
 });
 
-const DEFAULT_PIE_PALETTE = ["#38bdf8", "#60a5fa", "#0f172a"];
+const DEFAULT_PIE_PALETTE = ["#6dabdf", "#6aa1d4", "#0f172a"];
 const DEFAULT_EMPTY_STATE_COPY = {
 	"verification.pending.short": "No pending verifications.",
 	"verification.pending": "No pending verifications in queue.",

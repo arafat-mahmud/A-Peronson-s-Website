@@ -2,7 +2,14 @@
 
 import { motion } from "framer-motion";
 import { lazy, Suspense, useEffect, useRef, useState } from "react";
-import { BrowserRouter, Navigate, Route, Routes, useLocation } from "react-router-dom";
+import {
+	BrowserRouter,
+	Navigate,
+	Route,
+	Routes,
+	useLocation,
+	useNavigationType,
+} from "react-router-dom";
 import ErrorBoundary from "./components/ErrorBoundary.jsx";
 import Footer from "./components/Footer.jsx";
 import NavBar from "./components/NavBar.jsx";
@@ -18,7 +25,6 @@ import { logger } from "./lib/logger.js";
 
 const FloatingAssistant = lazy(() => import("./components/FloatingAssistant.jsx"));
 const CyberpunkCursor = lazy(() => import("./components/ui/CyberpunkCursor.jsx"));
-const LenisProvider = lazy(() => import("./components/LenisProvider.jsx"));
 
 function LazyLoadError() {
 	return (
@@ -47,7 +53,37 @@ function LazyLoadError() {
 	);
 }
 
-const safeLazy = (importFn) => lazy(() => importFn().catch(() => ({ default: LazyLoadError })));
+// A route chunk can fail to load right after a deploy: a page opened before
+// the deploy asks for chunk names that no longer exist. Retry once (a network
+// blip), then reload the page once so it picks up the new build; the error
+// screen is only for a failure that survives the reload.
+const CHUNK_RELOAD_KEY = "gth_chunk_reload_at";
+
+function reloadOnceForNewBuild() {
+	try {
+		const last = Number(sessionStorage.getItem(CHUNK_RELOAD_KEY) || 0);
+		if (Date.now() - last < 30_000) {
+			return false;
+		}
+		sessionStorage.setItem(CHUNK_RELOAD_KEY, String(Date.now()));
+	} catch {
+		return false;
+	}
+	window.location.reload();
+	return true;
+}
+
+const safeLazy = (importFn) =>
+	lazy(() =>
+		importFn()
+			.catch(() => new Promise((resolve) => setTimeout(resolve, 600)).then(importFn))
+			.catch(() => {
+				if (reloadOnceForNewBuild()) {
+					return new Promise(() => {});
+				}
+				return { default: LazyLoadError };
+			}),
+	);
 
 const TexHub = safeLazy(() => import("./pages/TexHub.jsx"));
 const Pricing = safeLazy(() => import("./pages/Pricing.jsx"));
@@ -105,19 +141,56 @@ function OrgSettingsRedirect() {
 	return <Navigate to={`/settings${location.search}`} replace={true} />;
 }
 
+// Company accounts manage verification inside the owner console; buyers and
+// agents get the standalone verification page (they used to hit Access denied).
+function VerificationRoute() {
+	const role = String(getCurrentUser()?.role || "").toLowerCase();
+	return OWNER_ROLES.includes(role) ? <OwnerDashboard /> : <VerificationPage />;
+}
+
+// New pages open at the top; "#section" links land on that section; browser
+// back/forward is left to the browser's own scroll restoration.
+function RouteScrollManager() {
+	const location = useLocation();
+	const navigationType = useNavigationType();
+
+	useEffect(() => {
+		if (navigationType === "POP") {
+			return undefined;
+		}
+		const id = decodeURIComponent(location.hash.replace(/^#/, ""));
+		if (!id) {
+			window.scrollTo(0, 0);
+			return undefined;
+		}
+		// Lazy pages render after navigation, so look for the anchor briefly.
+		let frame = 0;
+		let tries = 0;
+		const seek = () => {
+			const target = document.getElementById(id);
+			if (target) {
+				target.scrollIntoView({ block: "start" });
+			} else if (tries++ < 40) {
+				frame = requestAnimationFrame(seek);
+			}
+		};
+		seek();
+		return () => cancelAnimationFrame(frame);
+	}, [location.pathname, location.hash, navigationType]);
+
+	return null;
+}
+
 function ProtectedRoute({ children, roles }) {
 	const location = useLocation();
 	const token = getToken();
 	const [user, setUser] = useState(() => getCurrentUser());
 
-	// Simple check - if no token, redirect to login
-	if (!token) {
-		return <Navigate to="/login" replace={true} state={{ from: location.pathname }} />;
-	}
-
-	// Background sync: if user is null on mount, poll until cached or redirect after timeout
+	// Background sync: if user is null on mount, poll until cached or redirect after timeout.
+	// Hooks run before any early return - a token that disappears mid-session
+	// (logout, expired refresh) must not change the hook order.
 	useEffect(() => {
-		if (user) return;
+		if (user || !token) return;
 		let attempts = 0;
 		const maxAttempts = 30; // 30 * 500ms = 15 seconds max
 		const interval = setInterval(() => {
@@ -128,14 +201,22 @@ function ProtectedRoute({ children, roles }) {
 				clearInterval(interval);
 			} else if (attempts >= maxAttempts) {
 				clearInterval(interval);
-				// Redirect to login if user can't be loaded
-				localStorage.removeItem("ght_token");
-				localStorage.removeItem("user");
+				clearSession();
 				window.location.href = "/login";
 			}
 		}, 500);
 		return () => clearInterval(interval);
-	}, [user]);
+	}, [user, token]);
+
+	if (!token) {
+		return (
+			<Navigate
+				to="/login"
+				replace={true}
+				state={{ from: `${location.pathname}${location.search}${location.hash}` }}
+			/>
+		);
+	}
 
 	if (!user) {
 		return <NeonAtom fill={true} size={80} />;
@@ -436,8 +517,16 @@ function AppRoutes() {
 			<Route
 				path="/verification"
 				element={
-					<ProtectedRoute roles={OWNER_ROLES}>
-						<OwnerDashboard />
+					<ProtectedRoute roles={AUTH_ROLES}>
+						<VerificationRoute />
+					</ProtectedRoute>
+				}
+			/>
+			<Route
+				path="/verification-center"
+				element={
+					<ProtectedRoute roles={AUTH_ROLES}>
+						<VerificationPage />
 					</ProtectedRoute>
 				}
 			/>
@@ -549,9 +638,9 @@ function AppLayout() {
 								>
 									<motion.div
 										key={location.pathname}
-										initial={{ opacity: 0, y: 8 }}
-										animate={{ opacity: 1, y: 0 }}
-										transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+										initial={{ opacity: 0 }}
+										animate={{ opacity: 1 }}
+										transition={{ duration: 0.15, ease: "easeOut" }}
 										class="flex min-h-0 flex-1 flex-col"
 									>
 										<AppRoutes />
@@ -582,20 +671,6 @@ function AppLayout() {
 		const token = getToken();
 		if (token) {
 			verifyAndSyncUser(token).catch((err) => logger.error("User sync failed:", err));
-		}
-	}, []);
-
-	useEffect(() => {
-		// Reset scroll so new routes don't inherit the old scroll position.
-		if (typeof process !== "undefined" && process.env && process.env.NODE_ENV === "test") {
-			return;
-		}
-		try {
-			if (typeof window.scrollTo === "function") {
-				window.scrollTo(0, 0);
-			}
-		} catch {
-			// Some environments (old jsdom) throw "Not implemented: window.scrollTo".
 		}
 	}, []);
 
@@ -684,16 +759,16 @@ function AppLayout() {
 		};
 	}, []);
 
-	return (
-		<Suspense fallback={content}>
-			{hideChrome ? content : <LenisProvider>{content}</LenisProvider>}
-		</Suspense>
-	);
+	// Native browser scrolling everywhere: the old smooth-scroll layer (Lenis)
+	// intercepted wheel and touch input, which made every page feel slow and
+	// stopped nested lists and keyboard-open forms from scrolling on phones.
+	return content;
 }
 
 function App() {
 	return (
 		<BrowserRouter>
+			<RouteScrollManager />
 			<Suspense fallback={null}>
 				<CyberpunkCursor />
 			</Suspense>

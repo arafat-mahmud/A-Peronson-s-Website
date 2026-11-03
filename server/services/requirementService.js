@@ -213,7 +213,6 @@ function normalizeRequirement(buyerId, payload) {
 	const normalized = {
 		id: crypto.randomUUID(),
 		buyer_id: buyerId,
-		match_id: sanitizeString(payload.match_id || payload.matchId || "", 240),
 		title,
 		request_type: requestType,
 		verified_only: Boolean(payload.verified_only),
@@ -275,7 +274,8 @@ function normalizeRequirement(buyerId, payload) {
 		techpack_accepted: Boolean(payload.techpack_accepted),
 		// Lead ownership / assignment (Buying House flow).
 		assigned_agent_id: sanitizeString(payload.assigned_agent_id || "", 120),
-		assigned_at: sanitizeString(payload.assigned_at || "", 40),
+		// DateTime? column: an empty string made Prisma reject every new request.
+		assigned_at: normalizeDate(payload.assigned_at),
 		assigned_by: sanitizeString(payload.assigned_by || "", 120),
 		status: status || "open",
 		priority_tier: sanitizeString(payload.priority_tier || "", 40),
@@ -602,7 +602,7 @@ export async function updateRequirement(requirementId, patch, actor) {
 			: sanitizeString(existing.assigned_agent_id || "", 120),
 		assigned_at: assignmentChanged
 			? new Date().toISOString()
-			: sanitizeString(existing.assigned_at || "", 40),
+			: normalizeDate(existing.assigned_at),
 		assigned_by: assignmentChanged
 			? sanitizeString(actor.id || "", 120)
 			: sanitizeString(existing.assigned_by || "", 120),
@@ -614,8 +614,6 @@ export async function updateRequirement(requirementId, patch, actor) {
 			patch.priority_until === undefined
 				? existing.priority_until || null
 				: normalizeDate(patch.priority_until),
-		match_id:
-			patch.match_id === undefined ? existing.match_id : sanitizeString(patch.match_id || "", 240),
 	};
 
 	const baseCurrency = await getBaseCurrency();

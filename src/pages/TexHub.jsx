@@ -130,7 +130,7 @@ function Card({ class: cls = "", className = "", children }) {
 	return (
 		<motion.div
 			class={
-				"rounded-3xl border border-slate-200/70 bg-white/70 shadow-[0_20px_70px_-30px_rgba(2,132,199,0.35)] backdrop-blur-xl card-gradient-border dark:border-white/10 dark:bg-white/[0.045] dark:shadow-[0_24px_80px_-32px_rgba(0,0,0,0.55)] " +
+				"rounded-3xl border border-slate-200/70 bg-white/70 shadow-[0_20px_70px_-30px_rgba(32,101,152,0.35)] backdrop-blur-xl card-gradient-border dark:border-white/10 dark:bg-white/[0.045] dark:shadow-[0_24px_80px_-32px_rgba(0,0,0,0.55)] " +
 				className +
 				" " +
 				cls
@@ -274,7 +274,7 @@ function MagneticLinkButton({ to, class: cls = "", className = "", children }) {
 const SkeletonLine = ({ className = "", size = 24 }) => (
 	<ThreeDot
 		variant="bounce"
-		color="#0ea5e9"
+		color="#337ab0"
 		size="medium"
 		style={{ fontSize: `${size}px` }}
 		text=""
@@ -702,7 +702,7 @@ export default function TexHub() {
 								<span
 									class={`block rounded-full transition-all duration-300 ${
 										activeSection === id
-											? "h-3 w-3 bg-sky-500 shadow-[0_0_8px_rgba(14,165,233,0.5)]"
+											? "h-3 w-3 bg-sky-500 shadow-[0_0_8px_rgba(51,122,176,0.5)]"
 											: "h-2 w-2 bg-slate-300 hover:bg-slate-400 dark:bg-slate-600 dark:hover:bg-slate-400"
 									}`}
 								/>
@@ -717,7 +717,7 @@ export default function TexHub() {
 						style={{
 							y: reduceMotion ? 0 : blob1Spring,
 							backgroundImage:
-								"conic-gradient(from 0deg, rgba(14,165,233,0.25), rgba(99,102,241,0.15), transparent 70%)",
+								"conic-gradient(from 0deg, rgba(51,122,176,0.25), rgba(99,102,241,0.15), transparent 70%)",
 						}}
 						class="h-full w-full rounded-full blur-3xl"
 					/>
@@ -727,7 +727,7 @@ export default function TexHub() {
 						style={{
 							y: reduceMotion ? 0 : blob2Spring,
 							backgroundImage:
-								"conic-gradient(from 120deg, rgba(59,130,246,0.20), rgba(99,102,241,0.12), transparent 70%)",
+								"conic-gradient(from 120deg, rgba(55,115,168,0.20), rgba(99,102,241,0.12), transparent 70%)",
 						}}
 						class="h-full w-full rounded-full blur-3xl"
 					/>
@@ -737,7 +737,7 @@ export default function TexHub() {
 						style={{
 							y: reduceMotion ? 0 : blob3Spring,
 							backgroundImage:
-								"conic-gradient(from 240deg, rgba(6,182,212,0.18), rgba(14,165,233,0.10), transparent 70%)",
+								"conic-gradient(from 240deg, rgba(29,153,153,0.18), rgba(51,122,176,0.10), transparent 70%)",
 						}}
 						class="h-full w-full rounded-full blur-3xl"
 					/>

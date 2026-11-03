@@ -9,6 +9,13 @@ services:
     repo: https://github.com/gamertoky1188gro/A-Peronson-s-Website
     plan: free
     autoDeployTrigger: commit
+    # Liveness probe (no database call): an instance failing it for 60s is
+    # restarted by Render. A fatal error makes the process exit non-zero after
+    # logging, and Render starts a fresh instance.
+    healthCheckPath: /health
+    # SIGTERM -> graceful shutdown (server.js, SHUTDOWN_TIMEOUT_MS + 2s cap)
+    # finishes well inside this window.
+    maxShutdownDelaySeconds: 30
     envVars:
       - key: NODE_ENV
         value: production

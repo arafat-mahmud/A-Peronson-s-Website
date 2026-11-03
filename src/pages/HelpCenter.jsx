@@ -206,8 +206,10 @@ export default function HelpCenterPage() {
 			setLoading(true);
 			try {
 				const data = await apiRequest("/assistant/knowledge", { token });
-				if (data && Array.isArray(data)) {
-					setFaqs(data);
+				// The API answers { entries: [...] }; keep the seed FAQs when empty.
+				const list = Array.isArray(data) ? data : data?.entries;
+				if (Array.isArray(list) && list.length > 0) {
+					setFaqs(list);
 				}
 			} catch {
 				// Fall back to seed data
@@ -336,7 +338,7 @@ export default function HelpCenterPage() {
 	}
 
 	return (
-		<div className="min-h-screen overflow-x-hidden bg-[radial-gradient(circle_at_top,rgba(56,189,248,0.24),transparent_34%),linear-gradient(180deg,#eff8ff_0%,#f8fbff_35%,#ffffff_100%)] text-slate-900 transition-colors duration-300 dark:bg-[radial-gradient(circle_at_top,rgba(14,165,233,0.18),transparent_30%),linear-gradient(180deg,#020617_0%,#07111f_52%,#020617_100%)] dark:text-slate-100">
+		<div className="min-h-screen overflow-x-hidden bg-[radial-gradient(circle_at_top,rgba(109,171,223,0.24),transparent_34%),linear-gradient(180deg,#eff8ff_0%,#f8fbff_35%,#ffffff_100%)] text-slate-900 transition-colors duration-300 dark:bg-[radial-gradient(circle_at_top,rgba(51,122,176,0.18),transparent_30%),linear-gradient(180deg,#020617_0%,#07111f_52%,#020617_100%)] dark:text-slate-100">
 			<StructuredData
 				data={{
 					"@context": "https://schema.org",
@@ -349,7 +351,7 @@ export default function HelpCenterPage() {
 					<div className="relative px-6 py-6 sm:px-8 sm:py-8">
 						<motion.div
 							style={{ y: reduceMotion ? 0 : headerGradientY }}
-							className="pointer-events-none absolute inset-0 bg-[linear-gradient(135deg,rgba(14,165,233,0.16),transparent_40%,rgba(59,130,246,0.08))]"
+							className="pointer-events-none absolute inset-0 bg-[linear-gradient(135deg,rgba(51,122,176,0.16),transparent_40%,rgba(55,115,168,0.08))]"
 						/>
 						<div className="relative flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
 							<div className="max-w-3xl">
@@ -766,7 +768,7 @@ export default function HelpCenterPage() {
 											Essential profile, messaging, and basic discovery.
 										</p>
 									</div>
-									<div className="rounded-3xl border border-sky-200/70 bg-gradient-to-br from-sky-500/12 to-blue-500/10 p-6 shadow-[0_12px_60px_rgba(14,165,233,0.12)] dark:border-sky-500/20 dark:from-sky-500/12 dark:to-slate-900/20">
+									<div className="rounded-3xl border border-sky-200/70 bg-gradient-to-br from-sky-500/12 to-blue-500/10 p-6 shadow-[0_12px_60px_rgba(51,122,176,0.12)] dark:border-sky-500/20 dark:from-sky-500/12 dark:to-slate-900/20">
 										<div className="text-sm font-semibold text-sky-700 dark:text-sky-200">Premium</div>
 										<div className="mt-1 text-2xl font-semibold text-slate-900 dark:text-white">
 											Advanced access

@@ -72,8 +72,8 @@ export function AdminCMSSection({
 				className={cn(
 					"rounded-[28px] border p-5 shadow-2xl backdrop-blur-xl sm:p-6",
 					adminDark
-						? "border-white/10 bg-[radial-gradient(circle_at_top,_rgba(56,189,248,0.16),_transparent_32%),linear-gradient(180deg,#020617_0%,#07111f_50%,#030712_100%)] text-white"
-						: "border-slate-200/80 bg-[radial-gradient(circle_at_top,_rgba(56,189,248,0.16),_transparent_32%),linear-gradient(180deg,#f8fbff_0%,#eef7ff_48%,#f8fafc_100%)] text-slate-900",
+						? "border-white/10 bg-[radial-gradient(circle_at_top,_rgba(109,171,223,0.16),_transparent_32%),linear-gradient(180deg,#020617_0%,#07111f_50%,#030712_100%)] text-white"
+						: "border-slate-200/80 bg-[radial-gradient(circle_at_top,_rgba(109,171,223,0.16),_transparent_32%),linear-gradient(180deg,#f8fbff_0%,#eef7ff_48%,#f8fafc_100%)] text-slate-900",
 				)}
 			>
 				<div className="flex flex-col gap-5 xl:flex-row xl:items-start xl:justify-between">
@@ -558,10 +558,10 @@ export function AdminCMSSection({
 											<linearGradient id="cmsFillSky" x1="0" y1="0" x2="0" y2="1">
 												<stop
 													offset="5%"
-													stopColor="#38bdf8"
+													stopColor="#6dabdf"
 													stopOpacity={adminDark ? 0.35 : 0.25}
 												/>
-												<stop offset="95%" stopColor="#38bdf8" stopOpacity={0.02} />
+												<stop offset="95%" stopColor="#6dabdf" stopOpacity={0.02} />
 											</linearGradient>
 										</defs>
 										<CartesianGrid
@@ -600,7 +600,7 @@ export function AdminCMSSection({
 										<Area
 											type="monotone"
 											dataKey="value"
-											stroke={adminDark ? "rgba(186,230,253,0.95)" : "rgba(2,132,199,0.92)"}
+											stroke={adminDark ? "rgba(197,225,250,0.95)" : "rgba(32,101,152,0.92)"}
 											strokeWidth={3}
 											fill="url(#cmsFillSky)"
 										/>
@@ -735,7 +735,7 @@ export function AdminCMSSection({
 										<span className={cmsChipClass(adminDark)}>
 											<ThreeDot
 												variant="bounce"
-												color="#0ea5e9"
+												color="#337ab0"
 												size="small"
 												text=""
 												textColor=""

@@ -16,6 +16,12 @@ import {
 	putAssistantConfigHandler,
 	putAssistantRules,
 } from "../controllers/assistantController.js";
+import {
+	createKnowledgeHandler,
+	deleteKnowledgeHandler,
+	listKnowledgeHandler,
+	updateKnowledgeHandler,
+} from "../controllers/assistantKnowledgeController.js";
 import { allowRoles, requireAuth } from "../middleware/auth.js";
 
 const router = Router();
@@ -28,6 +34,10 @@ router.post("/ask", requireAuth, askAssistant);
 // does not need an anonymous caller.
 router.post("/ask-public", requireAuth, askAssistantPublic);
 router.get("/session-messages", requireAuth, getSessionMessages);
+router.get("/knowledge", requireAuth, listKnowledgeHandler);
+router.post("/knowledge", requireAuth, allowRoles("owner", "admin"), createKnowledgeHandler);
+router.patch("/knowledge/:id", requireAuth, allowRoles("owner", "admin"), updateKnowledgeHandler);
+router.delete("/knowledge/:id", requireAuth, allowRoles("owner", "admin"), deleteKnowledgeHandler);
 router.delete("/session", requireAuth, deleteSession);
 router.post("/extract-requirement", requireAuth, postExtractRequirement);
 router.post("/generate-first-response", requireAuth, postGenerateFirstResponse);

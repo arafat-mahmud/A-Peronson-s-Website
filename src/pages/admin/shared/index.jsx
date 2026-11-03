@@ -6,7 +6,7 @@ import { accentClasses } from "../../../theme/theme-utils.js";
 export function SkeletonChart({ height = 320 }) {
 	return (
 		<div className="flex items-center justify-center" style={{ height }}>
-			<Mosaic color="#0ea5e9" size="large" style={{ fontSize: "40px" }} text="" textColor="" />
+			<Mosaic color="#337ab0" size="large" style={{ fontSize: "40px" }} text="" textColor="" />
 		</div>
 	);
 }
@@ -32,15 +32,15 @@ export function SectionTitle({ title, subtitle, icon: TitleIcon }) {
 export function MetricCard({ label, value, hint, icon: CardIcon, loading = false }) {
 	if (loading) {
 		return (
-			<div className="rounded-3xl border border-slate-200/80 bg-white/80 p-5 shadow-[0_20px_60px_-30px_rgba(14,165,233,0.35)] backdrop-blur-xl dark:border-white/10 dark:bg-slate-950/70">
+			<div className="rounded-3xl border border-slate-200/80 bg-white/80 p-5 shadow-[0_20px_60px_-30px_rgba(51,122,176,0.35)] backdrop-blur-xl dark:border-white/10 dark:bg-slate-950/70">
 				<div className="flex items-center justify-center">
-					<ThreeDot variant="bounce" color="#0ea5e9" size="small" text="" textColor="" />
+					<ThreeDot variant="bounce" color="#337ab0" size="small" text="" textColor="" />
 				</div>
 			</div>
 		);
 	}
 	return (
-		<div className="group rounded-3xl border border-slate-200/80 bg-white/80 p-5 shadow-[0_20px_60px_-30px_rgba(14,165,233,0.35)] backdrop-blur-xl transition hover:-translate-y-0.5 hover:border-sky-300/70 hover:shadow-[0_24px_80px_-28px_rgba(14,165,233,0.45)] dark:border-white/10 dark:bg-slate-950/70">
+		<div className="group rounded-3xl border border-slate-200/80 bg-white/80 p-5 shadow-[0_20px_60px_-30px_rgba(51,122,176,0.35)] backdrop-blur-xl transition hover:-translate-y-0.5 hover:border-sky-300/70 hover:shadow-[0_24px_80px_-28px_rgba(51,122,176,0.45)] dark:border-white/10 dark:bg-slate-950/70">
 			<div className="flex items-start justify-between gap-4">
 				<div>
 					<p className="text-sm text-slate-500 dark:text-slate-400">{label}</p>
@@ -68,7 +68,7 @@ export function Pill({ children }) {
 export function BenefitCard({ title, items, accent = "sky" }) {
 	const ac = accentClasses(accent);
 	return (
-		<div className="rounded-3xl border border-slate-200/80 bg-white/80 p-6 shadow-[0_20px_60px_-30px_rgba(59,130,246,0.28)] backdrop-blur-xl dark:border-white/10 dark:bg-slate-950/70">
+		<div className="rounded-3xl border border-slate-200/80 bg-white/80 p-6 shadow-[0_20px_60px_-30px_rgba(55,115,168,0.28)] backdrop-blur-xl dark:border-white/10 dark:bg-slate-950/70">
 			<div className="flex items-center justify-between gap-4">
 				<div>
 					<h3 className="text-base font-semibold text-slate-900 dark:text-white">{title}</h3>
@@ -225,7 +225,7 @@ export function StatCard({ icon: Icon, title, value, meta, tone = "sky", darkMod
 			};
 
 	const shell = darkMode
-		? "border-slate-800 bg-slate-950/70 shadow-[0_18px_60px_-30px_rgba(2,132,199,0.35)]"
+		? "border-slate-800 bg-slate-950/70 shadow-[0_18px_60px_-30px_rgba(32,101,152,0.35)]"
 		: "border-slate-200 bg-white shadow-sm";
 
 	return (
@@ -312,7 +312,7 @@ export function cmsChipClass(dark, active = false) {
 		"inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-medium transition",
 		dark
 			? active
-				? "border-sky-400/30 bg-sky-400/15 text-sky-100 shadow-[0_0_0_1px_rgba(56,189,248,0.12)]"
+				? "border-sky-400/30 bg-sky-400/15 text-sky-100 shadow-[0_0_0_1px_rgba(109,171,223,0.12)]"
 				: "border-white/10 bg-white/5 text-slate-300 hover:bg-white/10"
 			: active
 				? "border-sky-500/20 bg-sky-50 text-sky-700 shadow-sm"

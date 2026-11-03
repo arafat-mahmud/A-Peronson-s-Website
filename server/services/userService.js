@@ -1,5 +1,9 @@
 import crypto from "node:crypto";
 import bcrypt from "bcryptjs";
+import {
+	formatProductionCapacity,
+	normalizeCompanyFacts,
+} from "../../shared/config/platformTaxonomy.js";
 import prisma from "../utils/prisma.js";
 import { sanitizeString } from "../utils/validators.js";
 import { getAdminConfig } from "./adminConfigService.js";
@@ -253,6 +257,19 @@ export async function listEarlyVerifiedFactories({ days = 30, limit = 20 } = {})
 	return rows.map(cleanUser);
 }
 
+// Only the rows between the two users can affect their relationship, so the
+// snapshot never needs the whole connections table.
+function findPairConnections(viewerId, targetId) {
+	return prisma.userConnection.findMany({
+		where: {
+			OR: [
+				{ requester_id: viewerId, receiver_id: targetId },
+				{ requester_id: targetId, receiver_id: viewerId },
+			],
+		},
+	});
+}
+
 export async function searchUsers(viewerId, query, cursor = 0, limit = 12) {
 	const search = sanitizeString(query || "", 120)
 		.trim()
@@ -280,7 +297,11 @@ export async function searchUsers(viewerId, query, cursor = 0, limit = 12) {
 			take: take + 1,
 		}),
 		prisma.user.count({ where }),
-		prisma.userConnection.findMany(),
+		viewerId
+			? prisma.userConnection.findMany({
+					where: { OR: [{ requester_id: viewerId }, { receiver_id: viewerId }] },
+				})
+			: [],
 	]);
 
 	const hasMore = users.length > take;
@@ -344,7 +365,7 @@ export async function followUser(viewerId, targetId) {
 		});
 	}
 
-	const rows = await prisma.userConnection.findMany();
+	const rows = await findPairConnections(viewerId, targetId);
 	return connectionSnapshot(rows, viewerId, targetId);
 }
 
@@ -363,7 +384,7 @@ export async function sendFriendRequest(viewerId, targetId) {
 	});
 
 	if (existingFriend) {
-		const rows = await prisma.userConnection.findMany();
+		const rows = await findPairConnections(viewerId, targetId);
 		return connectionSnapshot(rows, viewerId, targetId);
 	}
 
@@ -381,7 +402,7 @@ export async function sendFriendRequest(viewerId, targetId) {
 			where: { id: incoming.id },
 			data: { type: "friend", status: "active", updated_at: now },
 		});
-		const rows = await prisma.userConnection.findMany();
+		const rows = await findPairConnections(viewerId, targetId);
 		return connectionSnapshot(rows, viewerId, targetId);
 	}
 
@@ -408,7 +429,7 @@ export async function sendFriendRequest(viewerId, targetId) {
 		});
 	}
 
-	const rows = await prisma.userConnection.findMany();
+	const rows = await findPairConnections(viewerId, targetId);
 	return connectionSnapshot(rows, viewerId, targetId);
 }
 
@@ -459,7 +480,22 @@ export async function registerUser(payload) {
 			bank_proof: sanitizeString(payload.profile?.bank_proof || "", 200),
 			export_license: sanitizeString(payload.profile?.export_license || "", 160),
 			factory_sector: sanitizeString(payload.profile?.factory_sector || "", 40).toLowerCase(),
-			monthly_capacity: sanitizeString(payload.profile?.monthly_capacity || "", 80),
+			industry: sanitizeString(
+				payload.profile?.industry || payload.profile?.factory_sector || "",
+				40,
+			).toLowerCase(),
+			// Already validated by normalizeCompanyFacts in the auth controller.
+			...(Number.isInteger(payload.profile?.employee_count)
+				? { employee_count: payload.profile.employee_count }
+				: {}),
+			...(payload.profile?.production_capacity
+				? { production_capacity: payload.profile.production_capacity }
+				: {}),
+			monthly_capacity: sanitizeString(
+				payload.profile?.monthly_capacity ||
+					formatProductionCapacity(payload.profile?.production_capacity),
+				80,
+			),
 			moq: sanitizeString(payload.profile?.moq || "", 40),
 			lead_time_days: sanitizeString(payload.profile?.lead_time_days || "", 40),
 			mfa_setup_code: sanitizeString(
@@ -579,6 +615,42 @@ export async function deleteUserWithPassword(userId, password) {
 	return cleanUser(updated);
 }
 
+const PROTECTED_PROFILE_KEYS = [
+	"mfa_setup_code",
+	"stepup_setup_code",
+	"organization_name_changed_at",
+];
+
+export const ORGANIZATION_RENAME_LOCK_DAYS = 90;
+
+// Client rule (26/09/2026): a company name is not changed casually. A verified
+// company re-submits its trade license and documents; any other company waits
+// 90 days between renames.
+function assertOrganizationRenameAllowed(user) {
+	if (user.verified) {
+		const error = new Error(
+			"Verified companies change their organization name through verification: re-upload the trade license and documents.",
+		);
+		error.status = 409;
+		error.code = "ORG_NAME_REVERIFY_REQUIRED";
+		throw error;
+	}
+	const changedAt = Date.parse(user.profile?.organization_name_changed_at || "");
+	if (Number.isFinite(changedAt)) {
+		const lockMs = ORGANIZATION_RENAME_LOCK_DAYS * 24 * 60 * 60 * 1000;
+		const remainingMs = changedAt + lockMs - Date.now();
+		if (remainingMs > 0) {
+			const days = Math.ceil(remainingMs / (24 * 60 * 60 * 1000));
+			const error = new Error(
+				`The organization name was changed recently. It can be changed again in ${days} day(s).`,
+			);
+			error.status = 409;
+			error.code = "ORG_NAME_LOCKED";
+			throw error;
+		}
+	}
+}
+
 export async function updateProfile(userId, profilePatch) {
 	const current = await prisma.user.findUnique({ where: { id: userId } });
 	if (!current) {
@@ -586,6 +658,46 @@ export async function updateProfile(userId, profilePatch) {
 	}
 
 	const plan = await getPlanForUser(current);
+	const currentProfile = current.profile || {};
+	const patch = { ...(profilePatch || {}) };
+
+	// Server-managed keys: security setup codes and the rename timestamp are
+	// never accepted from a profile form (mass assignment).
+	for (const key of PROTECTED_PROFILE_KEYS) {
+		delete patch[key];
+	}
+
+	// The settings form calls the company name "display_name"; the marketplace
+	// reads profile.organization_name, so both spellings land there.
+	if (patch.organization_name === undefined && patch.display_name !== undefined) {
+		patch.organization_name = patch.display_name;
+	}
+	delete patch.display_name;
+
+	const extras = {};
+	if (patch.organization_name !== undefined) {
+		const nextName = sanitizeString(String(patch.organization_name ?? ""), 120).trim();
+		const currentName = String(currentProfile.organization_name || "").trim();
+		const renaming = Boolean(nextName) && nextName.toLowerCase() !== currentName.toLowerCase();
+		if (!nextName) {
+			delete patch.organization_name;
+		} else if (renaming && currentName && currentProfile.onboarding_completed === "true") {
+			assertOrganizationRenameAllowed(current);
+			extras.organization_name_changed_at = new Date().toISOString();
+		}
+	}
+
+	const companyFacts = normalizeCompanyFacts(patch);
+	const factErrors = Object.values(companyFacts.errors);
+	if (factErrors.length > 0) {
+		const error = new Error(factErrors[0]);
+		error.status = 400;
+		throw error;
+	}
+	delete patch.employee_count;
+	delete patch.production_capacity;
+	Object.assign(extras, companyFacts.value);
+
 	const brandingFields = new Set([
 		"brand_logo_url",
 		"brand_cover_url",
@@ -598,18 +710,19 @@ export async function updateProfile(userId, profilePatch) {
 		"account_manager_email",
 		"account_manager_phone",
 	]);
-	const patchEntries = Object.entries(profilePatch || {})
+	const patchEntries = Object.entries(patch)
 		.filter(([key]) => plan === "premium" || !brandingFields.has(key))
 		.map(([k, v]) => [
 			k,
 			Array.isArray(v)
 				? v.map((x) => sanitizeString(String(x), 120))
-				: sanitizeString(String(v ?? ""), 240),
+				: sanitizeString(String(v ?? ""), k === "bio" || k === "about" ? 1200 : 240),
 		]);
 
 	const nextProfile = {
-		...(current.profile || {}),
+		...currentProfile,
 		...Object.fromEntries(patchEntries),
+		...extras,
 	};
 
 	const updated = await prisma.user.update({
@@ -617,7 +730,7 @@ export async function updateProfile(userId, profilePatch) {
 		data: { profile: nextProfile },
 	});
 
-	const patchedKeys = new Set(patchEntries.map(([key]) => key));
+	const patchedKeys = new Set([...patchEntries.map(([key]) => key), ...Object.keys(extras)]);
 	const shouldReindex = [...patchedKeys].some((key) => OPENSEARCH_REINDEX_PROFILE_KEYS.has(key));
 	if (shouldReindex) {
 		const orgId =

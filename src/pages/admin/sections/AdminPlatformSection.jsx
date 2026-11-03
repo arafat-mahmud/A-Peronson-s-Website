@@ -2117,7 +2117,7 @@ export function AdminPlatformSection({
 							class="rounded-full bg-slate-900 px-4 py-2 text-xs font-semibold text-white disabled:opacity-60"
 						>
 							{clothingRulesBusy ? (
-								<ThreeDot variant="bounce" color="#0ea5e9" size="small" text="" textColor="" />
+								<ThreeDot variant="bounce" color="#337ab0" size="small" text="" textColor="" />
 							) : (
 								"Save rules"
 							)}

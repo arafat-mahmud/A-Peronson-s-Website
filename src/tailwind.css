@@ -84,7 +84,7 @@
 }
 
 ::selection {
-	background: rgba(14, 165, 233, 0.28);
+	background: rgba(51, 122, 176, 0.28);
 }
 
 /* Semantic gradient / glow / shadow helpers (single source: blueTheme.css vars). */
@@ -96,26 +96,26 @@
 		background-image: var(--theme-gradient-hero);
 	}
 	.theme-gradient-sky-cyan {
-		background-image: linear-gradient(90deg, #38bdf8 0%, #22d3ee 100%);
+		background-image: linear-gradient(90deg, #6dabdf 0%, #5ec4c3 100%);
 	}
 	.theme-gradient-blue-cyan {
-		background-image: linear-gradient(90deg, #2563eb 0%, #22d3ee 100%);
+		background-image: linear-gradient(90deg, #1c5381 0%, #5ec4c3 100%);
 	}
 	.theme-gradient-glass {
 		background-image: linear-gradient(
 			135deg,
-			rgba(56, 189, 248, 0.12) 0%,
-			rgba(59, 130, 246, 0.08) 100%
+			rgba(109, 171, 223, 0.12) 0%,
+			rgba(55, 115, 168, 0.08) 100%
 		);
 	}
 	.theme-glow-blue {
-		box-shadow: 0 0 24px rgba(59, 130, 246, 0.25);
+		box-shadow: 0 0 24px rgba(55, 115, 168, 0.25);
 	}
 	.theme-glow-cyan {
-		box-shadow: 0 0 24px rgba(34, 211, 238, 0.25);
+		box-shadow: 0 0 24px rgba(94, 196, 195, 0.25);
 	}
 	.theme-glow-soft {
-		box-shadow: 0 0 32px rgba(56, 189, 248, 0.14);
+		box-shadow: 0 0 32px rgba(109, 171, 223, 0.14);
 	}
 	/* Gradient hairline on card hover (mask technique keeps border-radius). */
 	.card-gradient-border {
@@ -129,8 +129,8 @@
 		padding: 1px;
 		background: linear-gradient(
 			135deg,
-			rgba(56, 189, 248, 0.55),
-			rgba(34, 211, 238, 0.12) 40%,
+			rgba(109, 171, 223, 0.55),
+			rgba(94, 196, 195, 0.12) 40%,
 			rgba(139, 92, 246, 0.45)
 		);
 		-webkit-mask:
@@ -142,18 +142,15 @@
 	}
 }
 
-html,
-body,
-#root {
+/* No horizontal page scroll. `hidden` on body would turn it into a second
+   scroll container (breaking position: sticky and keyboard-open scrolling on
+   phones); `clip` cuts the overflow without creating one. */
+html {
 	overflow-x: hidden;
 }
-
-/* Lenis recommended CSS for nested scroll containers */
-.lenis.lenis-smooth [data-lenis-prevent] {
-	overscroll-behavior: contain;
-}
-.lenis.lenis-stopped {
-	overflow: hidden;
+body,
+#root {
+	overflow-x: clip;
 }
 
 @keyframes blob-spin-1 {

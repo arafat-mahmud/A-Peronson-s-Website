@@ -227,7 +227,7 @@ function MediaGate({ gate, onAction, onDismiss }) {
 }
 
 const PulseSpinner = ({ className }) => (
-	<ThreeDot variant="bounce" color="#0ea5e9" size="small" text="" textColor="" />
+	<ThreeDot variant="bounce" color="#337ab0" size="small" text="" textColor="" />
 );
 
 export default function CallInterface() {
@@ -1979,7 +1979,7 @@ export default function CallInterface() {
 	}
 
 	return (
-		<div className="min-h-screen overflow-hidden bg-[radial-gradient(circle_at_top_left,rgba(56,189,248,0.30),transparent_28%),radial-gradient(circle_at_top_right,rgba(37,99,235,0.22),transparent_30%),linear-gradient(180deg,#f8fbff_0%,#eef6ff_42%,#e7f1ff_100%)] text-slate-900 transition-colors dark:bg-[radial-gradient(circle_at_top_left,rgba(14,165,233,0.20),transparent_28%),radial-gradient(circle_at_top_right,rgba(59,130,246,0.18),transparent_30%),linear-gradient(180deg,#020617_0%,#07111f_45%,#0b1728_100%)] dark:text-white">
+		<div className="min-h-screen overflow-hidden bg-[radial-gradient(circle_at_top_left,rgba(109,171,223,0.30),transparent_28%),radial-gradient(circle_at_top_right,rgba(28,83,129,0.22),transparent_30%),linear-gradient(180deg,#f8fbff_0%,#eef6ff_42%,#e7f1ff_100%)] text-slate-900 transition-colors dark:bg-[radial-gradient(circle_at_top_left,rgba(51,122,176,0.20),transparent_28%),radial-gradient(circle_at_top_right,rgba(55,115,168,0.18),transparent_30%),linear-gradient(180deg,#020617_0%,#07111f_45%,#0b1728_100%)] dark:text-white">
 			<ToastStack
 				toasts={toastQueue}
 				onDismiss={(id) => setToastQueue((prev) => prev.filter((t) => t.id !== id))}

@@ -310,7 +310,7 @@ export default function AgentDashboard() {
 	}
 
 	return (
-		<div className="min-h-full bg-[radial-gradient(circle_at_top_left,_rgba(14,165,233,0.18),_transparent_30%),radial-gradient(circle_at_top_right,_rgba(56,189,248,0.12),_transparent_26%),linear-gradient(180deg,_#f8fbff_0%,_#eef6ff_48%,_#f8fafc_100%)] text-slate-900 transition-colors dark:bg-[radial-gradient(circle_at_top_left,_rgba(14,165,233,0.18),_transparent_30%),radial-gradient(circle_at_top_right,_rgba(56,189,248,0.12),_transparent_26%),linear-gradient(180deg,_#020617_0%,_#06101f_52%,_#020617_100%)] dark:text-slate-100">
+		<div className="min-h-full bg-[radial-gradient(circle_at_top_left,_rgba(51,122,176,0.18),_transparent_30%),radial-gradient(circle_at_top_right,_rgba(109,171,223,0.12),_transparent_26%),linear-gradient(180deg,_#f8fbff_0%,_#eef6ff_48%,_#f8fafc_100%)] text-slate-900 transition-colors dark:bg-[radial-gradient(circle_at_top_left,_rgba(51,122,176,0.18),_transparent_30%),radial-gradient(circle_at_top_right,_rgba(109,171,223,0.12),_transparent_26%),linear-gradient(180deg,_#020617_0%,_#06101f_52%,_#020617_100%)] dark:text-slate-100">
 			<div className="mx-auto flex min-h-full max-w-[1600px] flex-col lg:flex-row">
 				<aside
 					data-lenis-prevent={true}
@@ -742,7 +742,7 @@ export default function AgentDashboard() {
 											{aiLoading ? (
 												<ThreeDot
 													variant="bounce"
-													color="#0ea5e9"
+													color="#337ab0"
 													size="small"
 													text=""
 													textColor=""

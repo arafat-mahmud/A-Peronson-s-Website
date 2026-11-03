@@ -132,6 +132,9 @@ model Requirement {
   assigned_agent_id          String?
   assigned_at                DateTime?
   assigned_by                String?
+  /// Premium buyers' requests are boosted for 24h (requirementService.createRequirement).
+  priority_tier              String?
+  priority_until             DateTime?
   status                     String
   moderated                  Boolean?
   moderation_reason          String?
@@ -1787,4 +1790,29 @@ model SupportCaseAttachment {
 
   @@index([case_id])
   @@map("support_case_attachments")
+}
+
+/// Fatal / unhandled process errors recorded by server/utils/crashReporter.js.
+/// Written best-effort (bounded) during a crash; never touches business data.
+model CrashEvent {
+  id            String   @id
+  type          String
+  fatal         Boolean  @default(true)
+  error_name    String
+  error_message String
+  stack         String
+  exit_code     Int?
+  signal        String?
+  environment   String
+  version       String
+  commit        String
+  node_version  String
+  pid           Int
+  uptime_s      Int
+  details       Json?
+  created_at    DateTime @default(now())
+
+  @@index([created_at])
+  @@index([type, created_at])
+  @@map("crash_events")
 }

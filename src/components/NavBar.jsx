@@ -31,10 +31,12 @@
 import { AnimatePresence, motion as Motion, useReducedMotion, useSpring } from "framer-motion";
 import {
 	Bell,
+	Briefcase,
 	Building2,
 	ChevronRight,
 	FileText,
 	LayoutDashboard,
+	LogOut,
 	Menu,
 	MessageSquare,
 	Moon,
@@ -42,7 +44,6 @@ import {
 	Search,
 	Settings,
 	ShieldCheck,
-	ShoppingCart,
 	Star,
 	Sun,
 	Users,
@@ -54,6 +55,7 @@ import { flushSync } from "react-dom";
 import { ThreeDot } from "react-loading-indicators";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import useScrollDirection from "../hooks/useScrollDirection.js";
+import BrandMark from "./ui/BrandMark.jsx";
 import { apiRequest, clearSession, getCurrentUser, getRoleHome, getToken } from "../lib/auth.js";
 import { cn } from "../lib/cn.js";
 import {
@@ -108,7 +110,7 @@ const navigationGroups = [
 	},
 	{
 		label: "Business",
-		icon: ShoppingCart,
+		icon: Briefcase,
 		items: [
 			{
 				to: "/buyer-requests",
@@ -636,18 +638,16 @@ export default function NavBar() {
 						)}
 						<Link
 							to={user ? getRoleHome(user.role) : "/"}
-							className="group inline-flex items-center gap-3 rounded-full px-2 py-1 transition"
+							className="inline-flex min-w-0 items-center gap-2.5 rounded-full px-1 py-1 transition sm:px-2"
+							aria-label="GarTexHub home"
 						>
-							<span className="relative flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-sky-500 via-cyan-500 to-blue-600 text-white shadow-lg shadow-sky-500/20 ring-1 ring-white/30">
-								<span className="absolute inset-0 rounded-2xl bg-white/10 opacity-0 blur-xl transition group-hover:opacity-100" />
-								<ShoppingCart className="h-5 w-5" />
-							</span>
+							<BrandMark size={40} alt="" />
 							<span className="min-w-0">
-								<span className="block text-sm font-semibold tracking-[0.18em] text-slate-900 dark:text-white">
+								<span className="block text-base font-bold leading-tight text-slate-900 dark:text-white">
 									GarTexHub
 								</span>
-								<span className="block text-xs text-slate-500 dark:text-slate-400">
-									B2B Textile Marketplace
+								<span className="block truncate text-xs leading-tight text-slate-500 dark:text-slate-400">
+									Garments &amp; Textile Sourcing
 								</span>
 							</span>
 						</Link>
@@ -710,7 +710,7 @@ export default function NavBar() {
 							{searchExpanded ? (
 								<div
 									className={cn(
-										"relative flex w-[400px] max-w-[calc(100vw-2rem)] items-center rounded-full border border-white/10 bg-white/65 px-3 py-2 backdrop-blur-xl shadow-[0_20px_45px_rgba(14,165,233,0.12)] transition-[width,box-shadow] duration-300",
+										"relative flex w-[400px] max-w-[calc(100vw-2rem)] items-center rounded-full border border-white/10 bg-white/65 px-3 py-2 backdrop-blur-xl shadow-[0_20px_45px_rgba(51,122,176,0.12)] transition-[width,box-shadow] duration-300",
 										"dark:bg-slate-950/70",
 									)}
 								>
@@ -764,7 +764,7 @@ export default function NavBar() {
 							{user && searchOpen && searchQuery.trim().length > 0 ? (
 								<div className="absolute left-0 top-[calc(100%+10px)] z-50 w-[360px] overflow-hidden rounded-3xl border border-white/10 bg-white/95 p-2 shadow-[0_25px_70px_rgba(15,23,42,0.16)] backdrop-blur-2xl dark:bg-slate-950/95">
 									{searchLoading ? (
-										<ThreeDot variant="bounce" color="#0ea5e9" size="small" text="" textColor="" />
+										<ThreeDot variant="bounce" color="#337ab0" size="small" text="" textColor="" />
 									) : null}
 									{!searchLoading && searchError ? (
 										<p className="px-2 py-3 text-xs text-rose-500">{searchError}</p>
@@ -834,7 +834,7 @@ export default function NavBar() {
 														{actionBusyKey === `friend:${result.id}` ? (
 															<ThreeDot
 																variant="bounce"
-																color="#0ea5e9"
+																color="#337ab0"
 																size="small"
 																text=""
 																textColor=""
@@ -957,9 +957,12 @@ export default function NavBar() {
 							className="mx-auto mt-16 w-[min(92vw,28rem)] overflow-hidden rounded-[2rem] border border-slate-200 bg-white shadow-[0_30px_90px_rgba(15,23,42,0.22)] dark:border-white/10 dark:bg-slate-950"
 						>
 							<div className="flex items-center justify-between border-b border-slate-900/5 px-5 py-4 dark:border-white/10">
-								<div>
-									<div className="text-sm font-semibold text-slate-900 dark:text-white">GarTexHub</div>
-									<div className="text-xs text-slate-500 dark:text-slate-400">Navigation</div>
+								<div className="flex items-center gap-3">
+									<BrandMark size={32} />
+									<div>
+										<div className="text-sm font-semibold text-slate-900 dark:text-white">GarTexHub</div>
+										<div className="text-xs text-slate-500 dark:text-slate-400">Navigation</div>
+									</div>
 								</div>
 								<button
 									onClick={() => setMobileOpen(false)}
@@ -970,7 +973,7 @@ export default function NavBar() {
 								</button>
 							</div>
 
-							<div data-lenis-prevent={true} className="max-h-[70vh] overflow-y-auto p-4">
+							<div className="max-h-[calc(100dvh-9rem)] overflow-y-auto overscroll-contain p-4">
 								<div className="space-y-3">
 									{user
 										? validNavGroups.map((group) => (
@@ -1073,6 +1076,55 @@ export default function NavBar() {
 													</LinkTag3>
 												);
 											})}
+
+									{/* Account actions close the same list (client 02/11/2026,
+									    IMG-20261102-WA0021) instead of a detached button row. */}
+									{user ? (
+										<div className="rounded-3xl border border-slate-900/5 bg-white/70 p-3 dark:border-white/10 dark:bg-white/5">
+											<div className="mb-2 flex items-center gap-2 px-1 text-sm font-semibold text-slate-900 dark:text-white">
+												<Settings className="h-4 w-4 text-sky-500" />
+												Account
+											</div>
+											<div className="space-y-1">
+												<Link
+													to="/settings"
+													onClick={() => setMobileOpen(false)}
+													className={cn(
+														"flex items-center justify-between rounded-2xl px-3 py-2.5 text-sm transition",
+														location.pathname === "/settings"
+															? "bg-sky-500/10 text-sky-700 dark:text-sky-300"
+															: "text-slate-600 hover:bg-slate-900/5 dark:text-slate-300 dark:hover:bg-white/10",
+													)}
+												>
+													<span className="flex items-center gap-3">
+														<Settings className="h-4 w-4" />
+														Settings
+													</span>
+													<ChevronRight className="h-4 w-4 opacity-40" />
+												</Link>
+												<button
+													type="button"
+													onClick={toggleTheme}
+													className="flex w-full items-center justify-between rounded-2xl px-3 py-2.5 text-left text-sm text-slate-600 transition hover:bg-slate-900/5 dark:text-slate-300 dark:hover:bg-white/10"
+												>
+													<span className="flex items-center gap-3">
+														{dark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+														{dark ? "Light mode" : "Dark mode"}
+													</span>
+												</button>
+												<button
+													type="button"
+													onClick={handleLogout}
+													className="flex w-full items-center justify-between rounded-2xl px-3 py-2.5 text-left text-sm font-medium text-rose-600 transition hover:bg-rose-500/10 dark:text-rose-300"
+												>
+													<span className="flex items-center gap-3">
+														<LogOut className="h-4 w-4" />
+														Logout
+													</span>
+												</button>
+											</div>
+										</div>
+									) : null}
 								</div>
 
 								{user ? null : (
@@ -1116,33 +1168,6 @@ export default function NavBar() {
 								)}
 							</div>
 
-							<div className="flex items-center justify-between border-t border-slate-900/5 px-5 py-4 dark:border-white/10">
-								<div className="flex items-center gap-2">
-									<Link
-										to="/settings"
-										aria-label="Settings"
-										className="inline-flex items-center gap-2 rounded-full border border-slate-900/10 bg-white/70 px-4 py-2 text-sm font-medium text-slate-900 dark:border-white/10 dark:bg-white/5 dark:text-white"
-									>
-										<Settings className="h-4 w-4" />
-										Settings
-									</Link>
-									<button
-									onClick={toggleTheme}
-									className="inline-flex items-center gap-2 rounded-full border border-slate-900/10 bg-white/70 px-4 py-2 text-sm font-medium text-slate-900 dark:border-white/10 dark:bg-white/5 dark:text-white"
-								>
-									{dark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
-									{dark ? "Light mode" : "Dark mode"}
-								</button>
-								{user ? (
-									<button
-										onClick={handleLogout}
-										className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-sky-500 to-cyan-500 px-4 py-2 text-sm font-semibold text-white"
-									>
-										Logout
-									</button>
-								) : null}
-								</div>
-							</div>
 						</Motion.div>
 					</Motion.div>
 				)}

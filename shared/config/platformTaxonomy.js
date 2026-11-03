@@ -24,10 +24,48 @@ const ELEVATED_ACCOUNT_TYPES = [
 	{ label: "Buyer (Root)", value: "buyer" },
 ];
 
+// The stored values stay "garments" / "textile" (existing rows depend on
+// them); only the label names the industry the way the trade does.
 const FACTORY_SECTOR_OPTIONS = [
-	{ label: "Garments", value: "garments" },
-	{ label: "Textile", value: "textile" },
+	{ label: "Garments Industry", value: "garments" },
+	{ label: "Textile Industry", value: "textile" },
 ];
+
+// Production capacity is "quantity + unit + period" so a garment factory
+// (pieces) and a textile mill (meters, kilograms) are both described exactly.
+const CAPACITY_UNIT_OPTIONS = [
+	{ label: "Pieces", value: "pieces", sectors: ["garments"] },
+	{ label: "Sets", value: "sets", sectors: ["garments"] },
+	{ label: "Dozens", value: "dozens", sectors: ["garments"] },
+	{ label: "Meters", value: "meters", sectors: ["textile"] },
+	{ label: "Yards", value: "yards", sectors: ["textile"] },
+	{ label: "Kilograms", value: "kilograms", sectors: ["textile"] },
+	{ label: "Tonnes", value: "tonnes", sectors: ["textile"] },
+];
+
+const CAPACITY_PERIOD_OPTIONS = [
+	{ label: "per day", value: "day" },
+	{ label: "per week", value: "week" },
+	{ label: "per month", value: "month" },
+];
+
+const COMMON_CERTIFICATIONS = [
+	"ISO 9001",
+	"ISO 14001",
+	"WRAP",
+	"amfori BSCI",
+	"SEDEX / SMETA",
+	"OEKO-TEX Standard 100",
+	"GOTS",
+	"GRS",
+	"BCI",
+	"Higg Index",
+	"LEED",
+	"Accord / RSC",
+];
+
+const MAX_EMPLOYEE_COUNT = 1_000_000;
+const MAX_CAPACITY_QUANTITY = 1_000_000_000;
 
 const garmentCategories = [
 	"T-Shirt", "Polo", "Denim", "Hoodie", "Sportswear", "Knitwear",
@@ -203,6 +241,81 @@ export function isValidFactorySector(value) {
 	);
 }
 
+const CAPACITY_UNIT_SET = new Set(CAPACITY_UNIT_OPTIONS.map((option) => option.value));
+const CAPACITY_PERIOD_SET = new Set(CAPACITY_PERIOD_OPTIONS.map((option) => option.value));
+
+/** "garments" -> "Garments Industry"; free-text legacy values pass through. */
+export function industryLabel(value) {
+	const key = String(value || "").trim().toLowerCase();
+	const option = FACTORY_SECTOR_OPTIONS.find((item) => item.value === key);
+	if (option) return option.label;
+	return String(value || "").trim();
+}
+
+/** Units that fit a sector; every unit when the sector is unknown. */
+export function capacityUnitsForSector(sector) {
+	const key = String(sector || "").trim().toLowerCase();
+	const matching = CAPACITY_UNIT_OPTIONS.filter((unit) => unit.sectors.includes(key));
+	return matching.length > 0 ? matching : CAPACITY_UNIT_OPTIONS;
+}
+
+function toWholeNumber(value) {
+	if (value === null || value === undefined || value === "") return null;
+	const number = Number(String(value).replace(/[,\s]/g, ""));
+	return Number.isFinite(number) ? number : Number.NaN;
+}
+
+/**
+ * Validates and normalizes employee count + production capacity.
+ * Returns { value, errors }: `value` holds only the fields that were given,
+ * `errors` maps a field to a readable message. Empty input is not an error;
+ * callers decide which fields are required.
+ */
+export function normalizeCompanyFacts(input = {}) {
+	const value = {};
+	const errors = {};
+
+	const employees = toWholeNumber(input.employee_count);
+	if (employees !== null) {
+		if (!Number.isInteger(employees) || employees < 1 || employees > MAX_EMPLOYEE_COUNT) {
+			errors.employee_count = `Enter a whole number between 1 and ${MAX_EMPLOYEE_COUNT.toLocaleString("en-US")}.`;
+		} else {
+			value.employee_count = employees;
+		}
+	}
+
+	const capacity = input.production_capacity;
+	if (capacity && typeof capacity === "object") {
+		const quantity = toWholeNumber(capacity.quantity);
+		const unit = String(capacity.unit || "").trim().toLowerCase();
+		const period = String(capacity.period || "").trim().toLowerCase();
+		const anyGiven = quantity !== null || unit || period;
+		if (anyGiven) {
+			if (!Number.isInteger(quantity) || quantity < 1 || quantity > MAX_CAPACITY_QUANTITY) {
+				errors.production_capacity = "Enter the capacity as a whole number greater than 0.";
+			} else if (!CAPACITY_UNIT_SET.has(unit)) {
+				errors.production_capacity = "Choose a capacity unit.";
+			} else if (!CAPACITY_PERIOD_SET.has(period)) {
+				errors.production_capacity = "Choose a capacity period.";
+			} else {
+				value.production_capacity = { quantity, unit, period };
+			}
+		}
+	}
+
+	return { value, errors };
+}
+
+/** { quantity: 250000, unit: "pieces", period: "month" } -> "250,000 pieces / month". */
+export function formatProductionCapacity(capacity) {
+	if (!capacity || typeof capacity !== "object") return "";
+	const quantity = Number(capacity.quantity);
+	if (!(Number.isFinite(quantity) && quantity > 0)) return "";
+	const unit = String(capacity.unit || "").trim();
+	const period = String(capacity.period || "").trim();
+	return `${quantity.toLocaleString("en-US")} ${unit}${period ? ` / ${period}` : ""}`.trim();
+}
+
 export function getLegalIdFields() {
 	return [...LEGAL_ID_FIELDS];
 }
@@ -213,6 +326,9 @@ export function getStrongEvidenceFields() {
 
 export {
 	BUYER_COUNTRY_OPTIONS,
+	CAPACITY_PERIOD_OPTIONS,
+	CAPACITY_UNIT_OPTIONS,
+	COMMON_CERTIFICATIONS,
 	COUNTRY_OPTIONS,
 	ELEVATED_ACCOUNT_TYPES,
 	EU_COUNTRIES,

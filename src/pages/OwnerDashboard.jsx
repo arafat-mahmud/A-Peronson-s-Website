@@ -167,7 +167,10 @@ const StatCard = memo(function StatCard({
 	);
 });
 
+// Client decision 26/09/2026: My Profile on top, Settings at the very bottom,
+// "General Info" named for the chatbot switch it holds.
 const menuItems = [
+	{ id: "profile", label: "My Profile", short: "Profile" },
 	{ id: "home", label: "Dashboard Home", short: "Home" },
 	{ id: "requests", label: "Buyer Requests", short: "RFQs" },
 	{ id: "chats", label: "Chats", short: "Chats" },
@@ -176,13 +179,12 @@ const menuItems = [
 	{ id: "members", label: "Member Management", short: "Members" },
 	{ id: "contracts", label: "Contracts Vault", short: "Contracts" },
 	{ id: "insights", label: "Insights & Analytics", short: "Insights" },
-	{ id: "subscription", label: "Subscription & Billing", short: "Billing" },
 	{ id: "verification", label: "Verification", short: "Verify" },
-	{ id: "profile", label: "My Profile", short: "Profile" },
-	{ id: "settings", label: "Settings", short: "Settings" },
-	{ id: "automation", label: "Automation", short: "Auto" },
+	{ id: "subscription", label: "Subscription & Billing", short: "Billing" },
+	{ id: "automation", label: "Chatbot & Auto-reply", short: "Chatbot" },
 	{ id: "assistant", label: "Assistant", short: "AI" },
 	{ id: "branding", label: "Branding", short: "Brand" },
+	{ id: "settings", label: "Settings", short: "Settings" },
 ];
 
 const quickActions = [
@@ -330,7 +332,7 @@ export default function OwnerDashboard() {
 		<div className={`${theme === "dark" ? "dark" : ""} flex min-h-0 flex-1 flex-col`}>
 			<div
 				style={{ overflow: "hidden" }}
-				className="flex max-h-full min-h-0 w-full flex-1 bg-[radial-gradient(circle_at_top_left,_rgba(56,189,248,0.18),_transparent_28%),radial-gradient(circle_at_top_right,_rgba(34,211,238,0.16),_transparent_24%),linear-gradient(180deg,_#f8fbff_0%,_#eef7ff_34%,_#f8fbff_100%)] text-slate-900 transition-colors duration-300 dark:bg-[radial-gradient(circle_at_top_left,_rgba(14,165,233,0.18),_transparent_28%),radial-gradient(circle_at_top_right,_rgba(34,211,238,0.12),_transparent_24%),linear-gradient(180deg,_#020617_0%,_#06111f_46%,_#040816_100%)] dark:text-slate-100"
+				className="flex max-h-full min-h-0 w-full flex-1 bg-[radial-gradient(circle_at_top_left,_rgba(109,171,223,0.18),_transparent_28%),radial-gradient(circle_at_top_right,_rgba(94,196,195,0.16),_transparent_24%),linear-gradient(180deg,_#f8fbff_0%,_#eef7ff_34%,_#f8fbff_100%)] text-slate-900 transition-colors duration-300 dark:bg-[radial-gradient(circle_at_top_left,_rgba(51,122,176,0.18),_transparent_28%),radial-gradient(circle_at_top_right,_rgba(94,196,195,0.12),_transparent_24%),linear-gradient(180deg,_#020617_0%,_#06111f_46%,_#040816_100%)] dark:text-slate-100"
 			>
 				<aside
 					className={cn(
@@ -495,7 +497,7 @@ export default function OwnerDashboard() {
 					<main className="flex flex-col flex-1 min-h-0 px-4 py-6 sm:px-6 xl:px-8">
 						{loading && (
 							<Mosaic
-								color="#0ea5e9"
+								color="#337ab0"
 								size="large"
 								style={{ fontSize: "40px" }}
 								text=""
@@ -1189,31 +1191,31 @@ export default function OwnerDashboard() {
 
 						{active === "profile" && !loading && (
 							<div className="flex-1 min-h-0" data-lenis-prevent={true}>
-								<Settings embedded={true} initialTabProp="profile" />
+								<Settings embedded={true} initialTabProp="profile" tabIds={["profile"]} />
 							</div>
 						)}
 
 						{active === "settings" && !loading && (
 							<div className="flex-1 min-h-0" data-lenis-prevent={true}>
-								<Settings embedded={true} initialTabProp="security" />
+								<Settings embedded={true} initialTabProp="security" tabIds={["privacy", "notifications", "security", "theme"]} />
 							</div>
 						)}
 
 						{active === "automation" && !loading && (
 							<div className="flex-1 min-h-0" data-lenis-prevent={true}>
-								<Settings embedded={true} initialTabProp="general" />
+								<Settings embedded={true} initialTabProp="general" tabIds={["general"]} />
 							</div>
 						)}
 
 						{active === "assistant" && !loading && (
 							<div className="flex-1 min-h-0" data-lenis-prevent={true}>
-								<Settings embedded={true} initialTabProp="assistant_knowledge" />
+								<Settings embedded={true} initialTabProp="assistant_knowledge" tabIds={["assistant_knowledge"]} />
 							</div>
 						)}
 
 						{active === "branding" && !loading && (
 							<div className="flex-1 min-h-0" data-lenis-prevent={true}>
-								<Settings embedded={true} initialTabProp="branding" />
+								<Settings embedded={true} initialTabProp="branding" tabIds={["branding"]} />
 							</div>
 						)}
 

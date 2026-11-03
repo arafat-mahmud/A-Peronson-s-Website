@@ -201,12 +201,12 @@ function SectionCard({ section, index, visible }) {
 		<article
 			id={section.id}
 			class={[
-				"group relative overflow-hidden rounded-3xl border border-slate-200/80 bg-white/85 p-6 shadow-[0_20px_80px_-40px_rgba(2,132,199,0.35)] backdrop-blur-xl transition-all duration-700 ease-out dark:border-slate-800/80 dark:bg-slate-950/70",
+				"group relative overflow-hidden rounded-3xl border border-slate-200/80 bg-white/85 p-6 shadow-[0_20px_80px_-40px_rgba(32,101,152,0.35)] backdrop-blur-xl transition-all duration-700 ease-out dark:border-slate-800/80 dark:bg-slate-950/70",
 				visible ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0",
 			].join(" ")}
 			style={{ transitionDelay: `${Math.min(index * 90, 720)}ms` }}
 		>
-			<div class="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(56,189,248,0.14),transparent_42%),radial-gradient(circle_at_bottom_left,rgba(14,165,233,0.10),transparent_38%)]" />
+			<div class="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(109,171,223,0.14),transparent_42%),radial-gradient(circle_at_bottom_left,rgba(51,122,176,0.10),transparent_38%)]" />
 			<div class="relative flex items-start gap-4">
 				<div class="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl border border-sky-200 bg-gradient-to-br from-sky-500 to-cyan-400 text-white shadow-lg shadow-sky-500/20 dark:border-sky-900/50">
 					<Icon class="h-7 w-7" />
@@ -322,11 +322,11 @@ export default function Terms() {
 
 	return (
 		<main class="min-h-screen bg-[var(--theme-custom-f3f9ff)] text-slate-900 dark:bg-[var(--theme-custom-07111f)] dark:text-white">
-			<div class="absolute inset-x-0 top-0 -z-0 h-[520px] bg-[radial-gradient(circle_at_top_left,rgba(14,165,233,0.22),transparent_40%),radial-gradient(circle_at_top_right,rgba(56,189,248,0.20),transparent_36%),linear-gradient(to_bottom,rgba(255,255,255,0.8),transparent)] dark:bg-[radial-gradient(circle_at_top_left,rgba(14,165,233,0.24),transparent_38%),radial-gradient(circle_at_top_right,rgba(34,211,238,0.18),transparent_34%),linear-gradient(to_bottom,rgba(7,17,31,1),rgba(7,17,31,0))]" />
+			<div class="absolute inset-x-0 top-0 -z-0 h-[520px] bg-[radial-gradient(circle_at_top_left,rgba(51,122,176,0.22),transparent_40%),radial-gradient(circle_at_top_right,rgba(109,171,223,0.20),transparent_36%),linear-gradient(to_bottom,rgba(255,255,255,0.8),transparent)] dark:bg-[radial-gradient(circle_at_top_left,rgba(51,122,176,0.24),transparent_38%),radial-gradient(circle_at_top_right,rgba(94,196,195,0.18),transparent_34%),linear-gradient(to_bottom,rgba(7,17,31,1),rgba(7,17,31,0))]" />
 
 			<div class="relative mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
-				<section class="relative overflow-hidden rounded-[2rem] border border-sky-200/70 bg-white/75 px-6 py-8 shadow-[0_30px_100px_-50px_rgba(2,132,199,0.5)] backdrop-blur-xl dark:border-sky-900/60 dark:bg-slate-950/70 sm:px-8 lg:px-10">
-					<div class="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(14,165,233,0.16),transparent_30%),radial-gradient(circle_at_bottom_left,rgba(125,211,252,0.16),transparent_28%)]" />
+				<section class="relative overflow-hidden rounded-[2rem] border border-sky-200/70 bg-white/75 px-6 py-8 shadow-[0_30px_100px_-50px_rgba(32,101,152,0.5)] backdrop-blur-xl dark:border-sky-900/60 dark:bg-slate-950/70 sm:px-8 lg:px-10">
+					<div class="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(51,122,176,0.16),transparent_30%),radial-gradient(circle_at_bottom_left,rgba(155,202,242,0.16),transparent_28%)]" />
 
 					<div class="relative flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
 						<div class="max-w-3xl">

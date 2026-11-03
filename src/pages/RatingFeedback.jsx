@@ -204,7 +204,7 @@ export default function RatingFeedback() {
 
 	if (error) {
 		return (
-			<div className="min-h-screen bg-[radial-gradient(circle_at_top_left,_rgba(56,189,248,0.16),_transparent_28%),radial-gradient(circle_at_top_right,_rgba(59,130,246,0.12),_transparent_28%),linear-gradient(to_bottom,_#f8fbff,_#eef7ff_48%,_#f8fafc)] dark:bg-[radial-gradient(circle_at_top_left,_rgba(56,189,248,0.16),_transparent_28%),radial-gradient(circle_at_top_right,_rgba(59,130,246,0.12),_transparent_28%),linear-gradient(to_bottom,_#020617,_#07111f_55%,_#020617)]">
+			<div className="min-h-screen bg-[radial-gradient(circle_at_top_left,_rgba(109,171,223,0.16),_transparent_28%),radial-gradient(circle_at_top_right,_rgba(55,115,168,0.12),_transparent_28%),linear-gradient(to_bottom,_#f8fbff,_#eef7ff_48%,_#f8fafc)] dark:bg-[radial-gradient(circle_at_top_left,_rgba(109,171,223,0.16),_transparent_28%),radial-gradient(circle_at_top_right,_rgba(55,115,168,0.12),_transparent_28%),linear-gradient(to_bottom,_#020617,_#07111f_55%,_#020617)]">
 				<div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
 					<div className="rounded-[2rem] border border-red-500/20 bg-white/80 p-6 shadow-[0_10px_40px_rgba(239,68,68,0.08)] dark:bg-slate-950/70">
 						<p className="text-sm font-medium text-red-600 dark:text-red-300">{error}</p>
@@ -215,10 +215,10 @@ export default function RatingFeedback() {
 	}
 
 	return (
-		<div className="min-h-screen bg-[radial-gradient(circle_at_top_left,_rgba(56,189,248,0.16),_transparent_28%),radial-gradient(circle_at_top_right,_rgba(59,130,246,0.12),_transparent_28%),linear-gradient(to_bottom,_#f8fbff,_#eef7ff_48%,_#f8fafc)] text-slate-900 dark:bg-[radial-gradient(circle_at_top_left,_rgba(56,189,248,0.16),_transparent_28%),radial-gradient(circle_at_top_right,_rgba(59,130,246,0.12),_transparent_28%),linear-gradient(to_bottom,_#020617,_#07111f_55%,_#020617)] dark:text-white">
+		<div className="min-h-screen bg-[radial-gradient(circle_at_top_left,_rgba(109,171,223,0.16),_transparent_28%),radial-gradient(circle_at_top_right,_rgba(55,115,168,0.12),_transparent_28%),linear-gradient(to_bottom,_#f8fbff,_#eef7ff_48%,_#f8fafc)] text-slate-900 dark:bg-[radial-gradient(circle_at_top_left,_rgba(109,171,223,0.16),_transparent_28%),radial-gradient(circle_at_top_right,_rgba(55,115,168,0.12),_transparent_28%),linear-gradient(to_bottom,_#020617,_#07111f_55%,_#020617)] dark:text-white">
 			<div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
 				<ScrollReveal as="section">
-					<div className="mb-6 rounded-[2rem] border border-sky-500/15 bg-white/75 p-6 shadow-[0_10px_40px_rgba(56,189,248,0.08)] backdrop-blur-xl dark:bg-slate-950/70">
+					<div className="mb-6 rounded-[2rem] border border-sky-500/15 bg-white/75 p-6 shadow-[0_10px_40px_rgba(109,171,223,0.08)] backdrop-blur-xl dark:bg-slate-950/70">
 						<div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
 							<div className="max-w-3xl space-y-3">
 								<div className="inline-flex items-center gap-2 rounded-full border border-sky-500/15 bg-sky-500/10 px-3 py-1.5 text-xs font-medium text-sky-700 dark:text-sky-300">

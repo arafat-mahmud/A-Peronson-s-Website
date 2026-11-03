@@ -247,7 +247,7 @@ export function AdminAISection({ activeCategory, adminDark }) {
 			</div>
 
 			{loading ? (
-				<Mosaic color="#0ea5e9" size="large" style={{ fontSize: "40px" }} text="" textColor="" />
+				<Mosaic color="#337ab0" size="large" style={{ fontSize: "40px" }} text="" textColor="" />
 			) : activeTab === "settings" ? (
 				<div className="space-y-6">
 					{/* System Prompt */}
@@ -384,7 +384,7 @@ export function AdminAISection({ activeCategory, adminDark }) {
 						className="flex w-full items-center justify-center gap-2 rounded-2xl border border-indigo-500/30 bg-indigo-500/20 px-6 py-3 text-sm font-medium text-indigo-300 transition-all hover:bg-indigo-500/30 disabled:opacity-50"
 					>
 						{saving ? (
-							<ThreeDot variant="bounce" color="#0ea5e9" size="small" text="" textColor="" />
+							<ThreeDot variant="bounce" color="#337ab0" size="small" text="" textColor="" />
 						) : (
 							<Save className="h-4 w-4" />
 						)}

@@ -1,4 +1,4 @@
-import { logInfo } from "../utils/logger.js";
+import { logInfo, logWarn } from "../utils/logger.js";
 import prisma from "./prisma.js";
 
 let dbConnected = false;
@@ -9,6 +9,19 @@ export function getDbStatus() {
 		connected: dbConnected,
 		error: dbError,
 	};
+}
+
+export function isDatabaseConnected() {
+	return dbConnected;
+}
+
+function startupErrorMessage(error) {
+	// Prisma messages can echo the connection string; keep the first line only
+	// and strip credentials before it reaches the log.
+	return String(error?.message || "DB connection failed")
+		.split("\n")[0]
+		.replace(/(postgres(?:ql)?:\/\/)[^@\s]+@/gi, "$1[REDACTED]@")
+		.slice(0, 300);
 }
 
 export async function ensureDatabaseConnection() {
@@ -33,19 +46,36 @@ export async function ensureDatabaseConnection() {
 	} catch {
 		logInfo("db Using DATABASE_URL (unparsed)", { url: "[redacted]" });
 	}
+	// Bounded, logged retries. The old loop retried every 30s forever and in
+	// silence, so an unreachable database left the port closed with no clue in
+	// the logs; now the boot fails after DB_STARTUP_MAX_WAIT_MS and the crash
+	// handler records why, letting the platform restart a fresh process.
+	const maxWaitMs = Number(process.env.DB_STARTUP_MAX_WAIT_MS) || 120_000;
+	const startedAt = Date.now();
+	let attempt = 0;
 	while (true) {
+		attempt += 1;
 		try {
 			await prisma.$connect();
 			dbConnected = true;
 			dbError = "";
+			if (attempt > 1) {
+				logInfo("db Connected after retry", { attempt });
+			}
 			break;
 		} catch (error) {
 			dbConnected = false;
-			dbError = error?.message || "DB connection failed";
+			dbError = startupErrorMessage(error);
 			if (allowOffline) {
 				return;
 			}
-			await new Promise((r) => setTimeout(r, 30_000));
+			const elapsed = Date.now() - startedAt;
+			if (elapsed >= maxWaitMs) {
+				throw new Error(`Database unreachable after ${attempt} attempts: ${dbError}`);
+			}
+			const delay = Math.min(30_000, 2000 * 2 ** (attempt - 1), maxWaitMs - elapsed);
+			logWarn("db Connection attempt failed", { attempt, retry_in_ms: delay, error: dbError });
+			await new Promise((r) => setTimeout(r, delay));
 		}
 	}
 }

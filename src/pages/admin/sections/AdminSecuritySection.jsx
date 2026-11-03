@@ -251,8 +251,8 @@ function UltraTinyChart({
 			<svg viewBox={`0 0 ${width} ${height}`} className="h-44 w-full">
 				<defs>
 					<linearGradient id="ultraSkyFill" x1="0" x2="0" y1="0" y2="1">
-						<stop offset="0%" stopColor="rgba(56,189,248,0.38)" />
-						<stop offset="100%" stopColor="rgba(56,189,248,0)" />
+						<stop offset="0%" stopColor="rgba(109,171,223,0.38)" />
+						<stop offset="100%" stopColor="rgba(109,171,223,0)" />
 					</linearGradient>
 				</defs>
 				<path d={area} fill="url(#ultraSkyFill)" />
@@ -390,8 +390,8 @@ export function AdminSecuritySection({
 				className={cn(
 					"rounded-[32px] border p-5 backdrop-blur-xl",
 					adminDark
-						? "border-white/10 bg-[radial-gradient(circle_at_top_left,_rgba(14,165,233,0.24),_transparent_28%),radial-gradient(circle_at_top_right,_rgba(59,130,246,0.18),_transparent_22%),linear-gradient(180deg,_#020617_0%,_#07111f_55%,_#050b16_100%)] text-slate-100"
-						: "border-slate-200 bg-[radial-gradient(circle_at_top_left,_rgba(56,189,248,0.18),_transparent_26%),radial-gradient(circle_at_top_right,_rgba(37,99,235,0.10),_transparent_22%),linear-gradient(180deg,_#eff8ff_0%,_#f8fbff_55%,_#eef6ff_100%)] text-slate-900",
+						? "border-white/10 bg-[radial-gradient(circle_at_top_left,_rgba(51,122,176,0.24),_transparent_28%),radial-gradient(circle_at_top_right,_rgba(55,115,168,0.18),_transparent_22%),linear-gradient(180deg,_#020617_0%,_#07111f_55%,_#050b16_100%)] text-slate-100"
+						: "border-slate-200 bg-[radial-gradient(circle_at_top_left,_rgba(109,171,223,0.18),_transparent_26%),radial-gradient(circle_at_top_right,_rgba(28,83,129,0.10),_transparent_22%),linear-gradient(180deg,_#eff8ff_0%,_#f8fbff_55%,_#eef6ff_100%)] text-slate-900",
 				)}
 			>
 				<div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">

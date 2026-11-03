@@ -89,7 +89,7 @@ export default function ProfileImageUpload({ value = "", onChange, label = "Prof
 					className="rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-medium text-slate-700 transition hover:bg-slate-50 disabled:opacity-60 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800"
 				>
 					{uploading ? (
-						<ThreeDot variant="bounce" color="#0ea5e9" size="small" text="" textColor="" />
+						<ThreeDot variant="bounce" color="#337ab0" size="small" text="" textColor="" />
 					) : (
 						"Choose Image"
 					)}

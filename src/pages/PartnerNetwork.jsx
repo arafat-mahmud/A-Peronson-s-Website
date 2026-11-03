@@ -218,7 +218,7 @@ export default function PartnerNetwork() {
 	return (
 		<div
 			className={cls(
-				"min-h-screen bg-[radial-gradient(circle_at_top_left,_rgba(56,189,248,0.24),_transparent_35%),radial-gradient(circle_at_top_right,_rgba(59,130,246,0.18),_transparent_30%),linear-gradient(to_bottom,_#f8fcff,_#edf6ff_35%,_#e2efff)] text-slate-900 transition-colors duration-300 dark:bg-[radial-gradient(circle_at_top_left,_rgba(56,189,248,0.16),_transparent_30%),radial-gradient(circle_at_top_right,_rgba(96,165,250,0.14),_transparent_25%),linear-gradient(to_bottom,_#0b1120,_#090d18_48%,_#050816)] dark:text-slate-100",
+				"min-h-screen bg-[radial-gradient(circle_at_top_left,_rgba(109,171,223,0.24),_transparent_35%),radial-gradient(circle_at_top_right,_rgba(55,115,168,0.18),_transparent_30%),linear-gradient(to_bottom,_#f8fcff,_#edf6ff_35%,_#e2efff)] text-slate-900 transition-colors duration-300 dark:bg-[radial-gradient(circle_at_top_left,_rgba(109,171,223,0.16),_transparent_30%),radial-gradient(circle_at_top_right,_rgba(106,161,212,0.14),_transparent_25%),linear-gradient(to_bottom,_#0b1120,_#090d18_48%,_#050816)] dark:text-slate-100",
 			)}
 		>
 			<div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
@@ -299,7 +299,7 @@ export default function PartnerNetwork() {
 											{loading ? (
 												<ThreeDot
 													variant="bounce"
-													color="#0ea5e9"
+													color="#337ab0"
 													size="small"
 													text=""
 													textColor=""

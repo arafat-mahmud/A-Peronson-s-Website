@@ -425,7 +425,7 @@ export default function LeadManager({
 
 						{loading ? (
 							<Mosaic
-								color="#0ea5e9"
+								color="#337ab0"
 								size="large"
 								style={{ fontSize: "40px" }}
 								text=""

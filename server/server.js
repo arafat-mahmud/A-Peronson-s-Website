@@ -96,13 +96,25 @@ import { setUserOffline, setUserOnline, touchUser } from "./services/presenceSer
 import { startSyslogServer } from "./services/syslogServer.js";
 import { revokeExpiredVerifications } from "./services/verificationService.js";
 import { recordWorkflowEvent } from "./services/workflowLifecycleService.js";
-import { closeDatabaseConnection, ensureDatabaseConnection, startDbHeartbeat } from "./utils/db.js";
+import {
+	installCrashHandlers,
+	recordFatalAndExit,
+	setSubsystemState,
+	startMemoryMonitor,
+} from "./utils/crashReporter.js";
+import {
+	closeDatabaseConnection,
+	ensureDatabaseConnection,
+	isDatabaseConnected,
+	startDbHeartbeat,
+} from "./utils/db.js";
 import { findMissingEnvVars } from "./utils/envValidation.js";
 import { createGatedStaticGuard } from "./utils/gatedStaticGuard.js";
 import { logError, logInfo, logWarn } from "./utils/logger.js";
 import { consumePendingInvites, enqueuePendingInvites } from "./utils/pendingInvites.js";
 import prisma from "./utils/prisma.js";
 import { closeRedis, initRedis } from "./utils/redis.js";
+import { answerFaq, formatFaqAnswer } from "../shared/assistant/faqEngine.js";
 import { startCaseRetentionWorker } from "./workers/caseRetentionWorker.js";
 
 const RECOMMENDED_ENV_VARS = [
@@ -129,6 +141,13 @@ function validateRequiredEnvVars() {
 		});
 	}
 }
+
+// Fatal errors are captured from here on; gracefulShutdown is a hoisted
+// function declaration further down.
+installCrashHandlers({
+	shutdown: (reason, exitCode) => gracefulShutdown(reason, exitCode),
+	logWarn,
+});
 
 validateRequiredEnvVars();
 
@@ -357,10 +376,15 @@ if (serveDist && fs.existsSync(distRoot)) {
 			// Strip helmet CSP from static file responses — Google sitemap
 			// fetcher rejects XML with frame-src 'none' in CSP headers.
 			res.removeHeader("content-security-policy");
+			// Only Vite's content-hashed /assets/* files never change under the
+			// same URL. index.html, sw.js and manifest.json keep their names
+			// across deploys, so caching them for a year pinned browsers to a
+			// shell whose chunk names no longer exist ("Failed to load page").
+			const immutable = req.path.startsWith("/assets/");
 			res.writeHead(200, {
 				"Content-Type": contentType,
 				"Content-Length": Buffer.byteLength(content),
-				"Cache-Control": "public, max-age=31536000, immutable",
+				"Cache-Control": immutable ? "public, max-age=31536000, immutable" : "no-cache",
 			});
 			res.end(content);
 		} catch {
@@ -434,8 +458,39 @@ app.use("/api/logs", logRoutes);
 app.use("/log-viewer", viewerRouter);
 app.use("/api/dev", devRoutes);
 app.use(seoRoutes);
+// Liveness: the process is up and the event loop answers. Deliberately no
+// database or provider calls - a slow dependency must not get a healthy
+// process restarted (Render's healthCheckPath points here).
 app.get("/health", (_req, res) => {
+	if (shuttingDown) {
+		return res.status(503).json({ status: "shutting_down" });
+	}
 	res.status(200).json({ status: "ok", uptime: process.uptime(), timestamp: Date.now() });
+});
+
+// Readiness: can this instance serve requests that need the database?
+app.get("/ready", async (_req, res) => {
+	res.set("Cache-Control", "no-store");
+	if (shuttingDown) {
+		return res.status(503).json({ status: "not_ready", reason: "shutting_down" });
+	}
+	let timer = null;
+	try {
+		await Promise.race([
+			prisma.$queryRaw`SELECT 1`,
+			new Promise((_resolve, reject) => {
+				timer = setTimeout(() => reject(new Error("timeout")), 1500);
+			}),
+		]);
+		return res.status(200).json({ status: "ready", database: "up" });
+	} catch {
+		return res.status(503).json({
+			status: "not_ready",
+			database: isDatabaseConnected() ? "slow" : "down",
+		});
+	} finally {
+		if (timer) clearTimeout(timer);
+	}
 });
 
 app.use(errorHandler);
@@ -450,6 +505,17 @@ if (serveDist && fs.existsSync(distRoot)) {
 }
 
 const server = http.createServer(app);
+let shuttingDown = false;
+server.on("error", (error) => {
+	// EADDRINUSE / EACCES and the like: the API cannot serve - record and exit
+	// so the supervisor (local) or Render restarts a clean process.
+	void recordFatalAndExit(error, "httpServerError");
+});
+server.on("close", () => {
+	if (!shuttingDown) {
+		void recordFatalAndExit(new Error("HTTP server closed unexpectedly"), "httpServerClosed");
+	}
+});
 const ALLOWED_WS_ORIGINS = (
 	process.env.ALLOWED_WS_ORIGINS || "http://localhost:5173,http://localhost:4000"
 )
@@ -913,6 +979,10 @@ function relaySignal(socket, payload) {
 	}
 }
 
+wsServer.on("error", (error) => {
+	logError("websocket_server_error", error);
+});
+
 wsServer.on("connection", (socket, req) => {
 	logInfo("Assistant WebSocket connected");
 	let lastQuestion = "";
@@ -1046,23 +1116,33 @@ wsServer.on("connection", (socket, req) => {
 			return;
 		}
 
-		if (!socket.userId) {
+		const question = String(payload?.question || "");
+
+		// Deterministic FAQ answer: what guests get (there is no AI session
+		// without an account) and what anyone gets when the AI cannot answer.
+		const sendFaqReply = (reason) => {
+			const faq = answerFaq(question);
 			sendReply({
 				type: "reply",
-				question: null,
-				matched_answer: "Authentication required. Please identify first.",
-				source: "ws:auth",
+				request_id: payload?.request_id || null,
+				question,
+				matched_answer: formatFaqAnswer(faq),
+				source: "faq",
 				metadata: {
-					matched_source: "ws:auth",
-					matched_type: "error",
-					confidence: 0,
-					fallback_reason: "unauthenticated_ask",
+					matched_source: "faq",
+					matched_type: faq.matched ? "faq" : "unknown",
+					intent: faq.id,
+					confidence: faq.confidence,
+					fallback_reason: reason,
 				},
 			});
+		};
+
+		if (!socket.userId) {
+			sendFaqReply("guest");
 			return;
 		}
 
-		const question = String(payload?.question || "");
 		const messageNow = Date.now();
 		if (question && question === lastQuestion && messageNow - lastQuestionAt < 1500) {
 			return;
@@ -1073,6 +1153,8 @@ wsServer.on("connection", (socket, req) => {
 			question_chars: question.length,
 		});
 
+		let faqTimer = null;
+		let settledByFaq = false;
 		try {
 			const userId = socket?.userId || null;
 			const requestId = payload?.request_id || null;
@@ -1080,8 +1162,17 @@ wsServer.on("connection", (socket, req) => {
 			let streamedText = "";
 			let _streamError = null;
 			let streamDone = false;
+			// Once the FAQ has answered (slow or failed AI), late AI output is
+			// dropped so the visitor never gets two answers.
+			faqTimer = setTimeout(() => {
+				if (!(streamDone || streamedText)) {
+					settledByFaq = true;
+					sendFaqReply("ai_slow");
+				}
+			}, Number(process.env.ASSISTANT_FAQ_FALLBACK_MS) || 20_000);
 
 			const gotChunk = (delta, fullText) => {
+				if (settledByFaq) return;
 				streamedText = fullText;
 				sendReply({
 					type: "chunk",
@@ -1096,20 +1187,26 @@ wsServer.on("connection", (socket, req) => {
 			const gotComplete = (answer, error) => {
 				streamDone = true;
 				_streamError = error;
+				clearTimeout(faqTimer);
+				if (settledByFaq) return;
 				if (error) {
-					sendReply({
-						type: "reply",
-						request_id: requestId,
-						question,
-						matched_answer: answer || "I could not find a response right now. Please try again.",
-						source: "ws:stream_error",
-						metadata: {
-							matched_source: "ws:stream_error",
-							matched_type: "error",
-							confidence: 0,
-							fallback_reason: error,
-						},
-					});
+					if (answer) {
+						sendReply({
+							type: "reply",
+							request_id: requestId,
+							question,
+							matched_answer: answer,
+							source: "ws:stream_error",
+							metadata: {
+								matched_source: "ws:stream_error",
+								matched_type: "error",
+								confidence: 0,
+								fallback_reason: error,
+							},
+						});
+					} else {
+						sendFaqReply(`ai_error:${error}`);
+					}
 				} else {
 					sendReply({
 						type: "reply",
@@ -1128,14 +1225,18 @@ wsServer.on("connection", (socket, req) => {
 			};
 
 			await streamOpencodeReply(question, userId, gotChunk, gotComplete);
+			clearTimeout(faqTimer);
 
-			if (!streamDone) {
+			if (!(streamDone || settledByFaq)) {
+				if (!streamedText) {
+					sendFaqReply("stream_not_started");
+					return;
+				}
 				sendReply({
 					type: "reply",
 					request_id: requestId,
 					question,
-					matched_answer:
-						streamedText || "I could not find a response right now. Please try again.",
+					matched_answer: streamedText,
 					source: "ws:fallback",
 					metadata: {
 						matched_source: "ws:fallback",
@@ -1146,20 +1247,9 @@ wsServer.on("connection", (socket, req) => {
 				});
 			}
 		} catch (error) {
+			clearTimeout(faqTimer);
 			logError("Assistant WebSocket ask failed", error);
-			sendReply({
-				type: "reply",
-				request_id: payload?.request_id || null,
-				question,
-				matched_answer: "I could not reach the AI model right now. Please try again.",
-				source: "ws:error",
-				metadata: {
-					matched_source: "ws:error",
-					matched_type: "error",
-					confidence: 0,
-					fallback_reason: "assistant_exception",
-				},
-			});
+			if (!settledByFaq) sendFaqReply("assistant_exception");
 		}
 	});
 
@@ -1189,7 +1279,9 @@ wsServer.on("connection", (socket, req) => {
 });
 
 async function start() {
+	setSubsystemState("database", "connecting");
 	await ensureDatabaseConnection();
+	setSubsystemState("database", "connected");
 	startDbHeartbeat();
 	// Redis caching (optional - only if REDIS_URL is set)
 	await initRedis();
@@ -1333,26 +1425,69 @@ async function start() {
 		.catch((err) => logError("server: aiModerationService import failed", err));
 }
 
-start().catch((error) => {
-	logError("Failed to start server", error);
-	process.exit(1);
-});
+start()
+	.then(() => {
+		setSubsystemState("startup", "listening");
+		startMemoryMonitor({ logWarn, logInfo }).catch(() => {});
+	})
+	.catch((error) => {
+		logError("Failed to start server", error);
+		setSubsystemState("startup", "failed");
+		void recordFatalAndExit(error, "startupFailure");
+	});
 
-process.on("uncaughtException", (err) => {
-	logError("uncaught_exception", err);
-	if (process.env.NODE_ENV === "production") {
-	}
-});
+// Graceful shutdown: stop accepting work, let in-flight requests finish for a
+// short grace period, close realtime sockets, then release Redis and the
+// database. SIGTERM (Render deploy/restart) and SIGINT exit 0 and are not
+// crashes; fatal errors reuse this path and exit 1. Bounded by
+// SHUTDOWN_TIMEOUT_MS so it always ends well inside Render's shutdown window.
+let shutdownPromise = null;
+async function gracefulShutdown(reason, exitCode = 0) {
+	if (shutdownPromise) return shutdownPromise;
+	shuttingDown = true;
+	setSubsystemState("startup", "shutting_down");
+	const graceMs = Number(process.env.SHUTDOWN_TIMEOUT_MS) || 8000;
+	logInfo("shutdown_started", { reason, exit_code: exitCode, grace_ms: graceMs });
+	const hardStop = setTimeout(() => process.exit(exitCode), graceMs + 2000);
+	hardStop.unref();
 
-process.on("unhandledRejection", (reason) => {
-	logError("unhandled_rejection", reason instanceof Error ? reason : new Error(String(reason)));
-});
+	shutdownPromise = (async () => {
+		const closed = new Promise((resolve) => {
+			if (!server.listening) return resolve();
+			server.close(() => resolve());
+			server.closeIdleConnections?.();
+		});
+		for (const client of wsServer.clients) {
+			try {
+				client.close(1001, "Server restarting");
+			} catch {
+				// already closing
+			}
+		}
+		const grace = new Promise((resolve) => setTimeout(resolve, graceMs).unref());
+		await Promise.race([closed, grace]);
+		// Long-lived streams (SSE, sockets that ignored the close frame) are
+		// cut once the grace period is over.
+		server.closeAllConnections?.();
+		for (const client of wsServer.clients) {
+			try {
+				client.terminate();
+			} catch {
+				// gone
+			}
+		}
+		await closeRedis().catch(() => {});
+		await closeDatabaseConnection().catch(() => {});
+		logInfo("shutdown_complete", { reason, exit_code: exitCode });
+	})()
+		.catch((error) => logError("shutdown_failed", error))
+		.finally(() => process.exit(exitCode));
+	return shutdownPromise;
+}
 
-process.on("SIGINT", async () => {
-	try {
-		await closeRedis();
-		await closeDatabaseConnection();
-	} finally {
-		process.exit(0);
-	}
+process.on("SIGTERM", () => {
+	void gracefulShutdown("SIGTERM", 0);
+});
+process.on("SIGINT", () => {
+	void gracefulShutdown("SIGINT", 0);
 });

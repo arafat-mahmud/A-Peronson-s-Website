@@ -23,7 +23,7 @@ export function AdminMediaReviewSection({
 
 			{loadingModeration ? (
 				<div className="flex items-center justify-center py-16">
-					<Mosaic color="#0ea5e9" size="large" style={{ fontSize: "40px" }} text="" textColor="" />
+					<Mosaic color="#337ab0" size="large" style={{ fontSize: "40px" }} text="" textColor="" />
 				</div>
 			) : moderationPending.length > 0 ? (
 				<div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">

@@ -1794,7 +1794,7 @@ export default function ContractVaultPage({ embedded = false }) {
 
 	return (
 		<div className={shell}>
-			<div className="min-h-screen bg-[radial-gradient(circle_at_top_left,_rgba(56,189,248,0.22),_transparent_28%),radial-gradient(circle_at_top_right,_rgba(14,165,233,0.18),_transparent_24%),linear-gradient(180deg,#f8fbff_0%,#eef7ff_40%,#eaf3ff_100%)] text-slate-900 dark:bg-[radial-gradient(circle_at_top_left,_rgba(14,165,233,0.24),_transparent_25%),radial-gradient(circle_at_top_right,_rgba(125,211,252,0.12),_transparent_22%),linear-gradient(180deg,#020617_0%,#07111f_45%,#08111b_100%)] dark:text-white">
+			<div className="min-h-screen bg-[radial-gradient(circle_at_top_left,_rgba(109,171,223,0.22),_transparent_28%),radial-gradient(circle_at_top_right,_rgba(51,122,176,0.18),_transparent_24%),linear-gradient(180deg,#f8fbff_0%,#eef7ff_40%,#eaf3ff_100%)] text-slate-900 dark:bg-[radial-gradient(circle_at_top_left,_rgba(51,122,176,0.24),_transparent_25%),radial-gradient(circle_at_top_right,_rgba(155,202,242,0.12),_transparent_22%),linear-gradient(180deg,#020617_0%,#07111f_45%,#08111b_100%)] dark:text-white">
 				<div className="mx-auto max-w-[1600px] px-4 py-4 md:px-6 lg:px-8">
 					{vaultContent}
 					{createFormModal}

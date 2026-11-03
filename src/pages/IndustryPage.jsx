@@ -177,15 +177,15 @@ export default function IndustryPage() {
 
 	if (loading) {
 		return (
-			<div className="min-h-screen bg-[radial-gradient(circle_at_top_left,rgba(56,189,248,0.22),transparent_30%),radial-gradient(circle_at_top_right,rgba(14,165,233,0.16),transparent_32%),linear-gradient(180deg,rgba(248,250,252,1),rgba(239,246,255,1),rgba(248,250,252,1))] dark:bg-[radial-gradient(circle_at_top_left,rgba(56,189,248,0.16),transparent_26%),radial-gradient(circle_at_top_right,rgba(14,165,233,0.12),transparent_28%),linear-gradient(180deg,rgba(2,6,23,1),rgba(3,7,18,1),rgba(2,6,23,1))] p-6 text-slate-600 dark:text-slate-200 flex items-center justify-center">
-				<Mosaic color="#0ea5e9" size="large" style={{ fontSize: "40px" }} text="" textColor="" />
+			<div className="min-h-screen bg-[radial-gradient(circle_at_top_left,rgba(109,171,223,0.22),transparent_30%),radial-gradient(circle_at_top_right,rgba(51,122,176,0.16),transparent_32%),linear-gradient(180deg,rgba(248,250,252,1),rgba(239,246,253,1),rgba(248,250,252,1))] dark:bg-[radial-gradient(circle_at_top_left,rgba(109,171,223,0.16),transparent_26%),radial-gradient(circle_at_top_right,rgba(51,122,176,0.12),transparent_28%),linear-gradient(180deg,rgba(2,6,23,1),rgba(3,7,18,1),rgba(2,6,23,1))] p-6 text-slate-600 dark:text-slate-200 flex items-center justify-center">
+				<Mosaic color="#337ab0" size="large" style={{ fontSize: "40px" }} text="" textColor="" />
 			</div>
 		);
 	}
 
 	if (error) {
 		return (
-			<div className="min-h-screen bg-[radial-gradient(circle_at_top_left,rgba(56,189,248,0.22),transparent_30%),radial-gradient(circle_at_top_right,rgba(14,165,233,0.16),transparent_32%),linear-gradient(180deg,rgba(248,250,252,1),rgba(239,246,255,1),rgba(248,250,252,1))] dark:bg-[radial-gradient(circle_at_top_left,rgba(56,189,248,0.16),transparent_26%),radial-gradient(circle_at_top_right,rgba(14,165,233,0.12),transparent_28%),linear-gradient(180deg,rgba(2,6,23,1),rgba(3,7,18,1),rgba(2,6,23,1))] p-6 text-rose-700 dark:text-rose-200">
+			<div className="min-h-screen bg-[radial-gradient(circle_at_top_left,rgba(109,171,223,0.22),transparent_30%),radial-gradient(circle_at_top_right,rgba(51,122,176,0.16),transparent_32%),linear-gradient(180deg,rgba(248,250,252,1),rgba(239,246,253,1),rgba(248,250,252,1))] dark:bg-[radial-gradient(circle_at_top_left,rgba(109,171,223,0.16),transparent_26%),radial-gradient(circle_at_top_right,rgba(51,122,176,0.12),transparent_28%),linear-gradient(180deg,rgba(2,6,23,1),rgba(3,7,18,1),rgba(2,6,23,1))] p-6 text-rose-700 dark:text-rose-200">
 				{error}
 			</div>
 		);
@@ -196,7 +196,7 @@ export default function IndustryPage() {
 	const displayCategory = summary?.category || slug;
 
 	return (
-		<div className="min-h-screen bg-[radial-gradient(circle_at_top_left,rgba(56,189,248,0.22),transparent_30%),radial-gradient(circle_at_top_right,rgba(14,165,233,0.16),transparent_32%),linear-gradient(180deg,rgba(248,250,252,1),rgba(239,246,255,1),rgba(248,250,252,1))] text-slate-900 dark:bg-[radial-gradient(circle_at_top_left,rgba(56,189,248,0.16),transparent_26%),radial-gradient(circle_at_top_right,rgba(14,165,233,0.12),transparent_28%),linear-gradient(180deg,rgba(2,6,23,1),rgba(3,7,18,1),rgba(2,6,23,1))] dark:text-slate-100">
+		<div className="min-h-screen bg-[radial-gradient(circle_at_top_left,rgba(109,171,223,0.22),transparent_30%),radial-gradient(circle_at_top_right,rgba(51,122,176,0.16),transparent_32%),linear-gradient(180deg,rgba(248,250,252,1),rgba(239,246,253,1),rgba(248,250,252,1))] text-slate-900 dark:bg-[radial-gradient(circle_at_top_left,rgba(109,171,223,0.16),transparent_26%),radial-gradient(circle_at_top_right,rgba(51,122,176,0.12),transparent_28%),linear-gradient(180deg,rgba(2,6,23,1),rgba(3,7,18,1),rgba(2,6,23,1))] dark:text-slate-100">
 			<div className="mx-auto max-w-7xl px-4 py-6 space-y-6">
 				<div className="rounded-3xl border border-slate-200/70 bg-white/80 p-5 shadow-[0_20px_70px_rgba(15,23,42,0.08)] backdrop-blur-xl dark:border-slate-800 dark:bg-slate-950/70">
 					<div className="flex flex-wrap items-center justify-between gap-4">

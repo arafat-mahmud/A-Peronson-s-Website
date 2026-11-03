@@ -271,7 +271,7 @@ export default function PostDetailModal({ open, onClose, item, onShare }) {
 									class="rounded-full bg-[var(--theme-custom-0a66c2)] text-white px-3.5 py-2 text-sm font-semibold disabled:opacity-50"
 								>
 									{submitting ? (
-										<ThreeDot variant="bounce" color="#0ea5e9" size="small" text="" textColor="" />
+										<ThreeDot variant="bounce" color="#337ab0" size="small" text="" textColor="" />
 									) : (
 										"Send"
 									)}
@@ -422,7 +422,7 @@ export default function PostDetailModal({ open, onClose, item, onShare }) {
 									<div class="flex justify-center py-8">
 										<ThreeDot
 											variant="bounce"
-											color="#0ea5e9"
+											color="#337ab0"
 											size="large"
 											style={{ fontSize: "36px" }}
 											text=""
@@ -464,7 +464,7 @@ export default function PostDetailModal({ open, onClose, item, onShare }) {
 										{submitting ? (
 											<ThreeDot
 												variant="bounce"
-												color="#0ea5e9"
+												color="#337ab0"
 												size="small"
 												text=""
 												textColor=""

@@ -84,7 +84,7 @@ export default function AccessDenied() {
 				<div class="absolute left-1/2 top-[-8rem] h-[28rem] w-[28rem] -translate-x-1/2 rounded-full bg-sky-300/30 blur-3xl dark:bg-sky-500/15" />
 				<div class="absolute right-[-6rem] top-24 h-72 w-72 rounded-full bg-blue-300/25 blur-3xl dark:bg-blue-500/10" />
 				<div class="absolute bottom-[-8rem] left-[-6rem] h-72 w-72 rounded-full bg-cyan-300/25 blur-3xl dark:bg-cyan-500/10" />
-				<div class="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(56,189,248,0.16),transparent_40%),radial-gradient(circle_at_right,rgba(59,130,246,0.12),transparent_35%)] dark:bg-[radial-gradient(circle_at_top,rgba(56,189,248,0.12),transparent_40%),radial-gradient(circle_at_right,rgba(59,130,246,0.08),transparent_35%)]" />
+				<div class="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(109,171,223,0.16),transparent_40%),radial-gradient(circle_at_right,rgba(55,115,168,0.12),transparent_35%)] dark:bg-[radial-gradient(circle_at_top,rgba(109,171,223,0.12),transparent_40%),radial-gradient(circle_at_right,rgba(55,115,168,0.08),transparent_35%)]" />
 			</div>
 
 			<main class="relative z-10 mx-auto flex min-h-screen w-full max-w-7xl items-center px-4 py-10 sm:px-6 lg:px-8">

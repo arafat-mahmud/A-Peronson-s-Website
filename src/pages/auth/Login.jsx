@@ -24,6 +24,7 @@ import { startAuthentication, startRegistration } from "@simplewebauthn/browser"
 import { useEffect, useMemo, useState } from "react";
 import { ThreeDot } from "react-loading-indicators";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import BrandMark from "../../components/ui/BrandMark.jsx";
 import NeonAtom from "../../components/ui/NeonAtom.jsx";
 import { apiRequest, getCurrentUser, getRoleHome, saveSession } from "../../lib/auth.js";
 import { useTheme } from "../../lib/ThemeProvider.jsx";
@@ -63,9 +64,6 @@ const Fingerprint = (p) => (
 );
 const Lock = (p) => <Icon d="M6 10V7a6 6 0 1 1 12 0v3M5 10h14v10H5z" {...p} />;
 const ShieldCheck = (p) => <Icon d="M12 22l7-4V6l-7-4-7 4v12l7 4zm-2-10l2 2 4-4" {...p} />;
-const Sparkles = (p) => (
-	<Icon d="M12 3l1.5 3.5L17 8l-3.5 1.5L12 13l-1.5-3.5L7 8l3.5-1.5L12 3z" {...p} />
-);
 const SunMedium = (p) => (
 	<Icon
 		d="M12 4V2m0 20v-2m8-8h2M2 12h2m13.66-5.66l1.41-1.41M4.93 19.07l1.41-1.41m0-11.32L4.93 4.93m14.14 14.14l-1.41-1.41M12 8a4 4 0 1 1 0 8 4 4 0 0 1 0-8z"
@@ -318,7 +316,7 @@ export default function Login() {
 				: {
 						page: "bg-[var(--theme-custom-edf6ff)] text-slate-900",
 						panel: "bg-white/70 border-sky-200/70 shadow-sky-200/50",
-						card: "bg-white/85 border-sky-100 shadow-[0_30px_80px_rgba(56,189,248,0.18)] backdrop-blur-xl",
+						card: "bg-white/85 border-sky-100 shadow-[0_30px_80px_rgba(109,171,223,0.18)] backdrop-blur-xl",
 						muted: "text-slate-600",
 						soft: "text-slate-500",
 						field:
@@ -365,11 +363,7 @@ export default function Login() {
 						</div>
 
 						<div class="mb-5 flex items-center gap-2.5">
-							<div
-								class={`flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br ${theme.gradient} text-white shadow-sm shadow-sky-500/20`}
-							>
-								<Sparkles class="h-4 w-4" />
-							</div>
+							<BrandMark size={32} alt="" />
 							<div>
 								<p class="text-xs font-bold tracking-tight">GarTexHub</p>
 								<p class={`text-[9px] font-semibold uppercase tracking-[0.15em] ${theme.soft}`}>
@@ -596,7 +590,7 @@ export default function Login() {
 									class={`group inline-flex w-full items-center justify-center gap-2 rounded-2xl px-5 py-3 text-sm font-semibold shadow-lg shadow-sky-500/20 transition ${theme.button}`}
 								>
 									{loading ? (
-										<ThreeDot variant="bounce" color="#0ea5e9" size="small" text="" textColor="" />
+										<ThreeDot variant="bounce" color="#337ab0" size="small" text="" textColor="" />
 									) : (
 										"Sign in"
 									)}
@@ -616,7 +610,7 @@ export default function Login() {
 										{passkeyLoading ? (
 											<ThreeDot
 												variant="bounce"
-												color="#0ea5e9"
+												color="#337ab0"
 												size="small"
 												text=""
 												textColor=""
@@ -635,7 +629,7 @@ export default function Login() {
 										{enrollLoading ? (
 											<ThreeDot
 												variant="bounce"
-												color="#0ea5e9"
+												color="#337ab0"
 												size="small"
 												text=""
 												textColor=""
@@ -659,6 +653,7 @@ export default function Login() {
 								</div>
 								<Link
 									to="/signup"
+									state={redirectTo ? { from: redirectTo } : undefined}
 									class={`rounded-full border px-4 py-2 text-sm font-semibold transition ${theme.outline}`}
 								>
 									Create account

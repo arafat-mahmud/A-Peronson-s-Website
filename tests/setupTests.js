@@ -23,6 +23,15 @@ if (!globalThis.TextDecoder) {
 	globalThis.TextDecoder = TextDecoder;
 }
 
+// jsdom has no WHATWG streams, but server modules under test (e.g. the
+// @google/genai SDK) build on them at import time. Node ships them.
+if (typeof globalThis.ReadableStream === "undefined") {
+	const webStreams = await import("node:stream/web");
+	globalThis.ReadableStream = webStreams.ReadableStream;
+	globalThis.WritableStream = webStreams.WritableStream;
+	globalThis.TransformStream = webStreams.TransformStream;
+}
+
 if (!globalThis.setImmediate) {
 	globalThis.setImmediate = nodeSetImmediate;
 }

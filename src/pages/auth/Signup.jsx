@@ -3,19 +3,26 @@
   Access: Public
 */
 
-import { motion } from "framer-motion";
-import { useEffect, useMemo, useRef, useState } from "react";
-import { ThreeDot } from "react-loading-indicators";
-import PasswordChecklist from "react-password-checklist";
-import PasswordStrengthBar from "react-password-strength-bar";
-import { Link, useNavigate } from "react-router-dom";
+import { BadgeCheck, ClipboardList, FileSignature, MessagesSquare } from "lucide-react";
+import { useEffect, useId, useMemo, useRef, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
+	PASSWORD_MAX_LENGTH,
+	PASSWORD_RULES,
+	passwordProblems,
+	passwordStrength,
+} from "../../../shared/config/passwordPolicy.js";
+import {
+	CAPACITY_PERIOD_OPTIONS,
 	COUNTRY_OPTIONS,
 	FACTORY_SECTOR_OPTIONS,
 	PUBLIC_ACCOUNT_TYPES,
+	capacityUnitsForSector,
+	normalizeCompanyFacts,
 } from "../../../shared/config/platformTaxonomy.js";
-import NeonAtom from "../../components/ui/NeonAtom.jsx";
-import { apiRequest, getCurrentUser, saveSession } from "../../lib/auth.js";
+import BrandMark from "../../components/ui/BrandMark.jsx";
+import { apiRequest, saveSession } from "../../lib/auth.js";
+import { cn } from "../../lib/cn.js";
 import { useTheme } from "../../lib/ThemeProvider.jsx";
 import usePageMeta from "../../lib/usePageMeta.js";
 
@@ -46,16 +53,63 @@ const POSITIONS = [
 	"Other",
 ];
 
-import { cn } from "../../lib/cn.js";
+// Only what the platform actually does today.
+const BENEFITS = [
+	{
+		icon: BadgeCheck,
+		title: "Verified company profiles",
+		text: "Document-based verification for factories, buying houses and buyers.",
+	},
+	{
+		icon: ClipboardList,
+		title: "Requirements and products in one place",
+		text: "Buyers post sourcing requirements; suppliers list products and capacity.",
+	},
+	{
+		icon: MessagesSquare,
+		title: "Direct conversations",
+		text: "Chat and calls with the companies you work with.",
+	},
+	{
+		icon: FileSignature,
+		title: "Contracts on record",
+		text: "Prepare and sign contracts inside your account.",
+	},
+];
 
-function FieldShell({ label, children, hint }) {
+const STRENGTH = [
+	{ label: "Too weak", bar: "bg-rose-400", width: "w-1/4" },
+	{ label: "Fair", bar: "bg-amber-400", width: "w-2/4" },
+	{ label: "Good", bar: "bg-sky-500", width: "w-3/4" },
+	{ label: "Strong", bar: "bg-emerald-500", width: "w-full" },
+];
+
+const inputBase =
+	"w-full rounded-2xl border bg-white px-4 py-3 text-sm outline-none transition placeholder:text-slate-400 focus:border-sky-400 focus:ring-4 focus:ring-sky-500/10 dark:bg-white/5 dark:placeholder:text-slate-500";
+
+function inputClass(hasError) {
+	return cn(
+		inputBase,
+		hasError
+			? "border-rose-400 ring-2 ring-rose-500/20 dark:border-rose-500"
+			: "border-slate-200 dark:border-white/10",
+	);
+}
+
+function FieldShell({ label, htmlFor, children, hint, error, optional = false }) {
 	return (
 		<div class="space-y-2">
 			<div class="flex items-end justify-between gap-3">
-				<label class="text-sm font-medium text-slate-700 dark:text-slate-200">{label}</label>
-				{hint ? <span class="text-xs text-sky-600 dark:text-sky-300">{hint}</span> : null}
+				<label htmlFor={htmlFor} class="text-sm font-medium text-slate-700 dark:text-slate-200">
+					{label}
+					{optional ? (
+						<span class="ml-1 font-normal text-slate-400 dark:text-slate-500">(optional)</span>
+					) : null}
+				</label>
+				{hint ? <span class="text-xs text-slate-500 dark:text-slate-400">{hint}</span> : null}
 			</div>
 			{children}
+			{error ? <p class="text-xs font-medium text-rose-500">{error}</p> : null}
 		</div>
 	);
 }
@@ -73,12 +127,7 @@ function EyeIcon({ open }) {
 	) : (
 		<svg viewBox="0 0 24 24" fill="none" class="h-4 w-4" aria-hidden="true">
 			<path d="M3 3l18 18" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" />
-			<path
-				d="M10.6 10.6a2 2 0 0 0 2.8 2.8"
-				stroke="currentColor"
-				strokeWidth="1.7"
-				strokeLinecap="round"
-			/>
+			<path d="M10.6 10.6a2 2 0 0 0 2.8 2.8" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" />
 			<path
 				d="M9.9 5.1A10.6 10.6 0 0 1 12 5c6 0 9.5 7 9.5 7a18.2 18.2 0 0 1-3.1 4.1"
 				stroke="currentColor"
@@ -98,28 +147,164 @@ function EyeIcon({ open }) {
 function ChevronDown() {
 	return (
 		<svg viewBox="0 0 24 24" fill="none" class="h-4 w-4" aria-hidden="true">
-			<path
-				d="m6 9 6 6 6-6"
-				stroke="currentColor"
-				strokeWidth="1.8"
-				strokeLinecap="round"
-				strokeLinejoin="round"
-			/>
+			<path d="m6 9 6 6 6-6" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
 		</svg>
 	);
 }
 
-function CheckIcon() {
+function RuleMark({ ok }) {
 	return (
-		<svg viewBox="0 0 24 24" fill="none" class="h-4 w-4" aria-hidden="true">
-			<path
-				d="m5 12 4 4L19 6"
-				stroke="currentColor"
-				strokeWidth="2"
-				strokeLinecap="round"
-				strokeLinejoin="round"
+		<span
+			aria-hidden="true"
+			class={cn(
+				"inline-flex h-4 w-4 items-center justify-center rounded-full text-[10px] font-bold",
+				ok
+					? "bg-emerald-500/15 text-emerald-600 dark:text-emerald-400"
+					: "bg-slate-200 text-slate-500 dark:bg-white/10 dark:text-slate-400",
+			)}
+		>
+			{ok ? "✓" : "•"}
+		</span>
+	);
+}
+
+function PasswordInput({ id, value, onChange, onBlur, shown, onToggle, invalid, autoComplete }) {
+	return (
+		<div class="relative">
+			<input
+				id={id}
+				value={value}
+				onChange={onChange}
+				onBlur={onBlur}
+				type={shown ? "text" : "password"}
+				autoComplete={autoComplete}
+				maxLength={PASSWORD_MAX_LENGTH}
+				aria-invalid={invalid ? "true" : undefined}
+				class={cn(inputClass(invalid), "pr-20")}
 			/>
-		</svg>
+			<button
+				type="button"
+				onClick={onToggle}
+				class="absolute right-2 top-1/2 -translate-y-1/2 rounded-xl px-3 py-1.5 text-xs font-semibold text-sky-700 transition hover:bg-sky-50 dark:text-sky-200 dark:hover:bg-white/10"
+				aria-label={shown ? "Hide password" : "Show password"}
+			>
+				<span class="inline-flex items-center gap-1">
+					<EyeIcon open={shown} />
+					{shown ? "Hide" : "Show"}
+				</span>
+			</button>
+		</div>
+	);
+}
+
+/** Searchable country list: native scrolling, arrow keys, Enter, Escape. */
+function CountryCombobox({ value, onChange, invalid }) {
+	const listId = useId();
+	const [query, setQuery] = useState("");
+	const [open, setOpen] = useState(false);
+	const [active, setActive] = useState(0);
+	const rootRef = useRef(null);
+	const listRef = useRef(null);
+
+	const options = useMemo(() => {
+		const q = query.trim().toLowerCase();
+		return q ? COUNTRY_OPTIONS.filter((c) => c.toLowerCase().includes(q)) : COUNTRY_OPTIONS;
+	}, [query]);
+
+	useEffect(() => {
+		if (!open) return undefined;
+		const close = (event) => {
+			if (rootRef.current && !rootRef.current.contains(event.target)) setOpen(false);
+		};
+		document.addEventListener("pointerdown", close);
+		return () => document.removeEventListener("pointerdown", close);
+	}, [open]);
+
+	useEffect(() => {
+		if (!open) return;
+		listRef.current?.querySelector(`[data-index="${active}"]`)?.scrollIntoView({ block: "nearest" });
+	}, [active, open]);
+
+	const pick = (country) => {
+		onChange(country);
+		setQuery("");
+		setOpen(false);
+	};
+
+	const onKeyDown = (event) => {
+		if (event.key === "ArrowDown") {
+			event.preventDefault();
+			setOpen(true);
+			setActive((index) => Math.min(options.length - 1, index + 1));
+		} else if (event.key === "ArrowUp") {
+			event.preventDefault();
+			setActive((index) => Math.max(0, index - 1));
+		} else if (event.key === "Enter" && open) {
+			event.preventDefault();
+			if (options[active]) pick(options[active]);
+		} else if (event.key === "Escape") {
+			setOpen(false);
+		}
+	};
+
+	return (
+		<div class="relative" ref={rootRef}>
+			<input
+				id="signup-country"
+				role="combobox"
+				aria-expanded={open}
+				aria-controls={listId}
+				aria-autocomplete="list"
+				aria-activedescendant={open && options[active] ? `${listId}-${active}` : undefined}
+				aria-invalid={invalid ? "true" : undefined}
+				autoComplete="country-name"
+				value={open ? query : value}
+				onChange={(event) => {
+					setQuery(event.target.value);
+					setActive(0);
+					setOpen(true);
+				}}
+				onFocus={() => {
+					setQuery("");
+					setOpen(true);
+				}}
+				onKeyDown={onKeyDown}
+				placeholder={value || "Type to search countries"}
+				class={inputClass(invalid)}
+			/>
+			{open ? (
+				<div
+					id={listId}
+					ref={listRef}
+					role="listbox"
+					class="absolute z-40 mt-2 max-h-64 w-full overflow-y-auto overscroll-contain rounded-2xl border border-slate-200 bg-white py-1 shadow-xl shadow-slate-900/10 dark:border-slate-600 dark:bg-slate-800"
+				>
+					{options.length > 0 ? (
+						options.map((country, index) => (
+							<div
+								key={country}
+								id={`${listId}-${index}`}
+								data-index={index}
+								role="option"
+								tabIndex={-1}
+								aria-selected={country === value}
+								onPointerDown={(event) => event.preventDefault()}
+								onClick={() => pick(country)}
+								onMouseEnter={() => setActive(index)}
+								class={cn(
+									"cursor-pointer px-4 py-2.5 text-sm text-slate-700 dark:text-slate-100",
+									index === active ? "bg-sky-50 dark:bg-white/10" : "",
+								)}
+							>
+								{country}
+							</div>
+						))
+					) : (
+						<p class="px-4 py-4 text-sm text-slate-500 dark:text-slate-300">No matching country found.</p>
+					)}
+				</div>
+			) : null}
+		</div>
 	);
 }
 
@@ -128,14 +313,15 @@ export default function Signup() {
 		title: "Create Account — GarTexHub",
 		type: "website",
 		description:
-			"Join GarTexHub — the B2B sourcing platform for garments and textiles. Create your account as a buyer, factory, or buying house.",
+			"Join GarTexHub — the garments and textile sourcing marketplace. Create your account as a buyer, factory, or buying house.",
 		canonical: "https://gartexhub.onrender.com/signup",
 		robots: "noindex,nofollow",
 		siteName: "GarTexHub",
 		locale: "en_US",
 	});
 	const navigate = useNavigate();
-	const existingUser = getCurrentUser();
+	const location = useLocation();
+	const returnTo = typeof location.state?.from === "string" ? location.state.from : "";
 
 	const { theme: currentTheme, toggleTheme } = useTheme();
 	const isDark = currentTheme === "dark";
@@ -143,56 +329,59 @@ export default function Signup() {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [confirmPassword, setConfirmPassword] = useState("");
+	const [passwordTouched, setPasswordTouched] = useState(false);
 	const [showPassword, setShowPassword] = useState(false);
 	const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 	const [accountType, setAccountType] = useState(PUBLIC_ACCOUNT_TYPES[0]);
 	const [accountOpen, setAccountOpen] = useState(false);
-	const [countryQuery, setCountryQuery] = useState("");
 	const [country, setCountry] = useState("");
-	const [countryOpen, setCountryOpen] = useState(false);
 	const [organizationName, setOrganizationName] = useState("");
-	const [factorySector, setFactorySector] = useState("");
+	const [industry, setIndustry] = useState("");
+	const [employeeCount, setEmployeeCount] = useState("");
+	const [capacityQuantity, setCapacityQuantity] = useState("");
+	const [capacityUnit, setCapacityUnit] = useState("");
+	const [capacityPeriod, setCapacityPeriod] = useState("month");
 	const [position, setPosition] = useState("");
 	const [positionOpen, setPositionOpen] = useState(false);
 	const [customPosition, setCustomPosition] = useState("");
 
-	const [loading, setLoading] = useState(false);
+	const [submitting, setSubmitting] = useState(false);
 	const [error, setError] = useState("");
 	const [fieldErrors, setFieldErrors] = useState({});
 
 	const accountDropdownRef = useRef(null);
-	const countryDropdownRef = useRef(null);
 	const positionDropdownRef = useRef(null);
+	const submittingRef = useRef(false);
+
+	const isFactory = accountType.value === "factory";
+	const needsEmployees = accountType.value !== "buyer";
+	const capacityUnits = useMemo(() => capacityUnitsForSector(industry), [industry]);
 
 	useEffect(() => {
 		function handleClickOutside(e) {
 			if (accountDropdownRef.current && !accountDropdownRef.current.contains(e.target)) {
 				setAccountOpen(false);
 			}
-			if (countryDropdownRef.current && !countryDropdownRef.current.contains(e.target)) {
-				setCountryOpen(false);
-			}
 			if (positionDropdownRef.current && !positionDropdownRef.current.contains(e.target)) {
 				setPositionOpen(false);
 			}
 		}
-		document.addEventListener("mousedown", handleClickOutside);
-		return () => document.removeEventListener("mousedown", handleClickOutside);
+		document.addEventListener("pointerdown", handleClickOutside);
+		return () => document.removeEventListener("pointerdown", handleClickOutside);
 	}, []);
 
+	// Keep the capacity unit consistent with the chosen industry.
 	useEffect(() => {
-		if (accountType.value !== "factory" && factorySector) {
-			setFactorySector("");
+		if (capacityUnit && !capacityUnits.some((unit) => unit.value === capacityUnit)) {
+			setCapacityUnit("");
 		}
-	}, [accountType.value, factorySector]);
+	}, [capacityUnits, capacityUnit]);
 
-	const filteredCountries = useMemo(() => {
-		const q = countryQuery.trim().toLowerCase();
-		if (!q) {
-			return COUNTRY_OPTIONS;
-		}
-		return COUNTRY_OPTIONS.filter((c) => c.toLowerCase().includes(q));
-	}, [countryQuery]);
+	const passwordIssues = passwordProblems(password);
+	const strength = STRENGTH[passwordStrength(password)];
+	const showPasswordHelp = passwordTouched || password.length > 0;
+	const confirmStarted = confirmPassword.length > 0;
+	const passwordsMatch = confirmStarted && password === confirmPassword;
 
 	const handleBack = () => {
 		if (window.history.length > 1) {
@@ -214,54 +403,80 @@ export default function Signup() {
 		} else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
 			errors.email = "Please enter a valid email address";
 		}
-		if (!password) {
-			errors.password = "Password is required";
-		} else if (password.length < 8) {
-			errors.password = "Must be at least 8 characters";
+		if (passwordIssues.length > 0) {
+			errors.password = `Password needs: ${passwordIssues.join(", ").toLowerCase()}`;
 		}
 		if (!confirmPassword) {
 			errors.confirmPassword = "Please confirm your password";
 		} else if (password !== confirmPassword) {
 			errors.confirmPassword = "Passwords do not match";
 		}
+		if (!organizationName.trim()) {
+			errors.organizationName = "Organization name is required";
+		}
+		if (!industry) {
+			errors.industry = "Choose your industry";
+		}
 		if (!country) {
 			errors.country = "Please select your country";
 		}
 		if (!position) {
 			errors.position = "Please select your position";
-		}
-		if (position === "Other" && !customPosition.trim()) {
+		} else if (position === "Other" && !customPosition.trim()) {
 			errors.position = "Please enter your position";
 		}
-		if (!organizationName.trim()) {
-			errors.organizationName = "Organization name is required";
+		const facts = normalizeCompanyFacts({
+			employee_count: employeeCount,
+			production_capacity: isFactory
+				? { quantity: capacityQuantity, unit: capacityUnit, period: capacityPeriod }
+				: null,
+		});
+		if (facts.errors.employee_count) {
+			errors.employeeCount = facts.errors.employee_count;
+		} else if (needsEmployees && !employeeCount) {
+			errors.employeeCount = "Enter the number of employees";
 		}
-		if (accountType.value === "factory" && !factorySector) {
-			errors.factorySector = "Please select a sector";
+		if (isFactory) {
+			if (!capacityQuantity) {
+				errors.capacity = "Enter your production capacity";
+			} else if (facts.errors.production_capacity) {
+				errors.capacity = facts.errors.production_capacity;
+			}
 		}
-		return errors;
+		return { errors, facts: facts.value };
 	}
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-		setLoading(true);
+		if (submittingRef.current) return;
 		setError("");
-		const errors = validateForm();
+		setPasswordTouched(true);
+		const { errors, facts } = validateForm();
 		setFieldErrors(errors);
 		if (Object.keys(errors).length > 0) {
-			setLoading(false);
+			requestAnimationFrame(() => {
+				document.querySelector("[aria-invalid='true']")?.scrollIntoView({ block: "center" });
+			});
 			return;
 		}
+		submittingRef.current = true;
+		setSubmitting(true);
 		try {
 			const effectivePosition =
 				position === "Other" && customPosition.trim() ? customPosition.trim() : position;
 			const payload = {
-				name: fullName,
-				email,
+				name: fullName.trim(),
+				email: email.trim(),
 				password,
 				role: accountType.value,
-				company_name: organizationName,
-				profile: { country, position: effectivePosition, factory_sector: factorySector },
+				company_name: organizationName.trim(),
+				profile: {
+					country,
+					position: effectivePosition,
+					industry,
+					...(isFactory ? { factory_sector: industry } : {}),
+					...facts,
+				},
 			};
 			const data = await apiRequest("/auth/register", {
 				method: "POST",
@@ -269,525 +484,416 @@ export default function Signup() {
 				signal: AbortSignal.timeout(30_000),
 			});
 			saveSession(data.user, data.token);
-			navigate("/onboarding", { replace: true });
+			navigate("/onboarding", { replace: true, state: returnTo ? { from: returnTo } : undefined });
 		} catch (err) {
-			setError(err.message);
-		} finally {
-			setLoading(false);
+			setError(
+				err?.name === "TimeoutError" || err?.name === "AbortError"
+					? "The server is taking longer than usual (it may be waking up). Please try again."
+					: err.message || "Could not create the account",
+			);
+			submittingRef.current = false;
+			setSubmitting(false);
 		}
 	};
-
-	if (loading) {
-		return <NeonAtom fill={true} timeout={10_000} />;
-	}
 
 	return (
 		<div
 			class={cn(
 				isDark ? "dark" : "",
-				"min-h-screen overflow-x-hidden bg-slate-50 text-slate-900 transition-colors duration-300 dark:bg-[var(--theme-custom-07111f)] dark:text-white",
+				"relative min-h-screen bg-slate-50 text-slate-900 transition-colors duration-300 dark:bg-[var(--theme-custom-07111f)] dark:text-white",
 			)}
 		>
-			<div class="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(56,189,248,0.30),transparent_30%),radial-gradient(circle_at_bottom_left,rgba(59,130,246,0.24),transparent_30%),linear-gradient(to_bottom,rgba(255,255,255,0.30),transparent)] dark:bg-[radial-gradient(circle_at_top_right,rgba(56,189,248,0.20),transparent_30%),radial-gradient(circle_at_bottom_left,rgba(59,130,246,0.18),transparent_30%),linear-gradient(to_bottom,rgba(255,255,255,0.04),transparent)]" />
-
-			<div class="relative mx-auto grid min-h-screen max-w-7xl grid-cols-1 lg:grid-cols-2">
-				<aside class="relative flex items-center px-6 py-10 sm:px-10 lg:px-12">
-					<motion.div
-						initial={{ opacity: 0, y: 18 }}
-						animate={{ opacity: 1, y: 0 }}
-						transition={{ duration: 0.6, ease: "easeOut" }}
-						class="w-full"
-					>
+			<div class="relative mx-auto grid max-w-6xl grid-cols-1 gap-8 px-4 py-8 sm:px-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-start lg:gap-12 lg:py-14">
+				{/* Form first on phones: the reason to be here is to create the account. */}
+				<main class="order-1 lg:order-2">
+					<div class="rounded-[2rem] border border-slate-200/80 bg-white p-5 shadow-[0_24px_80px_-40px_rgba(15,23,42,0.35)] dark:border-white/10 dark:bg-[var(--theme-custom-0b1627-80)] sm:p-8">
 						<div class="mb-6 flex items-center justify-between">
-							<div class="inline-flex items-center gap-3 rounded-full border border-sky-200/70 bg-white/70 px-4 py-2 shadow-sm backdrop-blur dark:border-sky-400/20 dark:bg-white/5">
-								<div class="flex h-10 w-10 items-center justify-center rounded-2xl bg-gradient-to-br from-sky-400 via-blue-500 to-cyan-300 text-sm font-black text-white shadow-lg shadow-sky-500/30">
-									G
-								</div>
-								<div>
-									<div class="text-sm font-semibold tracking-[0.18em] text-slate-900 dark:text-white">
-										GARTEXHUB
-									</div>
-									<div class="text-xs text-slate-500 dark:text-slate-300">
-										Garments & Textile sourcing
-									</div>
-								</div>
-							</div>
-
 							<button
 								type="button"
-								onClick={toggleTheme}
-								class="rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md dark:border-white/10 dark:bg-white/5 dark:text-slate-100"
+								onClick={handleBack}
+								class="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 transition hover:border-sky-300 hover:text-sky-700 dark:border-white/10 dark:bg-white/5 dark:text-slate-100 dark:hover:text-sky-200"
 							>
-								{isDark ? "Light mode" : "Dark mode"}
+								<span class="text-base">←</span>
+								Back
 							</button>
+							<Link to="/" class="inline-flex items-center gap-2" aria-label="GarTexHub home">
+								<BrandMark size={32} alt="" />
+								<span class="text-base font-bold text-slate-900 dark:text-white">GarTexHub</span>
+							</Link>
 						</div>
 
-						<div class="max-w-xl">
-							<motion.p
-								initial={{ opacity: 0, y: 10 }}
-								animate={{ opacity: 1, y: 0 }}
-								transition={{ delay: 0.1, duration: 0.5 }}
-								class="mb-4 inline-flex rounded-full border border-sky-200 bg-sky-50 px-4 py-2 text-sm font-medium text-sky-700 dark:border-sky-400/20 dark:bg-sky-400/10 dark:text-sky-200"
-							>
-								Create your account
-							</motion.p>
-
-							<motion.h1
-								initial={{ opacity: 0, y: 10 }}
-								animate={{ opacity: 1, y: 0 }}
-								transition={{ delay: 0.16, duration: 0.5 }}
-								class="text-4xl font-black leading-tight tracking-tight sm:text-5xl"
-							>
-								A clean, professional start for Garments and Textile sourcing teams.
-							</motion.h1>
-
-							<motion.p
-								initial={{ opacity: 0, y: 10 }}
-								animate={{ opacity: 1, y: 0 }}
-								transition={{ delay: 0.22, duration: 0.5 }}
-								class="mt-5 max-w-lg text-base leading-7 text-slate-600 dark:text-slate-300"
-							>
-								Join a modern sourcing network built for factories and buying houses with a premium,
-								polished onboarding experience.
-							</motion.p>
-
-							<div class="mt-8 grid gap-4 sm:grid-cols-2">
-								{[
-									["Secure onboarding", "Clear account selection and identity flow."],
-									["Fast setup", "Search countries and complete details quickly."],
-									["Premium UI", "Soft gradients, glass panels, and refined spacing."],
-									["Dual theme", "Optimized for both light and dark environments."],
-								].map(([title, desc]) => (
-									<div
-										key={title}
-										class="rounded-3xl border border-white/50 bg-white/70 p-5 shadow-[0_10px_40px_rgba(15,23,42,0.08)] backdrop-blur dark:border-white/10 dark:bg-white/5"
-									>
-										<div class="mb-2 flex h-10 w-10 items-center justify-center rounded-2xl bg-gradient-to-br from-sky-400 to-blue-600 text-white shadow-lg shadow-sky-500/20">
-											<CheckIcon />
-										</div>
-										<div class="text-sm font-semibold">{title}</div>
-										<div class="mt-1 text-sm leading-6 text-slate-600 dark:text-slate-300">
-											{desc}
-										</div>
-									</div>
-								))}
-							</div>
+						<div class="mb-7">
+							<h1 class="text-2xl font-bold tracking-tight sm:text-3xl">Create your account</h1>
+							<p class="mt-2 text-sm leading-6 text-slate-600 dark:text-slate-300">
+								For garment and textile buyers, factories and buying houses.
+							</p>
 						</div>
-					</motion.div>
-				</aside>
 
-				<main class="relative flex items-center justify-center px-6 py-10 sm:px-10 lg:px-12">
-					<motion.div
-						initial={{ opacity: 0, y: 24, scale: 0.98 }}
-						animate={{ opacity: 1, y: 0, scale: 1 }}
-						transition={{ duration: 0.7, ease: "easeOut" }}
-						class="w-full max-w-xl"
-					>
-						<div class="rounded-[2rem] border border-white/70 bg-white/75 p-5 shadow-[0_30px_120px_rgba(2,8,23,0.18)] backdrop-blur-xl dark:border-white/10 dark:bg-[var(--theme-custom-0b1627-80)] sm:p-8">
-							<div class="mb-6 flex items-center justify-between">
-								<button
-									type="button"
-									onClick={handleBack}
-									class="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 transition hover:border-sky-300 hover:text-sky-700 dark:border-white/10 dark:bg-white/5 dark:text-slate-100 dark:hover:text-sky-200"
-								>
-									<span class="text-base">←</span>
-									Back
-								</button>
-								<div class="rounded-full bg-gradient-to-r from-sky-500 to-cyan-400 px-4 py-2 text-xs font-bold uppercase tracking-[0.22em] text-white shadow-lg shadow-sky-500/30">
-									GarTexHub
-								</div>
-							</div>
+						<form onSubmit={handleSubmit} noValidate={true} class="space-y-5">
+							<FieldShell label="Full Name" htmlFor="signup-name" error={fieldErrors.fullName}>
+								<input
+									id="signup-name"
+									value={fullName}
+									onChange={(e) => setFullName(e.target.value)}
+									autoComplete="name"
+									placeholder="Enter your full name"
+									aria-invalid={fieldErrors.fullName ? "true" : undefined}
+									class={inputClass(fieldErrors.fullName)}
+								/>
+							</FieldShell>
 
-							<div class="mb-8">
-								<h2 class="text-3xl font-black tracking-tight">Create your account</h2>
-								<p class="mt-2 max-w-md text-sm leading-6 text-slate-600 dark:text-slate-300">
-									A clean, professional start for Garments and Textile sourcing teams.
-								</p>
-							</div>
+							<FieldShell label="Email" htmlFor="signup-email" error={fieldErrors.email}>
+								<input
+									id="signup-email"
+									value={email}
+									onChange={(e) => setEmail(e.target.value)}
+									type="email"
+									inputMode="email"
+									autoComplete="email"
+									placeholder="name@company.com"
+									aria-invalid={fieldErrors.email ? "true" : undefined}
+									class={inputClass(fieldErrors.email)}
+								/>
+							</FieldShell>
 
-							<form onSubmit={handleSubmit} class="space-y-5">
-								<FieldShell label="Full Name">
-									<input
-										value={fullName}
-										onChange={(e) => setFullName(e.target.value)}
-										placeholder="Enter your full name"
-										class={`w-full rounded-2xl border bg-white px-4 py-3 text-sm outline-none transition placeholder:text-slate-400 focus:border-sky-400 focus:ring-4 focus:ring-sky-500/10 dark:bg-white/5 dark:placeholder:text-slate-500 ${
-											fieldErrors.fullName
-												? "border-rose-400 ring-2 ring-rose-500/20 dark:border-rose-500"
-												: "border-slate-200 dark:border-white/10"
-										}`}
-										required={true}
+							<div class="grid gap-5 sm:grid-cols-2">
+								<FieldShell label="Password" htmlFor="signup-password" error={fieldErrors.password}>
+									<PasswordInput
+										id="signup-password"
+										value={password}
+										onChange={(e) => setPassword(e.target.value)}
+										onBlur={() => setPasswordTouched(true)}
+										shown={showPassword}
+										onToggle={() => setShowPassword((v) => !v)}
+										invalid={Boolean(fieldErrors.password)}
+										autoComplete="new-password"
 									/>
-									{fieldErrors.fullName ? (
-										<p class="text-xs font-medium text-rose-500">{fieldErrors.fullName}</p>
-									) : null}
 								</FieldShell>
-
-								<FieldShell label="Email">
-									<input
-										value={email}
-										onChange={(e) => setEmail(e.target.value)}
-										type="email"
-										placeholder="Enter your email"
-										class={`w-full rounded-2xl border bg-white px-4 py-3 text-sm outline-none transition placeholder:text-slate-400 focus:border-sky-400 focus:ring-4 focus:ring-sky-500/10 dark:bg-white/5 dark:placeholder:text-slate-500 ${
-											fieldErrors.email
-												? "border-rose-400 ring-2 ring-rose-500/20 dark:border-rose-500"
-												: "border-slate-200 dark:border-white/10"
-										}`}
-										required={true}
-									/>
-									{fieldErrors.email ? (
-										<p class="text-xs font-medium text-rose-500">{fieldErrors.email}</p>
-									) : null}
-								</FieldShell>
-
-								<div class="grid gap-5 sm:grid-cols-2">
-									<FieldShell label="Password">
-										<div class="space-y-3">
-											<div class="relative">
-												<input
-													value={password}
-													onChange={(e) => setPassword(e.target.value)}
-													type={showPassword ? "text" : "password"}
-													placeholder="•••••••••••"
-													minLength={8}
-													maxLength={32}
-													class={`w-full rounded-2xl border bg-white px-4 py-3 pr-20 text-sm outline-none transition placeholder:text-slate-400 focus:border-sky-400 focus:ring-4 focus:ring-sky-500/10 dark:bg-white/5 dark:placeholder:text-slate-500 ${
-														fieldErrors.password
-															? "border-rose-400 ring-2 ring-rose-500/20 dark:border-rose-500"
-															: "border-slate-200 dark:border-white/10"
-													}`}
-													required={true}
-												/>
-												<button
-													type="button"
-													onClick={() => setShowPassword((v) => !v)}
-													class="absolute right-2 top-1/2 -translate-y-1/2 rounded-xl px-3 py-1.5 text-xs font-semibold text-sky-700 transition hover:bg-sky-50 dark:text-sky-200 dark:hover:bg-white/10"
-												>
-													<span class="inline-flex items-center gap-1">
-														<EyeIcon open={showPassword} />
-														{showPassword ? "Hide" : "Show"}
-													</span>
-												</button>
-											</div>
-											{password && (
-												<>
-													<PasswordStrengthBar password={password} minLength={8} maxLength={32} />
-													<PasswordChecklist
-														value={password}
-														valueAgain={confirmPassword}
-														minLength={8}
-														maxLength={32}
-														rules={[
-															"minLength",
-															"maxLength",
-															"specialChar",
-															"number",
-															"capital",
-															"letter",
-															"lowercase",
-															"match",
-															"notEmpty",
-															"noSpaces",
-														]}
-													/>
-												</>
-											)}
-										</div>
-									</FieldShell>
-
-									<FieldShell label="Confirm Password">
-										<div class="space-y-2">
-											<div class="relative">
-												<input
-													value={confirmPassword}
-													onChange={(e) => setConfirmPassword(e.target.value)}
-													type={showConfirmPassword ? "text" : "password"}
-													placeholder="•••••••••••"
-													minLength={8}
-													maxLength={32}
-													class={`w-full rounded-2xl border bg-white px-4 py-3 pr-20 text-sm outline-none transition placeholder:text-slate-400 focus:border-sky-400 focus:ring-4 focus:ring-sky-500/10 dark:bg-white/5 dark:placeholder:text-slate-500 ${
-														fieldErrors.confirmPassword
-															? "border-rose-400 ring-2 ring-rose-500/20 dark:border-rose-500"
-															: "border-slate-200 dark:border-white/10"
-													}`}
-													required={true}
-												/>
-												<button
-													type="button"
-													onClick={() => setShowConfirmPassword((v) => !v)}
-													class="absolute right-2 top-1/2 -translate-y-1/2 rounded-xl px-3 py-1.5 text-xs font-semibold text-sky-700 transition hover:bg-sky-50 dark:text-sky-200 dark:hover:bg-white/10"
-												>
-													<span class="inline-flex items-center gap-1">
-														<EyeIcon open={showConfirmPassword} />
-														{showConfirmPassword ? "Hide" : "Show"}
-													</span>
-												</button>
-											</div>
-											{fieldErrors.confirmPassword ? (
-												<p class="text-xs font-medium text-rose-500">
-													{fieldErrors.confirmPassword}
-												</p>
-											) : null}
-										</div>
-									</FieldShell>
-								</div>
 
 								<FieldShell
-									label="Account Type"
-									hint={
-										accountType.value === "factory"
-											? "Factory"
-											: accountType.value === "buying_house"
-												? "Buying house"
-												: "Buyer"
-									}
+									label="Confirm Password"
+									htmlFor="signup-confirm"
+									error={fieldErrors.confirmPassword}
 								>
-									<div class="relative" ref={accountDropdownRef}>
-										<button
-											type="button"
-											onClick={() => setAccountOpen((v) => !v)}
-											class="flex w-full items-center justify-between rounded-2xl border border-slate-200 bg-white px-4 py-3 text-left text-sm transition hover:border-sky-300 focus:outline-none focus:ring-4 focus:ring-sky-500/10 dark:border-white/10 dark:bg-white/5"
+									<PasswordInput
+										id="signup-confirm"
+										value={confirmPassword}
+										onChange={(e) => setConfirmPassword(e.target.value)}
+										shown={showConfirmPassword}
+										onToggle={() => setShowConfirmPassword((v) => !v)}
+										invalid={Boolean(fieldErrors.confirmPassword)}
+										autoComplete="new-password"
+									/>
+									{confirmStarted && !fieldErrors.confirmPassword ? (
+										<p
+											class={cn(
+												"text-xs font-medium",
+												passwordsMatch ? "text-emerald-600 dark:text-emerald-400" : "text-rose-500",
+											)}
 										>
-											<span class="flex items-center gap-3">
-												<span class="inline-flex h-8 w-8 items-center justify-center rounded-xl bg-gradient-to-br from-sky-500 to-blue-600 text-xs font-bold text-white">
-													{accountType.value.slice(0, 1).toUpperCase()}
-												</span>
-												<span class="font-medium text-slate-800 dark:text-slate-100">
-													{accountType.label}
-												</span>
-											</span>
-											<span class="text-slate-500 dark:text-slate-300">
-												<ChevronDown />
-											</span>
-										</button>
+											{passwordsMatch ? "Passwords match" : "Passwords do not match yet"}
+										</p>
+									) : null}
+								</FieldShell>
+							</div>
 
-										{accountOpen ? (
-											<div class="absolute z-20 mt-2 w-full overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-xl shadow-slate-900/10 dark:border-slate-600 dark:bg-slate-800">
-												{PUBLIC_ACCOUNT_TYPES.map((item) => (
-													<button
-														key={item.value}
-														type="button"
-														onClick={() => {
-															setAccountType(item);
-															setAccountOpen(false);
-														}}
-														class={cn(
-															"flex w-full items-center gap-3 px-4 py-3 text-left text-sm transition hover:bg-sky-50 dark:hover:bg-white/5",
-															accountType.value === item.value ? "bg-sky-50 dark:bg-white/5" : "",
-														)}
-													>
-														<span class="inline-flex h-8 w-8 items-center justify-center rounded-xl bg-slate-900 text-xs font-bold text-white dark:bg-white dark:text-slate-900">
-															{item.value.slice(0, 1).toUpperCase()}
-														</span>
-														<span class="font-medium text-slate-800 dark:text-slate-100">
-															{item.label}
-														</span>
-													</button>
-												))}
-											</div>
-										) : null}
+							{showPasswordHelp ? (
+								<div class="-mt-1 rounded-2xl bg-slate-50 px-4 py-3 dark:bg-white/5" aria-live="polite">
+									<div class="flex items-center gap-3">
+										<div class="h-1.5 flex-1 overflow-hidden rounded-full bg-slate-200 dark:bg-white/10">
+											<div class={cn("h-full rounded-full transition-all", strength.bar, strength.width)} />
+										</div>
+										<span class="text-xs font-medium text-slate-600 dark:text-slate-300">{strength.label}</span>
 									</div>
+									<ul class="mt-2 flex flex-wrap gap-x-4 gap-y-1">
+										{PASSWORD_RULES.map((rule) => (
+											<li key={rule.id} class="flex items-center gap-1.5 text-xs text-slate-600 dark:text-slate-300">
+												<RuleMark ok={rule.test(password)} />
+												{rule.label}
+											</li>
+										))}
+									</ul>
+								</div>
+							) : null}
+
+							<FieldShell label="Account Type">
+								<div class="relative" ref={accountDropdownRef}>
+									<button
+										type="button"
+										aria-haspopup="listbox"
+										aria-expanded={accountOpen}
+										onClick={() => setAccountOpen((v) => !v)}
+										class="flex w-full items-center justify-between rounded-2xl border border-slate-200 bg-white px-4 py-3 text-left text-sm transition hover:border-sky-300 focus:outline-none focus:ring-4 focus:ring-sky-500/10 dark:border-white/10 dark:bg-white/5"
+									>
+										<span class="font-medium text-slate-800 dark:text-slate-100">{accountType.label}</span>
+										<span class="text-slate-500 dark:text-slate-300">
+											<ChevronDown />
+										</span>
+									</button>
+									{accountOpen ? (
+										<div
+											role="listbox"
+											class="absolute z-30 mt-2 w-full overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-xl shadow-slate-900/10 dark:border-slate-600 dark:bg-slate-800"
+										>
+											{PUBLIC_ACCOUNT_TYPES.map((item) => (
+												<button
+													key={item.value}
+													type="button"
+													role="option"
+													aria-selected={accountType.value === item.value}
+													onClick={() => {
+														setAccountType(item);
+														setAccountOpen(false);
+													}}
+													class={cn(
+														"flex w-full items-center px-4 py-3 text-left text-sm font-medium text-slate-800 transition hover:bg-sky-50 dark:text-slate-100 dark:hover:bg-white/5",
+														accountType.value === item.value ? "bg-sky-50 dark:bg-white/5" : "",
+													)}
+												>
+													{item.label}
+												</button>
+											))}
+										</div>
+									) : null}
+								</div>
+							</FieldShell>
+
+							<FieldShell label="Organization Name" htmlFor="signup-org" error={fieldErrors.organizationName}>
+								<input
+									id="signup-org"
+									value={organizationName}
+									onChange={(e) => setOrganizationName(e.target.value)}
+									autoComplete="organization"
+									placeholder="Registered company name"
+									aria-invalid={fieldErrors.organizationName ? "true" : undefined}
+									class={inputClass(fieldErrors.organizationName)}
+								/>
+							</FieldShell>
+
+							<div class="grid gap-5 sm:grid-cols-2">
+								<FieldShell label="Industry" htmlFor="signup-industry" error={fieldErrors.industry}>
+									<select
+										id="signup-industry"
+										value={industry}
+										onChange={(e) => setIndustry(e.target.value)}
+										aria-invalid={fieldErrors.industry ? "true" : undefined}
+										class={inputClass(fieldErrors.industry)}
+									>
+										<option value="">Select industry</option>
+										{FACTORY_SECTOR_OPTIONS.map((item) => (
+											<option key={item.value} value={item.value}>
+												{item.label}
+											</option>
+										))}
+									</select>
 								</FieldShell>
 
-								{accountType.value === "factory" ? (
-									<FieldShell label="Factory sector">
+								<FieldShell label="Country" htmlFor="signup-country" error={fieldErrors.country}>
+									<CountryCombobox value={country} onChange={setCountry} invalid={Boolean(fieldErrors.country)} />
+								</FieldShell>
+							</div>
+
+							<FieldShell
+								label="Number of Employees"
+								htmlFor="signup-employees"
+								error={fieldErrors.employeeCount}
+								optional={!needsEmployees}
+							>
+								<input
+									id="signup-employees"
+									value={employeeCount}
+									onChange={(e) => setEmployeeCount(e.target.value.replace(/[^\d]/g, ""))}
+									inputMode="numeric"
+									placeholder="e.g. 450"
+									aria-invalid={fieldErrors.employeeCount ? "true" : undefined}
+									class={inputClass(fieldErrors.employeeCount)}
+								/>
+							</FieldShell>
+
+							{isFactory ? (
+								<FieldShell
+									label="Production Capacity"
+									htmlFor="signup-capacity"
+									hint="How much you can produce"
+									error={fieldErrors.capacity}
+								>
+									<div class="grid grid-cols-[1.2fr_1fr_1fr] gap-2">
+										<input
+											id="signup-capacity"
+											value={capacityQuantity}
+											onChange={(e) => setCapacityQuantity(e.target.value.replace(/[^\d]/g, ""))}
+											inputMode="numeric"
+											placeholder="Quantity"
+											aria-label="Capacity quantity"
+											aria-invalid={fieldErrors.capacity ? "true" : undefined}
+											class={inputClass(fieldErrors.capacity)}
+										/>
 										<select
-											value={factorySector}
-											onChange={(e) => setFactorySector(e.target.value)}
-											class={`w-full rounded-2xl border bg-white px-4 py-3 text-sm outline-none transition placeholder:text-slate-400 focus:border-sky-400 focus:ring-4 focus:ring-sky-500/10 dark:bg-white/5 dark:placeholder:text-slate-500 ${
-												fieldErrors.factorySector
-													? "border-rose-400 ring-2 ring-rose-500/20 dark:border-rose-500"
-													: "border-slate-200 dark:border-white/10"
-											}`}
-											required={true}
+											value={capacityUnit}
+											onChange={(e) => setCapacityUnit(e.target.value)}
+											aria-label="Capacity unit"
+											class={inputClass(fieldErrors.capacity && !capacityUnit)}
 										>
-											<option value="">Select sector</option>
-											{FACTORY_SECTOR_OPTIONS.map((item) => (
-												<option key={item.value} value={item.value}>
-													{item.label}
+											<option value="">Unit</option>
+											{capacityUnits.map((unit) => (
+												<option key={unit.value} value={unit.value}>
+													{unit.label}
 												</option>
 											))}
 										</select>
-										{fieldErrors.factorySector ? (
-											<p class="text-xs font-medium text-rose-500">{fieldErrors.factorySector}</p>
-										) : null}
-									</FieldShell>
-								) : null}
-
-								<FieldShell label="Country">
-									<div class="relative" ref={countryDropdownRef}>
-										<input
-											value={countryOpen ? countryQuery : country}
-											onChange={(e) => {
-												setCountryQuery(e.target.value);
-												setCountryOpen(true);
-												setCountry("");
-											}}
-											onFocus={() => setCountryOpen(true)}
-											placeholder="Type to search countries"
-											class={`w-full rounded-2xl border bg-white px-4 py-3 text-sm outline-none transition placeholder:text-slate-400 focus:border-sky-400 focus:ring-4 focus:ring-sky-500/10 dark:bg-white/5 dark:placeholder:text-slate-500 ${
-												fieldErrors.country
-													? "border-rose-400 ring-2 ring-rose-500/20 dark:border-rose-500"
-													: "border-slate-200 dark:border-white/10"
-											}`}
-											required={true}
-										/>
-										{countryOpen && (
-											<div
-												class="absolute z-50 mt-2 max-h-60 w-full overflow-y-auto rounded-2xl border border-slate-200 bg-white shadow-2xl shadow-slate-900/20 dark:border-slate-600 dark:bg-slate-800"
-												style={{ WebkitOverflowScrolling: "touch" }}
-											>
-												{filteredCountries.length > 0 ? (
-													filteredCountries.map((item) => (
-														<button
-															key={item}
-															type="button"
-															onMouseDown={(e) => {
-																e.preventDefault();
-																setCountry(item);
-																setCountryQuery(item);
-																setCountryOpen(false);
-															}}
-															class="block w-full px-4 py-3 text-left text-sm transition hover:bg-sky-50 dark:hover:bg-white/5"
-														>
-															{item}
-														</button>
-													))
-												) : (
-													<div class="px-4 py-6 text-sm text-slate-500 dark:text-slate-300">
-														No matching country found.
-													</div>
-												)}
-											</div>
-										)}
-										{fieldErrors.country ? (
-											<p class="text-xs font-medium text-rose-500">{fieldErrors.country}</p>
-										) : null}
-									</div>
-								</FieldShell>
-
-								<FieldShell label="Organization Name">
-									<input
-										value={organizationName}
-										onChange={(e) => setOrganizationName(e.target.value)}
-										placeholder="Enter your organization name"
-										class={`w-full rounded-2xl border bg-white px-4 py-3 text-sm outline-none transition placeholder:text-slate-400 focus:border-sky-400 focus:ring-4 focus:ring-sky-500/10 dark:bg-white/5 dark:placeholder:text-slate-500 ${
-											fieldErrors.organizationName
-												? "border-rose-400 ring-2 ring-rose-500/20 dark:border-rose-500"
-												: "border-slate-200 dark:border-white/10"
-										}`}
-										required={true}
-									/>
-									{fieldErrors.organizationName ? (
-										<p class="text-xs font-medium text-rose-500">{fieldErrors.organizationName}</p>
-									) : null}
-								</FieldShell>
-
-								<FieldShell label="Your Position">
-									<div class="relative" ref={positionDropdownRef}>
-										<button
-											type="button"
-											onClick={() => setPositionOpen((v) => !v)}
-											class={`flex w-full items-center justify-between rounded-2xl border bg-white px-4 py-3 text-left text-sm transition hover:border-sky-300 focus:outline-none focus:ring-4 focus:ring-sky-500/10 dark:bg-white/5 ${
-												fieldErrors.position
-													? "border-rose-400 ring-2 ring-rose-500/20 dark:border-rose-500"
-													: "border-slate-200 dark:border-white/10"
-											}`}
+										<select
+											value={capacityPeriod}
+											onChange={(e) => setCapacityPeriod(e.target.value)}
+											aria-label="Capacity period"
+											class={inputClass(false)}
 										>
-											<span class="font-medium text-slate-800 dark:text-slate-100">
-												{position === "Other" && customPosition
-													? customPosition
-													: position || "Select your position"}
-											</span>
-											<span class="text-slate-500 dark:text-slate-300">
-												<ChevronDown />
-											</span>
-										</button>
-
-										{positionOpen ? (
-											<div
-												data-lenis-prevent={true}
-												class="absolute z-20 mt-2 max-h-56 w-full overflow-auto rounded-2xl border border-slate-200 bg-white shadow-xl shadow-slate-900/10 dark:border-slate-600 dark:bg-slate-800"
-											>
-												{POSITIONS.map((item) => (
-													<button
-														key={item}
-														type="button"
-														onClick={() => {
-															setPosition(item);
-															setPositionOpen(false);
-														}}
-														class={cn(
-															"flex w-full items-center gap-3 px-4 py-3 text-left text-sm transition hover:bg-sky-50 dark:hover:bg-white/5",
-															position === item ? "bg-sky-50 dark:bg-white/5" : "",
-														)}
-													>
-														<span class="font-medium text-slate-800 dark:text-slate-100">
-															{item}
-														</span>
-													</button>
-												))}
-											</div>
-										) : null}
-										{fieldErrors.position ? (
-											<p class="text-xs font-medium text-rose-500">{fieldErrors.position}</p>
-										) : null}
+											{CAPACITY_PERIOD_OPTIONS.map((period) => (
+												<option key={period.value} value={period.value}>
+													{period.label}
+												</option>
+											))}
+										</select>
 									</div>
-									{position === "Other" ? (
-										<input
-											value={customPosition}
-											onChange={(e) => {
-												setCustomPosition(e.target.value);
-												setPosition("Other");
-											}}
-											placeholder="Enter your position"
-											class="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm outline-none transition placeholder:text-slate-400 focus:border-sky-400 focus:ring-4 focus:ring-sky-500/10 dark:border-white/10 dark:bg-white/5 dark:placeholder:text-slate-500"
-											required={true}
-										/>
-									) : null}
 								</FieldShell>
+							) : null}
 
-								{error && (
-									<div class="rounded-xl bg-rose-500/15 border border-rose-500/30 px-4 py-3 text-sm text-rose-300">
-										{error}
-									</div>
-								)}
-
-								<button
-									type="submit"
-									disabled={loading}
-									class="group relative mt-2 w-full overflow-hidden rounded-2xl bg-gradient-to-r from-sky-500 via-blue-600 to-cyan-400 px-5 py-4 text-sm font-bold text-white shadow-[0_18px_40px_rgba(14,165,233,0.35)] transition hover:-translate-y-0.5 hover:shadow-[0_24px_60px_rgba(14,165,233,0.45)] disabled:opacity-60"
-								>
-									<span class="relative z-10">
-										{loading ? (
-											<ThreeDot
-												variant="bounce"
-												color="#0ea5e9"
-												size="small"
-												text=""
-												textColor=""
-											/>
-										) : (
-											"Create account"
+							<FieldShell label="Your Position" error={fieldErrors.position}>
+								<div class="relative" ref={positionDropdownRef}>
+									<button
+										type="button"
+										aria-haspopup="listbox"
+										aria-expanded={positionOpen}
+										aria-invalid={fieldErrors.position ? "true" : undefined}
+										onClick={() => setPositionOpen((v) => !v)}
+										class={cn(
+											"flex w-full items-center justify-between rounded-2xl border bg-white px-4 py-3 text-left text-sm transition hover:border-sky-300 focus:outline-none focus:ring-4 focus:ring-sky-500/10 dark:bg-white/5",
+											fieldErrors.position
+												? "border-rose-400 ring-2 ring-rose-500/20 dark:border-rose-500"
+												: "border-slate-200 dark:border-white/10",
 										)}
-									</span>
-									<span class="absolute inset-0 translate-x-[-120%] bg-white/20 transition-transform duration-700 group-hover:translate-x-[120%]" />
-								</button>
-
-								<div class="pt-2 text-center text-sm text-slate-600 dark:text-slate-300">
-									Already have an account?{" "}
-									<Link
-										to="/login"
-										class="font-semibold text-sky-600 hover:text-sky-700 dark:text-sky-300 dark:hover:text-sky-200"
 									>
-										Login
-									</Link>
+										<span class="font-medium text-slate-800 dark:text-slate-100">
+											{position === "Other" && customPosition
+												? customPosition
+												: position || "Select your position"}
+										</span>
+										<span class="text-slate-500 dark:text-slate-300">
+											<ChevronDown />
+										</span>
+									</button>
+									{positionOpen ? (
+										<div
+											role="listbox"
+											class="absolute z-30 mt-2 max-h-60 w-full overflow-y-auto overscroll-contain rounded-2xl border border-slate-200 bg-white shadow-xl shadow-slate-900/10 dark:border-slate-600 dark:bg-slate-800"
+										>
+											{POSITIONS.map((item) => (
+												<button
+													key={item}
+													type="button"
+													role="option"
+													aria-selected={position === item}
+													onClick={() => {
+														setPosition(item);
+														setPositionOpen(false);
+													}}
+													class={cn(
+														"flex w-full items-center px-4 py-3 text-left text-sm font-medium text-slate-800 transition hover:bg-sky-50 dark:text-slate-100 dark:hover:bg-white/5",
+														position === item ? "bg-sky-50 dark:bg-white/5" : "",
+													)}
+												>
+													{item}
+												</button>
+											))}
+										</div>
+									) : null}
 								</div>
-							</form>
-						</div>
-					</motion.div>
+								{position === "Other" ? (
+									<input
+										value={customPosition}
+										onChange={(e) => setCustomPosition(e.target.value)}
+										placeholder="Enter your position"
+										aria-label="Your position"
+										class={cn(inputClass(false), "mt-2")}
+									/>
+								) : null}
+							</FieldShell>
+
+							{error ? (
+								<div
+									role="alert"
+									class="rounded-xl border border-rose-500/30 bg-rose-500/10 px-4 py-3 text-sm text-rose-700 dark:text-rose-200"
+								>
+									{error}
+								</div>
+							) : null}
+
+							<button
+								type="submit"
+								disabled={submitting}
+								aria-busy={submitting}
+								class="mt-2 inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-sky-600 to-blue-600 px-5 py-4 text-sm font-bold text-white shadow-lg shadow-sky-900/15 transition hover:brightness-110 disabled:cursor-wait disabled:opacity-80"
+							>
+								{submitting ? (
+									<>
+										<span class="h-4 w-4 animate-spin rounded-full border-2 border-white/40 border-t-white" />
+										Creating your account…
+									</>
+								) : (
+									"Create account"
+								)}
+							</button>
+
+							<p class="pt-1 text-center text-sm text-slate-600 dark:text-slate-300">
+								Already have an account?{" "}
+								<Link
+									to="/login"
+									state={returnTo ? { from: returnTo } : undefined}
+									class="font-semibold text-sky-700 hover:text-sky-800 dark:text-sky-300 dark:hover:text-sky-200"
+								>
+									Login
+								</Link>
+							</p>
+						</form>
+					</div>
 				</main>
+
+				<aside class="order-2 lg:order-1 lg:sticky lg:top-24">
+					<div class="flex items-center justify-between gap-3">
+						<div class="flex items-center gap-3">
+							<BrandMark size={40} alt="" />
+							<div>
+								<div class="text-lg font-bold text-slate-900 dark:text-white">GarTexHub</div>
+								<div class="text-xs text-slate-500 dark:text-slate-400">
+									Garments &amp; Textile Sourcing Marketplace
+								</div>
+							</div>
+						</div>
+						<button
+							type="button"
+							onClick={toggleTheme}
+							class="rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 transition hover:border-sky-300 dark:border-white/10 dark:bg-white/5 dark:text-slate-100"
+						>
+							{isDark ? "Light mode" : "Dark mode"}
+						</button>
+					</div>
+
+					<h2 class="mt-8 text-xl font-semibold leading-snug text-slate-900 dark:text-white sm:text-2xl">
+						One workspace for sourcing garments and textiles.
+					</h2>
+					<ul class="mt-6 space-y-4">
+						{BENEFITS.map(({ icon: Icon, title, text }) => (
+							<li key={title} class="flex gap-3">
+								<span class="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-sky-50 text-sky-700 dark:bg-white/5 dark:text-sky-300">
+									<Icon class="h-[18px] w-[18px]" aria-hidden="true" />
+								</span>
+								<div>
+									<div class="text-sm font-semibold text-slate-900 dark:text-white">{title}</div>
+									<p class="mt-0.5 text-sm leading-6 text-slate-600 dark:text-slate-300">{text}</p>
+								</div>
+							</li>
+						))}
+					</ul>
+				</aside>
 			</div>
 		</div>
 	);

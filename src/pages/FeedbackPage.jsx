@@ -25,8 +25,8 @@ export default function FeedbackPage() {
 
 	const theme = darkMode ? "bg-slate-950 text-white" : "bg-sky-50 text-slate-900";
 	const cardTheme = darkMode
-		? "bg-white/5 border-white/10 shadow-[0_20px_80px_rgba(2,132,199,0.18)]"
-		: "bg-white border-slate-200 shadow-[0_20px_60px_rgba(14,165,233,0.10)]";
+		? "bg-white/5 border-white/10 shadow-[0_20px_80px_rgba(32,101,152,0.18)]"
+		: "bg-white border-slate-200 shadow-[0_20px_60px_rgba(51,122,176,0.10)]";
 	const inputTheme = darkMode
 		? "bg-slate-900/70 border-white/10 placeholder:text-slate-400 text-white focus:border-sky-400 focus:ring-sky-400/20"
 		: "bg-white border-slate-200 placeholder:text-slate-400 text-slate-900 focus:border-sky-500 focus:ring-sky-500/20";

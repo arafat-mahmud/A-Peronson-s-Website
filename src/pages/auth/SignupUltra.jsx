@@ -382,7 +382,7 @@ export default function SignupUltra() {
 								class="w-full py-3.5 rounded-lg bg-gtBlue hover:bg-gtBlueHover text-white font-bold shadow-lg shadow-blue-200 transition-all active:scale-[0.98] disabled:opacity-50"
 							>
 								{loading ? (
-									<ThreeDot variant="bounce" color="#0ea5e9" size="small" text="" textColor="" />
+									<ThreeDot variant="bounce" color="#337ab0" size="small" text="" textColor="" />
 								) : (
 									"PROVISION ACCOUNT"
 								)}

@@ -137,38 +137,45 @@ async function staleWhileRevalidate(request, cacheName) {
 // Navigations: serve the cached app shell instantly (offline-capable),
 // revalidate /index.html in the background. If nothing cached yet, try the
 // network, then fall back to the cached shell on failure.
+// Network-first: the shell must come from the current deploy, because a cached
+// index.html names chunk files that a newer deploy has removed - that is what
+// showed "Failed to load page" after every deploy. The cached shell is only
+// the fallback when the network fails or is slower than NAVIGATION_TIMEOUT_MS.
+const NAVIGATION_TIMEOUT_MS = 4000;
+
 async function handleNavigation(event) {
 	const cache = await caches.open(SHELL_CACHE);
-	const cachedShell = (await cache.match(OFFLINE_URL)) || (await cache.match("/")) || null;
 
-	// Use navigation preload when available to shave a round-trip.
-	const preload = event.preloadResponse ? await event.preloadResponse.catch(() => null) : null;
-
-	if (cachedShell) {
-		// Background revalidation — never blocks the response.
-		event.waitUntil(
-			(async () => {
-				try {
-					const fresh = preload || (await fetch(OFFLINE_URL, { cache: "no-store" }));
-					if (fresh && fresh.status === 200) await cache.put(OFFLINE_URL, fresh.clone());
-				} catch {
-					/* offline — keep serving the cached shell */
-				}
-			})(),
-		);
-		return cachedShell;
-	}
-
-	try {
+	const network = (async () => {
+		const preload = event.preloadResponse ? await event.preloadResponse.catch(() => null) : null;
 		const response = preload || (await fetch(event.request));
 		if (response && response.status === 200) {
-			const copy = response.clone();
-			event.waitUntil(cache.put(OFFLINE_URL, copy).catch(() => {}));
+			event.waitUntil(cache.put(OFFLINE_URL, response.clone()).catch(() => {}));
 		}
 		return response;
+	})();
+	// The background fetch keeps refreshing the cache even if the timeout wins.
+	event.waitUntil(network.catch(() => null));
+
+	let timer = null;
+	const timeout = new Promise((resolve) => {
+		timer = setTimeout(() => resolve(null), NAVIGATION_TIMEOUT_MS);
+	});
+	try {
+		const winner = await Promise.race([network, timeout]);
+		if (winner) return winner;
 	} catch {
-		const fallback = await cache.match(OFFLINE_URL);
-		return fallback || Response.error();
+		// offline - fall through to the cached shell
+	} finally {
+		clearTimeout(timer);
+	}
+
+	const cachedShell = (await cache.match(OFFLINE_URL)) || (await cache.match("/"));
+	if (cachedShell) return cachedShell;
+	try {
+		return await network;
+	} catch {
+		return Response.error();
 	}
 }
 

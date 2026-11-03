@@ -1504,7 +1504,7 @@ export default function ChatInterface() {
 				<div
 					class="mx-3 mt-2 rounded-xl px-4 py-3 text-sm font-medium shadow-sm"
 					style={{
-						background: notice.type === "error" ? "#fee2e2" : "#e0f2fe",
+						background: notice.type === "error" ? "#fee2e2" : "#e1f0fe",
 						color: "#0f172a",
 					}}
 				>

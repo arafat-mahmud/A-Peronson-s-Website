@@ -11,6 +11,7 @@
 		"check": "biome check --write .",
 		"preview": "vite preview",
 		"server": "node server/server.js",
+		"server:supervised": "node scripts/supervise-server.mjs",
 		"logs": "node server/tui/index.js",
 		"logs:blessed": "node server/tui/index.js --blessed",
 		"dev:full": "concurrently \"npm run server\" \"npm run dev -- --host 0.0.0.0\"",

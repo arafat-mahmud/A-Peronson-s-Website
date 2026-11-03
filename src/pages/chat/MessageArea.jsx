@@ -305,7 +305,7 @@ export default function MessageArea({
 								class="rounded-full bg-slate-900 px-3 py-1 text-[11px] font-semibold text-white hover:bg-slate-700 disabled:opacity-60 dark:bg-white/10 dark:text-slate-200 dark:hover:bg-white/20"
 							>
 								{aiSuggesting ? (
-									<ThreeDot variant="bounce" color="#0ea5e9" size="small" text="" textColor="" />
+									<ThreeDot variant="bounce" color="#337ab0" size="small" text="" textColor="" />
 								) : (
 									"Generate"
 								)}
@@ -324,7 +324,7 @@ export default function MessageArea({
 								disabled={uploading || !canSendMessage}
 							>
 								{uploading ? (
-									<ThreeDot variant="bounce" color="#0ea5e9" size="small" text="" textColor="" />
+									<ThreeDot variant="bounce" color="#337ab0" size="small" text="" textColor="" />
 								) : (
 									<Plus size={20} />
 								)}

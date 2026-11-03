@@ -3,7 +3,7 @@
 // Shows connectivity state (DEGRADED/OFFLINE/SYNCING/SYNC_ERROR/OFFLINE_SNAPSHOT)
 // plus service-worker update prompts. Hidden when ONLINE / UP_TO_DATE.
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { subscribe as subscribeHypercache } from "../offline/broadcast.js";
 import {
 	ConnectivityState,
@@ -13,33 +13,39 @@ import {
 	subscribe,
 } from "../offline/connectivity.js";
 
+// Transient notices: each one shows once per incident for `ms`, can be
+// dismissed, and is not shown again until the connection recovers. A card
+// that stayed on screen for as long as the state lasted read as a permanent,
+// "flying" warning on phones (client report 02/11/2026, IMG-20261102-WA0020).
 const COPY = {
 	[ConnectivityState.DEGRADED]: {
 		dot: "bg-amber-400",
-		title: "Unstable connection",
-		body: "Some requests are slow or failing. Changes are kept locally.",
+		title: "Connection problem",
+		body: "A request failed. Retrying in the background — your changes are kept.",
+		ms: 5000,
 	},
 	[ConnectivityState.OFFLINE]: {
 		dot: "bg-red-400",
-		title: "You're offline",
-		body: "Browsing the cached app shell. Fresh data needs a connection.",
+		title: "Can't reach GarTexHub",
+		body: "Check your internet connection. Fresh data loads when you're back online.",
+		offlineTitle: "You're offline",
+		ms: 8000,
 	},
 	[ConnectivityState.OFFLINE_SNAPSHOT]: {
 		dot: "bg-sky-400",
-		title: "Offline — showing saved snapshot",
+		title: "Showing saved data",
 		body: "You're viewing locally saved data. It will refresh when you reconnect.",
-	},
-	[ConnectivityState.SYNCING]: {
-		dot: "bg-cyan-400 animate-pulse",
-		title: "Syncing…",
-		body: "Refreshing local data in the background.",
+		ms: 8000,
 	},
 	[ConnectivityState.SYNC_ERROR]: {
 		dot: "bg-orange-400",
 		title: "Sync failed",
 		body: "Couldn't refresh data. Your local copy is intact.",
+		ms: 5000,
 	},
 };
+
+const RECOVERED_STATES = new Set([ConnectivityState.ONLINE, ConnectivityState.UP_TO_DATE]);
 
 function SwUpdateCard({ registration, onDone }) {
 	const apply = useCallback(() => {
@@ -82,6 +88,26 @@ export default function OfflineBanner() {
 	const [swDismissed, setSwDismissed] = useState(false);
 	const [retrying, setRetrying] = useState(false);
 	const [pendingDrafts, setPendingDrafts] = useState(0);
+	// The state whose notice is on screen, and the incident already shown.
+	const [notice, setNotice] = useState(null);
+	const shownRef = useRef(null);
+
+	useEffect(() => {
+		const state = status.state;
+		if (RECOVERED_STATES.has(state)) {
+			shownRef.current = null;
+			setNotice(null);
+			return undefined;
+		}
+		const copy = COPY[state];
+		if (!copy || shownRef.current === state) {
+			return undefined;
+		}
+		shownRef.current = state;
+		setNotice(state);
+		const timer = setTimeout(() => setNotice((current) => (current === state ? null : current)), copy.ms);
+		return () => clearTimeout(timer);
+	}, [status.state]);
 
 	useEffect(() => {
 		const stop = startConnectivity();
@@ -151,8 +177,10 @@ export default function OfflineBanner() {
 		};
 	}, []);
 
-	const card = COPY[status.state];
+	const card = notice ? COPY[notice] : null;
 	const showState = Boolean(card);
+	const deviceOffline = typeof navigator !== "undefined" && navigator.onLine === false;
+	const title = card?.offlineTitle && deviceOffline ? card.offlineTitle : card?.title;
 	const showUpdate = Boolean(swWaiting) && !swDismissed;
 	const showOutbox = pendingDrafts > 0;
 	if (!(showState || showUpdate || showOutbox)) return null;
@@ -176,7 +204,7 @@ export default function OfflineBanner() {
 				<div class="pointer-events-auto flex max-w-sm items-center gap-3 rounded-2xl border border-white/10 bg-slate-950/90 px-4 py-3 shadow-2xl backdrop-blur-xl">
 					<span class={`h-2 w-2 shrink-0 rounded-full ${card.dot}`} />
 					<div class="min-w-0 flex-1">
-						<p class="text-xs font-semibold text-white">{card.title}</p>
+						<p class="text-xs font-semibold text-white">{title}</p>
 						<p class="text-[11px] leading-snug text-slate-400">{card.body}</p>
 						{showOutbox ? (
 							<p class="mt-0.5 text-[11px] leading-snug text-cyan-300">
@@ -184,16 +212,22 @@ export default function OfflineBanner() {
 							</p>
 						) : null}
 					</div>
-					{status.state === ConnectivityState.SYNCING ? null : (
-						<button
-							type="button"
-							onClick={retry}
-							disabled={retrying}
-							class="shrink-0 rounded-full border border-white/15 px-3 py-1.5 text-[11px] font-semibold text-slate-200 transition hover:border-white/30 hover:text-white disabled:opacity-50"
-						>
-							{retrying ? "Checking…" : "Retry"}
-						</button>
-					)}
+					<button
+						type="button"
+						onClick={retry}
+						disabled={retrying}
+						class="shrink-0 rounded-full border border-white/15 px-3 py-1.5 text-[11px] font-semibold text-slate-200 transition hover:border-white/30 hover:text-white disabled:opacity-50"
+					>
+						{retrying ? "Checking…" : "Retry"}
+					</button>
+					<button
+						type="button"
+						onClick={() => setNotice(null)}
+						aria-label="Dismiss"
+						class="shrink-0 rounded-full px-2 py-1 text-sm leading-none text-slate-400 transition hover:text-white"
+					>
+						×
+					</button>
 				</div>
 			) : showOutbox ? (
 				<div class="pointer-events-auto flex max-w-sm items-center gap-3 rounded-2xl border border-white/10 bg-slate-950/90 px-4 py-3 shadow-2xl backdrop-blur-xl">

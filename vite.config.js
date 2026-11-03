@@ -3,6 +3,44 @@ import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
 import { VitePWA } from "vite-plugin-pwa";
 
+const VENDOR_CHUNKS = {
+	react: "vendor-react",
+	"react-dom": "vendor-react",
+	scheduler: "vendor-react",
+	// Tiny helpers shared by app code and recharts. Left alone, Rollup puts
+	// them in vendor-charts and every page would download the charts.
+	"prop-types": "vendor-react",
+	"react-is": "vendor-react",
+	"object-assign": "vendor-react",
+	clsx: "vendor-react",
+	"@babel/runtime": "vendor-react",
+	"tiny-invariant": "vendor-react",
+	"react-router": "vendor-router",
+	"react-router-dom": "vendor-router",
+	"framer-motion": "vendor-motion",
+	"motion-dom": "vendor-motion",
+	"motion-utils": "vendor-motion",
+	"@reduxjs/toolkit": "vendor-redux",
+	"react-redux": "vendor-redux",
+	redux: "vendor-redux",
+	immer: "vendor-redux",
+	reselect: "vendor-redux",
+	"lucide-react": "vendor-icons",
+	dompurify: "vendor-security",
+	recharts: "vendor-charts",
+};
+
+// "/x/node_modules/.pnpm/a@1/node_modules/@scope/pkg/index.js" -> "@scope/pkg"
+function packageName(id) {
+	const marker = "node_modules/";
+	const at = id.lastIndexOf(marker);
+	if (at === -1) {
+		return "";
+	}
+	const parts = id.slice(at + marker.length).split("/");
+	return parts[0].startsWith("@") ? `${parts[0]}/${parts[1]}` : parts[0];
+}
+
 // https://vite.dev/config/
 export default defineConfig({
 	base: process.env.VITE_BASE_URL || "./",
@@ -17,34 +55,16 @@ export default defineConfig({
 		rollupOptions: {
 			external: ["rtf.js"],
 			output: {
+				// Group by exact package name. The old `id.includes("node_modules/react")`
+				// test also matched react-markdown, react-syntax-highlighter (+ its
+				// ~1 MB of grammars), react-router and every other "react-*" package,
+				// so all of them shipped in the vendor chunk every page loads first.
 				manualChunks(id) {
-					if (id.includes("node_modules/react-dom")) {
-						return "vendor-react";
+					const pkg = packageName(id);
+					if (!pkg) {
+						return undefined;
 					}
-					if (id.includes("node_modules/react")) {
-						return "vendor-react";
-					}
-					if (id.includes("node_modules/framer-motion")) {
-						return "vendor-motion";
-					}
-					if (id.includes("node_modules/react-router")) {
-						return "vendor-router";
-					}
-					if (id.includes("node_modules/@reduxjs/toolkit")) {
-						return "vendor-redux";
-					}
-					if (id.includes("node_modules/react-redux")) {
-						return "vendor-redux";
-					}
-					if (id.includes("node_modules/lucide-react")) {
-						return "vendor-icons";
-					}
-					if (id.includes("node_modules/dompurify")) {
-						return "vendor-security";
-					}
-					if (id.includes("node_modules/recharts")) {
-						return "vendor-charts";
-					}
+					return VENDOR_CHUNKS[pkg];
 				},
 			},
 		},

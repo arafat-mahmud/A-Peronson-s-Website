@@ -201,7 +201,7 @@ export default function ProfilePage() {
 	].filter(Boolean);
 
 	return (
-		<div className="min-h-screen bg-[radial-gradient(circle_at_top,rgba(14,165,233,0.16),transparent_28%),linear-gradient(to_bottom,rgba(2,6,23,0.02),rgba(2,6,23,0))] text-slate-900 dark:bg-[radial-gradient(circle_at_top,rgba(14,165,233,0.22),transparent_30%),linear-gradient(to_bottom,rgba(2,6,23,0.95),rgba(2,6,23,1))] dark:text-slate-100">
+		<div className="min-h-screen bg-[radial-gradient(circle_at_top,rgba(51,122,176,0.16),transparent_28%),linear-gradient(to_bottom,rgba(2,6,23,0.02),rgba(2,6,23,0))] text-slate-900 dark:bg-[radial-gradient(circle_at_top,rgba(51,122,176,0.22),transparent_30%),linear-gradient(to_bottom,rgba(2,6,23,0.95),rgba(2,6,23,1))] dark:text-slate-100">
 			<div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
 				<div className="mb-5 flex items-center justify-between gap-3 rounded-2xl border border-slate-200/70 bg-white/70 px-3 py-2 shadow-sm backdrop-blur-xl dark:border-slate-800/80 dark:bg-slate-950/60">
 					<button
@@ -222,7 +222,7 @@ export default function ProfilePage() {
 							initial={{ opacity: 0, y: 16 }}
 							animate={{ opacity: 1, y: 0 }}
 							transition={{ duration: 0.45 }}
-							className="overflow-hidden rounded-[2rem] border border-slate-200/80 bg-white/80 shadow-[0_24px_100px_rgba(14,165,233,0.08)] backdrop-blur-xl dark:border-slate-800 dark:bg-slate-950/70"
+							className="overflow-hidden rounded-[2rem] border border-slate-200/80 bg-white/80 shadow-[0_24px_100px_rgba(51,122,176,0.08)] backdrop-blur-xl dark:border-slate-800 dark:bg-slate-950/70"
 						>
 							<div className="relative h-[280px] overflow-hidden sm:h-[340px]">
 								{coverImage ? (
@@ -232,7 +232,7 @@ export default function ProfilePage() {
 										className="absolute inset-0 h-full w-full object-cover"
 									/>
 								) : (
-									<div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(56,189,248,0.35),transparent_25%),radial-gradient(circle_at_80%_0%,rgba(99,102,241,0.22),transparent_30%),linear-gradient(135deg,rgba(15,23,42,0.95),rgba(14,165,233,0.3))]" />
+									<div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(109,171,223,0.35),transparent_25%),radial-gradient(circle_at_80%_0%,rgba(99,102,241,0.22),transparent_30%),linear-gradient(135deg,rgba(15,23,42,0.95),rgba(51,122,176,0.3))]" />
 								)}
 								<div className="absolute inset-0 bg-gradient-to-t from-slate-950/75 via-slate-950/35 to-transparent" />
 								<div className="absolute inset-x-0 bottom-0 p-5 sm:p-7">

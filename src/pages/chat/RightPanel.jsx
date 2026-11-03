@@ -75,7 +75,7 @@ export default function RightPanel({
 					</div>
 
 					{leadLoading ? (
-						<ThreeDot variant="bounce" color="#0ea5e9" size="small" text="" textColor="" />
+						<ThreeDot variant="bounce" color="#337ab0" size="small" text="" textColor="" />
 					) : prequal ? (
 						<div className="mb-6 rounded-2xl shadow-borderless dark:shadow-borderlessDark bg-slate-50 p-3 text-[11px] text-slate-600 dark:bg-slate-800/30">
 							<p className="text-xs font-semibold text-slate-800 dark:text-slate-100">
@@ -100,7 +100,7 @@ export default function RightPanel({
 								className="rounded-full bg-slate-900 px-3 py-1 text-[10px] font-semibold text-white hover:bg-slate-700 disabled:opacity-60 dark:bg-white/10 dark:text-slate-200 dark:hover:bg-white/20"
 							>
 								{aiSummaryLoading ? (
-									<ThreeDot variant="bounce" color="#0ea5e9" size="small" text="" textColor="" />
+									<ThreeDot variant="bounce" color="#337ab0" size="small" text="" textColor="" />
 								) : (
 									"Refresh"
 								)}
@@ -137,7 +137,7 @@ export default function RightPanel({
 								className="rounded-full bg-slate-900 px-3 py-1 text-[10px] font-semibold text-white hover:bg-slate-700 disabled:opacity-60 dark:bg-white/10 dark:text-slate-200 dark:hover:bg-white/20"
 							>
 								{aiNegotiationLoading ? (
-									<ThreeDot variant="bounce" color="#0ea5e9" size="small" text="" textColor="" />
+									<ThreeDot variant="bounce" color="#337ab0" size="small" text="" textColor="" />
 								) : (
 									"Generate"
 								)}

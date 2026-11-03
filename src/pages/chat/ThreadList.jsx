@@ -51,7 +51,7 @@ export default function ThreadList({
 				className="h-[calc(100vh-250px)] overflow-auto pr-1 custom-scrollbar"
 			>
 				{loading ? (
-					<Mosaic color="#0ea5e9" size="large" style={{ fontSize: "40px" }} text="" textColor="" />
+					<Mosaic color="#337ab0" size="large" style={{ fontSize: "40px" }} text="" textColor="" />
 				) : null}
 				{!loading && visibleError ? (
 					<div className="p-4 text-center text-sm text-red-400">{visibleError}</div>

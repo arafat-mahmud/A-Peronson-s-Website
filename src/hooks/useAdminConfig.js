@@ -48,7 +48,7 @@ const DEFAULT_ADMIN_PANEL_FALLBACK_INVENTORY = [
 		sections: [],
 	},
 ];
-const DEFAULT_PIE_PALETTE = ["#38bdf8", "#60a5fa", "#0f172a"];
+const DEFAULT_PIE_PALETTE = ["#6dabdf", "#6aa1d4", "#0f172a"];
 const DEFAULT_CMS_WEEKLY_TREND = [
 	{ name: "Mon", value: 24 },
 	{ name: "Tue", value: 38 },

@@ -139,8 +139,8 @@ export function AdminInfraSection({
 				className={cn(
 					"rounded-[28px] p-4 sm:p-5",
 					adminDark
-						? "bg-[radial-gradient(circle_at_top,_rgba(56,189,248,0.18),_transparent_38%),linear-gradient(180deg,#07111f_0%,#020617_100%)] text-slate-100"
-						: "bg-[radial-gradient(circle_at_top,_rgba(125,211,252,0.22),_transparent_36%),linear-gradient(180deg,#f8fdff_0%,#eef7ff_100%)] text-slate-900",
+						? "bg-[radial-gradient(circle_at_top,_rgba(109,171,223,0.18),_transparent_38%),linear-gradient(180deg,#07111f_0%,#020617_100%)] text-slate-100"
+						: "bg-[radial-gradient(circle_at_top,_rgba(155,202,242,0.22),_transparent_36%),linear-gradient(180deg,#f8fdff_0%,#eef7ff_100%)] text-slate-900",
 				)}
 			>
 				<div className="mx-auto max-w-[1700px]">

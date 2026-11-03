@@ -538,7 +538,7 @@ export default function MemberManagement() {
 											<tr>
 												<td colSpan={6} className="px-6 py-12 text-center">
 													<Mosaic
-														color="#0ea5e9"
+														color="#337ab0"
 														size="large"
 														style={{ fontSize: "40px" }}
 														text=""

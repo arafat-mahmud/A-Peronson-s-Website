@@ -45,6 +45,12 @@ export async function adminSetUserSubscription(req, res) {
 	return res.json(sub);
 }
 
+// The verification page shows these before the user pays; they must match
+// what verificationController charges (FIRST_MONTH / RENEWAL).
+export async function getMyVerificationPricing(_req, res) {
+	return res.json({ first_month: 1.99, renewal: 6.99, currency: "USD" });
+}
+
 export async function renewMyPremiumMonthly(req, res) {
 	const FIRST_MONTH_PRICE_USD = 1.99;
 	const RENEWAL_PRICE_USD = 6.99;

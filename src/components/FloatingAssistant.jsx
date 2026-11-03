@@ -3,6 +3,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { ThreeDot } from "react-loading-indicators";
 import { useLocation } from "react-router-dom";
 import useScrollDirection from "../hooks/useScrollDirection.js";
+import { answerFaq, formatFaqAnswer } from "../../shared/assistant/faqEngine.js";
 import { API_BASE, getCurrentUserAsync, getToken } from "../lib/auth.js";
 import { logger } from "../lib/logger.js";
 import MarkdownMessage from "./chat/MarkdownMessage.jsx";
@@ -246,13 +247,17 @@ export default function FloatingAssistant() {
 	const reconnectAttemptsRef = useRef(0);
 	const wsUrlRef = useRef(getWsUrl());
 
-	function cancelReconnect() {
+	// Stable identity: it is a dependency of the connect effect below. As a
+	// plain function it changed on every render, so every render (typing,
+	// opening the panel, a reply arriving) closed the socket and opened a new
+	// one - and the answer to a question arrived on a socket nobody listened to.
+	const cancelReconnect = useCallback(() => {
 		if (reconnectTimerRef.current) {
 			clearTimeout(reconnectTimerRef.current);
 			reconnectTimerRef.current = null;
 		}
 		reconnectAttemptsRef.current = 0;
-	}
+	}, []);
 
 	const connectWs = useCallback(function connectWs() {
 		if (socketRef.current && socketRef.current.readyState === WebSocket.OPEN) {
@@ -407,15 +412,20 @@ export default function FloatingAssistant() {
 				JSON.stringify({ type: "ask", question: text, request_id: requestId }),
 			);
 		} else {
+			// No live connection (cold server, offline, guest): answer the common
+			// questions from the built-in FAQ instead of a dead end.
+			const faq = answerFaq(text);
 			setMessages((prev) => [
 				...prev,
 				{
 					role: "assistant",
-					text: "Connection lost. Please refresh the page.",
+					text: formatFaqAnswer(faq),
+					request_id: requestId,
 					isNew: true,
 				},
 			]);
 			setLoading(false);
+			connectWs();
 		}
 	}
 
@@ -488,7 +498,7 @@ export default function FloatingAssistant() {
 										{loading ? (
 											<ThreeDot
 												variant="bounce"
-												color="#0ea5e9"
+												color="#337ab0"
 												size="small"
 												text=""
 												textColor=""
@@ -589,7 +599,7 @@ export default function FloatingAssistant() {
 							{loading && !firstChunkReceived && (
 								<div className="flex justify-start animate-in fade-in duration-200">
 									<div className="bg-white dark:bg-slate-900/80 border border-slate-200/60 dark:border-slate-700/50 rounded-2xl rounded-bl-none px-4 py-3.5 shadow-sm">
-										<ThreeDot variant="bounce" color="#38bdf8" size="small" text="" textColor="" />
+										<ThreeDot variant="bounce" color="#6dabdf" size="small" text="" textColor="" />
 									</div>
 								</div>
 							)}

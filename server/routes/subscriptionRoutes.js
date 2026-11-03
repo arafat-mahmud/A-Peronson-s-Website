@@ -2,6 +2,7 @@ import { Router } from "express";
 import {
 	adminSetUserSubscription,
 	getMyRemainingDays,
+	getMyVerificationPricing,
 	getMySubscription,
 	markMyVerificationExpiringSoon,
 	renewMyPremiumMonthly,
@@ -16,6 +17,7 @@ router.get("/me", requireAuth, getMySubscription);
 router.post("/me", requireAuth, updateMySubscription);
 router.post("/me/renew-monthly", requireAuth, renewMyPremiumMonthly);
 router.get("/me/remaining-days", requireAuth, getMyRemainingDays);
+router.get("/me/verification-pricing", requireAuth, getMyVerificationPricing);
 router.post("/me/verification/mark-expiring-soon", requireAuth, markMyVerificationExpiringSoon);
 router.post("/admin/:userId", requireAuth, requireAdminSecurity, adminSetUserSubscription);
 

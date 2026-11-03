@@ -84,7 +84,8 @@ describe("product form industry dropdown (src/pages/ProductManagement.jsx)", () 
 		expect(industry).toBeRequired();
 
 		const options = [...industry.querySelectorAll("option")].map((o) => o.textContent);
-		expect(options).toEqual(expect.arrayContaining(["Garments", "Textile"]));
+		// Labels name the industry (client 02/11/2026); stored values stay garments/textile.
+		expect(options).toEqual(expect.arrayContaining(["Garments Industry", "Textile Industry"]));
 		expect(options.some((t) => t.includes("Garments, Home Textiles"))).toBe(false);
 	});
 

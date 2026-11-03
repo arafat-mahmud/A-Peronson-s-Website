@@ -12,12 +12,18 @@ import {
 } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { ThreeDot } from "react-loading-indicators";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import {
+	COMMON_CERTIFICATIONS,
+	garmentCategories,
+	textileCategories,
+} from "../../../shared/config/platformTaxonomy.js";
 import NeonAtom from "../../components/ui/NeonAtom.jsx";
 import ProfileImageUpload from "../../components/ui/ProfileImageUpload.jsx";
 import { apiRequest, getCurrentUser, getRoleHome, getToken, saveSession } from "../../lib/auth.js";
-import { logger } from "../../lib/logger.js";
 import { useTheme } from "../../lib/ThemeProvider.jsx";
+
+const TOTAL_STEPS = 4;
 
 const DEFAULT_CATEGORIES = [
 	"T-Shirt",
@@ -54,21 +60,26 @@ export default function OnboardingPage() {
 	});
 	const [customCategory, setCustomCategory] = useState("");
 	const [customCategoryError, setCustomCategoryError] = useState("");
+	// Step 4 is optional (client 02/11/2026): certifications can be added now
+	// or later from the company profile.
+	const [certifications, setCertifications] = useState(() =>
+		Array.isArray(user?.profile?.certifications) ? user.profile.certifications : [],
+	);
+	const [customCertification, setCustomCertification] = useState("");
+	const location = useLocation();
+	const returnTo = typeof location.state?.from === "string" ? location.state.from : "";
 
+	// Categories come from the shared taxonomy for the company's industry; the
+	// old request went to /api/categories, an endpoint that does not exist.
 	useEffect(() => {
-		if (!token) {
-			return;
+		const sector = String(user?.profile?.industry || user?.profile?.factory_sector || "").toLowerCase();
+		const list = sector === "textile" ? textileCategories : sector === "garments" ? garmentCategories : null;
+		if (list) {
+			setAvailableCategories([...list, "Other"]);
 		}
-		apiRequest("/categories", { token })
-			.then((data) => {
-				if (Array.isArray(data?.items)) {
-					setAvailableCategories(data.items.map((c) => c.name || c.label || c));
-				}
-			})
-			.catch((err) => logger.warn("Failed to load categories:", err));
-	}, [token]);
+	}, [user?.profile?.industry, user?.profile?.factory_sector]);
 
-	const progress = useMemo(() => ((step - 1) / 2) * 100, [step]);
+	const progress = useMemo(() => ((step - 1) / (TOTAL_STEPS - 1)) * 100, [step]);
 
 	function toggleCategory(cat) {
 		setCategories((prev) => {
@@ -108,7 +119,21 @@ export default function OnboardingPage() {
 		return true;
 	}
 
-	async function submit({ skipped = false } = {}) {
+	function toggleCertification(name) {
+		setCertifications((prev) =>
+			prev.includes(name) ? prev.filter((item) => item !== name) : [...prev, name],
+		);
+	}
+
+	function addCustomCertification() {
+		const name = customCertification.trim().slice(0, 80);
+		if (name && !certifications.includes(name)) {
+			setCertifications((prev) => [...prev, name]);
+		}
+		setCustomCertification("");
+	}
+
+	async function submit({ skipped = false, skipCertifications = false } = {}) {
 		if (!token) {
 			return;
 		}
@@ -140,6 +165,7 @@ export default function OnboardingPage() {
 				organization_name: skipped ? organizationName || "" : organizationName || "",
 				bio: skipped ? bio || "" : bio || "",
 				categories: skipped ? categories || [] : finalCategories || [],
+				certifications: skipped || skipCertifications ? [] : certifications,
 			};
 
 			const updatedUser = await apiRequest("/onboarding", {
@@ -148,7 +174,7 @@ export default function OnboardingPage() {
 				body: payload,
 			});
 			saveSession(updatedUser, token);
-			navigate(getRoleHome(updatedUser.role), { replace: true });
+			navigate(returnTo || getRoleHome(updatedUser.role), { replace: true });
 		} catch (err) {
 			setError(err.message || "Unable to save onboarding");
 		} finally {
@@ -191,7 +217,7 @@ export default function OnboardingPage() {
 		if (!validate(step)) {
 			return;
 		}
-		setStep((s) => Math.min(3, s + 1));
+		setStep((s) => Math.min(TOTAL_STEPS, s + 1));
 	}
 
 	if (saving) {
@@ -264,6 +290,12 @@ export default function OnboardingPage() {
 											active: step === 3,
 											done: step > 3,
 										},
+										{
+											title: "Step 4",
+											desc: "Certifications (optional)",
+											active: step === 4,
+											done: false,
+										},
 									].map((item, index) => (
 										<div
 											key={item.title}
@@ -302,12 +334,14 @@ export default function OnboardingPage() {
 												{String(user?.role || "Account").replace("_", " ")} setup
 											</h3>
 											<p class="mt-2 text-sm leading-6 text-slate-600 dark:text-slate-300">
-												Step {step} of 3 —{" "}
+												Step {step} of {TOTAL_STEPS} —{" "}
 												{step === 1
 													? "profile image"
 													: step === 2
 														? "organization details"
-														: "product categories"}
+														: step === 3
+															? "product categories"
+															: "certifications (optional)"}
 												. You can always update these later.
 											</p>
 										</div>
@@ -323,7 +357,7 @@ export default function OnboardingPage() {
 										Onboarding
 									</p>
 									<h2 class="mt-2 text-3xl font-semibold tracking-tight sm:text-4xl">
-										Step {step} / 3
+										Step {step} / {TOTAL_STEPS}
 									</h2>
 								</div>
 								<div class="hidden rounded-full border border-sky-500/20 bg-sky-500/10 px-4 py-2 text-sm font-medium text-sky-700 dark:text-sky-300 sm:flex sm:items-center sm:gap-2">
@@ -376,7 +410,7 @@ export default function OnboardingPage() {
 											value={organizationName}
 											onChange={(e) => setOrganizationName(e.target.value)}
 											placeholder="Your company / buying house name"
-											class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm outline-none transition placeholder:text-slate-400 focus:border-sky-400 focus:shadow-[0_0_0_4px_rgba(14,165,233,0.12)] dark:border-white/10 dark:bg-slate-900/80 dark:placeholder:text-slate-500"
+											class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm outline-none transition placeholder:text-slate-400 focus:border-sky-400 focus:shadow-[0_0_0_4px_rgba(51,122,176,0.12)] dark:border-white/10 dark:bg-slate-900/80 dark:placeholder:text-slate-500"
 										/>
 
 										<div class="mt-4 rounded-2xl border border-slate-200/70 bg-white p-4 dark:border-white/10 dark:bg-slate-900/70">
@@ -394,7 +428,7 @@ export default function OnboardingPage() {
 											onChange={(e) => setBio(e.target.value)}
 											placeholder="Tell us about your organization..."
 											rows={3}
-											class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm outline-none transition placeholder:text-slate-400 focus:border-sky-400 focus:shadow-[0_0_0_4px_rgba(14,165,233,0.12)] dark:border-white/10 dark:bg-slate-900/80 dark:placeholder:text-slate-500 resize-none"
+											class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm outline-none transition placeholder:text-slate-400 focus:border-sky-400 focus:shadow-[0_0_0_4px_rgba(51,122,176,0.12)] dark:border-white/10 dark:bg-slate-900/80 dark:placeholder:text-slate-500 resize-none"
 										/>
 									</section>
 								)}
@@ -423,7 +457,7 @@ export default function OnboardingPage() {
 														onClick={() => toggleCategory(cat)}
 														class={`rounded-2xl border px-4 py-4 text-left text-sm font-semibold transition-all ${
 															active
-																? "border-sky-500 bg-sky-500/10 text-sky-700 shadow-[0_12px_30px_rgba(14,165,233,0.18)] dark:text-sky-300"
+																? "border-sky-500 bg-sky-500/10 text-sky-700 shadow-[0_12px_30px_rgba(51,122,176,0.18)] dark:text-sky-300"
 																: "border-slate-200 bg-white text-slate-700 hover:border-sky-300 hover:bg-sky-500/5 dark:border-white/10 dark:bg-slate-900/60 dark:text-slate-200"
 														}`}
 													>
@@ -464,7 +498,7 @@ export default function OnboardingPage() {
 													}}
 													placeholder="e.g. Sustainable Fabrics"
 													maxLength={40}
-													class={`w-full rounded-2xl border bg-white px-4 py-3 text-sm outline-none transition placeholder:text-slate-400 focus:shadow-[0_0_0_4px_rgba(14,165,233,0.12)] dark:bg-slate-900/80 dark:placeholder:text-slate-500 ${
+													class={`w-full rounded-2xl border bg-white px-4 py-3 text-sm outline-none transition placeholder:text-slate-400 focus:shadow-[0_0_0_4px_rgba(51,122,176,0.12)] dark:bg-slate-900/80 dark:placeholder:text-slate-500 ${
 														customCategoryError
 															? "border-rose-400 focus:border-rose-500 dark:border-rose-500"
 															: "border-slate-200 focus:border-sky-400 dark:border-white/10"
@@ -487,6 +521,70 @@ export default function OnboardingPage() {
 										</p>
 									</section>
 								)}
+
+								{step === 4 && (
+									<section class="rounded-3xl border border-slate-200/70 bg-slate-50/70 p-5 dark:border-white/10 dark:bg-white/[0.03]">
+										<div class="mb-4">
+											<h3 class="text-xl font-semibold">Certifications</h3>
+											<p class="mt-1 text-sm text-slate-500 dark:text-slate-400">
+												Select the certifications your company holds. This step is optional - you can
+												skip it and add certifications later from your company profile.
+											</p>
+										</div>
+										<div class="flex flex-wrap gap-2">
+											{[...new Set([...COMMON_CERTIFICATIONS, ...certifications])].map((name) => {
+												const active = certifications.includes(name);
+												return (
+													<button
+														key={name}
+														type="button"
+														aria-pressed={active}
+														onClick={() => toggleCertification(name)}
+														class={`rounded-full border px-3.5 py-2 text-sm font-medium transition ${
+															active
+																? "border-sky-500 bg-sky-500/10 text-sky-700 dark:text-sky-300"
+																: "border-slate-200 bg-white text-slate-700 hover:border-sky-300 dark:border-white/10 dark:bg-slate-900/60 dark:text-slate-200"
+														}`}
+													>
+														{active ? "✓ " : ""}
+														{name}
+													</button>
+												);
+											})}
+										</div>
+										<div class="mt-4 flex gap-2">
+											<input
+												value={customCertification}
+												onChange={(e) => setCustomCertification(e.target.value)}
+												onKeyDown={(e) => {
+													if (e.key === "Enter") {
+														e.preventDefault();
+														addCustomCertification();
+													}
+												}}
+												maxLength={80}
+												placeholder="Another certification"
+												aria-label="Another certification"
+												class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm outline-none transition placeholder:text-slate-400 focus:border-sky-400 dark:border-white/10 dark:bg-slate-900/80"
+											/>
+											<button
+												type="button"
+												onClick={addCustomCertification}
+												class="shrink-0 rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-700 transition hover:border-sky-300 dark:border-white/10 dark:bg-white/5 dark:text-slate-200"
+											>
+												Add
+											</button>
+										</div>
+										<button
+											type="button"
+											onClick={() => submit({ skipCertifications: true })}
+											disabled={saving}
+											class="mt-4 text-sm font-semibold text-sky-700 transition hover:text-sky-800 disabled:opacity-60 dark:text-sky-300"
+										>
+											Skip this step
+										</button>
+									</section>
+								)}
 							</div>
 
 							{error ? (
@@ -505,7 +603,7 @@ export default function OnboardingPage() {
 										<ArrowLeft class="h-4 w-4" />
 										Back
 									</button>
-									{step < 3 ? (
+									{step < TOTAL_STEPS ? (
 										<button
 											onClick={next}
 											disabled={saving}
@@ -523,7 +621,7 @@ export default function OnboardingPage() {
 											{saving ? (
 												<ThreeDot
 													variant="bounce"
-													color="#0ea5e9"
+													color="#337ab0"
 													size="small"
 													text=""
 													textColor=""

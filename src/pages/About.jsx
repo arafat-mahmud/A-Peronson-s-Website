@@ -133,7 +133,7 @@ const Skeleton = ({ className = "", size }) => (
 	<div class={`flex items-center justify-center ${className}`}>
 		<ThreeDot
 			variant="bounce"
-			color="#0ea5e9"
+			color="#337ab0"
 			size="large"
 			style={{ fontSize: `${size || 48}px` }}
 			text=""
@@ -237,7 +237,7 @@ function StatusChip({ status }) {
  */
 function StatCard({ icon: Icon, label, value, sublabel }) {
 	return (
-		<SpotlightCard class="relative overflow-hidden rounded-3xl border border-white/10 bg-white/70 p-5 shadow-[0_20px_80px_-30px_rgba(2,132,199,0.35)] backdrop-blur dark:bg-slate-950/55">
+		<SpotlightCard class="relative overflow-hidden rounded-3xl border border-white/10 bg-white/70 p-5 shadow-[0_20px_80px_-30px_rgba(32,101,152,0.35)] backdrop-blur dark:bg-slate-950/55">
 			<div class="flex items-start justify-between gap-4">
 				<div>
 					<div class="mb-3 inline-flex h-11 w-11 items-center justify-center rounded-2xl border border-sky-500/15 bg-sky-500/10 text-sky-600 dark:text-sky-300">
@@ -407,7 +407,7 @@ export default function About() {
 			</svg>
 
 			<div class="pointer-events-none absolute inset-0 opacity-[0.06] mix-blend-soft-light [background-image:radial-gradient(circle_at_1px_1px,rgba(148,163,184,0.8)_1px,transparent_0)] [background-size:22px_22px] dark:opacity-[0.08]" />
-			<div class="pointer-events-none absolute inset-0 bg-[linear-gradient(to_bottom,rgba(186,230,253,0.35),transparent_16%,transparent_84%,rgba(2,6,23,0.08))] dark:bg-[linear-gradient(to_bottom,rgba(14,165,233,0.18),transparent_18%,transparent_82%,rgba(2,6,23,0.5))]" />
+			<div class="pointer-events-none absolute inset-0 bg-[linear-gradient(to_bottom,rgba(197,225,250,0.35),transparent_16%,transparent_84%,rgba(2,6,23,0.08))] dark:bg-[linear-gradient(to_bottom,rgba(51,122,176,0.18),transparent_18%,transparent_82%,rgba(2,6,23,0.5))]" />
 
 			<section
 				ref={heroRef}
@@ -415,7 +415,7 @@ export default function About() {
 			>
 				<motion.div
 					style={{ y: y1 }}
-					class="mx-auto max-w-6xl rounded-[2rem] border border-sky-500/15 bg-white/75 p-6 shadow-[0_30px_120px_-50px_rgba(14,165,233,0.55)] backdrop-blur-xl dark:bg-slate-950/50 sm:p-8 lg:p-10"
+					class="mx-auto max-w-6xl rounded-[2rem] border border-sky-500/15 bg-white/75 p-6 shadow-[0_30px_120px_-50px_rgba(51,122,176,0.55)] backdrop-blur-xl dark:bg-slate-950/50 sm:p-8 lg:p-10"
 				>
 					<div class="grid gap-10 lg:grid-cols-[1.2fr_0.8fr] lg:items-center">
 						<motion.div style={{ y: y2 }} class="relative">
@@ -437,11 +437,19 @@ export default function About() {
 
 							<div class="mt-8 flex flex-wrap gap-3">
 								<MagneticButton
-									to="/verification"
-									class="inline-flex items-center gap-2 rounded-full bg-sky-500 px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-sky-500/30 transition hover:bg-sky-400"
+									to="/help#verification"
+									class="inline-flex items-center gap-2 rounded-full bg-sky-600 px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-sky-900/15 transition hover:bg-sky-700"
 								>
 									View verification standards
 									<ChevronRight class="h-4 w-4" />
+								</MagneticButton>
+								{/* Guests go through login/signup and come back to their
+								    verification workflow (ProtectedRoute keeps the target). */}
+								<MagneticButton
+									to="/verification"
+									class="inline-flex items-center gap-2 rounded-full border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-slate-900 transition hover:border-sky-400 dark:border-white/15 dark:bg-white/5 dark:text-white"
+								>
+									Get verified
 								</MagneticButton>
 							</div>
 
@@ -451,7 +459,7 @@ export default function About() {
 						</motion.div>
 
 						<motion.div style={{ y: y2 }} class="relative">
-							<div class="rounded-[2rem] border border-white/10 bg-gradient-to-br from-sky-500/15 via-cyan-500/10 to-indigo-500/10 p-5 shadow-[0_30px_100px_-40px_rgba(8,145,178,0.55)] backdrop-blur-xl dark:from-sky-400/10 dark:via-cyan-400/10 dark:to-indigo-400/10 sm:p-6">
+							<div class="rounded-[2rem] border border-white/10 bg-gradient-to-br from-sky-500/15 via-cyan-500/10 to-indigo-500/10 p-5 shadow-[0_30px_100px_-40px_rgba(5,128,128,0.55)] backdrop-blur-xl dark:from-sky-400/10 dark:via-cyan-400/10 dark:to-indigo-400/10 sm:p-6">
 								<div class="mb-4 flex items-center justify-between">
 									<div>
 										<p class="text-xs font-medium uppercase tracking-[0.25em] text-sky-700 dark:text-sky-300">
@@ -470,7 +478,7 @@ export default function About() {
 										<div class="inline-flex items-center gap-2 rounded-full border border-sky-500/15 bg-sky-500/10 px-3 py-1 text-xs font-medium text-sky-700 dark:text-sky-300">
 											<ThreeDot
 												variant="bounce"
-												color="#0ea5e9"
+												color="#337ab0"
 												size="small"
 												text=""
 												textColor=""
@@ -762,11 +770,17 @@ export default function About() {
 							</div>
 							<div class="flex flex-wrap gap-3 lg:justify-end">
 								<MagneticButton
-									to="/verification"
+									to="/help#verification"
 									class="inline-flex items-center gap-2 rounded-full bg-slate-950 px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-slate-950/15 transition hover:bg-slate-800 dark:bg-white dark:text-slate-950 dark:hover:bg-slate-200"
 								>
 									View verification standards
 									<ArrowUpRight class="h-4 w-4" />
+								</MagneticButton>
+								<MagneticButton
+									to="/verification"
+									class="inline-flex items-center gap-2 rounded-full border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-slate-900 transition hover:border-sky-400 dark:border-white/15 dark:bg-white/5 dark:text-white"
+								>
+									Get verified
 								</MagneticButton>
 							</div>
 						</div>

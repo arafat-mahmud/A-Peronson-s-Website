@@ -348,8 +348,8 @@ export default function FeedManagementPage() {
 
 	const panelBg =
 		theme === "dark"
-			? "bg-white/5 border-white/10 shadow-[0_20px_80px_-30px_rgba(56,189,248,0.25)]"
-			: "bg-white border-slate-200 shadow-[0_20px_80px_-30px_rgba(14,165,233,0.18)]";
+			? "bg-white/5 border-white/10 shadow-[0_20px_80px_-30px_rgba(109,171,223,0.25)]"
+			: "bg-white border-slate-200 shadow-[0_20px_80px_-30px_rgba(51,122,176,0.18)]";
 
 	const subtleText = theme === "dark" ? "text-slate-400" : "text-slate-500";
 	const mutedBorder = theme === "dark" ? "border-white/10" : "border-slate-200";
@@ -586,7 +586,7 @@ export default function FeedManagementPage() {
 										{uploading ? (
 											<ThreeDot
 												variant="bounce"
-												color="#0ea5e9"
+												color="#337ab0"
 												size="small"
 												text=""
 												textColor=""
@@ -723,7 +723,7 @@ export default function FeedManagementPage() {
 									className="inline-flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-sky-500 via-cyan-500 to-blue-500 px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-sky-500/20 transition hover:translate-y-[-1px] hover:shadow-xl hover:shadow-sky-500/30 disabled:cursor-not-allowed disabled:opacity-70"
 								>
 									{saving ? (
-										<ThreeDot variant="bounce" color="#0ea5e9" size="small" text="" textColor="" />
+										<ThreeDot variant="bounce" color="#337ab0" size="small" text="" textColor="" />
 									) : (
 										<Check className="h-4 w-4" />
 									)}
@@ -859,7 +859,7 @@ export default function FeedManagementPage() {
 								{loadingPosts ? (
 									<div className="flex items-center justify-center py-10">
 										<Mosaic
-											color="#0ea5e9"
+											color="#337ab0"
 											size="large"
 											style={{ fontSize: "40px" }}
 											text=""

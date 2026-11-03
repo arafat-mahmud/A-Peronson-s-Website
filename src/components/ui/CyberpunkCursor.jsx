@@ -478,8 +478,8 @@ export default function CyberpunkCursor() {
       }
 
       html[data-theme='light'] .cp-core {
-        background: linear-gradient(135deg, #102238, #3b82f6);
-        box-shadow: 0 0 10px rgba(59,130,246,0.25);
+        background: linear-gradient(135deg, #102238, #3773a8);
+        box-shadow: 0 0 10px rgba(55,115,168,0.25);
       }
 
       .cp-spinner {
@@ -582,7 +582,7 @@ export default function CyberpunkCursor() {
       }
 
       html[data-theme='light'] body {
-        background: radial-gradient(circle at top, rgba(59,130,246,0.06), transparent 40%),
+        background: radial-gradient(circle at top, rgba(55,115,168,0.06), transparent 40%),
                     linear-gradient(135deg, #f5f9ff, #eaf2ff);
       }
       html[data-theme='light'] body::before {

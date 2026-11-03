@@ -79,7 +79,7 @@ export function AdminHomeSection({
 	buyerBenefits = [],
 	factoryBenefits = [],
 	buyingHouseBenefits = [],
-	piePalette = ["#38bdf8", "#60a5fa", "#0ea5e9", "#93c5fd"],
+	piePalette = ["#6dabdf", "#6aa1d4", "#337ab0", "#99c3ea"],
 }) {
 	const actionOptions = useMemo(
 		() =>
@@ -126,7 +126,7 @@ export function AdminHomeSection({
 
 	return (
 		<>
-			<div className="mb-6 overflow-hidden rounded-[2rem] border border-slate-200/80 bg-white/75 p-5 shadow-[0_24px_80px_-35px_rgba(14,165,233,0.35)] backdrop-blur-xl dark:border-white/10 dark:bg-slate-950/70">
+			<div className="mb-6 overflow-hidden rounded-[2rem] border border-slate-200/80 bg-white/75 p-5 shadow-[0_24px_80px_-35px_rgba(51,122,176,0.35)] backdrop-blur-xl dark:border-white/10 dark:bg-slate-950/70">
 				<div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
 					<div className="flex items-start gap-4">
 						<div className="rounded-[1.4rem] border border-sky-400/20 bg-gradient-to-br from-sky-400 to-blue-500 p-3 text-white shadow-lg shadow-sky-500/25">
@@ -204,7 +204,7 @@ export function AdminHomeSection({
 									"system_audit.pdf",
 								).catch((e) => setError(e.message))
 							}
-							className="inline-flex items-center gap-2 rounded-2xl bg-gradient-to-r from-sky-500 to-blue-500 px-4 py-2.5 text-sm font-semibold text-white shadow-[0_14px_40px_-16px_rgba(14,165,233,0.85)] transition hover:-translate-y-0.5"
+							className="inline-flex items-center gap-2 rounded-2xl bg-gradient-to-r from-sky-500 to-blue-500 px-4 py-2.5 text-sm font-semibold text-white shadow-[0_14px_40px_-16px_rgba(51,122,176,0.85)] transition hover:-translate-y-0.5"
 						>
 							<Download className="h-4 w-4" />
 							Export report
@@ -245,7 +245,7 @@ export function AdminHomeSection({
 			</div>
 
 			<div className="mt-4 grid gap-4 xl:grid-cols-[1.35fr_0.95fr]">
-				<div className="rounded-[2rem] border border-slate-200/80 bg-white/80 p-5 shadow-[0_20px_60px_-30px_rgba(14,165,233,0.3)] backdrop-blur-xl dark:border-white/10 dark:bg-slate-950/70">
+				<div className="rounded-[2rem] border border-slate-200/80 bg-white/80 p-5 shadow-[0_20px_60px_-30px_rgba(51,122,176,0.3)] backdrop-blur-xl dark:border-white/10 dark:bg-slate-950/70">
 					<SectionTitle
 						title="Platform Snapshot"
 						subtitle="Core platform health, account state, and audience flow at a glance."
@@ -256,7 +256,7 @@ export function AdminHomeSection({
 							<p className="text-sm text-slate-500 dark:text-slate-400">Total accounts</p>
 							<div className="mt-2 text-2xl font-semibold text-slate-900 dark:text-white">
 								{loading ? (
-									<ThreeDot variant="bounce" color="#0ea5e9" size="small" text="" textColor="" />
+									<ThreeDot variant="bounce" color="#337ab0" size="small" text="" textColor="" />
 								) : (
 									formatNumber(summary?.users?.total)
 								)}
@@ -266,7 +266,7 @@ export function AdminHomeSection({
 							<p className="text-sm text-slate-500 dark:text-slate-400">Verification pending</p>
 							<div className="mt-2 text-2xl font-semibold text-slate-900 dark:text-white">
 								{loading ? (
-									<ThreeDot variant="bounce" color="#0ea5e9" size="small" text="" textColor="" />
+									<ThreeDot variant="bounce" color="#337ab0" size="small" text="" textColor="" />
 								) : (
 									formatNumber(summary?.verification?.pending)
 								)}
@@ -276,7 +276,7 @@ export function AdminHomeSection({
 							<p className="text-sm text-slate-500 dark:text-slate-400">Reports open</p>
 							<div className="mt-2 text-2xl font-semibold text-slate-900 dark:text-white">
 								{loading ? (
-									<ThreeDot variant="bounce" color="#0ea5e9" size="small" text="" textColor="" />
+									<ThreeDot variant="bounce" color="#337ab0" size="small" text="" textColor="" />
 								) : (
 									formatNumber(summary?.support?.open)
 								)}
@@ -286,14 +286,14 @@ export function AdminHomeSection({
 							<p className="text-sm text-slate-500 dark:text-slate-400">Domain clicks / visits</p>
 							<div className="mt-2 text-2xl font-semibold text-slate-900 dark:text-white">
 								{loading ? (
-									<ThreeDot variant="bounce" color="#0ea5e9" size="small" text="" textColor="" />
+									<ThreeDot variant="bounce" color="#337ab0" size="small" text="" textColor="" />
 								) : (
 									`${formatNumber(summary?.traffic?.clicks)} / ${formatNumber(summary?.traffic?.visits)}`
 								)}
 							</div>
 							<div className="mt-1 text-xs text-slate-500 dark:text-slate-400">
 								{loading ? (
-									<ThreeDot variant="bounce" color="#0ea5e9" size="small" text="" textColor="" />
+									<ThreeDot variant="bounce" color="#337ab0" size="small" text="" textColor="" />
 								) : (
 									<>
 										Spend: {formatCurrency(summary?.traffic?.spend || 0)} · CPC:{" "}
@@ -328,7 +328,7 @@ export function AdminHomeSection({
 												{loading ? (
 													<ThreeDot
 														variant="bounce"
-														color="#0ea5e9"
+														color="#337ab0"
 														size="small"
 														text=""
 														textColor=""
@@ -349,7 +349,7 @@ export function AdminHomeSection({
 												{loading ? (
 													<ThreeDot
 														variant="bounce"
-														color="#0ea5e9"
+														color="#337ab0"
 														size="small"
 														text=""
 														textColor=""
@@ -370,7 +370,7 @@ export function AdminHomeSection({
 												{loading ? (
 													<ThreeDot
 														variant="bounce"
-														color="#0ea5e9"
+														color="#337ab0"
 														size="small"
 														text=""
 														textColor=""
@@ -391,7 +391,7 @@ export function AdminHomeSection({
 												{loading ? (
 													<ThreeDot
 														variant="bounce"
-														color="#0ea5e9"
+														color="#337ab0"
 														size="small"
 														text=""
 														textColor=""
@@ -442,7 +442,7 @@ export function AdminHomeSection({
 										{loading ? (
 											<ThreeDot
 												variant="bounce"
-												color="#0ea5e9"
+												color="#337ab0"
 												size="small"
 												text=""
 												textColor=""
@@ -458,7 +458,7 @@ export function AdminHomeSection({
 										{loading ? (
 											<ThreeDot
 												variant="bounce"
-												color="#0ea5e9"
+												color="#337ab0"
 												size="small"
 												text=""
 												textColor=""
@@ -473,7 +473,7 @@ export function AdminHomeSection({
 					</div>
 				</div>
 
-				<div className="rounded-[2rem] border border-slate-200/80 bg-white/80 p-5 shadow-[0_20px_60px_-30px_rgba(14,165,233,0.3)] backdrop-blur-xl dark:border-white/10 dark:bg-slate-950/70">
+				<div className="rounded-[2rem] border border-slate-200/80 bg-white/80 p-5 shadow-[0_20px_60px_-30px_rgba(51,122,176,0.3)] backdrop-blur-xl dark:border-white/10 dark:bg-slate-950/70">
 					<SectionTitle
 						title="Action Console"
 						subtitle="Run platform, infra, and network actions with full audit logging."
@@ -553,7 +553,7 @@ export function AdminHomeSection({
 						<button
 							onClick={() => runAction(selectedAction)}
 							disabled={actionBusy === selectedAction?.id}
-							className="inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-sky-500 via-blue-500 to-sky-600 px-4 py-3 font-semibold text-white shadow-[0_20px_60px_-18px_rgba(14,165,233,0.9)] transition hover:-translate-y-0.5"
+							className="inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-sky-500 via-blue-500 to-sky-600 px-4 py-3 font-semibold text-white shadow-[0_20px_60px_-18px_rgba(51,122,176,0.9)] transition hover:-translate-y-0.5"
 						>
 							{actionBusy === selectedAction?.id ? "Running..." : "Run action"}
 							<ArrowUpRight className="h-4 w-4" />
@@ -563,7 +563,7 @@ export function AdminHomeSection({
 			</div>
 
 			<div className="mt-4 grid gap-4 xl:grid-cols-3">
-				<div className="rounded-[2rem] border border-slate-200/80 bg-white/80 p-5 shadow-[0_20px_60px_-30px_rgba(14,165,233,0.28)] backdrop-blur-xl dark:border-white/10 dark:bg-slate-950/70 xl:col-span-2">
+				<div className="rounded-[2rem] border border-slate-200/80 bg-white/80 p-5 shadow-[0_20px_60px_-30px_rgba(51,122,176,0.28)] backdrop-blur-xl dark:border-white/10 dark:bg-slate-950/70 xl:col-span-2">
 					<SectionTitle title="Active Users" subtitle="Last 14 days unique logins" icon={Users} />
 					<div className="h-[320px]">
 						{loading ? (
@@ -573,8 +573,8 @@ export function AdminHomeSection({
 								<AreaChart data={activeUsersTrend}>
 									<defs>
 										<linearGradient id="activeUsersFill" x1="0" y1="0" x2="0" y2="1">
-											<stop offset="5%" stopColor="#38bdf8" stopOpacity={0.45} />
-											<stop offset="95%" stopColor="#38bdf8" stopOpacity={0.02} />
+											<stop offset="5%" stopColor="#6dabdf" stopOpacity={0.45} />
+											<stop offset="95%" stopColor="#6dabdf" stopOpacity={0.02} />
 										</linearGradient>
 									</defs>
 									<CartesianGrid strokeDasharray="3 3" strokeOpacity={0.14} />
@@ -584,7 +584,7 @@ export function AdminHomeSection({
 									<Area
 										type="monotone"
 										dataKey="count"
-										stroke="#0ea5e9"
+										stroke="#337ab0"
 										fill="url(#activeUsersFill)"
 										strokeWidth={3}
 									/>
@@ -594,7 +594,7 @@ export function AdminHomeSection({
 					</div>
 				</div>
 
-				<div className="rounded-[2rem] border border-slate-200/80 bg-white/80 p-5 shadow-[0_20px_60px_-30px_rgba(14,165,233,0.28)] backdrop-blur-xl dark:border-white/10 dark:bg-slate-950/70">
+				<div className="rounded-[2rem] border border-slate-200/80 bg-white/80 p-5 shadow-[0_20px_60px_-30px_rgba(51,122,176,0.28)] backdrop-blur-xl dark:border-white/10 dark:bg-slate-950/70">
 					<SectionTitle
 						title="Contract Status"
 						subtitle="Signed vs pending vs disputes"
@@ -636,7 +636,7 @@ export function AdminHomeSection({
 			</div>
 
 			<div className="mt-4 grid gap-4 xl:grid-cols-2">
-				<div className="rounded-[2rem] border border-slate-200/80 bg-white/80 p-5 shadow-[0_20px_60px_-30px_rgba(14,165,233,0.28)] backdrop-blur-xl dark:border-white/10 dark:bg-slate-950/70">
+				<div className="rounded-[2rem] border border-slate-200/80 bg-white/80 p-5 shadow-[0_20px_60px_-30px_rgba(51,122,176,0.28)] backdrop-blur-xl dark:border-white/10 dark:bg-slate-950/70">
 					<SectionTitle title="Buyer Requests" subtitle="Demand flow over time" icon={Search} />
 					<div className="h-[280px]">
 						{loading ? (
@@ -651,7 +651,7 @@ export function AdminHomeSection({
 									<Area
 										type="monotone"
 										dataKey="count"
-										stroke="#38bdf8"
+										stroke="#6dabdf"
 										strokeWidth={3}
 										fillOpacity={1}
 										fill="url(#colorCount)"
@@ -662,7 +662,7 @@ export function AdminHomeSection({
 					</div>
 				</div>
 
-				<div className="rounded-[2rem] border border-slate-200/80 bg-white/80 p-5 shadow-[0_20px_60px_-30px_rgba(14,165,233,0.28)] backdrop-blur-xl dark:border-white/10 dark:bg-slate-950/70">
+				<div className="rounded-[2rem] border border-slate-200/80 bg-white/80 p-5 shadow-[0_20px_60px_-30px_rgba(51,122,176,0.28)] backdrop-blur-xl dark:border-white/10 dark:bg-slate-950/70">
 					<SectionTitle
 						title="Infra Overview"
 						subtitle="CPU, memory, and network stability in one view"
@@ -700,7 +700,7 @@ export function AdminHomeSection({
 									<YAxis tickLine={false} axisLine={false} />
 									<Tooltip />
 									<Bar dataKey="value" radius={[12, 12, 0, 0]}>
-										{["#38bdf8", "#60a5fa", "#0ea5e9", "#93c5fd"].map((fill) => (
+										{["#6dabdf", "#6aa1d4", "#337ab0", "#99c3ea"].map((fill) => (
 											<Cell key={fill} fill={fill} />
 										))}
 									</Bar>
@@ -711,7 +711,7 @@ export function AdminHomeSection({
 				</div>
 			</div>
 
-			<div className="mt-4 rounded-[2rem] border border-slate-200/80 bg-white/80 p-5 shadow-[0_20px_60px_-30px_rgba(14,165,233,0.28)] backdrop-blur-xl dark:border-white/10 dark:bg-slate-950/70">
+			<div className="mt-4 rounded-[2rem] border border-slate-200/80 bg-white/80 p-5 shadow-[0_20px_60px_-30px_rgba(51,122,176,0.28)] backdrop-blur-xl dark:border-white/10 dark:bg-slate-950/70">
 				<SectionTitle
 					title="Premium Capability Matrix"
 					subtitle="Buyer, Factory, and Buying House premium feature sets"

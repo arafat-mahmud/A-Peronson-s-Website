@@ -938,7 +938,7 @@ function MapPreview({ selectedLocation, filtersLocation }) {
 				</span>
 			</div>
 			<div className="relative h-44 overflow-hidden">
-				<div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(14,165,233,0.18),transparent_25%),radial-gradient(circle_at_80%_30%,rgba(59,130,246,0.16),transparent_22%),linear-gradient(135deg,rgba(255,255,255,0.2),rgba(255,255,255,0.02))]" />
+				<div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(51,122,176,0.18),transparent_25%),radial-gradient(circle_at_80%_30%,rgba(55,115,168,0.16),transparent_22%),linear-gradient(135deg,rgba(255,255,255,0.2),rgba(255,255,255,0.02))]" />
 				<div className="absolute inset-0 opacity-20 [background-image:linear-gradient(rgba(15,23,42,.18)_1px,transparent_1px),linear-gradient(90deg,rgba(15,23,42,.18)_1px,transparent_1px)] [background-size:24px_24px]" />
 				<div className="absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 flex-col items-center">
 					<div className="rounded-full bg-sky-600 p-3 text-white shadow-lg shadow-sky-500/30">
@@ -2123,7 +2123,7 @@ export default function SearchResults() {
 	}
 
 	return (
-		<div className="min-h-screen bg-[radial-gradient(circle_at_top,rgba(56,189,248,0.18),transparent_34%),linear-gradient(180deg,rgba(255,255,255,0.95),rgba(248,250,252,0.95))] dark:bg-[radial-gradient(circle_at_top,rgba(14,165,233,0.18),transparent_34%),linear-gradient(180deg,rgba(2,6,23,0.98),rgba(15,23,42,0.96))] text-slate-900 dark:text-white transition-colors">
+		<div className="min-h-screen bg-[radial-gradient(circle_at_top,rgba(109,171,223,0.18),transparent_34%),linear-gradient(180deg,rgba(255,255,255,0.95),rgba(248,250,252,0.95))] dark:bg-[radial-gradient(circle_at_top,rgba(51,122,176,0.18),transparent_34%),linear-gradient(180deg,rgba(2,6,23,0.98),rgba(15,23,42,0.96))] text-slate-900 dark:text-white transition-colors">
 			<ToastStack toasts={toasts} onDismiss={removeToast} />
 			<SearchModal
 				open={searchModalOpen}
@@ -2452,7 +2452,7 @@ export default function SearchResults() {
 										{loading ? (
 											<ThreeDot
 												variant="bounce"
-												color="#0ea5e9"
+												color="#337ab0"
 												size="small"
 												text=""
 												textColor=""
@@ -2475,7 +2475,7 @@ export default function SearchResults() {
 										{loading ? (
 											<ThreeDot
 												variant="bounce"
-												color="#0ea5e9"
+												color="#337ab0"
 												size="small"
 												text=""
 												textColor=""
@@ -3341,7 +3341,7 @@ export default function SearchResults() {
 											transition={{ duration: 0.3, ease: "easeInOut" }}
 										>
 											<Mosaic
-												color="#0ea5e9"
+												color="#337ab0"
 												size="large"
 												style={{ fontSize: "40px" }}
 												text=""
@@ -3383,7 +3383,7 @@ export default function SearchResults() {
 														{loadingMore ? (
 															<ThreeDot
 																variant="bounce"
-																color="#0ea5e9"
+																color="#337ab0"
 																size="small"
 																text=""
 																textColor=""

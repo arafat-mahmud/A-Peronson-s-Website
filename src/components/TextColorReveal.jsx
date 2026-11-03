@@ -5,7 +5,7 @@ export default function TextColorReveal({
 	children,
 	className = "",
 	as = "span",
-	fromColor = "rgb(14, 165, 233)",
+	fromColor = "rgb(51, 122, 176)",
 	toColor = "currentColor",
 	scrollOffset = ["0px", "200px"],
 }) {

@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { getCurrentUser } from "../lib/auth.js";
 import { isRouteValid } from "../lib/routeHealthCheck.js";
 import ScrollReveal from "./ScrollReveal.jsx";
+import BrandMark from "./ui/BrandMark.jsx";
 
 /**
  * Renders the application footer.
@@ -20,9 +21,7 @@ export default function Footer() {
 				<div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 					<div className="flex flex-col items-center justify-center gap-4 text-center">
 						<div className="flex items-center gap-2">
-							<span className="rounded-full bg-gradient-to-r from-sky-500 to-indigo-500 px-2 py-0.5 text-xs font-semibold text-white">
-								B2B
-							</span>
+							<BrandMark size={28} alt="" />
 							<span className="text-lg font-bold text-slate-900 dark:text-white">GarTexHub</span>
 						</div>
 						<div className="flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm text-slate-600 dark:text-slate-400">
@@ -61,9 +60,7 @@ export default function Footer() {
 					{/* Company Identity */}
 					<div className="lg:col-span-1">
 						<div className="flex items-center gap-2 mb-4">
-							<span className="rounded-full bg-gradient-to-r from-sky-500 to-indigo-500 px-2 py-0.5 text-xs font-semibold text-white">
-								B2B
-							</span>
+							<BrandMark size={28} alt="" />
 							<span className="text-lg font-bold text-slate-900 dark:text-white">GarTexHub</span>
 						</div>
 						<p className="text-sm leading-relaxed text-slate-600 dark:text-slate-400">
@@ -129,7 +126,7 @@ export default function Footer() {
 							Verification
 						</h3>
 						<ul className="space-y-2 text-sm text-slate-600 dark:text-slate-400">
-							{isRouteValid("/verification") && ["owner", "admin", "buying_house", "factory"].includes(user?.role) && (
+							{isRouteValid("/verification") && (
 								<li>
 									<Link to="/verification" className="hover:text-gtBlue">
 										Document Verification

@@ -76,6 +76,7 @@ import { useFallbackCover } from "../lib/fallbackCover.js";
 import { trackClientEvent } from "../lib/events.js";
 import { recordLeadSource } from "../lib/leadSource.js";
 import { logger } from "../lib/logger.js";
+import { industryLabel } from "../../shared/config/platformTaxonomy.js";
 
 const Motion = motion;
 
@@ -657,14 +658,14 @@ export default function FactoryProfile() {
 	}
 	if (error) {
 		return (
-			<div className="min-h-screen bg-[radial-gradient(circle_at_top,rgba(14,165,233,0.16),transparent_28%),linear-gradient(to_bottom,rgba(2,6,23,0.02),rgba(2,6,23,0))] dark:bg-[radial-gradient(circle_at_top,rgba(14,165,233,0.22),transparent_30%),linear-gradient(to_bottom,rgba(2,6,23,0.95),rgba(2,6,23,1))] p-6 text-rose-700 dark:text-rose-200">
+			<div className="min-h-screen bg-[radial-gradient(circle_at_top,rgba(51,122,176,0.16),transparent_28%),linear-gradient(to_bottom,rgba(2,6,23,0.02),rgba(2,6,23,0))] dark:bg-[radial-gradient(circle_at_top,rgba(51,122,176,0.22),transparent_30%),linear-gradient(to_bottom,rgba(2,6,23,0.95),rgba(2,6,23,1))] p-6 text-rose-700 dark:text-rose-200">
 				{error}
 			</div>
 		);
 	}
 	if (!user) {
 		return (
-			<div className="min-h-screen bg-[radial-gradient(circle_at_top,rgba(14,165,233,0.16),transparent_28%),linear-gradient(to_bottom,rgba(2,6,23,0.02),rgba(2,6,23,0))] dark:bg-[radial-gradient(circle_at_top,rgba(14,165,233,0.22),transparent_30%),linear-gradient(to_bottom,rgba(2,6,23,0.95),rgba(2,6,23,1))] p-6 text-slate-700 dark:text-slate-200">
+			<div className="min-h-screen bg-[radial-gradient(circle_at_top,rgba(51,122,176,0.16),transparent_28%),linear-gradient(to_bottom,rgba(2,6,23,0.02),rgba(2,6,23,0))] dark:bg-[radial-gradient(circle_at_top,rgba(51,122,176,0.22),transparent_30%),linear-gradient(to_bottom,rgba(2,6,23,0.95),rgba(2,6,23,1))] p-6 text-slate-700 dark:text-slate-200">
 				Profile not found.
 			</div>
 		);
@@ -675,7 +676,8 @@ export default function FactoryProfile() {
 		: "Factory";
 	const displayName = user?.name || roleLabel;
 	const country = user?.profile?.country || "—";
-	const industry = user?.profile?.industry || "";
+	// "Garments Industry" / "Textile Industry" (client 02/11/2026).
+	const industry = user?.profile?.industry_label || industryLabel(user?.profile?.industry) || "";
 	const organization =
 		user?.profile?.organization_name || user?.profile?.organization || user?.name || "—";
 	const avg = ratingSummary?.aggregate?.average_score ?? 0;
@@ -702,7 +704,7 @@ export default function FactoryProfile() {
 	const avatarImage = user?.profile?.profile_image;
 
 	return (
-		<div className="min-h-screen bg-[radial-gradient(circle_at_top,rgba(14,165,233,0.16),transparent_28%),linear-gradient(to_bottom,rgba(2,6,23,0.02),rgba(2,6,23,0))] text-slate-900 dark:bg-[radial-gradient(circle_at_top,rgba(14,165,233,0.22),transparent_30%),linear-gradient(to_bottom,rgba(2,6,23,0.95),rgba(2,6,23,1))] dark:text-slate-100">
+		<div className="min-h-screen bg-[radial-gradient(circle_at_top,rgba(51,122,176,0.16),transparent_28%),linear-gradient(to_bottom,rgba(2,6,23,0.02),rgba(2,6,23,0))] text-slate-900 dark:bg-[radial-gradient(circle_at_top,rgba(51,122,176,0.22),transparent_30%),linear-gradient(to_bottom,rgba(2,6,23,0.95),rgba(2,6,23,1))] dark:text-slate-100">
 			<div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
 				<div className="mb-5 flex items-center justify-between gap-3 rounded-2xl border border-slate-200/70 bg-white/70 px-3 py-2 shadow-sm backdrop-blur-xl dark:border-slate-800/80 dark:bg-slate-950/60">
 					<button
@@ -825,8 +827,10 @@ export default function FactoryProfile() {
 								/>
 								<StatCard
 									icon={Boxes}
-									label="Monthly"
-									value={user?.profile?.monthly_capacity || "--"}
+									label="Production Capacity"
+									value={
+										user?.profile?.production_capacity_label || user?.profile?.monthly_capacity || "--"
+									}
 									caption="Capacity"
 									action={
 										isSelfOrAdmin ? (
@@ -840,6 +844,15 @@ export default function FactoryProfile() {
 												Edit
 											</button>
 										) : null
+									}
+								/>
+								<StatCard
+									icon={Users}
+									label="Employees"
+									value={
+										user?.profile?.employee_count
+											? Number(user.profile.employee_count).toLocaleString("en-US")
+											: "--"
 									}
 								/>
 								<StatCard

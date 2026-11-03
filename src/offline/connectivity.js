@@ -8,9 +8,10 @@
 // 3. BroadcastChannel "gartexhub-sync" (cross-tab state sharing)
 // 4. Explicit sync-phase overrides via setSyncPhase() (Phase 2 engine hooks)
 //
-// Heartbeat policy: first consecutive failure -> DEGRADED, second+ -> OFFLINE
-// (or OFFLINE_SNAPSHOT when a local snapshot exists). Slow heartbeat
-// (> SLOW_MS) -> DEGRADED. Heartbeat success never clobbers an in-flight
+// Heartbeat policy: a failed heartbeat -> DEGRADED; the device reporting
+// itself offline, or three failures in a row -> OFFLINE (or OFFLINE_SNAPSHOT
+// when a local snapshot exists). A slow but successful heartbeat stays ONLINE
+// (flagged `slow`). Heartbeat success never clobbers an in-flight
 // SYNCING state.
 
 export const ConnectivityState = Object.freeze({
@@ -122,7 +123,10 @@ async function snapshotAvailable() {
 
 async function markUnreachable() {
 	const failures = status.consecutiveFailures + 1;
-	if (failures >= 2) {
+	// "Offline" is reserved for a device that reports itself offline or a
+	// backend that stayed unreachable for three heartbeats in a row.
+	const deviceOffline = typeof navigator !== "undefined" && navigator.onLine === false;
+	if (deviceOffline || failures >= 3) {
 		const offlineState = (await snapshotAvailable())
 			? ConnectivityState.OFFLINE_SNAPSHOT
 			: ConnectivityState.OFFLINE;
@@ -138,8 +142,13 @@ function markReachable(latencyMs, syncUnavailable) {
 		status = { ...status, consecutiveFailures: 0, latencyMs, lastHeartbeatAt: Date.now() };
 		return;
 	}
-	const state = latencyMs > SLOW_MS ? ConnectivityState.DEGRADED : ConnectivityState.ONLINE;
+	// An answer - however slow - proves the connection works. Slowness alone
+	// (a cold Render instance, a long route from Bangladesh) used to flag
+	// DEGRADED and pin an "Unstable connection" card on screen; it is now only
+	// recorded (status.slow) for code that wants to adapt.
+	const state = ConnectivityState.ONLINE;
 	setState({
+		slow: latencyMs > SLOW_MS,
 		state,
 		consecutiveFailures: 0,
 		latencyMs,

@@ -744,7 +744,7 @@ function Composer({
 					className="inline-flex items-center gap-2 rounded-2xl bg-gradient-to-r from-sky-500 via-cyan-400 to-blue-500 px-5 py-3 text-sm font-semibold text-white shadow-xl shadow-sky-500/20 transition hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-60"
 				>
 					{sending ? (
-						<ThreeDot variant="bounce" color="#0ea5e9" size="small" text="" textColor="" />
+						<ThreeDot variant="bounce" color="#337ab0" size="small" text="" textColor="" />
 					) : (
 						<Send className="h-4 w-4" />
 					)}
@@ -857,7 +857,7 @@ function InvestigationList({ cases, loading, activeCaseId, onRefresh, onOpen, da
 	let body = null;
 	if (loading) {
 		body = (
-			<Mosaic color="#0ea5e9" size="large" style={{ fontSize: "40px" }} text="" textColor="" />
+			<Mosaic color="#337ab0" size="large" style={{ fontSize: "40px" }} text="" textColor="" />
 		);
 	} else if (cases.length === 0) {
 		body = (
@@ -950,7 +950,7 @@ function InvestigationList({ cases, loading, activeCaseId, onRefresh, onOpen, da
 					}`}
 				>
 					{loading ? (
-						<ThreeDot variant="bounce" color="#0ea5e9" size="small" text="" textColor="" />
+						<ThreeDot variant="bounce" color="#337ab0" size="small" text="" textColor="" />
 					) : (
 						<RefreshCw className="h-4 w-4" />
 					)}
@@ -977,7 +977,7 @@ function LegacyTicketList({ tickets, loading, onRefresh, darkMode }) {
 	let body = null;
 	if (loading) {
 		body = (
-			<Mosaic color="#0ea5e9" size="large" style={{ fontSize: "40px" }} text="" textColor="" />
+			<Mosaic color="#337ab0" size="large" style={{ fontSize: "40px" }} text="" textColor="" />
 		);
 	} else if (tickets.length === 0) {
 		body = (
@@ -1055,7 +1055,7 @@ function LegacyTicketList({ tickets, loading, onRefresh, darkMode }) {
 					}`}
 				>
 					{loading ? (
-						<ThreeDot variant="bounce" color="#0ea5e9" size="small" text="" textColor="" />
+						<ThreeDot variant="bounce" color="#337ab0" size="small" text="" textColor="" />
 					) : (
 						<RefreshCw className="h-4 w-4" />
 					)}
@@ -1184,8 +1184,8 @@ export default function SupportReports() {
 	const cardTheme = useMemo(
 		() =>
 			darkMode
-				? "bg-white/5 border-white/10 shadow-[0_20px_80px_rgba(2,132,199,0.18)]"
-				: "bg-white border-slate-200 shadow-[0_20px_60px_rgba(14,165,233,0.10)]",
+				? "bg-white/5 border-white/10 shadow-[0_20px_80px_rgba(32,101,152,0.18)]"
+				: "bg-white border-slate-200 shadow-[0_20px_60px_rgba(51,122,176,0.10)]",
 		[darkMode],
 	);
 
@@ -1526,7 +1526,7 @@ export default function SupportReports() {
 									className="inline-flex items-center gap-2 rounded-2xl border border-sky-400/30 bg-sky-500/10 px-4 py-2.5 text-sm font-semibold text-sky-300 transition hover:bg-sky-500/20 disabled:cursor-not-allowed disabled:opacity-60"
 								>
 									{creating ? (
-										<ThreeDot variant="bounce" color="#0ea5e9" size="small" text="" textColor="" />
+										<ThreeDot variant="bounce" color="#337ab0" size="small" text="" textColor="" />
 									) : (
 										<Sparkles className="h-4 w-4" />
 									)}
@@ -1619,7 +1619,7 @@ export default function SupportReports() {
 										{creating ? (
 											<ThreeDot
 												variant="bounce"
-												color="#0ea5e9"
+												color="#337ab0"
 												size="small"
 												text=""
 												textColor=""

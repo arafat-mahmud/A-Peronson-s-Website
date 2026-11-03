@@ -1,8 +1,9 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { parse } from "@babel/parser";
-import _traverse from "@babel/traverse";
+// @babel/core is a direct devDependency and re-exports the parser and
+// traverse; pnpm's strict layout does not expose @babel/parser itself.
+import { parseSync, traverse as _traverse } from "@babel/core";
 
 /**
  * Guards the signed-URL surfaces against a JSX element name that has no binding.
@@ -107,10 +108,11 @@ const EXPECTED_JSX_ELEMENTS = {
 const traverse = _traverse.default ?? _traverse;
 
 function parseJsx(src) {
-	return parse(src, {
+	return parseSync(src, {
+		babelrc: false,
+		configFile: false,
 		sourceType: "unambiguous",
-		allowReturnOutsideFunction: true,
-		plugins: ["jsx"],
+		parserOpts: { allowReturnOutsideFunction: true, plugins: ["jsx"] },
 	});
 }
 

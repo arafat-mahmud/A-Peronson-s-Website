@@ -88,20 +88,48 @@ const TYPE_LABELS = {
 	system: "System",
 };
 
-function feedLinkForEntity(entityType, entityId) {
-	if (!(entityType && entityId)) {
-		return "/feed";
-	}
+// Content notifications open the item itself on its single-item page
+// (/share/:type/:id), which loads it directly and handles deleted or hidden
+// items - the feed only showed an item if it was already loaded on the page
+// (client report 02/11/2026: "it takes me to the feed, not the post/video").
+const SHARE_TYPE_BY_ENTITY = {
+	buyer_request: "buyer_request",
+	requirement: "buyer_request",
+	company_product: "company_product",
+	product: "company_product",
+	feed_post: "user_feed_post",
+	user_feed_post: "user_feed_post",
+	post: "user_feed_post",
+};
+
+export function notificationLink(item, role = "") {
+	const entityType = String(item?.entity_type || "");
+	const entityId = item?.entity_id ? String(item.entity_id) : "";
+	const isStaff = ["admin", "owner"].includes(String(role || "").toLowerCase());
 	if (entityType === "join_request") {
-		return `/join-requests/${encodeURIComponent(entityId)}`;
+		const requestId = item?.meta?.request_id || entityId || item?.id;
+		return requestId ? `/join-requests/${encodeURIComponent(requestId)}` : "/notifications";
 	}
-	if (entityType === "duplicate_dispute") {
-		return "/admin";
+	if (SHARE_TYPE_BY_ENTITY[entityType] && entityId) {
+		return `/share/${SHARE_TYPE_BY_ENTITY[entityType]}/${encodeURIComponent(entityId)}`;
 	}
-	if (entityType === "verification") {
-		return "/admin";
+	switch (entityType) {
+		case "partner_request":
+			return "/partner-network";
+		case "verification":
+			return isStaff ? "/admin" : "/verification";
+		case "duplicate_dispute":
+		case "duplicate_company":
+			return isStaff ? "/admin" : "/notifications";
+		case "chat_thread":
+			return entityId ? `/chat?match_id=${encodeURIComponent(entityId)}` : "/chat";
+		case "lead":
+			return "/leads";
+		case "contract":
+			return "/contracts";
+		default:
+			return "/notifications";
 	}
-	return `/feed?item=${encodeURIComponent(`${entityType}:${entityId}`)}`;
 }
 
 import { cn } from "../lib/cn.js";
@@ -574,7 +602,7 @@ export default function NotificationsCenter() {
 									<StaggerContainer class="space-y-3">
 										{loading ? (
 											<Mosaic
-												color="#0ea5e9"
+												color="#337ab0"
 												size="large"
 												style={{ fontSize: "40px" }}
 												text=""
@@ -647,7 +675,7 @@ export default function NotificationsCenter() {
 												{loadingViews ? (
 													<ThreeDot
 														variant="bounce"
-														color="#0ea5e9"
+														color="#337ab0"
 														size="small"
 														text=""
 														textColor=""
@@ -707,7 +735,7 @@ export default function NotificationsCenter() {
 										{loadingAlerts ? (
 											<ThreeDot
 												variant="bounce"
-												color="#0ea5e9"
+												color="#337ab0"
 												size="small"
 												text=""
 												textColor=""
@@ -1019,14 +1047,7 @@ function NotificationCard({ item, theme, user, onMarkRead, onAccept, onReject, v
 						</Link>
 					) : item.entity_type ? (
 						<Link
-							to={
-								item.entity_type === "join_request"
-									? feedLinkForEntity(
-											item.entity_type,
-											item?.meta?.request_id || item.id || item.entity_id,
-										)
-									: feedLinkForEntity(item.entity_type, item.entity_id)
-							}
+							to={notificationLink(item, user?.role)}
 							onClick={() => onMarkRead()}
 							class={cn(
 								"rounded-full px-3 py-2 text-xs font-semibold text-center transition-all duration-200",

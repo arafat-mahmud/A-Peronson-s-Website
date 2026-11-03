@@ -551,7 +551,7 @@ function AnalyticsCard({ tiles = [], loading = false, loadError = "" }) {
 	const displayMetrics = tiles.length > 0 ? tiles : metrics;
 
 	return (
-		<div class="relative overflow-hidden rounded-3xl border border-sky-500/15 bg-gradient-to-br from-sky-50 via-white to-cyan-50 p-6 shadow-[0_24px_80px_rgba(14,165,233,0.12)] dark:border-sky-400/20 dark:from-sky-950/60 dark:via-slate-950 dark:to-slate-900">
+		<div class="relative overflow-hidden rounded-3xl border border-sky-500/15 bg-gradient-to-br from-sky-50 via-white to-cyan-50 p-6 shadow-[0_24px_80px_rgba(51,122,176,0.12)] dark:border-sky-400/20 dark:from-sky-950/60 dark:via-slate-950 dark:to-slate-900">
 			<div class="absolute right-0 top-0 h-40 w-40 rounded-full bg-sky-400/20 blur-3xl" />
 			<div class="relative z-10">
 				<div class="mb-4 flex items-center gap-2 text-sm font-medium text-slate-600 dark:text-slate-300">
@@ -563,7 +563,7 @@ function AnalyticsCard({ tiles = [], loading = false, loadError = "" }) {
 					{loading ? (
 						<div class="flex h-64 items-center justify-center">
 							<Atom
-								color="#0ea5e9"
+								color="#337ab0"
 								size="large"
 								style={{ fontSize: "40px" }}
 								text=""
@@ -587,7 +587,7 @@ function AnalyticsCard({ tiles = [], loading = false, loadError = "" }) {
 				{loadError && (
 					<div class="flex h-64 items-center justify-center">
 						<Mosaic
-							color="#0ea5e9"
+							color="#337ab0"
 							size="large"
 							style={{ fontSize: "40px" }}
 							text=""
@@ -847,7 +847,7 @@ export default function PricingPage() {
 	const gradientBg = useTransform(
 		gradientAngle,
 		(angle) =>
-			`linear-gradient(${angle.toFixed(1)}deg, rgba(14,165,233,0.12), rgba(255,255,255,0.9), rgba(6,182,212,0.08))`,
+			`linear-gradient(${angle.toFixed(1)}deg, rgba(51,122,176,0.12), rgba(255,255,255,0.9), rgba(29,153,153,0.08))`,
 	);
 	useEffect(() => {
 		if (reduceMotion || isTouchDevice) {
@@ -917,15 +917,15 @@ export default function PricingPage() {
 			<div class="fixed inset-0 -z-10 pointer-events-none overflow-hidden">
 				<motion.div
 					style={{ y: reduceMotion ? 0 : bg1Y }}
-					class="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(56,189,248,0.18),transparent_34%)] dark:bg-[radial-gradient(circle_at_top_left,rgba(56,189,248,0.14),transparent_34%)]"
+					class="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(109,171,223,0.18),transparent_34%)] dark:bg-[radial-gradient(circle_at_top_left,rgba(109,171,223,0.14),transparent_34%)]"
 				/>
 				<motion.div
 					style={{ y: reduceMotion ? 0 : bg2Y }}
-					class="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(59,130,246,0.16),transparent_30%)] dark:bg-[radial-gradient(circle_at_top_right,rgba(59,130,246,0.12),transparent_30%)]"
+					class="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(55,115,168,0.16),transparent_30%)] dark:bg-[radial-gradient(circle_at_top_right,rgba(55,115,168,0.12),transparent_30%)]"
 				/>
 				<motion.div
 					style={{ y: reduceMotion ? 0 : bg3Y }}
-					class="absolute inset-0 bg-[radial-gradient(circle_at_bottom,rgba(14,165,233,0.12),transparent_28%)] dark:bg-[radial-gradient(circle_at_bottom,rgba(14,165,233,0.1),transparent_28%)]"
+					class="absolute inset-0 bg-[radial-gradient(circle_at_bottom,rgba(51,122,176,0.12),transparent_28%)] dark:bg-[radial-gradient(circle_at_bottom,rgba(51,122,176,0.1),transparent_28%)]"
 				/>
 			</div>
 
@@ -1135,7 +1135,7 @@ export default function PricingPage() {
 
 				<ScrollReveal
 					as="section"
-					class="relative overflow-hidden mt-20 rounded-[2rem] border border-sky-500/15 bg-gradient-to-br from-sky-500/10 via-white to-cyan-500/10 p-8 shadow-[0_24px_80px_rgba(14,165,233,0.12)] dark:from-sky-500/10 dark:via-slate-950 dark:to-cyan-500/10"
+					class="relative overflow-hidden mt-20 rounded-[2rem] border border-sky-500/15 bg-gradient-to-br from-sky-500/10 via-white to-cyan-500/10 p-8 shadow-[0_24px_80px_rgba(51,122,176,0.12)] dark:from-sky-500/10 dark:via-slate-950 dark:to-cyan-500/10"
 				>
 					<motion.div
 						class="pointer-events-none absolute inset-0"

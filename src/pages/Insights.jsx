@@ -448,8 +448,8 @@ export default function Insights() {
 	return (
 		<div className="min-h-screen bg-gradient-to-br from-sky-50 via-white to-cyan-50 text-slate-900 dark:from-slate-950 dark:via-slate-950 dark:to-slate-900 dark:text-white">
 			<div className="mx-auto max-w-7xl px-4 py-5 sm:px-6 lg:px-8 lg:py-8">
-				<div className="relative overflow-hidden rounded-[2rem] border border-sky-200/80 bg-white/85 p-6 shadow-[0_20px_80px_-30px_rgba(14,165,233,0.35)] backdrop-blur dark:border-sky-500/20 dark:bg-slate-950/70 lg:p-8">
-					<div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(56,189,248,0.18),transparent_30%),radial-gradient(circle_at_bottom_left,rgba(14,165,233,0.12),transparent_28%)]" />
+				<div className="relative overflow-hidden rounded-[2rem] border border-sky-200/80 bg-white/85 p-6 shadow-[0_20px_80px_-30px_rgba(51,122,176,0.35)] backdrop-blur dark:border-sky-500/20 dark:bg-slate-950/70 lg:p-8">
+					<div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(109,171,223,0.18),transparent_30%),radial-gradient(circle_at_bottom_left,rgba(51,122,176,0.12),transparent_28%)]" />
 
 					{error ? (
 						<div className="relative mb-6 rounded-2xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-700 shadow-sm dark:border-rose-500/20 dark:bg-rose-500/10 dark:text-rose-200">
@@ -695,7 +695,7 @@ export default function Insights() {
 												{exportLoading ? (
 													<ThreeDot
 														variant="bounce"
-														color="#0ea5e9"
+														color="#337ab0"
 														size="small"
 														text=""
 														textColor=""
@@ -755,7 +755,7 @@ export default function Insights() {
 												{exportLoading ? (
 													<ThreeDot
 														variant="bounce"
-														color="#0ea5e9"
+														color="#337ab0"
 														size="small"
 														text=""
 														textColor=""
@@ -1087,7 +1087,7 @@ export default function Insights() {
 												{viewerLoading ? (
 													<ThreeDot
 														variant="bounce"
-														color="#0ea5e9"
+														color="#337ab0"
 														size="medium"
 														style={{ fontSize: "24px" }}
 														text=""
@@ -1127,7 +1127,7 @@ export default function Insights() {
 												{viewerLoading ? (
 													<ThreeDot
 														variant="bounce"
-														color="#0ea5e9"
+														color="#337ab0"
 														size="medium"
 														style={{ fontSize: "24px" }}
 														text=""

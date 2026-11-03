@@ -1004,7 +1004,7 @@ export default function BuyerRequestManagement() {
 
 	const panel = dark
 		? "border-white/10 bg-white/5 shadow-[0_20px_80px_rgba(0,0,0,0.35)]"
-		: "border-slate-200 bg-white/80 shadow-[0_20px_80px_rgba(14,116,144,0.08)] backdrop-blur";
+		: "border-slate-200 bg-white/80 shadow-[0_20px_80px_rgba(0,106,106,0.08)] backdrop-blur";
 
 	const soft = dark ? "text-slate-300" : "text-slate-600";
 
@@ -2351,7 +2351,7 @@ export default function BuyerRequestManagement() {
 														{saving ? (
 															<ThreeDot
 																variant="bounce"
-																color="#0ea5e9"
+																color="#337ab0"
 																size="small"
 																text=""
 																textColor=""
@@ -2372,7 +2372,7 @@ export default function BuyerRequestManagement() {
 															{saving ? (
 																<ThreeDot
 																	variant="bounce"
-																	color="#0ea5e9"
+																	color="#337ab0"
 																	size="small"
 																	text=""
 																	textColor=""
@@ -2704,7 +2704,7 @@ export default function BuyerRequestManagement() {
 																						{smartMatchLoading === r.id ? (
 																							<ThreeDot
 																								variant="bounce"
-																								color="#0ea5e9"
+																								color="#337ab0"
 																								size="small"
 																								text=""
 																								textColor=""
@@ -2862,7 +2862,7 @@ export default function BuyerRequestManagement() {
 																						{uploadingAttachmentId === r.id ? (
 																							<ThreeDot
 																								variant="bounce"
-																								color="#0ea5e9"
+																								color="#337ab0"
 																								size="small"
 																								text=""
 																								textColor=""
@@ -2921,7 +2921,7 @@ export default function BuyerRequestManagement() {
 													{loadingBrowse ? (
 														<ThreeDot
 															variant="bounce"
-															color="#0ea5e9"
+															color="#337ab0"
 															size="small"
 															text=""
 															textColor=""

@@ -643,7 +643,7 @@ export default function ProductManagement() {
 		<div className={isDark ? "dark" : ""}>
 			<div className="min-h-screen bg-slate-50 text-slate-900 transition-colors duration-300 dark:bg-slate-950 dark:text-slate-100">
 				<div className="relative min-h-screen overflow-hidden bg-gradient-to-br from-sky-50 via-white to-blue-50 dark:bg-none dark:from-transparent dark:via-transparent dark:to-transparent">
-					<div className="hidden dark:block absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(56,189,248,0.18),_transparent_36%),radial_gradient(circle_at_top_right,_rgba(96,165,250,0.16),_transparent_28%),linear-gradient(180deg,_rgba(2,6,23,1)_0%,_rgba(3,7,18,1)_100%)]" />
+					<div className="hidden dark:block absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(109,171,223,0.18),_transparent_36%),radial_gradient(circle_at_top_right,_rgba(106,161,212,0.16),_transparent_28%),linear-gradient(180deg,_rgba(2,6,23,1)_0%,_rgba(3,7,18,1)_100%)]" />
 					<div className="hidden dark:block absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:44px_44px] opacity-35" />
 
 					<main className="relative mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
@@ -1037,7 +1037,7 @@ export default function ProductManagement() {
 															{mediaBusy ? (
 																<ThreeDot
 																	variant="bounce"
-																	color="#0ea5e9"
+																	color="#337ab0"
 																	size="small"
 																	text=""
 																	textColor=""
@@ -1107,7 +1107,7 @@ export default function ProductManagement() {
 															{videoBusy ? (
 																<ThreeDot
 																	variant="bounce"
-																	color="#0ea5e9"
+																	color="#337ab0"
 																	size="small"
 																	text=""
 																	textColor=""
@@ -1208,7 +1208,7 @@ export default function ProductManagement() {
 												{saving ? (
 													<ThreeDot
 														variant="bounce"
-														color="#0ea5e9"
+														color="#337ab0"
 														size="small"
 														text=""
 														textColor=""

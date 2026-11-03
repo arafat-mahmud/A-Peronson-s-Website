@@ -59,7 +59,7 @@ export default function JoinRequestPage() {
 
 	const cardClass = isDark
 		? "border-white/10 bg-white/5 shadow-[0_20px_80px_rgba(2,8,23,0.55)]"
-		: "border-slate-200 bg-white/85 shadow-[0_20px_70px_rgba(14,165,233,0.12)]";
+		: "border-slate-200 bg-white/85 shadow-[0_20px_70px_rgba(51,122,176,0.12)]";
 
 	const bannerStyle = useMemo(
 		() =>

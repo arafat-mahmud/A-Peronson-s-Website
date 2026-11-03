@@ -1,3 +1,7 @@
+import {
+	formatProductionCapacity,
+	industryLabel,
+} from "../../shared/config/platformTaxonomy.js";
 import prisma from "../utils/prisma.js";
 import { redactPhoneFromProfile } from "../utils/privacy.js";
 import { sanitizeString } from "../utils/validators.js";
@@ -11,6 +15,8 @@ function cleanUserPublic(user) {
 		return null;
 	}
 	const profile = user.profile || {};
+	// Signup stores the sector as factory_sector; older rows carry industry.
+	const industry = profile.industry || profile.factory_sector || "";
 
 	return {
 		id: user.id,
@@ -21,14 +27,27 @@ function cleanUserPublic(user) {
 		created_at: user.created_at || "",
 		profile: {
 			country: profile.country || "",
-			industry: profile.industry || "",
+			industry,
+			industry_label: industryLabel(industry),
 			organization_name: profile.organization_name || profile.organization || "",
 			profile_image: profile.profile_image || "",
+			cover_image_url: profile.cover_image_url || "",
+			headline: sanitizeString(profile.headline || "", 160),
 			certifications: Array.isArray(profile.certifications) ? profile.certifications : [],
+			categories: Array.isArray(profile.categories) ? profile.categories : [],
+			employee_count: Number.isFinite(Number(profile.employee_count))
+				? Number(profile.employee_count)
+				: null,
+			production_capacity:
+				profile.production_capacity && typeof profile.production_capacity === "object"
+					? profile.production_capacity
+					: null,
+			production_capacity_label:
+				formatProductionCapacity(profile.production_capacity) || profile.monthly_capacity || "",
 			monthly_capacity: profile.monthly_capacity || "",
 			moq: profile.moq || "",
 			lead_time_days: profile.lead_time_days || "",
-			about: sanitizeString(profile.about || "", 1200),
+			about: sanitizeString(profile.about || profile.bio || "", 1200),
 			tags: Array.isArray(profile.tags) ? profile.tags : [],
 		},
 		flags: {
@@ -126,55 +145,67 @@ export async function getProfileOverview(viewerId, profileUserId) {
 		return "not_found";
 	}
 
-	const viewer = viewerId ? await findUserById(viewerId) : null;
+	const isSelf = Boolean(viewerId) && viewerId === profileUserId;
+	const viewer = isSelf ? user : viewerId ? await findUserById(viewerId) : null;
 	const isAdmin = Boolean(viewer && ["admin", "owner"].includes(viewer.role));
 
-	const [connections, requirements, products, partnerRequests] = await Promise.all([
-		prisma.userConnection.findMany(),
-		prisma.requirement.findMany(),
-		prisma.product.findMany(),
-		prisma.partnerRequest.findMany(),
-	]);
+	// Every figure is scoped to this profile: the relationship only depends on
+	// the rows between viewer and profile, and the counts are COUNT queries.
+	const [connections, requestCount, productCount, connectedFactories, effectivePlan, verificationRecord] =
+		await Promise.all([
+			viewerId && !isSelf
+				? prisma.userConnection.findMany({
+						where: {
+							OR: [
+								{ requester_id: viewerId, receiver_id: profileUserId },
+								{ requester_id: profileUserId, receiver_id: viewerId },
+							],
+						},
+					})
+				: [],
+			prisma.requirement.count({ where: { buyer_id: profileUserId } }),
+			prisma.product.count({ where: { company_id: profileUserId } }),
+			user.role === "buying_house"
+				? prisma.partnerRequest.count({
+						where: {
+							status: "connected",
+							OR: [{ requester_id: profileUserId }, { target_id: profileUserId }],
+						},
+					})
+				: null,
+			getPlanForUser(user),
+			getVerification(profileUserId),
+		]);
 
 	const safeUser = cleanUserPublic(user);
-
-	const effectivePlan = await getPlanForUser(user);
 
 	if (effectivePlan === "premium" && user.role === "agent" && !safeUser.verified) {
 		safeUser.verified = true;
 	}
 
+	// The relationship must exist before the visibility rules read it: a
+	// stranger's view used to reach `relationship` before its declaration and
+	// every non-admin visit to another company's profile failed with HTTP 500.
+	const relationship = isSelf
+		? { following: false, friend_status: "self" }
+		: connectionSnapshot(connections, viewerId, profileUserId);
+
 	let extendedProfile = null;
-	if (viewerId === profileUserId || isAdmin || relationship.friend_status === "friends") {
+	if (isSelf || isAdmin || relationship.friend_status === "friends") {
 		extendedProfile = extendProfileForOwner({}, user);
 	}
 
-	if (viewerId !== profileUserId && !isAdmin) {
+	if (!(isSelf || isAdmin)) {
 		safeUser.profile = redactPhoneFromProfile(safeUser.profile);
 	}
 
-	const relationship =
-		viewerId === profileUserId
-			? { following: false, friend_status: "self" }
-			: connectionSnapshot(connections, viewerId, profileUserId);
-
-	const verificationRecord = await getVerification(profileUserId);
 	const verification_summary = getVerificationPublicSummary(user, verificationRecord);
 
 	const counts = {
-		requests: requirements.filter((r) => r.buyer_id === profileUserId).length,
-		products: products.filter((p) => p.company_id === profileUserId).length,
-		connected_factories: null,
+		requests: requestCount,
+		products: productCount,
+		connected_factories: connectedFactories,
 	};
-
-	if (user.role === "buying_house") {
-		const connected = partnerRequests.filter(
-			(r) =>
-				r.status === "connected" &&
-				(r.requester_id === profileUserId || r.target_id === profileUserId),
-		);
-		counts.connected_factories = connected.length;
-	}
 
 	return {
 		user: safeUser,
@@ -268,19 +299,21 @@ export async function getProfilePartnerNetworkSummary(viewerId, profileUserId) {
 		return "invalid_role";
 	}
 
-	const [requests, users] = await Promise.all([
-		prisma.partnerRequest.findMany({
-			where: {
-				status: "connected",
-				OR: [{ requester_id: profileUserId }, { target_id: profileUserId }],
-			},
-		}),
-		prisma.user.findMany(),
-	]);
+	const requests = await prisma.partnerRequest.findMany({
+		where: {
+			status: "connected",
+			OR: [{ requester_id: profileUserId }, { target_id: profileUserId }],
+		},
+	});
+	const partnerIds = requests.map((r) =>
+		r.requester_id === profileUserId ? r.target_id : r.requester_id,
+	);
+	const users = await prisma.user.findMany({
+		where: { id: { in: [...new Set([...partnerIds, viewerId].filter(Boolean))] } },
+	});
 	const usersById = new Map(users.map((u) => [u.id, u]));
 
-	const factories = requests
-		.map((r) => (r.requester_id === profileUserId ? r.target_id : r.requester_id))
+	const factories = partnerIds
 		.map((id) => usersById.get(id))
 		.filter((u) => u && u.role === "factory")
 		.map((u) => ({ id: u.id, name: u.name, verified: Boolean(u.verified) }));

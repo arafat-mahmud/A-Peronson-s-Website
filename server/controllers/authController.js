@@ -18,7 +18,11 @@ import {
 import { upsertSubscription } from "../services/subscriptionService.js";
 import { assertCouponRedeemable, creditWallet } from "../services/walletService.js";
 import { getAdminConfig } from "../services/adminConfigService.js";
-import { isValidFactorySector } from "../../shared/config/platformTaxonomy.js";
+import { passwordProblems } from "../../shared/config/passwordPolicy.js";
+import {
+	isValidFactorySector,
+	normalizeCompanyFacts,
+} from "../../shared/config/platformTaxonomy.js";
 import { requireFields, validateEmail, validatePublicRole } from "../utils/validators.js";
 
 function sanitizeUser(user) {
@@ -51,6 +55,10 @@ export async function register(req, res) {
 	if (!validatePublicRole(req.body.role)) {
 		return res.status(400).json({ error: "Invalid role" });
 	}
+	const weakPassword = passwordProblems(req.body.password);
+	if (weakPassword.length > 0) {
+		return res.status(400).json({ error: `Password: ${weakPassword.join(", ").toLowerCase()}.` });
+	}
 	if (!req.body.profile?.country) {
 		return res.status(400).json({ error: "Missing field: country" });
 	}
@@ -63,12 +71,28 @@ export async function register(req, res) {
 	if (req.body.profile?.factory_sector && !isValidFactorySector(req.body.profile.factory_sector)) {
 		return res.status(400).json({ error: "Invalid factory sector" });
 	}
+	if (req.body.profile?.industry && !isValidFactorySector(req.body.profile.industry)) {
+		return res.status(400).json({ error: "Invalid industry" });
+	}
+	const companyFacts = normalizeCompanyFacts(req.body.profile || {});
+	const factErrors = Object.values(companyFacts.errors);
+	if (factErrors.length > 0) {
+		return res.status(400).json({ error: factErrors[0], fields: companyFacts.errors });
+	}
 
 	const existing = await findUserByEmail(req.body.email);
 	if (existing) {
 		// BUG-038: Recovery path for orphaned users from incomplete registration.
 		// If the user row exists but subscription setup didn't complete (cold-start timeout),
 		// complete the missing setup and return success instead of 409.
+		// Only the account's own password may resume it: without this check
+		// anyone who knew the email of such an account received its token.
+		const ownsAccount = await verifyPassword(existing, String(req.body.password || "")).catch(
+			() => false,
+		);
+		if (!ownsAccount) {
+			return res.status(409).json({ error: "Email already used" });
+		}
 		try {
 			const prisma = (await import("../utils/prisma.js")).default;
 			const hasSubscription = await prisma.subscription.findFirst({
@@ -119,7 +143,10 @@ export async function register(req, res) {
 		}
 	}
 
-	const user = await registerUser(req.body);
+	const user = await registerUser({
+		...req.body,
+		profile: { ...(req.body.profile || {}), ...companyFacts.value },
+	});
 	const token = signToken(user);
 	const entitlements = await getEntitlements(user);
 	return res.status(201).json({ user: { ...sanitizeUser(user), entitlements }, token });

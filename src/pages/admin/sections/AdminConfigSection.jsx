@@ -39,7 +39,7 @@ export function AdminConfigSection({
 
 			{configEditorLoading ? (
 				<div className="py-8 text-center">
-					<ThreeDot variant="bounce" color="#0ea5e9" size="small" text="" textColor="" />
+					<ThreeDot variant="bounce" color="#337ab0" size="small" text="" textColor="" />
 				</div>
 			) : configEditorError ? (
 				<div className="py-8 text-center text-rose-500">{configEditorError}</div>
@@ -72,7 +72,7 @@ export function AdminConfigSection({
 							className="rounded-full bg-sky-500 px-4 py-2 text-sm font-semibold text-white disabled:opacity-50"
 						>
 							{configEditorSaving ? (
-								<ThreeDot variant="bounce" color="#0ea5e9" size="small" text="" textColor="" />
+								<ThreeDot variant="bounce" color="#337ab0" size="small" text="" textColor="" />
 							) : (
 								"Save Inventory"
 							)}
@@ -118,7 +118,7 @@ export function AdminConfigSection({
 							className="rounded-full bg-sky-500 px-4 py-2 text-sm font-semibold text-white disabled:opacity-50"
 						>
 							{configEditorSaving ? (
-								<ThreeDot variant="bounce" color="#0ea5e9" size="small" text="" textColor="" />
+								<ThreeDot variant="bounce" color="#337ab0" size="small" text="" textColor="" />
 							) : (
 								"Save Actions"
 							)}
@@ -164,7 +164,7 @@ export function AdminConfigSection({
 							className="rounded-full bg-sky-500 px-4 py-2 text-sm font-semibold text-white disabled:opacity-50"
 						>
 							{configEditorSaving ? (
-								<ThreeDot variant="bounce" color="#0ea5e9" size="small" text="" textColor="" />
+								<ThreeDot variant="bounce" color="#337ab0" size="small" text="" textColor="" />
 							) : (
 								"Save UI Settings"
 							)}

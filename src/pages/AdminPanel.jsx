@@ -118,7 +118,7 @@ const {
 function SkeletonChart({ height = 320 }) {
 	return (
 		<div class="flex items-center justify-center" style={{ height }}>
-			<Mosaic color="#0ea5e9" size="large" style={{ fontSize: "40px" }} text="" textColor="" />
+			<Mosaic color="#337ab0" size="large" style={{ fontSize: "40px" }} text="" textColor="" />
 		</div>
 	);
 }
@@ -144,15 +144,15 @@ function SectionTitle({ title, subtitle, icon: TitleIcon }) {
 function MetricCard({ label, value, hint, icon: CardIcon, loading = false }) {
 	if (loading) {
 		return (
-			<div class="rounded-3xl border border-slate-200/80 bg-white/80 p-5 shadow-[0_20px_60px_-30px_rgba(14,165,233,0.35)] backdrop-blur-xl dark:border-white/10 dark:bg-slate-950/70">
+			<div class="rounded-3xl border border-slate-200/80 bg-white/80 p-5 shadow-[0_20px_60px_-30px_rgba(51,122,176,0.35)] backdrop-blur-xl dark:border-white/10 dark:bg-slate-950/70">
 				<div class="flex items-center justify-center">
-					<ThreeDot variant="bounce" color="#0ea5e9" size="small" text="" textColor="" />
+					<ThreeDot variant="bounce" color="#337ab0" size="small" text="" textColor="" />
 				</div>
 			</div>
 		);
 	}
 	return (
-		<div class="group rounded-3xl border border-slate-200/80 bg-white/80 p-5 shadow-[0_20px_60px_-30px_rgba(14,165,233,0.35)] backdrop-blur-xl transition hover:-translate-y-0.5 hover:border-sky-300/70 hover:shadow-[0_24px_80px_-28px_rgba(14,165,233,0.45)] dark:border-white/10 dark:bg-slate-950/70">
+		<div class="group rounded-3xl border border-slate-200/80 bg-white/80 p-5 shadow-[0_20px_60px_-30px_rgba(51,122,176,0.35)] backdrop-blur-xl transition hover:-translate-y-0.5 hover:border-sky-300/70 hover:shadow-[0_24px_80px_-28px_rgba(51,122,176,0.45)] dark:border-white/10 dark:bg-slate-950/70">
 			<div class="flex items-start justify-between gap-4">
 				<div>
 					<p class="text-sm text-slate-500 dark:text-slate-400">{label}</p>
@@ -180,7 +180,7 @@ function Pill({ children }) {
 function BenefitCard({ title, items, accent = "sky" }) {
 	const ac = accentClasses(accent);
 	return (
-		<div class="rounded-3xl border border-slate-200/80 bg-white/80 p-6 shadow-[0_20px_60px_-30px_rgba(59,130,246,0.28)] backdrop-blur-xl dark:border-white/10 dark:bg-slate-950/70">
+		<div class="rounded-3xl border border-slate-200/80 bg-white/80 p-6 shadow-[0_20px_60px_-30px_rgba(55,115,168,0.28)] backdrop-blur-xl dark:border-white/10 dark:bg-slate-950/70">
 			<div class="flex items-center justify-between gap-4">
 				<div>
 					<h3 class="text-base font-semibold text-slate-900 dark:text-white">{title}</h3>
@@ -337,7 +337,7 @@ function StatCard({ icon: Icon, title, value, meta, tone = "sky", darkMode }) {
 			};
 
 	const shell = darkMode
-		? "border-slate-800 bg-slate-950/70 shadow-[0_18px_60px_-30px_rgba(2,132,199,0.35)]"
+		? "border-slate-800 bg-slate-950/70 shadow-[0_18px_60px_-30px_rgba(32,101,152,0.35)]"
 		: "border-slate-200 bg-white shadow-sm";
 
 	return (
@@ -423,7 +423,7 @@ function cmsChipClass(dark, active = false) {
 		"inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-medium transition",
 		dark
 			? active
-				? "border-sky-400/30 bg-sky-400/15 text-sky-100 shadow-[0_0_0_1px_rgba(56,189,248,0.12)]"
+				? "border-sky-400/30 bg-sky-400/15 text-sky-100 shadow-[0_0_0_1px_rgba(109,171,223,0.12)]"
 				: "border-white/10 bg-white/5 text-slate-300 hover:bg-white/10"
 			: active
 				? "border-sky-500/20 bg-sky-50 text-sky-700 shadow-sm"
@@ -734,8 +734,8 @@ function UltraTinyChart({
 			<svg viewBox={`0 0 ${width} ${height}`} class="h-44 w-full">
 				<defs>
 					<linearGradient id="ultraSkyFill" x1="0" x2="0" y1="0" y2="1">
-						<stop offset="0%" stopColor="rgba(56,189,248,0.38)" />
-						<stop offset="100%" stopColor="rgba(56,189,248,0)" />
+						<stop offset="0%" stopColor="rgba(109,171,223,0.38)" />
+						<stop offset="100%" stopColor="rgba(109,171,223,0)" />
 					</linearGradient>
 				</defs>
 				<path d={area} fill="url(#ultraSkyFill)" />
@@ -2797,26 +2797,26 @@ export default function AdminPanel() {
 				? {
 						shell: "bg-slate-950 text-slate-100",
 						background:
-							"bg-[radial-gradient(ellipse_at_top,_rgba(14,165,233,0.22),_transparent_45%),linear-gradient(to_bottom_right,_#020617,_#07111f_55%,_#081221)]",
+							"bg-[radial-gradient(ellipse_at_top,_rgba(51,122,176,0.22),_transparent_45%),linear-gradient(to_bottom_right,_#020617,_#07111f_55%,_#081221)]",
 						panel: "bg-white/5 border-white/10 backdrop-blur-xl",
 						muted: "text-slate-400",
 						soft: "text-slate-300",
 						item: "hover:bg-white/6 hover:border-cyan-400/20",
 						itemActive: "bg-gradient-to-r from-cyan-500/18 to-sky-500/12 border-cyan-300/20",
-						glow: "shadow-[0_0_32px_rgba(56,189,248,0.14)]",
+						glow: "shadow-[0_0_32px_rgba(109,171,223,0.14)]",
 						chip: "bg-cyan-400/10 text-cyan-200 border-cyan-300/15",
 						accentText: "text-cyan-200",
 					}
 				: {
 						shell: "bg-slate-50 text-slate-900",
 						background:
-							"bg-[radial-gradient(ellipse_at_top,_rgba(56,189,248,0.16),_transparent_45%),linear-gradient(to_bottom_right,_#f8fbff,_#eef6ff_55%,_#f7fbff)]",
+							"bg-[radial-gradient(ellipse_at_top,_rgba(109,171,223,0.16),_transparent_45%),linear-gradient(to_bottom_right,_#f8fbff,_#eef6ff_55%,_#f7fbff)]",
 						panel: "bg-white border-slate-200",
 						muted: "text-slate-500",
 						soft: "text-slate-600",
 						item: "hover:bg-sky-50 hover:border-sky-200",
 						itemActive: "bg-gradient-to-r from-sky-100 to-cyan-50 border-sky-200",
-						glow: "shadow-[0_0_24px_rgba(59,130,246,0.10)]",
+						glow: "shadow-[0_0_24px_rgba(55,115,168,0.10)]",
 						chip: "bg-sky-100 text-sky-700 border-sky-200",
 						accentText: "text-sky-700",
 					},
@@ -3016,7 +3016,7 @@ export default function AdminPanel() {
 						<div class="flex items-start justify-between gap-4">
 							<div class="flex items-center gap-3">
 								<div
-									class={`grid h-12 w-12 place-items-center rounded-2xl ${adminDark ? "bg-gradient-to-br from-cyan-400 via-sky-500 to-blue-600" : "bg-gradient-to-br from-sky-400 via-cyan-400 to-blue-500"} shadow-[0_0_24px_rgba(56,189,248,0.25)]`}
+									class={`grid h-12 w-12 place-items-center rounded-2xl ${adminDark ? "bg-gradient-to-br from-cyan-400 via-sky-500 to-blue-600" : "bg-gradient-to-br from-sky-400 via-cyan-400 to-blue-500"} shadow-[0_0_24px_rgba(109,171,223,0.25)]`}
 								>
 									<span class="text-lg font-black tracking-tight text-white">G</span>
 								</div>
@@ -3807,7 +3807,7 @@ export default function AdminPanel() {
 									class="flex-1 bg-sky-500 text-white py-2 rounded-xl font-medium hover:bg-sky-600 disabled:opacity-50 flex items-center justify-center gap-2"
 								>
 									{reanalyzingId === aiModalDoc.id ? (
-										<ThreeDot variant="bounce" color="#0ea5e9" size="small" text="" textColor="" />
+										<ThreeDot variant="bounce" color="#337ab0" size="small" text="" textColor="" />
 									) : (
 										<>
 											<RefreshCw class="h-4 w-4" />

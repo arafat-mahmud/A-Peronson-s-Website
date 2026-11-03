@@ -4,8 +4,8 @@ import { resolveIndustryOption } from "../../src/pages/ProductManagement.jsx";
 describe("product industry dropdown contract", () => {
 	test("taxonomy exposes exactly the Garments + Textile options", () => {
 		expect(FACTORY_SECTOR_OPTIONS).toEqual([
-			{ label: "Garments", value: "garments" },
-			{ label: "Textile", value: "textile" },
+			{ label: "Garments Industry", value: "garments" },
+			{ label: "Textile Industry", value: "textile" },
 		]);
 	});
 

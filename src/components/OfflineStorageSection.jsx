@@ -226,7 +226,7 @@ export default function OfflineStorageSection() {
 	return (
 		<section
 			data-testid="offline-storage-section"
-			class="rounded-3xl border border-sky-200/60 bg-white/80 p-5 shadow-[0_20px_60px_-30px_rgba(14,165,233,0.45)] backdrop-blur dark:border-slate-800 dark:bg-slate-950/75"
+			class="rounded-3xl border border-sky-200/60 bg-white/80 p-5 shadow-[0_20px_60px_-30px_rgba(51,122,176,0.45)] backdrop-blur dark:border-slate-800 dark:bg-slate-950/75"
 		>
 			<div class="mb-4">
 				<h3 class="text-lg font-semibold text-slate-900 dark:text-white">Offline Storage</h3>

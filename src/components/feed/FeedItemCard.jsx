@@ -122,7 +122,7 @@ export default function FeedItemCard({
 			}`}
 			id={`feed-item-${item.entityType}-${item.id}`}
 		>
-			<div class="pointer-events-none absolute inset-0 opacity-0 dark:opacity-100 dark:bg-[radial-gradient(circle_at_18%_0%,rgba(56,189,248,0.10),transparent_52%)]" />
+			<div class="pointer-events-none absolute inset-0 opacity-0 dark:opacity-100 dark:bg-[radial-gradient(circle_at_18%_0%,rgba(109,171,223,0.10),transparent_52%)]" />
 			<header class="relative p-4 bg-white/70 dark:bg-slate-950/30">
 				<div class="flex items-start justify-between gap-3">
 					<div class="flex items-center gap-3 min-w-0">
