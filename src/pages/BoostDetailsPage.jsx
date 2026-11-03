@@ -2,11 +2,13 @@
   Route: /boosts/:id
   Access: Protected (login required)
   Boost Details — reached from the Boost button on a feed post.
-  Creates a boost (POST /boosts) and lists existing boosts (GET /boosts).
+  Creates a boost (POST /boosts) and lists existing boosts (GET /boosts/me).
+  The price is computed from the duration (shared/config/boostPricing.js).
 */
 
 import { useCallback, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
+import { BOOST_DURATION_OPTIONS, boostPriceUsd } from "../../shared/config/boostPricing.js";
 import { apiRequest, getToken } from "../lib/auth.js";
 
 export default function BoostDetailsPage() {
@@ -14,7 +16,7 @@ export default function BoostDetailsPage() {
 	const [boostScope, setBoostScope] = useState("feed");
 	const [boostDuration, setBoostDuration] = useState("7");
 	const [boostMultiplier, setBoostMultiplier] = useState("2");
-	const [boostPrice, setBoostPrice] = useState("9.99");
+	const boostPrice = boostPriceUsd(boostDuration);
 	const [boosts, setBoosts] = useState([]);
 	const [loadingBoosts, setLoadingBoosts] = useState(true);
 	const [creatingBoost, setCreatingBoost] = useState(false);
@@ -28,8 +30,8 @@ export default function BoostDetailsPage() {
 		}
 		setLoadingBoosts(true);
 		try {
-			const data = await apiRequest("/boosts", { token });
-			setBoosts(Array.isArray(data?.boosts) ? data.boosts : []);
+			const data = await apiRequest("/boosts/me", { token });
+			setBoosts(Array.isArray(data?.items) ? data.items : []);
 		} catch {
 			setBoosts([]);
 		} finally {
@@ -54,10 +56,9 @@ export default function BoostDetailsPage() {
 					scope: boostScope,
 					duration_days: Number(boostDuration),
 					multiplier: Number(boostMultiplier),
-					price_usd: Number(boostPrice),
 				},
 			});
-			setBoosts((prev) => [data?.boost, ...prev].filter(Boolean));
+			setBoosts((prev) => [data?.boost || data, ...prev].filter(Boolean));
 			setBoostFeedback("Boost created successfully.");
 		} catch (err) {
 			setBoostFeedback(err.message || "Failed to create boost");
@@ -89,7 +90,6 @@ export default function BoostDetailsPage() {
 							className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm dark:border-slate-800 dark:bg-slate-900 dark:text-white"
 						>
 							<option value="feed">Feed</option>
-							<option value="search">Search</option>
 							<option value="profile">Profile</option>
 						</select>
 					</div>
@@ -100,9 +100,11 @@ export default function BoostDetailsPage() {
 							onChange={(e) => setBoostDuration(e.target.value)}
 							className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm dark:border-slate-800 dark:bg-slate-900 dark:text-white"
 						>
-							<option value="7">7 days</option>
-							<option value="14">14 days</option>
-							<option value="30">30 days</option>
+							{BOOST_DURATION_OPTIONS.map((days) => (
+								<option key={days} value={days}>
+									{days} days
+								</option>
+							))}
 						</select>
 					</div>
 					<div>
@@ -117,13 +119,10 @@ export default function BoostDetailsPage() {
 					</div>
 					<div>
 						<label className="mb-2 block text-sm font-medium text-slate-700 dark:text-slate-300">Price ($)</label>
-						<input
-							type="number"
-							step="0.01"
-							value={boostPrice}
-							onChange={(e) => setBoostPrice(e.target.value)}
-							className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm dark:border-slate-800 dark:bg-slate-900 dark:text-white"
-						/>
+						<p className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-semibold dark:border-slate-800 dark:bg-slate-900/60 dark:text-white">
+							${boostPrice.toFixed(2)}
+							<span className="ml-1 font-normal text-slate-500 dark:text-slate-400">from your wallet</span>
+						</p>
 					</div>
 				</div>
 				<button
@@ -156,7 +155,8 @@ export default function BoostDetailsPage() {
 							>
 								<div>
 									<p className="font-medium text-slate-900 dark:text-white">
-										{b.scope} — {b.duration_days || b.duration}d
+										{b.scope}
+										{b.ends_at ? ` — until ${new Date(b.ends_at).toLocaleDateString()}` : ""}
 									</p>
 									<p className="text-slate-500">×{b.multiplier} · ${b.price_usd || b.price}</p>
 								</div>

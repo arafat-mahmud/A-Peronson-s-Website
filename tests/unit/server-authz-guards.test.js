@@ -119,3 +119,24 @@ describe("contract signatures (documentService.updateContractSignatures)", () =>
 		).resolves.toBe("forbidden");
 	});
 });
+
+describe("boost purchase (boostService.purchaseBoost)", () => {
+	test("the client cannot choose the price or an arbitrary duration", async () => {
+		jest.resetModules();
+		const debitWallet = jest.fn(async () => ({ ok: true }));
+		jest.unstable_mockModule("../../server/utils/prisma.js", () => ({
+			default: { boost: { findFirst: async () => null, create: async ({ data }) => data } },
+		}));
+		jest.unstable_mockModule("../../server/services/walletService.js", () => ({ debitWallet }));
+		jest.unstable_mockModule("../../server/services/eventTrackingService.js", () => ({ trackEvent: async () => {} }));
+		const { purchaseBoost } = await import("../../server/services/boostService.js");
+
+		const cheap = await purchaseBoost("u-1", { scope: "feed", duration_days: 3650, price_usd: 0.01 });
+		expect(debitWallet).toHaveBeenLastCalledWith(expect.objectContaining({ amountUsd: 9.99 }));
+		expect(cheap.ends_at.getTime() - cheap.starts_at.getTime()).toBe(7 * 24 * 60 * 60 * 1000);
+
+		const month = await purchaseBoost("u-1", { scope: "profile", duration_days: 30, price_usd: 1 });
+		expect(debitWallet).toHaveBeenLastCalledWith(expect.objectContaining({ amountUsd: 42.81 }));
+		expect(month.price_usd).toBe(42.81);
+	});
+});

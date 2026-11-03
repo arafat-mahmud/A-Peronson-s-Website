@@ -1,4 +1,5 @@
 import crypto from "node:crypto";
+import { boostPriceUsd, normalizeBoostDuration } from "../../shared/config/boostPricing.js";
 import prisma from "../utils/prisma.js";
 import { sanitizeString } from "../utils/validators.js";
 import { trackEvent } from "./eventTrackingService.js";
@@ -34,13 +35,6 @@ function normalizeMultiplier(multiplier) {
 	return Math.min(3, Math.max(1.05, value));
 }
 
-function normalizePrice(priceUsd) {
-	const value = Number(priceUsd);
-	if (!Number.isFinite(value) || value <= 0) {
-		return DEFAULTS.priceUsd;
-	}
-	return Math.round(value * 100) / 100;
-}
 
 function _isActiveBoost(boost) {
 	if (!boost) {
@@ -125,11 +119,11 @@ export async function getActiveBoostMultiplier(userId, scope = "") {
 
 export async function purchaseBoost(userId, payload = {}) {
 	const scope = normalizeScope(payload.scope);
-	const durationDays = Number(
-		payload.duration_days || payload.durationDays || DEFAULTS.durationDays,
-	);
+	// Duration comes from a fixed list and the price is computed here; a
+	// client-supplied price_usd is ignored.
+	const durationDays = normalizeBoostDuration(payload.duration_days || payload.durationDays);
 	const multiplier = normalizeMultiplier(payload.multiplier);
-	const priceUsd = normalizePrice(payload.price_usd);
+	const priceUsd = boostPriceUsd(durationDays, DEFAULTS.priceUsd);
 
 	const now = new Date();
 	const _endsAt = new Date(now.getTime() + durationDays * 24 * 60 * 60 * 1000);
