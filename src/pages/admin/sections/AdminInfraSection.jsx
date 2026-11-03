@@ -171,7 +171,9 @@ export function AdminInfraSection({
 											live
 										</Badge>
 									</div>
-									<p className={cn("mt-1 text-sm", adminDark ? "text-slate-400" : "text-slate-500")}>
+									<p
+										className={cn("mt-1 text-sm", adminDark ? "text-slate-400" : "text-slate-500")}
+									>
 										Professional operations console with auditability, safety guards, and premium
 										status surfaces.
 									</p>
@@ -318,7 +320,9 @@ export function AdminInfraSection({
 														: "border-slate-200 bg-slate-50 text-slate-600",
 												)}
 											>
-												<div className={cn("font-medium", adminDark ? "text-white" : "text-slate-900")}>
+												<div
+													className={cn("font-medium", adminDark ? "text-white" : "text-slate-900")}
+												>
 													{row.user_name || row.user_email || row.user_id}
 												</div>
 												<div
@@ -368,7 +372,9 @@ export function AdminInfraSection({
 														: "border-slate-200 bg-slate-50 text-slate-600",
 												)}
 											>
-												<div className={cn("font-medium", adminDark ? "text-white" : "text-slate-900")}>
+												<div
+													className={cn("font-medium", adminDark ? "text-white" : "text-slate-900")}
+												>
 													{dispute.title || dispute.contract_id || "Dispute"}
 												</div>
 												<div
@@ -430,12 +436,17 @@ export function AdminInfraSection({
 												</div>
 												<div>
 													<div
-														className={cn("font-medium", adminDark ? "text-white" : "text-slate-900")}
+														className={cn(
+															"font-medium",
+															adminDark ? "text-white" : "text-slate-900",
+														)}
 													>
 														{entry.action || entry.path || "Admin action"}
 													</div>
 													<div
-														className={adminDark ? "text-xs text-slate-400" : "text-xs text-slate-500"}
+														className={
+															adminDark ? "text-xs text-slate-400" : "text-xs text-slate-500"
+														}
 													>
 														{entry.at ? new Date(entry.at).toLocaleString() : "--"} ·{" "}
 														{entry.actor || "system"}
@@ -1266,7 +1277,9 @@ export function AdminInfraSection({
 												{(infraState?.ssl_certs || []).length}
 											</span>
 											<span
-												className={adminDark ? "font-medium text-white" : "font-medium text-slate-900"}
+												className={
+													adminDark ? "font-medium text-white" : "font-medium text-slate-900"
+												}
 											>
 												Timezone: {infraState?.time_settings?.timezone || "unset"}
 											</span>
@@ -1301,7 +1314,10 @@ export function AdminInfraSection({
 											<div className="flex items-start justify-between gap-3">
 												<div>
 													<div
-														className={cn("font-medium", adminDark ? "text-white" : "text-slate-900")}
+														className={cn(
+															"font-medium",
+															adminDark ? "text-white" : "text-slate-900",
+														)}
 													>
 														{entry.action || entry.path || "Admin action"}
 													</div>

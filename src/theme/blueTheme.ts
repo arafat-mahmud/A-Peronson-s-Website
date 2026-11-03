@@ -282,6 +282,14 @@ export const chatThemeVars: Record<keyof Omit<ChatTheme, never>, string> = {
 	accent: "var(--theme-chat-accent)",
 };
 
-export const chartPiePalette: string[] = ["#3B82F6", "#10B981", "#F59E0B", "#EF4444", "#8B5CF6", "#EC4899", "#06B6D4", "#84CC16"];
+export const chartPiePalette: string[] = [
+	"#3B82F6",
+	"#10B981",
+	"#F59E0B",
+	"#EF4444",
+	"#8B5CF6",
+	"#EC4899",
+	"#06B6D4",
+	"#84CC16",
+];
 export const chartPaletteCompact: string[] = ["#38bdf8", "#60a5fa", "#0f172a"];
-

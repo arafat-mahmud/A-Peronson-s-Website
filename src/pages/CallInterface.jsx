@@ -201,7 +201,9 @@ function MediaGate({ gate, onAction, onDismiss }) {
 					</div>
 					<div className="min-w-0 flex-1">
 						<h3 className="text-xl font-bold text-slate-900 dark:text-white">{gate.title}</h3>
-						<p className="mt-2 text-sm leading-6 text-slate-600 dark:text-slate-300">{gate.message}</p>
+						<p className="mt-2 text-sm leading-6 text-slate-600 dark:text-slate-300">
+							{gate.message}
+						</p>
 						{gate.detail ? (
 							<p className="mt-2 text-xs text-slate-500 dark:text-slate-400">{gate.detail}</p>
 						) : null}
@@ -2009,7 +2011,10 @@ export default function CallInterface() {
 									</h1>
 									<Badge tone={conn.tone} className="gap-1.5">
 										<span
-											className={cx("h-2 w-2 rounded-full bg-current", conn.pulse && "animate-pulse")}
+											className={cx(
+												"h-2 w-2 rounded-full bg-current",
+												conn.pulse && "animate-pulse",
+											)}
 										/>
 										{conn.label}
 									</Badge>
@@ -2058,7 +2063,9 @@ export default function CallInterface() {
 				</header>
 
 				<main className="relative z-10 mx-auto flex w-full max-w-[1800px] flex-1 gap-4 px-4 py-4 sm:px-6 lg:px-8">
-					<section className={cx("flex min-w-0 flex-1 flex-col gap-4", isChatOpen ? "lg:pr-0" : "")}>
+					<section
+						className={cx("flex min-w-0 flex-1 flex-col gap-4", isChatOpen ? "lg:pr-0" : "")}
+					>
 						<div className="grid gap-4 xl:grid-cols-[1.18fr_0.82fr]">
 							<div className="rounded-[2rem] border border-white/12 bg-white/40 p-4 shadow-[0_25px_80px_rgba(15,23,42,0.12)] backdrop-blur-2xl dark:bg-slate-950/50">
 								<div className="flex flex-wrap items-center justify-between gap-3">

@@ -1,8 +1,8 @@
 import { Search } from "lucide-react";
 import { Mosaic } from "react-loading-indicators";
 import { List } from "react-window";
-import { avatarUrl, formatDisplayName, formatTime, getInitials } from "./chatUtils.js";
 import LazyImage from "../../components/ui/LazyImage.jsx";
+import { avatarUrl, formatDisplayName, formatTime, getInitials } from "./chatUtils.js";
 
 export default function ThreadList({
 	query,
@@ -40,7 +40,10 @@ export default function ThreadList({
 			</div>
 
 			<div className="mb-3 flex items-center justify-between px-1">
-				<h3 className="text-xs font-bold uppercase tracking-wider" style={{ color: theme.textMuted }}>
+				<h3
+					className="text-xs font-bold uppercase tracking-wider"
+					style={{ color: theme.textMuted }}
+				>
 					Direct Messages
 				</h3>
 				<span className="text-[10px] font-bold text-gtBlue">{allVisibleThreads.length}</span>
@@ -89,14 +92,14 @@ export default function ThreadList({
 									>
 										<div className="flex items-center gap-3">
 											<div className="relative flex-shrink-0">
-											{thread.avatar ? (
-												<LazyImage
-													src={avatarUrl(thread.avatar)}
-													alt={threadName}
-													width={44}
-													height={44}
-													className="h-11 w-11 rounded-full object-cover shadow-sm"
-												/>
+												{thread.avatar ? (
+													<LazyImage
+														src={avatarUrl(thread.avatar)}
+														alt={threadName}
+														width={44}
+														height={44}
+														className="h-11 w-11 rounded-full object-cover shadow-sm"
+													/>
 												) : (
 													<div
 														className={`flex h-11 w-11 items-center justify-center rounded-full text-xs font-bold shadow-sm${isActive ? "bg-gtBlue text-white" : "bg-slate-100 text-slate-500"}`}

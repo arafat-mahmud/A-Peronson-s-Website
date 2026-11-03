@@ -1,5 +1,5 @@
 /** Theme utilities: accent maps + strict Tailwind color parser (tested in themeTokens.test.js). */
-import type { AccentName, AccentClasses } from "./theme-types.js";
+import type { AccentClasses, AccentName } from "./theme-types.js";
 
 /** Static accent class sets. Every string below appears literally so Tailwind generates it. */
 export const ACCENT_THEMES: Record<AccentName, AccentClasses> = {
@@ -35,4 +35,3 @@ export function accentClasses(accent: string | undefined | null): AccentClasses 
 	if (accent && accent in ACCENT_THEMES) return ACCENT_THEMES[accent as AccentName];
 	return ACCENT_THEMES.sky;
 }
-

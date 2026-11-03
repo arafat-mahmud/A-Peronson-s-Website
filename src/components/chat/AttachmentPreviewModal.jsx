@@ -1416,6 +1416,7 @@ function AttachmentPreviewModal({ open = false, attachment = null, onClose = nul
 							) : null}
 							{pdfState.loading || pdfState.error || !pdfState.blobUrl ? null : (
 								<div class="h-[70vh] overflow-hidden rounded-xl shadow-borderless dark:shadow-borderlessDark bg-white/5">
+									{/* biome-ignore lint/security/useIframeSandbox: a sandboxed iframe cannot run the browser's PDF viewer for this blob: URL */}
 									<iframe
 										src={pdfState.blobUrl}
 										title={file.name || "PDF Preview"}
@@ -1452,6 +1453,7 @@ function AttachmentPreviewModal({ open = false, attachment = null, onClose = nul
 							) : null}
 							{!officeIsPrivate && officeEmbed ? (
 								<div class="h-[70vh] overflow-hidden rounded-xl shadow-borderless dark:shadow-borderlessDark bg-white/5">
+									{/* biome-ignore lint/security/useIframeSandbox: the Office Online viewer needs scripts, same-origin storage and popups; sandboxing it breaks the preview */}
 									<iframe
 										src={officeEmbed}
 										title={file.name || "Office Preview"}

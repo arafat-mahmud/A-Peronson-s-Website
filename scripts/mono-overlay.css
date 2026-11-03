@@ -32,7 +32,6 @@
      Deliberately desaturated — never allowed to overpower the monochrome.
      ======================================================================== */
 
-	--theme-whisper-50: #f5f8fc;
 	--theme-whisper-100: #ebf1f7;
 	--theme-whisper-200: #dbe5ef;
 	--theme-whisper-300: #c3d2df;
@@ -911,8 +910,6 @@
 	--theme-gradient-surface: linear-gradient(135deg, #0a0a0a 0%, #111111 52%, #171717 100%);
 
 	--theme-gradient-whisper: linear-gradient(90deg, #607d97 0%, #c3d2df 100%);
-
-	--theme-gradient-dark: linear-gradient(90deg, #050505 0%, #111111 100%);
 
 	/* ========================================================================
      DARK HERO

@@ -261,7 +261,13 @@ export default function ProductQuickViewModal({ open, onClose, item, onViewed })
 										onClick={() => setCurrentImageIndex(i)}
 										className={`shrink-0 h-10 w-10 rounded-lg overflow-hidden border-2 transition ${i === currentImageIndex ? "border-sky-500" : "border-transparent opacity-60 hover:opacity-100"}`}
 									>
-										<LazyImage src={url} alt={`Product thumbnail ${i + 1}`} width={40} height={40} className="h-full w-full object-cover" />
+										<LazyImage
+											src={url}
+											alt={`Product thumbnail ${i + 1}`}
+											width={40}
+											height={40}
+											className="h-full w-full object-cover"
+										/>
 									</button>
 								))}
 							</div>
@@ -293,10 +299,10 @@ export default function ProductQuickViewModal({ open, onClose, item, onViewed })
 								</span>
 							</div>
 						</div>
-					{(item?.hasVideo || item?.product?.hasVideo) &&
-					(item?.video_url || item?.product?.video_url) ? (
-						<VideoEmbed url={item?.video_url || item?.product?.video_url} className="mt-4" />
-					) : null}
+						{(item?.hasVideo || item?.product?.hasVideo) &&
+						(item?.video_url || item?.product?.video_url) ? (
+							<VideoEmbed url={item?.video_url || item?.product?.video_url} className="mt-4" />
+						) : null}
 					</div>
 
 					<div className="rounded-2xl shadow-borderless dark:shadow-borderlessDark bg-white p-4">
@@ -327,7 +333,9 @@ export default function ProductQuickViewModal({ open, onClose, item, onViewed })
 				{showAppealModal ? (
 					<div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4 backdrop-blur-sm">
 						<div className="w-full max-w-md rounded-2xl border border-slate-200 bg-white p-5 shadow-xl dark:border-white/10 dark:bg-slate-950">
-							<h3 className="text-lg font-semibold text-slate-900 dark:text-white">Appeal rejection</h3>
+							<h3 className="text-lg font-semibold text-slate-900 dark:text-white">
+								Appeal rejection
+							</h3>
 							<p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
 								Explain why this product should be approved.
 							</p>

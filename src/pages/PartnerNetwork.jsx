@@ -491,7 +491,9 @@ export default function PartnerNetwork() {
 													<Users className="h-6 w-6" />
 												</div>
 												<div>
-													<h3 className="text-lg font-semibold">No requests found for this filter.</h3>
+													<h3 className="text-lg font-semibold">
+														No requests found for this filter.
+													</h3>
 													<p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
 														Try another tab or search term.
 													</p>

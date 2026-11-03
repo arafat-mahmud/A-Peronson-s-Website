@@ -5,8 +5,8 @@ import { isAIAnalyticsEnabled, runImageFileAnalysis } from "../services/aiModera
 import { addImageToQueue } from "../services/imageQueue.js";
 import { addToQueue } from "../services/videoQueue.js";
 import { logError, logInfo } from "../utils/logger.js";
-import { sanitizeSvgFile } from "../utils/svgSanitizer.js";
 import prisma from "../utils/prisma.js";
+import { sanitizeSvgFile } from "../utils/svgSanitizer.js";
 
 function generateId() {
 	return crypto.randomUUID();
@@ -95,7 +95,12 @@ async function runAIAnalysis(docId, fullPath) {
 			},
 		});
 
-		logInfo("AI Moderation document result", { docId, label: result.label, score: result.score, autoApproved: result.autoApproved });
+		logInfo("AI Moderation document result", {
+			docId,
+			label: result.label,
+			score: result.score,
+			autoApproved: result.autoApproved,
+		});
 	} catch (err) {
 		logError("AI Moderation document failed", new Error(`docId=${docId}: ${err.message}`));
 	}

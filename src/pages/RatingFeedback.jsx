@@ -112,26 +112,26 @@ export default function RatingFeedback() {
 				setError("");
 				const rows = Array.isArray(data?.items) ? data.items : [];
 				setItems(rows);
-			setDrafts((prev) => {
-				const next = { ...prev };
-				rows.forEach((row) => {
-					if (!next[row.id]) {
-						const initialScore = Number(row?.suggested_score || 0);
-						next[row.id] = {
-							score: initialScore >= 1 ? Math.round(initialScore) : 4,
-							comment: "",
-							categories: {
-								sample_accuracy: 0,
-								communication_speed: 0,
-								quality_control: 0,
-								delivery_timeliness: 0,
-								after_sales_support: 0,
-							},
-						};
-					}
+				setDrafts((prev) => {
+					const next = { ...prev };
+					rows.forEach((row) => {
+						if (!next[row.id]) {
+							const initialScore = Number(row?.suggested_score || 0);
+							next[row.id] = {
+								score: initialScore >= 1 ? Math.round(initialScore) : 4,
+								comment: "",
+								categories: {
+									sample_accuracy: 0,
+									communication_speed: 0,
+									quality_control: 0,
+									delivery_timeliness: 0,
+									after_sales_support: 0,
+								},
+							};
+						}
+					});
+					return next;
 				});
-				return next;
-			});
 
 				const ids = rows
 					.map((row) => String(row.profile_key || "").replace(/^user:/, ""))

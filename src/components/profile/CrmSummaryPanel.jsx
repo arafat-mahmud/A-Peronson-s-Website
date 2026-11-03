@@ -1,5 +1,5 @@
+import { FileText, MessageSquare, PhoneCall } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
-import { MessageSquare, PhoneCall, FileText } from "lucide-react";
 import { apiRequest, getCurrentUser, getToken } from "../../lib/auth.js";
 
 function formatDate(value) {
@@ -249,7 +249,9 @@ export default function CrmSummaryPanel({ targetId, onContact }) {
 			<div class="mt-4 rounded-2xl border border-slate-200/80 bg-slate-50/80 p-3 dark:border-slate-800/80 dark:bg-slate-900/40">
 				<div class="grid grid-cols-2 gap-3 lg:grid-cols-4">
 					<div>
-						<label class="text-[11px] font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">Type</label>
+						<label class="text-[11px] font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+							Type
+						</label>
 						<select
 							value={filterType}
 							onChange={(event) => setFilterType(event.target.value)}
@@ -263,7 +265,9 @@ export default function CrmSummaryPanel({ targetId, onContact }) {
 					</div>
 
 					<div>
-						<label class="text-[11px] font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">Match</label>
+						<label class="text-[11px] font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+							Match
+						</label>
 						<select
 							value={filterMatch}
 							onChange={(event) => setFilterMatch(event.target.value)}
@@ -279,7 +283,9 @@ export default function CrmSummaryPanel({ targetId, onContact }) {
 					</div>
 
 					<div>
-						<label class="text-[11px] font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">From</label>
+						<label class="text-[11px] font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+							From
+						</label>
 						<input
 							type="date"
 							value={filterFrom}
@@ -289,7 +295,9 @@ export default function CrmSummaryPanel({ targetId, onContact }) {
 					</div>
 
 					<div>
-						<label class="text-[11px] font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">To</label>
+						<label class="text-[11px] font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+							To
+						</label>
 						<input
 							type="date"
 							value={filterTo}

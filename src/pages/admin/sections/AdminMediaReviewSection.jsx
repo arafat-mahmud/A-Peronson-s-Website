@@ -1,7 +1,7 @@
 import { ExternalLink, Film, Image } from "lucide-react";
 import { Mosaic } from "react-loading-indicators";
-import { apiRequest, getToken } from "../../../lib/auth.js";
 import LazyImage from "../../../components/ui/LazyImage.jsx";
+import { apiRequest, getToken } from "../../../lib/auth.js";
 
 export function AdminMediaReviewSection({
 	adminDark,

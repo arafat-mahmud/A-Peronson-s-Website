@@ -299,7 +299,9 @@ export function getTimezoneLabel() {
 
 export function getTimezoneAbbr() {
 	try {
-		const parts = new Intl.DateTimeFormat("en-US", { timeZoneName: "short" }).formatToParts(new Date());
+		const parts = new Intl.DateTimeFormat("en-US", { timeZoneName: "short" }).formatToParts(
+			new Date(),
+		);
 		const tzPart = parts.find((p) => p.type === "timeZoneName");
 		return tzPart?.value || "";
 	} catch {

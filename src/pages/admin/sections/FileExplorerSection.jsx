@@ -16,9 +16,9 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { Mosaic, ThreeDot } from "react-loading-indicators";
 import ConfirmDialog from "../../../components/ConfirmDialog.jsx";
 import { useToast } from "../../../components/ToastContainer.jsx";
+import LazyImage from "../../../components/ui/LazyImage.jsx";
 import { apiRequest, getToken } from "../../../lib/auth.js";
 import { logger } from "../../../lib/logger.js";
-import LazyImage from "../../../components/ui/LazyImage.jsx";
 
 const FOLDER_CONFIG = [
 	{ id: "all", label: "All Files", icon: FolderOpen },
@@ -408,7 +408,9 @@ export function FileExplorerSection({ adminDark }) {
 				<div className="flex-1 min-w-0">
 					<div className="mb-4 flex items-center gap-3">
 						<div className="relative flex-1">
-							<Search className={`absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 ${textSecondary}`} />
+							<Search
+								className={`absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 ${textSecondary}`}
+							/>
 							<input
 								type="text"
 								placeholder="Search files..."

@@ -47,37 +47,36 @@
  */
 
 :root {
-  /* Main colors / Backgrounds */
-  --color-background: #f8fafc; /* bg-slate-50 (page background) */
-  --color-surface: #ffffff; /* bg-white (surface / card) */
-  --color-surface-elevated: #475569; /* bg-slate-600 (elevated surface) */
-  --color-bg-black-0-2: rgba(0, 0, 0, 0.2); /* bg-black/20 */
-  --color-bg-black-0-25: rgba(0, 0, 0, 0.25); /* bg-black/25 */
-  --color-bg-emerald-600: #059669; /* bg-emerald-600 (success) */
-  --color-bg-emerald-500-0-2: rgba(16, 185, 129, 0.2); /* bg-emerald-500/20 (success) */
-  --color-bg-red-600: #dc2626; /* bg-red-600 (danger) */
-  --color-bg-red-500-0-2: rgba(239, 68, 68, 0.2); /* bg-red-500/20 (danger) */
-  --color-bg-white-0-1: rgba(255, 255, 255, 0.1); /* bg-white/10 */
+	/* Main colors / Backgrounds */
+	--color-background: #f8fafc; /* bg-slate-50 (page background) */
+	--color-surface: #ffffff; /* bg-white (surface / card) */
+	--color-surface-elevated: #475569; /* bg-slate-600 (elevated surface) */
+	--color-bg-black-0-2: rgba(0, 0, 0, 0.2); /* bg-black/20 */
+	--color-bg-black-0-25: rgba(0, 0, 0, 0.25); /* bg-black/25 */
+	--color-bg-emerald-600: #059669; /* bg-emerald-600 (success) */
+	--color-bg-emerald-500-0-2: rgba(16, 185, 129, 0.2); /* bg-emerald-500/20 (success) */
+	--color-bg-red-600: #dc2626; /* bg-red-600 (danger) */
+	--color-bg-red-500-0-2: rgba(239, 68, 68, 0.2); /* bg-red-500/20 (danger) */
+	--color-bg-white-0-1: rgba(255, 255, 255, 0.1); /* bg-white/10 */
 
-  /* Text */
-  --color-text-emerald-200: #a7f3d0; /* text-emerald-200 (success) */
-  --color-text-red-200: #fecaca; /* text-red-200 (danger) */
-  --color-text-secondary: #e2e8f0; /* text-slate-200 (body / secondary text) */
-  --color-text-slate-900: #0f172a; /* text-slate-900 */
-  --color-text-slate-700: #334155; /* text-slate-700 */
-  --color-text-primary: #ffffff; /* text-white (heading / primary text) */
-  --color-text-white-90: rgba(255, 255, 255, 0.9); /* text-white/90 */
+	/* Text */
+	--color-text-emerald-200: #a7f3d0; /* text-emerald-200 (success) */
+	--color-text-red-200: #fecaca; /* text-red-200 (danger) */
+	--color-text-secondary: #e2e8f0; /* text-slate-200 (body / secondary text) */
+	--color-text-slate-900: #0f172a; /* text-slate-900 */
+	--color-text-slate-700: #334155; /* text-slate-700 */
+	--color-text-primary: #ffffff; /* text-white (heading / primary text) */
+	--color-text-white-90: rgba(255, 255, 255, 0.9); /* text-white/90 */
 
-  /* States (hover / focus / active / disabled / responsive / data / aria) */
-  --color-panel-hover: #f1f5f9; /* hover:hover:bg-slate-100 (state) */
-  --color-panel-hover-2: rgba(255, 255, 255, 0.1); /* hover:hover:bg-white/10 (state) */
+	/* States (hover / focus / active / disabled / responsive / data / aria) */
+	--color-panel-hover: #f1f5f9; /* hover:hover:bg-slate-100 (state) */
+	--color-panel-hover-2: rgba(255, 255, 255, 0.1); /* hover:hover:bg-white/10 (state) */
 
-  /* Arbitrary / inline / SVG colors + explicit shadows/gradients (verbatim) */
-  --color-inline-1: #5900ff; /* verbatim `#5900ff` near: #5900ff */
-  --color-inline-2: #94a3b8; /* verbatim `#94a3b8` near: #94a3b8 */
+	/* Arbitrary / inline / SVG colors + explicit shadows/gradients (verbatim) */
+	--color-inline-1: #5900ff; /* verbatim `#5900ff` near: #5900ff */
+	--color-inline-2: #94a3b8; /* verbatim `#94a3b8` near: #94a3b8 */
 
-  /* Semantic aliases (derived, not new colors) */
-  --color-success: #059669; /* alias -> --color-bg-emerald-600 (bg-emerald-600 (success)) */
-  --color-danger: #dc2626; /* alias -> --color-bg-red-600 (bg-red-600 (danger)) */
-
+	/* Semantic aliases (derived, not new colors) */
+	--color-success: #059669; /* alias -> --color-bg-emerald-600 (bg-emerald-600 (success)) */
+	--color-danger: #dc2626; /* alias -> --color-bg-red-600 (bg-red-600 (danger)) */
 }

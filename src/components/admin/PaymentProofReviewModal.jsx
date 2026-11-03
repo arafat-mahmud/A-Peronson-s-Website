@@ -1,6 +1,6 @@
+import { X } from "lucide-react";
 import { useState } from "react";
 import { ThreeDot } from "react-loading-indicators";
-import { X } from "lucide-react";
 import { apiRequest, getToken } from "../../lib/auth.js";
 import { logger } from "../../lib/logger.js";
 import LazyImage from "../ui/LazyImage.jsx";
@@ -54,7 +54,8 @@ export default function PaymentProofReviewModal({ proof, onClose, onReview, admi
 	const inputClass = adminDark
 		? "w-full rounded-2xl border border-slate-800 bg-slate-950/80 px-4 py-3 text-sm text-white outline-none placeholder:text-slate-500 focus:border-sky-400/60"
 		: "w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 outline-none placeholder:text-slate-400 focus:border-sky-400/60";
-	const labelClass = "text-[11px] font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400";
+	const labelClass =
+		"text-[11px] font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400";
 	const valueClass = "text-sm text-slate-900 dark:text-white";
 
 	return (
@@ -77,13 +78,13 @@ export default function PaymentProofReviewModal({ proof, onClose, onReview, admi
 					<div className="mt-4 overflow-hidden rounded-2xl border border-slate-200 dark:border-slate-700">
 						<p className={`${labelClass} px-3 pt-2`}>Document</p>
 						{proof.document_url.match(/\.(png|jpg|jpeg|gif|webp)/i) ? (
-						<LazyImage
-							src={proof.document_url}
-							alt="Payment proof document"
-							width={400}
-							height={192}
-							className="max-h-48 w-full object-contain"
-						/>
+							<LazyImage
+								src={proof.document_url}
+								alt="Payment proof document"
+								width={400}
+								height={192}
+								className="max-h-48 w-full object-contain"
+							/>
 						) : (
 							<a
 								href={proof.document_url}
@@ -118,7 +119,9 @@ export default function PaymentProofReviewModal({ proof, onClose, onReview, admi
 					</div>
 					<div>
 						<p className={labelClass}>{isBank ? "Receiver" : "Beneficiary"}</p>
-						<p className={valueClass}>{proof.receiver_account_name || proof.beneficiary_name || "—"}</p>
+						<p className={valueClass}>
+							{proof.receiver_account_name || proof.beneficiary_name || "—"}
+						</p>
 					</div>
 					<div>
 						<p className={labelClass}>Date</p>

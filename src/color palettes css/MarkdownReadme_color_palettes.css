@@ -11,10 +11,9 @@
  */
 
 :root {
-  /* States (hover / focus / active / disabled / responsive / data / aria) */
-  --color-bg-slate-900-prose-pre: #0f172a; /* prose-pre:prose-pre:bg-slate-900 (state) */
+	/* States (hover / focus / active / disabled / responsive / data / aria) */
+	--color-bg-slate-900-prose-pre: #0f172a; /* prose-pre:prose-pre:bg-slate-900 (state) */
 
-  /* Semantic aliases (derived, not new colors) */
-  --color-danger: #0f172a; /* alias -> --color-bg-slate-900-prose-pre (prose-pre:prose-pre:bg-slate-900 (state)) */
-
+	/* Semantic aliases (derived, not new colors) */
+	--color-danger: #0f172a; /* alias -> --color-bg-slate-900-prose-pre (prose-pre:prose-pre:bg-slate-900 (state)) */
 }

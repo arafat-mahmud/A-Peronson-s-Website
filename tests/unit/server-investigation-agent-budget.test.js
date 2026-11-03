@@ -1,5 +1,9 @@
 import { jest } from "@jest/globals";
-import { buildAgentPrompt, buildVerifyPrompt, DEFAULT_TOOL_BUDGET } from "../../server/services/investigation/agents.js";
+import {
+	buildAgentPrompt,
+	buildVerifyPrompt,
+	DEFAULT_TOOL_BUDGET,
+} from "../../server/services/investigation/agents.js";
 import { waitForAssistantTurn } from "../../server/services/opencodeTurns.js";
 
 describe("the prompts give an agent a stopping condition", () => {

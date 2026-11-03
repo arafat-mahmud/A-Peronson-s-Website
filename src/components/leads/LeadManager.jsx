@@ -434,7 +434,10 @@ export default function LeadManager({
 						) : null}
 						{error ? <div className="mt-2 text-sm text-rose-600">{error}</div> : null}
 
-						<div data-lenis-prevent={true} className="mt-3 space-y-2 max-h-[520px] overflow-auto pr-1">
+						<div
+							data-lenis-prevent={true}
+							className="mt-3 space-y-2 max-h-[520px] overflow-auto pr-1"
+						>
 							{items.length === 0 && !loading ? (
 								<div className="text-sm text-slate-500">
 									No leads yet. Leads are created automatically when chats start.
@@ -566,7 +569,9 @@ export default function LeadManager({
 									</div>
 
 									<div className="flex flex-col gap-2">
-										<label className="text-xs uppercase tracking-widest text-slate-500">Status</label>
+										<label className="text-xs uppercase tracking-widest text-slate-500">
+											Status
+										</label>
 										<select
 											value={selected?.status || "new"}
 											onChange={(e) => updateLead({ status: e.target.value })}
@@ -612,7 +617,9 @@ export default function LeadManager({
 
 								<div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-3">
 									<div className="rounded-lg bg-slate-50 p-3">
-										<p className="text-xs uppercase tracking-widest text-slate-500">Assigned agent</p>
+										<p className="text-xs uppercase tracking-widest text-slate-500">
+											Assigned agent
+										</p>
 										<p className="mt-1 text-sm font-medium">
 											{assignedAgent?.name || selected?.assigned_agent_id || "Unassigned"}
 										</p>

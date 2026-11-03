@@ -67,11 +67,11 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import AnimatedAccordion from "../components/AnimatedAccordion.jsx";
 import ScrollReveal from "../components/ScrollReveal.jsx";
 import NeonAtom from "../components/ui/NeonAtom.jsx";
+import StructuredData from "../components/ui/StructuredData.jsx";
 import { useSecureUser } from "../hooks/useSecureUser.js";
 import { apiRequest, getCurrentUser, getToken } from "../lib/auth.js";
 import { useTheme } from "../lib/ThemeProvider.jsx";
 import usePageMeta from "../lib/usePageMeta.js";
-import StructuredData from "../components/ui/StructuredData.jsx";
 
 const quickLinks = [
 	{ id: "quick-start", label: "Quick Start Guide", icon: Sparkles },
@@ -145,7 +145,9 @@ function HelpSection({
 			id={id}
 			className="relative rounded-3xl border border-slate-200/70 bg-white/80 p-6 shadow-[0_20px_80px_rgba(15,23,42,0.08)] backdrop-blur-xl transition-all duration-300 dark:border-slate-800/80 dark:bg-slate-950/70"
 		>
-			<div className={`pointer-events-none absolute inset-0 overflow-hidden rounded-3xl bg-gradient-to-br ${accent} opacity-100`} />
+			<div
+				className={`pointer-events-none absolute inset-0 overflow-hidden rounded-3xl bg-gradient-to-br ${accent} opacity-100`}
+			/>
 			<div className="relative">
 				<div className="mb-5 flex items-start gap-4">
 					<div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-white/20 bg-slate-900 text-white shadow-lg shadow-sky-500/20 dark:bg-sky-400 dark:text-slate-950">
@@ -182,7 +184,8 @@ export default function HelpCenterPage() {
 	usePageMeta({
 		title: "Help Center | Garment Sourcing FAQs for Buyers & Apparel Manufacturers — GarTexHub",
 		type: "website",
-		description: "Garment sourcing help and FAQs for buyers, factories and buying houses — verification, messaging, contracts and plans.",
+		description:
+			"Garment sourcing help and FAQs for buyers, factories and buying houses — verification, messaging, contracts and plans.",
 		canonical: "https://gartexhub.onrender.com/help",
 		siteName: "GarTexHub",
 		locale: "en_US",
@@ -504,62 +507,62 @@ export default function HelpCenterPage() {
 								accent="from-sky-400/18 to-cyan-400/10"
 							>
 								<div className="overflow-x-hidden">
-								<div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
-									{[
-										{
-											n: "Step 1",
-											title: "Create an account",
-											text: "Choose Buyer, Factory, or Buying House.",
-											icon: Users,
-										},
-										{
-											n: "Step 2",
-											title: "Complete basic profile setup",
-											text: "Add Organization Name, Category, and Profile Image.",
-											icon: Building2,
-										},
-										{
-											n: "Step 3",
-											title: "Explore the feed",
-											text: "Use the Main Feed or Search to find relevant posts.",
-											icon: ScanSearch,
-										},
-										{
-											n: "Step 4",
-											title: "Start conversations",
-											text: "Message users or post Buyer Requests / Products.",
-											icon: MessageSquareMore,
-										},
-										{
-											n: "Step 5",
-											title: "Upgrade when needed",
-											text: "Premium unlocks advanced visibility and analytics.",
-											icon: ArrowUpRight,
-										},
-									].map((item) => (
-										<div
-											key={item.n}
-											className="min-w-0 rounded-2xl border border-slate-200/70 bg-white/75 p-4 dark:border-slate-800 dark:bg-slate-950/60"
-										>
-											<div className="mb-3 flex items-center gap-3">
-												<div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-sky-500/10 text-sky-600 dark:bg-sky-400/15 dark:text-sky-300">
-													<item.icon className="h-5 w-5" />
-												</div>
-												<div>
-													<div className="text-xs font-semibold uppercase tracking-[0.2em] text-sky-600 dark:text-sky-300">
-														{item.n}
+									<div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
+										{[
+											{
+												n: "Step 1",
+												title: "Create an account",
+												text: "Choose Buyer, Factory, or Buying House.",
+												icon: Users,
+											},
+											{
+												n: "Step 2",
+												title: "Complete basic profile setup",
+												text: "Add Organization Name, Category, and Profile Image.",
+												icon: Building2,
+											},
+											{
+												n: "Step 3",
+												title: "Explore the feed",
+												text: "Use the Main Feed or Search to find relevant posts.",
+												icon: ScanSearch,
+											},
+											{
+												n: "Step 4",
+												title: "Start conversations",
+												text: "Message users or post Buyer Requests / Products.",
+												icon: MessageSquareMore,
+											},
+											{
+												n: "Step 5",
+												title: "Upgrade when needed",
+												text: "Premium unlocks advanced visibility and analytics.",
+												icon: ArrowUpRight,
+											},
+										].map((item) => (
+											<div
+												key={item.n}
+												className="min-w-0 rounded-2xl border border-slate-200/70 bg-white/75 p-4 dark:border-slate-800 dark:bg-slate-950/60"
+											>
+												<div className="mb-3 flex items-center gap-3">
+													<div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-sky-500/10 text-sky-600 dark:bg-sky-400/15 dark:text-sky-300">
+														<item.icon className="h-5 w-5" />
 													</div>
-													<div className="text-sm font-semibold text-slate-900 dark:text-white">
-														{item.title}
+													<div>
+														<div className="text-xs font-semibold uppercase tracking-[0.2em] text-sky-600 dark:text-sky-300">
+															{item.n}
+														</div>
+														<div className="text-sm font-semibold text-slate-900 dark:text-white">
+															{item.title}
+														</div>
 													</div>
 												</div>
+												<p className="text-sm leading-6 text-slate-600 dark:text-slate-300">
+													{item.text}
+												</p>
 											</div>
-											<p className="text-sm leading-6 text-slate-600 dark:text-slate-300">
-												{item.text}
-											</p>
-										</div>
-									))}
-								</div>
+										))}
+									</div>
 								</div>
 							</HelpSection>
 						</ScrollReveal>
@@ -579,7 +582,9 @@ export default function HelpCenterPage() {
 												<Building2 className="h-5 w-5" />
 											</div>
 											<div>
-												<h3 className="font-semibold text-slate-900 dark:text-white">Buyer Account</h3>
+												<h3 className="font-semibold text-slate-900 dark:text-white">
+													Buyer Account
+												</h3>
 												<p className="text-sm text-slate-500 dark:text-slate-400">
 													For sourcing and requests
 												</p>
@@ -686,7 +691,9 @@ export default function HelpCenterPage() {
 												<BadgeCheck className="h-5 w-5" />
 											</div>
 											<div>
-												<h3 className="font-semibold text-slate-900 dark:text-white">Verified Users</h3>
+												<h3 className="font-semibold text-slate-900 dark:text-white">
+													Verified Users
+												</h3>
 												<p className="text-sm text-slate-500 dark:text-slate-400">
 													Direct inbox delivery
 												</p>
@@ -760,7 +767,9 @@ export default function HelpCenterPage() {
 							>
 								<div className="grid gap-4 md:grid-cols-2">
 									<div className="rounded-3xl border border-slate-200/70 bg-white/75 p-6 dark:border-slate-800 dark:bg-slate-950/60">
-										<div className="text-sm font-semibold text-slate-500 dark:text-slate-400">Free</div>
+										<div className="text-sm font-semibold text-slate-500 dark:text-slate-400">
+											Free
+										</div>
 										<div className="mt-1 text-2xl font-semibold text-slate-900 dark:text-white">
 											Core access
 										</div>
@@ -769,7 +778,9 @@ export default function HelpCenterPage() {
 										</p>
 									</div>
 									<div className="rounded-3xl border border-sky-200/70 bg-gradient-to-br from-sky-500/12 to-blue-500/10 p-6 shadow-[0_12px_60px_rgba(51,122,176,0.12)] dark:border-sky-500/20 dark:from-sky-500/12 dark:to-slate-900/20">
-										<div className="text-sm font-semibold text-sky-700 dark:text-sky-200">Premium</div>
+										<div className="text-sm font-semibold text-sky-700 dark:text-sky-200">
+											Premium
+										</div>
 										<div className="mt-1 text-2xl font-semibold text-slate-900 dark:text-white">
 											Advanced access
 										</div>

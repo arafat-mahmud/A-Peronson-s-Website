@@ -1,8 +1,8 @@
+import crypto from "node:crypto";
 import prisma from "../utils/prisma.js";
 import { sanitizeString } from "../utils/validators.js";
-import { adminUpdateUser } from "./userService.js";
 import { createNotification } from "./notificationService.js";
-import crypto from "node:crypto";
+import { adminUpdateUser } from "./userService.js";
 
 const JOIN_NOTIFICATION_TYPE = "join_request";
 const JOIN_REMINDER_TYPE = "join_request_reminder";
@@ -143,12 +143,7 @@ export async function listPendingJoinRequestsForUser(user) {
 	});
 }
 
-export async function respondToJoinRequest({
-	notificationId,
-	user,
-	action,
-	reason = "",
-}) {
+export async function respondToJoinRequest({ notificationId, user, action, reason = "" }) {
 	const normalizedAction = String(action || "").toLowerCase();
 	if (!["accept", "reject"].includes(normalizedAction)) {
 		const err = new Error("Invalid action");
@@ -259,7 +254,11 @@ export async function runJoinRequestReminderSweep() {
 			entity_type: "join_request",
 			entity_id: row.id,
 			message: `Reminder: you still have a pending join request from ${meta.applicant_name || "an applicant"}.`,
-			meta: { request_id: row.id, applicant_id: meta.applicant_id, company_owner_id: meta.company_owner_id },
+			meta: {
+				request_id: row.id,
+				applicant_id: meta.applicant_id,
+				company_owner_id: meta.company_owner_id,
+			},
 		});
 		await prisma.notification.update({
 			where: { id: row.id },
@@ -362,7 +361,8 @@ export async function resolveDuplicateDispute({ notificationId, user, action, re
 		throw err;
 	}
 
-	const nextStatus = normalizedAction === "approve_applicant" ? "resolved_clear" : "resolved_confirmed";
+	const nextStatus =
+		normalizedAction === "approve_applicant" ? "resolved_clear" : "resolved_confirmed";
 	const nextMeta = {
 		...meta,
 		status: nextStatus,
@@ -380,9 +380,10 @@ export async function resolveDuplicateDispute({ notificationId, user, action, re
 		type: "duplicate_dispute_resolved",
 		entity_type: "duplicate_dispute",
 		entity_id: notificationId,
-		message: normalizedAction === "approve_applicant"
-			? "Your duplicate dispute was resolved in your favor. You may proceed with verification."
-			: `Your duplicate dispute was reviewed. The duplicate flag was confirmed. Reason: ${reason || "Confirmed by admin"}`,
+		message:
+			normalizedAction === "approve_applicant"
+				? "Your duplicate dispute was resolved in your favor. You may proceed with verification."
+				: `Your duplicate dispute was reviewed. The duplicate flag was confirmed. Reason: ${reason || "Confirmed by admin"}`,
 		meta: nextMeta,
 	});
 

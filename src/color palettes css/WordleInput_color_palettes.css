@@ -31,34 +31,38 @@
  */
 
 :root {
-  /* Main colors / Backgrounds */
-  --color-background: #ffffff; /* bg-white (page background) */
-  --color-surface: #64748b; /* bg-slate-500 (surface / card) */
-  --color-surface-elevated: #fbbf24; /* bg-amber-400 (elevated surface) */
-  --color-bg-emerald-500: #10b981; /* bg-emerald-500 (success) */
+	/* Main colors / Backgrounds */
+	--color-background: #ffffff; /* bg-white (page background) */
+	--color-surface: #64748b; /* bg-slate-500 (surface / card) */
+	--color-surface-elevated: #fbbf24; /* bg-amber-400 (elevated surface) */
+	--color-bg-emerald-500: #10b981; /* bg-emerald-500 (success) */
 
-  /* Text */
-  --color-text-slate-900: #0f172a; /* text-slate-900 */
-  --color-text-primary: #ffffff; /* text-white (heading / primary text) */
+	/* Text */
+	--color-text-slate-900: #0f172a; /* text-slate-900 */
+	--color-text-primary: #ffffff; /* text-white (heading / primary text) */
 
-  /* Borders / Dividers / Rings */
-  --color-border-amber-400: #fbbf24; /* border-amber-400 (border) */
-  --color-border-emerald-500: #10b981; /* border-emerald-500 (border) */
-  --color-border-slate-500: #64748b; /* border-slate-500 (border) */
-  --color-border-slate-200: #e2e8f0; /* border-slate-200 (border) */
+	/* Borders / Dividers / Rings */
+	--color-border-amber-400: #fbbf24; /* border-amber-400 (border) */
+	--color-border-emerald-500: #10b981; /* border-emerald-500 (border) */
+	--color-border-slate-500: #64748b; /* border-slate-500 (border) */
+	--color-border-slate-200: #e2e8f0; /* border-slate-200 (border) */
 
-  /* States (hover / focus / active / disabled / responsive / data / aria) */
-  --color-ring-sky-400-50-focus: rgba(56, 189, 248, 0.5); /* focus:focus:ring-sky-400/50 (state) */
+	/* States (hover / focus / active / disabled / responsive / data / aria) */
+	--color-ring-sky-400-50-focus: rgba(56, 189, 248, 0.5); /* focus:focus:ring-sky-400/50 (state) */
 
-  /* Semantic aliases (derived, not new colors) */
-  --color-warning: #fbbf24; /* alias -> --color-surface-elevated (bg-amber-400 (elevated surface)) */
-  --color-success: #10b981; /* alias -> --color-bg-emerald-500 (bg-emerald-500 (success)) */
-  --color-info: rgba(56, 189, 248, 0.5); /* alias -> --color-ring-sky-400-50-focus (focus:focus:ring-sky-400/50 (state)) */
-
+	/* Semantic aliases (derived, not new colors) */
+	--color-warning: #fbbf24; /* alias -> --color-surface-elevated (bg-amber-400 (elevated surface)) */
+	--color-success: #10b981; /* alias -> --color-bg-emerald-500 (bg-emerald-500 (success)) */
+	--color-info: rgba(
+		56,
+		189,
+		248,
+		0.5
+	); /* alias -> --color-ring-sky-400-50-focus (focus:focus:ring-sky-400/50 (state)) */
 }
 
 .dark {
-  --color-background: #0f172a; /* dark:dark:bg-slate-900 */
-  --color-border-dark-slate-700: #334155; /* dark:dark:border-slate-700 */
-  --color-text-primary: #ffffff; /* dark:dark:text-white */
+	--color-background: #0f172a; /* dark:dark:bg-slate-900 */
+	--color-border-dark-slate-700: #334155; /* dark:dark:border-slate-700 */
+	--color-text-primary: #ffffff; /* dark:dark:text-white */
 }

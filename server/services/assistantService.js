@@ -2110,11 +2110,11 @@ export function trimHistory(messages) {
 	// A single message can be bigger than the whole budget on its own. It is
 	// clamped to its newest end FIRST, and it is never dropped for being the
 	// last one left: an empty history is not better than a short one.
-	const kept = messages.slice(-HISTORY_MAX_MESSAGES).map((m) =>
-		m.text.length > HISTORY_MAX_CHARS
-			? { ...m, text: m.text.slice(-HISTORY_MAX_CHARS) }
-			: m,
-	);
+	const kept = messages
+		.slice(-HISTORY_MAX_MESSAGES)
+		.map((m) =>
+			m.text.length > HISTORY_MAX_CHARS ? { ...m, text: m.text.slice(-HISTORY_MAX_CHARS) } : m,
+		);
 	let total = kept.reduce((sum, m) => sum + m.text.length, 0);
 	while (kept.length > 1 && total > HISTORY_MAX_CHARS) {
 		const dropped = kept.shift();

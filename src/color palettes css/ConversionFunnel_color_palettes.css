@@ -32,26 +32,29 @@
  */
 
 :root {
-  /* Main colors / Backgrounds */
-  --color-background: #f1f5f9; /* bg-slate-100 (page background) */
-  --color-surface: #ffffff; /* bg-white (surface / card) */
+	/* Main colors / Backgrounds */
+	--color-background: #f1f5f9; /* bg-slate-100 (page background) */
+	--color-surface: #ffffff; /* bg-white (surface / card) */
 
-  /* Text */
-  --color-text-muted: #94a3b8; /* text-slate-400 (muted text) */
-  --color-text-slate-600: #475569; /* text-slate-600 */
-  --color-text-primary: #ffffff; /* text-white (heading / primary text) */
+	/* Text */
+	--color-text-muted: #94a3b8; /* text-slate-400 (muted text) */
+	--color-text-slate-600: #475569; /* text-slate-600 */
+	--color-text-primary: #ffffff; /* text-white (heading / primary text) */
 
-  /* Borders / Dividers / Rings */
-  --color-border-slate-200: #e2e8f0; /* border-slate-200 (border) */
+	/* Borders / Dividers / Rings */
+	--color-border-slate-200: #e2e8f0; /* border-slate-200 (border) */
 
-  /* Gradients (every distinct stop-set preserved) */
-  --gradient-primary: linear-gradient(90deg, #38bdf8 0%, #22d3ee 100%); /* from-sky-400 to-cyan-400 (gradient; direction 90deg) */
-
+	/* Gradients (every distinct stop-set preserved) */
+	--gradient-primary: linear-gradient(
+		90deg,
+		#38bdf8 0%,
+		#22d3ee 100%
+	); /* from-sky-400 to-cyan-400 (gradient; direction 90deg) */
 }
 
 .dark {
-  --color-background: rgba(2, 6, 23, 0.4); /* dark:dark:bg-slate-950/40 */
-  --color-background-dark-slate-800: #1e293b; /* dark:dark:bg-slate-800 */
-  --color-border-dark-slate-700: #334155; /* dark:dark:border-slate-700 */
-  --color-text-dark-slate-300: #cbd5e1; /* dark:dark:text-slate-300 */
+	--color-background: rgba(2, 6, 23, 0.4); /* dark:dark:bg-slate-950/40 */
+	--color-background-dark-slate-800: #1e293b; /* dark:dark:bg-slate-800 */
+	--color-border-dark-slate-700: #334155; /* dark:dark:border-slate-700 */
+	--color-text-dark-slate-300: #cbd5e1; /* dark:dark:text-slate-300 */
 }

@@ -74,8 +74,7 @@ function finalize(outputDir) {
 function smokeCheck(outputDir) {
 	const index = path.join(outputDir, "index.html");
 	const statistic = path.join(outputDir, "widgets", "statistic.json");
-	const complete =
-		fs.existsSync(index) && fs.existsSync(statistic);
+	const complete = fs.existsSync(index) && fs.existsSync(statistic);
 	if (!complete) {
 		return null;
 	}

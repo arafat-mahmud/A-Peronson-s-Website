@@ -15,8 +15,16 @@
  */
 
 :root {
-  /* Gradients (every distinct stop-set preserved) */
-  --gradient-primary: linear-gradient(90deg, #0ea5e9 0%, #6366f1 100%); /* from-sky-500 to-indigo-500 (gradient; direction 90deg) */
-  --gradient-2: linear-gradient(90deg, #0ea5e9 0%, #22d3ee 50%, #6366f1 100%); /* from-sky-500 via-cyan-400 to-indigo-500 (gradient; direction 90deg) */
-
+	/* Gradients (every distinct stop-set preserved) */
+	--gradient-primary: linear-gradient(
+		90deg,
+		#0ea5e9 0%,
+		#6366f1 100%
+	); /* from-sky-500 to-indigo-500 (gradient; direction 90deg) */
+	--gradient-2: linear-gradient(
+		90deg,
+		#0ea5e9 0%,
+		#22d3ee 50%,
+		#6366f1 100%
+	); /* from-sky-500 via-cyan-400 to-indigo-500 (gradient; direction 90deg) */
 }

@@ -4,6 +4,7 @@ import {
 	ChevronRight,
 	FileText,
 	LayoutDashboard,
+	MessageCircle,
 	MessageSquare,
 	Package,
 	Search,
@@ -12,18 +13,11 @@ import {
 	Star,
 	Users,
 	Vote,
-	MessageCircle,
 } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import { cn } from "../../lib/cn.js";
 
-export function NavDropdown({
-	group,
-	isOpen,
-	onToggle,
-	userRole,
-	badgeCount = 0,
-}) {
+export function NavDropdown({ group, isOpen, onToggle, userRole, badgeCount = 0 }) {
 	const location = useLocation();
 	const IconComponent = group.icon;
 

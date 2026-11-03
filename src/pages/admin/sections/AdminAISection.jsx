@@ -193,7 +193,9 @@ export function AdminAISection({ activeCategory, adminDark }) {
 						<Bot className="h-6 w-6" />
 					</div>
 					<div>
-						<h2 className={cn("text-2xl font-semibold", adminDark ? "text-white" : "text-slate-900")}>
+						<h2
+							className={cn("text-2xl font-semibold", adminDark ? "text-white" : "text-slate-900")}
+						>
 							AI Assistant Configuration
 						</h2>
 						<p className={adminDark ? "text-slate-400" : "text-slate-500"}>

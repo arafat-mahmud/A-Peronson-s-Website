@@ -11,17 +11,7 @@
 import { forwardRef, useState } from "react";
 
 const LazyImage = forwardRef(function LazyImage(
-	{
-		src,
-		alt,
-		width,
-		height,
-		className = "",
-		eager = false,
-		onLoad,
-		onError,
-		...rest
-	},
+	{ src, alt, width, height, className = "", eager = false, onLoad, onError, ...rest },
 	ref,
 ) {
 	const [loaded, setLoaded] = useState(false);

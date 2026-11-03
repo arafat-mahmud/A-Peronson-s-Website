@@ -136,7 +136,10 @@ describe("the assistant's opencode isolation", () => {
 });
 
 describe("the assistant's conversation history", () => {
-	const message = (n, size = 10) => ({ role: n % 2 ? "user" : "assistant", text: `${n}:`.padEnd(size, "x") });
+	const message = (n, size = 10) => ({
+		role: n % 2 ? "user" : "assistant",
+		text: `${n}:`.padEnd(size, "x"),
+	});
 
 	test("keeps the newest messages when there are too many", () => {
 		const history = Array.from({ length: 30 }, (_, index) => message(index));

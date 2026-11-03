@@ -1,4 +1,10 @@
+import { passwordProblems } from "../../shared/config/passwordPolicy.js";
+import {
+	isValidFactorySector,
+	normalizeCompanyFacts,
+} from "../../shared/config/platformTaxonomy.js";
 import { signToken } from "../middleware/auth.js";
+import { getAdminConfig } from "../services/adminConfigService.js";
 import { getEntitlements } from "../services/entitlementService.js";
 import {
 	createAuthenticationOptions,
@@ -9,16 +15,10 @@ import {
 	verifyRegistration,
 } from "../services/passkeyService.js";
 import {
-	findUserByEmail,
-	findUserById,
-	findUserByMemberId,
-	registerUser,
-	verifyPassword,
-} from "../services/userService.js";
-import { upsertSubscription } from "../services/subscriptionService.js";
-import { assertCouponRedeemable, creditWallet } from "../services/walletService.js";
-import { getAdminConfig } from "../services/adminConfigService.js";
-import { changePassword, requestPasswordReset, resetPassword } from "../services/passwordResetService.js";
+	changePassword,
+	requestPasswordReset,
+	resetPassword,
+} from "../services/passwordResetService.js";
 import {
 	createSession,
 	extendSession,
@@ -26,12 +26,16 @@ import {
 	revokeAllSessions,
 	revokeSession,
 } from "../services/sessionService.js";
-import { logError } from "../utils/logger.js";
-import { passwordProblems } from "../../shared/config/passwordPolicy.js";
+import { upsertSubscription } from "../services/subscriptionService.js";
 import {
-	isValidFactorySector,
-	normalizeCompanyFacts,
-} from "../../shared/config/platformTaxonomy.js";
+	findUserByEmail,
+	findUserById,
+	findUserByMemberId,
+	registerUser,
+	verifyPassword,
+} from "../services/userService.js";
+import { assertCouponRedeemable, creditWallet } from "../services/walletService.js";
+import { logError } from "../utils/logger.js";
 import { requireFields, validateEmail, validatePublicRole } from "../utils/validators.js";
 
 function sanitizeUser(user) {
@@ -250,15 +254,25 @@ export async function forgotPassword(req, res) {
 	requestPasswordReset(email).catch((error) => logError("password_reset_request_failed", error));
 	return res.json({
 		ok: true,
-		message: "If an account exists for that email, a reset link has been sent. It expires in 30 minutes.",
+		message:
+			"If an account exists for that email, a reset link has been sent. It expires in 30 minutes.",
 	});
 }
 
 export async function changeMyPassword(req, res) {
-	const result = await changePassword(req.user.id, req.body?.current_password, req.body?.new_password, {
-		keepSessionId: req.user.sid || "",
+	const result = await changePassword(
+		req.user.id,
+		req.body?.current_password,
+		req.body?.new_password,
+		{
+			keepSessionId: req.user.sid || "",
+		},
+	);
+	return res.json({
+		ok: true,
+		message: "Password changed. Other devices were signed out.",
+		...result,
 	});
-	return res.json({ ok: true, message: "Password changed. Other devices were signed out.", ...result });
 }
 
 export async function completePasswordReset(req, res) {

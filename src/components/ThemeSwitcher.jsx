@@ -73,7 +73,7 @@ export default function ThemeSwitcher() {
 		return () => {
 			document.body.style.overflow = prev;
 		};
-	}, [open ]);
+	}, [open]);
 
 	if (!open) return null;
 

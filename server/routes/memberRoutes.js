@@ -2,8 +2,8 @@ import { Router } from "express";
 import {
 	createOrgMember,
 	deactivateOrRemoveOrgMember,
-	getOrgMember,
 	getMemberMetrics,
+	getOrgMember,
 	listOrgMembers,
 	patchMemberPermissions,
 	postMemberPasswordReset,

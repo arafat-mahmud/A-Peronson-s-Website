@@ -13,10 +13,9 @@
  */
 
 :root {
-  /* Main colors / Backgrounds */
-  --color-background: rgba(0, 0, 0, 0.6); /* bg-black/60 (page background) */
+	/* Main colors / Backgrounds */
+	--color-background: rgba(0, 0, 0, 0.6); /* bg-black/60 (page background) */
 
-  /* Text */
-  --color-text-primary: #ffffff; /* text-white (heading / primary text) */
-
+	/* Text */
+	--color-text-primary: #ffffff; /* text-white (heading / primary text) */
 }

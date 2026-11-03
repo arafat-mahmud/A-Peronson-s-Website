@@ -1,8 +1,8 @@
 import {
-	VERIFICATION_FIELD_LABELS,
 	getBuyerRegionFromCountry,
 	getVerificationRequirements,
 	isEuCountry,
+	VERIFICATION_FIELD_LABELS,
 } from "../../shared/config/platformTaxonomy.js";
 import { logInfo } from "../utils/logger.js";
 import prisma from "../utils/prisma.js";
@@ -161,7 +161,10 @@ function normalizeLooseText(value) {
 
 function normalizeComparableName(value) {
 	return normalizeLooseText(value)
-		.replace(/\b(the|and|co|company|inc|ltd|limited|llc|corp|corporation|group|international)\b/g, " ")
+		.replace(
+			/\b(the|and|co|company|inc|ltd|limited|llc|corp|corporation|group|international)\b/g,
+			" ",
+		)
 		.replace(/\s+/g, " ")
 		.trim();
 }
@@ -191,7 +194,9 @@ function normalizeEmailDomain(value) {
 }
 
 function collapseSpaces(value) {
-	return String(value || "").replace(/\s+/g, " ").trim();
+	return String(value || "")
+		.replace(/\s+/g, " ")
+		.trim();
 }
 
 function levenshteinDistance(a = "", b = "") {
@@ -266,8 +271,12 @@ function getUserCompanySnapshot(user = {}) {
 				profile.company_address ||
 				"",
 		),
-		website: extractDomain(profile.brand_website || profile.website || profile.company_website || ""),
-		email_domain: normalizeEmailDomain(user?.email || profile.business_email || profile.contact_email || ""),
+		website: extractDomain(
+			profile.brand_website || profile.website || profile.company_website || "",
+		),
+		email_domain: normalizeEmailDomain(
+			user?.email || profile.business_email || profile.contact_email || "",
+		),
 		phone: normalizePhone(profile.phone || profile.account_manager_phone || user?.phone || ""),
 		logo: String(profile.brand_logo_url || profile.logo_url || profile.avatar_url || ""),
 		banner: String(profile.brand_cover_url || profile.banner_url || ""),
@@ -328,10 +337,20 @@ function buildVerificationIdentifierMap(documents = {}, profile = {}) {
 			profile.government_company_registration_id ||
 			profile.company_registration_id ||
 			"",
-		gov_company_registration_id: documents.gov_company_registration_id || profile.gov_company_registration_id || "",
-		tax_id: documents.tax_id || documents.tax_registration || profile.tax_id || profile.tax_registration || "",
+		gov_company_registration_id:
+			documents.gov_company_registration_id || profile.gov_company_registration_id || "",
+		tax_id:
+			documents.tax_id ||
+			documents.tax_registration ||
+			profile.tax_id ||
+			profile.tax_registration ||
+			"",
 		tax_registration:
-			documents.tax_registration || documents.tax_id || profile.tax_registration || profile.tax_id || "",
+			documents.tax_registration ||
+			documents.tax_id ||
+			profile.tax_registration ||
+			profile.tax_id ||
+			"",
 		vat_number: documents.vat_number || documents.vat || profile.vat_number || profile.vat || "",
 		vat: documents.vat || documents.vat_number || profile.vat || profile.vat_number || "",
 		eori: documents.eori || profile.eori || "",
@@ -387,27 +406,33 @@ function computeCompanyDuplicateMatch(applicantUser, candidateUser, verification
 		name: nameScore,
 		country:
 			normalizeComparableName(applicantProfile.country || verificationRecord?.buyer_region || "") &&
-			normalizeComparableName(applicantProfile.country || verificationRecord?.buyer_region || "") ===
-				normalizeComparableName(candidateProfile.country || candidateUser?.country || ""),
-		address:
-			similarityScore(
-				applicantProfile.registered_address ||
-					applicantProfile.business_address ||
-					applicantProfile.address ||
-					applicantProfile.company_address ||
-					"",
-				candidateProfile.registered_address ||
-					candidateProfile.business_address ||
-					candidateProfile.address ||
-					candidateProfile.company_address ||
-					"",
-			),
+			normalizeComparableName(
+				applicantProfile.country || verificationRecord?.buyer_region || "",
+			) === normalizeComparableName(candidateProfile.country || candidateUser?.country || ""),
+		address: similarityScore(
+			applicantProfile.registered_address ||
+				applicantProfile.business_address ||
+				applicantProfile.address ||
+				applicantProfile.company_address ||
+				"",
+			candidateProfile.registered_address ||
+				candidateProfile.business_address ||
+				candidateProfile.address ||
+				candidateProfile.company_address ||
+				"",
+		),
 		website:
 			extractDomain(
-				applicantProfile.brand_website || applicantProfile.website || applicantProfile.company_website || "",
+				applicantProfile.brand_website ||
+					applicantProfile.website ||
+					applicantProfile.company_website ||
+					"",
 			) &&
 			extractDomain(
-				applicantProfile.brand_website || applicantProfile.website || applicantProfile.company_website || "",
+				applicantProfile.brand_website ||
+					applicantProfile.website ||
+					applicantProfile.company_website ||
+					"",
 			) ===
 				extractDomain(
 					candidateProfile.brand_website ||
@@ -416,9 +441,24 @@ function computeCompanyDuplicateMatch(applicantUser, candidateUser, verification
 						"",
 				),
 		email_domain:
-			normalizeEmailDomain(applicantUser?.email || applicantProfile.business_email || applicantProfile.contact_email || "") &&
-			normalizeEmailDomain(applicantUser?.email || applicantProfile.business_email || applicantProfile.contact_email || "") ===
-				normalizeEmailDomain(candidateUser?.email || candidateProfile.business_email || candidateProfile.contact_email || ""),
+			normalizeEmailDomain(
+				applicantUser?.email ||
+					applicantProfile.business_email ||
+					applicantProfile.contact_email ||
+					"",
+			) &&
+			normalizeEmailDomain(
+				applicantUser?.email ||
+					applicantProfile.business_email ||
+					applicantProfile.contact_email ||
+					"",
+			) ===
+				normalizeEmailDomain(
+					candidateUser?.email ||
+						candidateProfile.business_email ||
+						candidateProfile.contact_email ||
+						"",
+				),
 		phone:
 			normalizePhone(applicantProfile.phone || applicantProfile.account_manager_phone || "") &&
 			normalizePhone(applicantProfile.phone || applicantProfile.account_manager_phone || "") ===
@@ -433,14 +473,9 @@ function computeCompanyDuplicateMatch(applicantUser, candidateUser, verification
 				String(candidateProfile.brand_cover_url || candidateProfile.banner_url || ""),
 	};
 
-	const positiveSignals = [
-		"country",
-		"website",
-		"email_domain",
-		"phone",
-		"logo",
-		"banner",
-	].filter((key) => Boolean(checks[key])).length;
+	const positiveSignals = ["country", "website", "email_domain", "phone", "logo", "banner"].filter(
+		(key) => Boolean(checks[key]),
+	).length;
 
 	const strongMatch =
 		nameScore >= 0.96 &&
@@ -491,7 +526,9 @@ export async function findCompanyDuplicateCandidate(user, verificationRecord) {
 		}),
 	]);
 
-	const verificationByUserId = new Map(verifications.map((row) => [String(row.user_id || ""), row]));
+	const verificationByUserId = new Map(
+		verifications.map((row) => [String(row.user_id || ""), row]),
+	);
 
 	let bestMatch = null;
 
@@ -515,11 +552,13 @@ export async function findCompanyDuplicateCandidate(user, verificationRecord) {
 				user_id: String(candidateUser.id || ""),
 				name: getUserCompanyName(candidateUser),
 				logo:
-					String(candidateUser?.profile?.brand_logo_url || candidateUser?.profile?.logo_url || "") ||
-					"",
+					String(
+						candidateUser?.profile?.brand_logo_url || candidateUser?.profile?.logo_url || "",
+					) || "",
 				banner:
-					String(candidateUser?.profile?.brand_cover_url || candidateUser?.profile?.banner_url || "") ||
-					"",
+					String(
+						candidateUser?.profile?.brand_cover_url || candidateUser?.profile?.banner_url || "",
+					) || "",
 				email: String(candidateUser?.email || ""),
 				company_role: String(candidateUser?.role || ""),
 				country: collapseSpaces(candidateUser?.profile?.country || candidateUser?.country || ""),
@@ -732,9 +771,9 @@ export async function upsertVerification(user, documentsPatch) {
 	};
 
 	const buyerRegion =
-			user.role === "buyer"
-				? normalizeBuyerRegion(documentsPatch?.buyer_region || existing?.buyer_region)
-				: "";
+		user.role === "buyer"
+			? normalizeBuyerRegion(documentsPatch?.buyer_region || existing?.buyer_region)
+			: "";
 
 	validateBuyerGeography(user.role, docs, buyerRegion);
 
@@ -750,13 +789,14 @@ export async function upsertVerification(user, documentsPatch) {
 
 	const shouldKeepApproved = Boolean(existing?.verified) && missing_required.length === 0;
 	const duplicateTier = duplicate_candidate?.match?.tier || "";
-	const nextReviewStatus = duplicateTier === "exact" || duplicateTier === "strong"
-		? "duplicate_review"
-		: shouldKeepApproved
-			? "approved"
-			: missing_required.length > 0
-				? "incomplete"
-				: "pending";
+	const nextReviewStatus =
+		duplicateTier === "exact" || duplicateTier === "strong"
+			? "duplicate_review"
+			: shouldKeepApproved
+				? "approved"
+				: missing_required.length > 0
+					? "incomplete"
+					: "pending";
 
 	const record = {
 		user_id: user.id,
@@ -769,16 +809,17 @@ export async function upsertVerification(user, documentsPatch) {
 		missing_required,
 		credibility,
 		review_status: nextReviewStatus,
-		review_reason: duplicateTier === "exact" || duplicateTier === "strong"
-			? sanitizeString(
-					`${duplicate_candidate.match?.reason || "duplicate_match"}:${duplicate_candidate.name || ""}`,
-					240,
-				)
-			: duplicateTier === "weak"
-				? "weak_duplicate_signal"
-			: nextReviewStatus === "rejected"
-				? sanitizeString(String(existing?.review_reason || ""), 240)
-				: "",
+		review_reason:
+			duplicateTier === "exact" || duplicateTier === "strong"
+				? sanitizeString(
+						`${duplicate_candidate.match?.reason || "duplicate_match"}:${duplicate_candidate.name || ""}`,
+						240,
+					)
+				: duplicateTier === "weak"
+					? "weak_duplicate_signal"
+					: nextReviewStatus === "rejected"
+						? sanitizeString(String(existing?.review_reason || ""), 240)
+						: "",
 		reviewed_at: shouldKeepApproved ? existing?.reviewed_at || null : null,
 		updated_at: new Date(),
 	};
@@ -800,7 +841,10 @@ export async function upsertVerification(user, documentsPatch) {
 		result.duplicate_candidate = duplicate_candidate;
 		result.duplicate_match_tier = duplicate_candidate.match?.tier || "";
 
-		if (duplicate_candidate.match?.tier === "exact" || duplicate_candidate.match?.tier === "strong") {
+		if (
+			duplicate_candidate.match?.tier === "exact" ||
+			duplicate_candidate.match?.tier === "strong"
+		) {
 			const companyOwnerId = duplicate_candidate.user_id;
 			if (companyOwnerId) {
 				const orgMembers = await prisma.user.findMany({

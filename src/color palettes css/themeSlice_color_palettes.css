@@ -12,8 +12,7 @@
  */
 
 :root {
-  /* Arbitrary / inline / SVG colors + explicit shadows/gradients (verbatim) */
-  --color-inline-1: #0f172a; /* verbatim `#0f172a` near: #0f172a */
-  --color-inline-2: #f8fafc; /* verbatim `#f8fafc` near: #f8fafc */
-
+	/* Arbitrary / inline / SVG colors + explicit shadows/gradients (verbatim) */
+	--color-inline-1: #0f172a; /* verbatim `#0f172a` near: #0f172a */
+	--color-inline-2: #f8fafc; /* verbatim `#f8fafc` near: #f8fafc */
 }

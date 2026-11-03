@@ -80,7 +80,6 @@
 	--theme-brand-20: rgba(88, 101, 242, 0.2);
 	--theme-brand-40: rgba(88, 101, 242, 0.4);
 	--theme-brand-5: rgba(88, 101, 242, 0.05);
-	--theme-brand-hover: #4752c4;
 	--theme-custom-020617-0: rgba(7, 9, 18, 0);
 	--theme-custom-020617-2: rgba(7, 9, 18, 0.02);
 	--theme-custom-020617-8: rgba(7, 9, 18, 0.08);
@@ -1504,7 +1503,6 @@
 	--theme-sky-400: #38bdf8;
 	--theme-sky-500: #0ea5e9;
 	--theme-sky-600: #0284c7;
-	--theme-sky-700: #0369a1;
 	--theme-sky-800: #075985;
 	--theme-sky-900: #0c4a6e;
 	--theme-sky-950: #082f49;

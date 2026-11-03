@@ -188,7 +188,12 @@ export async function pingNow() {
 	// every candidate means offline.
 	const token = readAuthToken();
 	const candidates = token
-		? [{ url: options.heartbeatUrl || DEFAULT_HEARTBEAT_URL, headers: { Authorization: `Bearer ${token}` } }]
+		? [
+				{
+					url: options.heartbeatUrl || DEFAULT_HEARTBEAT_URL,
+					headers: { Authorization: `Bearer ${token}` },
+				},
+			]
 		: [
 				{ url: "/health", headers: {} },
 				{ url: "/favicon.ico", headers: {} },

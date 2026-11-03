@@ -495,7 +495,7 @@ async function autoGenerateRatingsForOverdueRequests() {
 				where: { id: row.id },
 				data: {
 					status: alreadyRated ? "fulfilled" : "expired",
-					fulfilled_at: alreadyRated ? (row.fulfilled_at || new Date()) : new Date(),
+					fulfilled_at: alreadyRated ? row.fulfilled_at || new Date() : new Date(),
 				},
 			});
 

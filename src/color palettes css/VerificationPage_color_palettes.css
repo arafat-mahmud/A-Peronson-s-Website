@@ -130,106 +130,159 @@
  */
 
 :root {
-  /* Main colors / Backgrounds */
-  --color-background: #020617; /* bg-slate-950 (page background) */
-  --color-surface: #f8fafc; /* bg-slate-50 (surface / card) */
-  --color-surface-elevated: #ffffff; /* bg-white (elevated surface) */
-  --color-bg-amber-500-0-1: rgba(245, 158, 11, 0.1); /* bg-amber-500/10 (warning) */
-  --color-bg-amber-50: #fffbeb; /* bg-amber-50 (warning) */
-  --color-bg-black-0-6: rgba(0, 0, 0, 0.6); /* bg-black/60 */
-  --color-bg-blue-500-0-1: rgba(59, 130, 246, 0.1); /* bg-blue-500/10 (info) */
-  --color-bg-cyan-500-0-1: rgba(6, 182, 212, 0.1); /* bg-cyan-500/10 (accent) */
-  --color-bg-cyan-400-0-15: rgba(34, 211, 238, 0.15); /* bg-cyan-400/15 (accent) */
-  --color-bg-emerald-500-0-2: rgba(16, 185, 129, 0.2); /* bg-emerald-500/20 (success) */
-  --color-bg-emerald-500-0-15: rgba(16, 185, 129, 0.15); /* bg-emerald-500/15 (success) */
-  --color-bg-purple-500-0-15: rgba(168, 85, 247, 0.15); /* bg-purple-500/15 (primary) */
-  --color-bg-rose-500-0-2: rgba(244, 63, 94, 0.2); /* bg-rose-500/20 (danger) */
-  --color-bg-rose-500-0-1: rgba(244, 63, 94, 0.1); /* bg-rose-500/10 (danger) */
-  --color-bg-sky-500-0-1: rgba(14, 165, 233, 0.1); /* bg-sky-500/10 (accent) */
-  --color-bg-sky-50: #f0f9ff; /* bg-sky-50 (accent) */
-  --color-bg-sky-50-0-7: rgba(240, 249, 255, 0.7); /* bg-sky-50/70 (accent) */
-  --color-bg-sky-500-0-05: rgba(14, 165, 233, 0.05); /* bg-sky-500/5 (accent) */
-  --color-bg-sky-500-0-15: rgba(14, 165, 233, 0.15); /* bg-sky-500/15 (accent) */
-  --color-bg-sky-50-0-6: rgba(240, 249, 255, 0.6); /* bg-sky-50/60 (accent) */
-  --color-bg-sky-500-0-2: rgba(14, 165, 233, 0.2); /* bg-sky-500/20 (accent) */
-  --color-bg-slate-900-0-8: rgba(15, 23, 42, 0.8); /* bg-slate-900/80 */
-  --color-bg-slate-900-0-7: rgba(15, 23, 42, 0.7); /* bg-slate-900/70 */
-  --color-bg-slate-200-0-6: rgba(226, 232, 240, 0.6); /* bg-slate-200/60 */
-  --color-bg-white-0-05: rgba(255, 255, 255, 0.05); /* bg-white/5 */
-  --color-bg-white-0-8: rgba(255, 255, 255, 0.8); /* bg-white/80 */
-  --color-bg-white-0-2: rgba(255, 255, 255, 0.2); /* bg-white/20 */
+	/* Main colors / Backgrounds */
+	--color-background: #020617; /* bg-slate-950 (page background) */
+	--color-surface: #f8fafc; /* bg-slate-50 (surface / card) */
+	--color-surface-elevated: #ffffff; /* bg-white (elevated surface) */
+	--color-bg-amber-500-0-1: rgba(245, 158, 11, 0.1); /* bg-amber-500/10 (warning) */
+	--color-bg-amber-50: #fffbeb; /* bg-amber-50 (warning) */
+	--color-bg-black-0-6: rgba(0, 0, 0, 0.6); /* bg-black/60 */
+	--color-bg-blue-500-0-1: rgba(59, 130, 246, 0.1); /* bg-blue-500/10 (info) */
+	--color-bg-cyan-500-0-1: rgba(6, 182, 212, 0.1); /* bg-cyan-500/10 (accent) */
+	--color-bg-cyan-400-0-15: rgba(34, 211, 238, 0.15); /* bg-cyan-400/15 (accent) */
+	--color-bg-emerald-500-0-2: rgba(16, 185, 129, 0.2); /* bg-emerald-500/20 (success) */
+	--color-bg-emerald-500-0-15: rgba(16, 185, 129, 0.15); /* bg-emerald-500/15 (success) */
+	--color-bg-purple-500-0-15: rgba(168, 85, 247, 0.15); /* bg-purple-500/15 (primary) */
+	--color-bg-rose-500-0-2: rgba(244, 63, 94, 0.2); /* bg-rose-500/20 (danger) */
+	--color-bg-rose-500-0-1: rgba(244, 63, 94, 0.1); /* bg-rose-500/10 (danger) */
+	--color-bg-sky-500-0-1: rgba(14, 165, 233, 0.1); /* bg-sky-500/10 (accent) */
+	--color-bg-sky-50: #f0f9ff; /* bg-sky-50 (accent) */
+	--color-bg-sky-50-0-7: rgba(240, 249, 255, 0.7); /* bg-sky-50/70 (accent) */
+	--color-bg-sky-500-0-05: rgba(14, 165, 233, 0.05); /* bg-sky-500/5 (accent) */
+	--color-bg-sky-500-0-15: rgba(14, 165, 233, 0.15); /* bg-sky-500/15 (accent) */
+	--color-bg-sky-50-0-6: rgba(240, 249, 255, 0.6); /* bg-sky-50/60 (accent) */
+	--color-bg-sky-500-0-2: rgba(14, 165, 233, 0.2); /* bg-sky-500/20 (accent) */
+	--color-bg-slate-900-0-8: rgba(15, 23, 42, 0.8); /* bg-slate-900/80 */
+	--color-bg-slate-900-0-7: rgba(15, 23, 42, 0.7); /* bg-slate-900/70 */
+	--color-bg-slate-200-0-6: rgba(226, 232, 240, 0.6); /* bg-slate-200/60 */
+	--color-bg-white-0-05: rgba(255, 255, 255, 0.05); /* bg-white/5 */
+	--color-bg-white-0-8: rgba(255, 255, 255, 0.8); /* bg-white/80 */
+	--color-bg-white-0-2: rgba(255, 255, 255, 0.2); /* bg-white/20 */
 
-  /* Text */
-  --color-text-amber-500: #f59e0b; /* text-amber-500 (warning) */
-  --color-text-amber-400: #fbbf24; /* text-amber-400 (warning) */
-  --color-text-amber-200: #fde68a; /* text-amber-200 (warning) */
-  --color-text-amber-800: #92400e; /* text-amber-800 (warning) */
-  --color-text-amber-300-70: rgba(252, 211, 77, 0.7); /* text-amber-300/70 (warning) */
-  --color-text-amber-600: #d97706; /* text-amber-600 (warning) */
-  --color-text-cyan-500: #06b6d4; /* text-cyan-500 (accent-soft) */
-  --color-text-emerald-200: #a7f3d0; /* text-emerald-200 (success) */
-  --color-text-emerald-300: #6ee7b7; /* text-emerald-300 (success) */
-  --color-text-purple-400: #c084fc; /* text-purple-400 (primary-soft) */
-  --color-text-rose-300: #fda4af; /* text-rose-300 (danger) */
-  --color-text-rose-400: #fb7185; /* text-rose-400 (danger) */
-  --color-text-sky-200: #bae6fd; /* text-sky-200 (info) */
-  --color-text-sky-700: #0369a1; /* text-sky-700 (info) */
-  --color-text-sky-400: #38bdf8; /* text-sky-400 (info) */
-  --color-text-sky-500: #0ea5e9; /* text-sky-500 (info) */
-  --color-text-slate-100: #f1f5f9; /* text-slate-100 */
-  --color-text-slate-900: #0f172a; /* text-slate-900 */
-  --color-text-secondary: #cbd5e1; /* text-slate-300 (body / secondary text) */
-  --color-text-slate-600: #475569; /* text-slate-600 */
-  --color-text-muted: #94a3b8; /* text-slate-400 (muted text) */
-  --color-text-muted-2: #64748b; /* text-slate-500 (muted text) */
-  --color-text-primary: #ffffff; /* text-white (heading / primary text) */
-  --color-placeholder: #94a3b8; /* placeholder:placeholder:text-slate-400 (input placeholder) */
+	/* Text */
+	--color-text-amber-500: #f59e0b; /* text-amber-500 (warning) */
+	--color-text-amber-400: #fbbf24; /* text-amber-400 (warning) */
+	--color-text-amber-200: #fde68a; /* text-amber-200 (warning) */
+	--color-text-amber-800: #92400e; /* text-amber-800 (warning) */
+	--color-text-amber-300-70: rgba(252, 211, 77, 0.7); /* text-amber-300/70 (warning) */
+	--color-text-amber-600: #d97706; /* text-amber-600 (warning) */
+	--color-text-cyan-500: #06b6d4; /* text-cyan-500 (accent-soft) */
+	--color-text-emerald-200: #a7f3d0; /* text-emerald-200 (success) */
+	--color-text-emerald-300: #6ee7b7; /* text-emerald-300 (success) */
+	--color-text-purple-400: #c084fc; /* text-purple-400 (primary-soft) */
+	--color-text-rose-300: #fda4af; /* text-rose-300 (danger) */
+	--color-text-rose-400: #fb7185; /* text-rose-400 (danger) */
+	--color-text-sky-200: #bae6fd; /* text-sky-200 (info) */
+	--color-text-sky-700: #0369a1; /* text-sky-700 (info) */
+	--color-text-sky-400: #38bdf8; /* text-sky-400 (info) */
+	--color-text-sky-500: #0ea5e9; /* text-sky-500 (info) */
+	--color-text-slate-100: #f1f5f9; /* text-slate-100 */
+	--color-text-slate-900: #0f172a; /* text-slate-900 */
+	--color-text-secondary: #cbd5e1; /* text-slate-300 (body / secondary text) */
+	--color-text-slate-600: #475569; /* text-slate-600 */
+	--color-text-muted: #94a3b8; /* text-slate-400 (muted text) */
+	--color-text-muted-2: #64748b; /* text-slate-500 (muted text) */
+	--color-text-primary: #ffffff; /* text-white (heading / primary text) */
+	--color-placeholder: #94a3b8; /* placeholder:placeholder:text-slate-400 (input placeholder) */
 
-  /* Borders / Dividers / Rings */
-  --color-border-amber-400-20: rgba(251, 191, 36, 0.2); /* border-amber-400/20 (border) */
-  --color-border-amber-200: #fde68a; /* border-amber-200 (border) */
-  --color-border-emerald-500-30: rgba(16, 185, 129, 0.3); /* border-emerald-500/30 (border) */
-  --color-border-rose-500-30: rgba(244, 63, 94, 0.3); /* border-rose-500/30 (border) */
-  --color-border-sky-400-20: rgba(56, 189, 248, 0.2); /* border-sky-400/20 (border) */
-  --color-border-sky-200: #bae6fd; /* border-sky-200 (border) */
-  --color-border-sky-100: #e0f2fe; /* border-sky-100 (border) */
-  --color-border-sky-400-30: rgba(56, 189, 248, 0.3); /* border-sky-400/30 (border) */
-  --color-border-sky-400-40: rgba(56, 189, 248, 0.4); /* border-sky-400/40 (border) */
-  --color-border-slate-200: #e2e8f0; /* border-slate-200 (border) */
-  --color-border: rgba(255, 255, 255, 0.1); /* border-white/10 (default border) */
+	/* Borders / Dividers / Rings */
+	--color-border-amber-400-20: rgba(251, 191, 36, 0.2); /* border-amber-400/20 (border) */
+	--color-border-amber-200: #fde68a; /* border-amber-200 (border) */
+	--color-border-emerald-500-30: rgba(16, 185, 129, 0.3); /* border-emerald-500/30 (border) */
+	--color-border-rose-500-30: rgba(244, 63, 94, 0.3); /* border-rose-500/30 (border) */
+	--color-border-sky-400-20: rgba(56, 189, 248, 0.2); /* border-sky-400/20 (border) */
+	--color-border-sky-200: #bae6fd; /* border-sky-200 (border) */
+	--color-border-sky-100: #e0f2fe; /* border-sky-100 (border) */
+	--color-border-sky-400-30: rgba(56, 189, 248, 0.3); /* border-sky-400/30 (border) */
+	--color-border-sky-400-40: rgba(56, 189, 248, 0.4); /* border-sky-400/40 (border) */
+	--color-border-slate-200: #e2e8f0; /* border-slate-200 (border) */
+	--color-border: rgba(255, 255, 255, 0.1); /* border-white/10 (default border) */
 
-  /* Shadow colors */
-  --color-shadow-sky-500-25: rgba(14, 165, 233, 0.25); /* shadow-sky-500/25 (shadow color) */
+	/* Shadow colors */
+	--color-shadow-sky-500-25: rgba(14, 165, 233, 0.25); /* shadow-sky-500/25 (shadow color) */
 
-  /* States (hover / focus / active / disabled / responsive / data / aria) */
-  --color-bg-sky-50-hover: #f0f9ff; /* hover:hover:bg-sky-50 (state) */
-  --color-bg-sky-500-10-hover: rgba(14, 165, 233, 0.1); /* hover:hover:bg-sky-500/10 (state) */
-  --color-panel-hover: rgba(255, 255, 255, 0.1); /* hover:hover:bg-white/10 (state) */
-  --color-border-sky-400-focus: #38bdf8; /* focus:focus:border-sky-400 (state) */
-  --color-border-sky-400-70-hover: rgba(56, 189, 248, 0.7); /* hover:hover:border-sky-400/70 (state) */
-  --color-shadow-sky-500-35-hover: rgba(14, 165, 233, 0.35); /* hover:hover:shadow-sky-500/35 (state) */
-  --color-text-slate-400-placeholder: #94a3b8; /* placeholder:placeholder:text-slate-400 (state) */
+	/* States (hover / focus / active / disabled / responsive / data / aria) */
+	--color-bg-sky-50-hover: #f0f9ff; /* hover:hover:bg-sky-50 (state) */
+	--color-bg-sky-500-10-hover: rgba(14, 165, 233, 0.1); /* hover:hover:bg-sky-500/10 (state) */
+	--color-panel-hover: rgba(255, 255, 255, 0.1); /* hover:hover:bg-white/10 (state) */
+	--color-border-sky-400-focus: #38bdf8; /* focus:focus:border-sky-400 (state) */
+	--color-border-sky-400-70-hover: rgba(
+		56,
+		189,
+		248,
+		0.7
+	); /* hover:hover:border-sky-400/70 (state) */
+	--color-shadow-sky-500-35-hover: rgba(
+		14,
+		165,
+		233,
+		0.35
+	); /* hover:hover:shadow-sky-500/35 (state) */
+	--color-text-slate-400-placeholder: #94a3b8; /* placeholder:placeholder:text-slate-400 (state) */
 
-  /* Gradients (every distinct stop-set preserved) */
-  --gradient-primary: linear-gradient(135deg, #f0f9ff 0%, #ffffff 50%, #eff6ff 100%); /* from-sky-50 via-white to-blue-50 (gradient; direction 135deg) */
-  --gradient-2: linear-gradient(90deg, #0ea5e9 0%, #3b82f6 50%, #22d3ee 100%); /* from-sky-500 via-blue-500 to-cyan-400 (gradient; direction 90deg) */
-  --gradient-3: linear-gradient(135deg, #0ea5e9 0%, #3b82f6 100%); /* from-sky-500 to-blue-500 (gradient; direction 135deg) */
+	/* Gradients (every distinct stop-set preserved) */
+	--gradient-primary: linear-gradient(
+		135deg,
+		#f0f9ff 0%,
+		#ffffff 50%,
+		#eff6ff 100%
+	); /* from-sky-50 via-white to-blue-50 (gradient; direction 135deg) */
+	--gradient-2: linear-gradient(
+		90deg,
+		#0ea5e9 0%,
+		#3b82f6 50%,
+		#22d3ee 100%
+	); /* from-sky-500 via-blue-500 to-cyan-400 (gradient; direction 90deg) */
+	--gradient-3: linear-gradient(
+		135deg,
+		#0ea5e9 0%,
+		#3b82f6 100%
+	); /* from-sky-500 to-blue-500 (gradient; direction 135deg) */
 
-  /* Arbitrary / inline / SVG colors + explicit shadows/gradients (verbatim) */
-  --shadow-custom-1: 0 20px 80px rgba(2,8,23,0.55); /* shadow-[0_20px_80px_rgba(2,8,23,0.55)] (explicit shadow/glow) */
-  --shadow-custom-2: 0 20px 70px rgba(14,165,233,0.12); /* shadow-[0_20px_70px_rgba(14,165,233,0.12)] (explicit shadow/glow) */
-  --color-inline-1: #6100ff; /* verbatim `#6100ff` near: #6100ff */
+	/* Arbitrary / inline / SVG colors + explicit shadows/gradients (verbatim) */
+	--shadow-custom-1: 0 20px 80px rgba(2, 8, 23, 0.55); /* shadow-[0_20px_80px_rgba(2,8,23,0.55)] (explicit shadow/glow) */
+	--shadow-custom-2: 0 20px 70px rgba(14, 165, 233, 0.12); /* shadow-[0_20px_70px_rgba(14,165,233,0.12)] (explicit shadow/glow) */
+	--color-inline-1: #6100ff; /* verbatim `#6100ff` near: #6100ff */
 
-  /* Semantic aliases (derived, not new colors) */
-  --color-warning: rgba(245, 158, 11, 0.1); /* alias -> --color-bg-amber-500-0-1 (bg-amber-500/10 (warning)) */
-  --color-info: rgba(59, 130, 246, 0.1); /* alias -> --color-bg-blue-500-0-1 (bg-blue-500/10 (info)) */
-  --color-success: rgba(16, 185, 129, 0.2); /* alias -> --color-bg-emerald-500-0-2 (bg-emerald-500/20 (success)) */
-  --color-danger: rgba(244, 63, 94, 0.2); /* alias -> --color-bg-rose-500-0-2 (bg-rose-500/20 (danger)) */
-  --color-accent: rgba(6, 182, 212, 0.1); /* alias -> --color-bg-cyan-500-0-1 (bg-cyan-500/10 (accent)) */
-  --color-primary: rgba(168, 85, 247, 0.15); /* alias -> --color-bg-purple-500-0-15 (bg-purple-500/15 (primary)) */
-
+	/* Semantic aliases (derived, not new colors) */
+	--color-warning: rgba(
+		245,
+		158,
+		11,
+		0.1
+	); /* alias -> --color-bg-amber-500-0-1 (bg-amber-500/10 (warning)) */
+	--color-info: rgba(
+		59,
+		130,
+		246,
+		0.1
+	); /* alias -> --color-bg-blue-500-0-1 (bg-blue-500/10 (info)) */
+	--color-success: rgba(
+		16,
+		185,
+		129,
+		0.2
+	); /* alias -> --color-bg-emerald-500-0-2 (bg-emerald-500/20 (success)) */
+	--color-danger: rgba(
+		244,
+		63,
+		94,
+		0.2
+	); /* alias -> --color-bg-rose-500-0-2 (bg-rose-500/20 (danger)) */
+	--color-accent: rgba(
+		6,
+		182,
+		212,
+		0.1
+	); /* alias -> --color-bg-cyan-500-0-1 (bg-cyan-500/10 (accent)) */
+	--color-primary: rgba(
+		168,
+		85,
+		247,
+		0.15
+	); /* alias -> --color-bg-purple-500-0-15 (bg-purple-500/15 (primary)) */
 }
 
 .dark {
-  --color-background: #1e293b; /* dark:dark:bg-slate-800 */
+	--color-background: #1e293b; /* dark:dark:bg-slate-800 */
 }

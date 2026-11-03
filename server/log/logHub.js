@@ -4,9 +4,9 @@ import os from "node:os";
 import { registerBuiltinParsers } from "./builtinParsers.js";
 import { detectCategory } from "./categories.js";
 import { levelColorFor, levelIconFor, normalizeLevel } from "./levels.js";
+import { logFileWriter } from "./logFileWriter.js";
 import { runParsers } from "./parsers.js";
 import { matchQuery } from "./search.js";
-import { logFileWriter } from "./logFileWriter.js";
 
 registerBuiltinParsers();
 

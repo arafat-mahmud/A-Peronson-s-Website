@@ -13,13 +13,12 @@
  */
 
 :root {
-  /* Main colors / Backgrounds */
-  --color-background: rgba(30, 41, 59, 0.3); /* bg-slate-800/30 (page background) */
+	/* Main colors / Backgrounds */
+	--color-background: rgba(30, 41, 59, 0.3); /* bg-slate-800/30 (page background) */
 
-  /* Borders / Dividers / Rings */
-  --color-border-sky-500: #0ea5e9; /* border-sky-500 (border) */
+	/* Borders / Dividers / Rings */
+	--color-border-sky-500: #0ea5e9; /* border-sky-500 (border) */
 
-  /* Semantic aliases (derived, not new colors) */
-  --color-info: #0ea5e9; /* alias -> --color-border-sky-500 (border-sky-500 (border)) */
-
+	/* Semantic aliases (derived, not new colors) */
+	--color-info: #0ea5e9; /* alias -> --color-border-sky-500 (border-sky-500 (border)) */
 }

@@ -83,7 +83,9 @@ export default function BoostDetailsPage() {
 				<h2 className="text-lg font-semibold text-slate-900 dark:text-white">Create Boost</h2>
 				<div className="mt-4 grid gap-4 sm:grid-cols-2">
 					<div>
-						<label className="mb-2 block text-sm font-medium text-slate-700 dark:text-slate-300">Scope</label>
+						<label className="mb-2 block text-sm font-medium text-slate-700 dark:text-slate-300">
+							Scope
+						</label>
 						<select
 							value={boostScope}
 							onChange={(e) => setBoostScope(e.target.value)}
@@ -94,7 +96,9 @@ export default function BoostDetailsPage() {
 						</select>
 					</div>
 					<div>
-						<label className="mb-2 block text-sm font-medium text-slate-700 dark:text-slate-300">Duration</label>
+						<label className="mb-2 block text-sm font-medium text-slate-700 dark:text-slate-300">
+							Duration
+						</label>
 						<select
 							value={boostDuration}
 							onChange={(e) => setBoostDuration(e.target.value)}
@@ -108,7 +112,9 @@ export default function BoostDetailsPage() {
 						</select>
 					</div>
 					<div>
-						<label className="mb-2 block text-sm font-medium text-slate-700 dark:text-slate-300">Multiplier</label>
+						<label className="mb-2 block text-sm font-medium text-slate-700 dark:text-slate-300">
+							Multiplier
+						</label>
 						<input
 							type="number"
 							step="0.1"
@@ -118,10 +124,14 @@ export default function BoostDetailsPage() {
 						/>
 					</div>
 					<div>
-						<label className="mb-2 block text-sm font-medium text-slate-700 dark:text-slate-300">Price ($)</label>
+						<label className="mb-2 block text-sm font-medium text-slate-700 dark:text-slate-300">
+							Price ($)
+						</label>
 						<p className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-semibold dark:border-slate-800 dark:bg-slate-900/60 dark:text-white">
 							${boostPrice.toFixed(2)}
-							<span className="ml-1 font-normal text-slate-500 dark:text-slate-400">from your wallet</span>
+							<span className="ml-1 font-normal text-slate-500 dark:text-slate-400">
+								from your wallet
+							</span>
 						</p>
 					</div>
 				</div>
@@ -134,7 +144,9 @@ export default function BoostDetailsPage() {
 					{creatingBoost ? "Creating..." : "Create Boost"}
 				</button>
 				{boostFeedback && (
-					<p className={`mt-2 text-sm ${boostFeedback.includes("success") ? "text-green-600" : "text-red-600"}`}>
+					<p
+						className={`mt-2 text-sm ${boostFeedback.includes("success") ? "text-green-600" : "text-red-600"}`}
+					>
 						{boostFeedback}
 					</p>
 				)}
@@ -158,7 +170,9 @@ export default function BoostDetailsPage() {
 										{b.scope}
 										{b.ends_at ? ` — until ${new Date(b.ends_at).toLocaleDateString()}` : ""}
 									</p>
-									<p className="text-slate-500">×{b.multiplier} · ${b.price_usd || b.price}</p>
+									<p className="text-slate-500">
+										×{b.multiplier} · ${b.price_usd || b.price}
+									</p>
 								</div>
 								<span className="rounded-full bg-slate-100 px-3 py-1 text-xs text-slate-500 dark:bg-slate-800 dark:text-slate-400">
 									{b.status || "pending"}

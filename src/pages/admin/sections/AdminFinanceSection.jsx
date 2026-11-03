@@ -24,16 +24,25 @@ export function AdminFinanceSection({
 	const ledger = walletLedger?.length ? walletLedger : wallet.ledger || [];
 
 	const totalSubs = revenueSummary.reduce((sum, r) => sum + (r.subscribers || 0), 0);
-	const revenueEstimate = revenueSummary.reduce((sum, r) => sum + (r.subscribers || 0) * (r.price_usd || 0), 0);
+	const revenueEstimate = revenueSummary.reduce(
+		(sum, r) => sum + (r.subscribers || 0) * (r.price_usd || 0),
+		0,
+	);
 
 	const filteredUsers = useMemo(() => {
 		if (!subQuery) return users || [];
 		const q = subQuery.toLowerCase();
 		return (users || []).filter(
 			(u) =>
-				(String(u.id || "").toLowerCase().includes(q)) ||
-				(String(u.email || "").toLowerCase().includes(q)) ||
-				(String(u.name || "").toLowerCase().includes(q)),
+				String(u.id || "")
+					.toLowerCase()
+					.includes(q) ||
+				String(u.email || "")
+					.toLowerCase()
+					.includes(q) ||
+				String(u.name || "")
+					.toLowerCase()
+					.includes(q),
 		);
 	}, [users, subQuery]);
 
@@ -45,7 +54,8 @@ export function AdminFinanceSection({
 		? "rounded-2xl border border-slate-800 bg-slate-900/60 p-4"
 		: "rounded-2xl border border-slate-200 bg-slate-50 p-4";
 
-	const labelClass = "text-[11px] font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400";
+	const labelClass =
+		"text-[11px] font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400";
 
 	async function changeUserPlan(userId, plan) {
 		setBusyUserId(userId);
@@ -68,11 +78,15 @@ export function AdminFinanceSection({
 			<div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
 				<div className={cardClass}>
 					<p className={labelClass}>Total Subscriptions</p>
-					<p className="mt-1 text-2xl font-bold">{formatNumber ? formatNumber(totalSubs) : totalSubs}</p>
+					<p className="mt-1 text-2xl font-bold">
+						{formatNumber ? formatNumber(totalSubs) : totalSubs}
+					</p>
 				</div>
 				<div className={cardClass}>
 					<p className={labelClass}>Revenue Estimate</p>
-					<p className="mt-1 text-2xl font-bold">{formatCurrency ? formatCurrency(revenueEstimate) : `$${revenueEstimate.toFixed(2)}`}</p>
+					<p className="mt-1 text-2xl font-bold">
+						{formatCurrency ? formatCurrency(revenueEstimate) : `$${revenueEstimate.toFixed(2)}`}
+					</p>
 				</div>
 				<div className={cardClass}>
 					<p className={labelClass}>Failed Renewals</p>
@@ -86,7 +100,9 @@ export function AdminFinanceSection({
 
 			<div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
 				<div className="space-y-3">
-					<p className="text-sm font-semibold text-slate-600 dark:text-slate-300">Subscribers by Plan</p>
+					<p className="text-sm font-semibold text-slate-600 dark:text-slate-300">
+						Subscribers by Plan
+					</p>
 					<div className="space-y-2">
 						{revenueSummary.length === 0 && (
 							<p className="text-xs text-slate-400">No subscription data</p>
@@ -95,10 +111,14 @@ export function AdminFinanceSection({
 							<div key={row.plan} className={`${cardClass} flex items-center justify-between`}>
 								<div>
 									<p className="text-sm font-medium capitalize">{row.plan}</p>
-									<p className="text-xs text-slate-400">{row.subscribers} subscriber{row.subscribers !== 1 ? "s" : ""}</p>
+									<p className="text-xs text-slate-400">
+										{row.subscribers} subscriber{row.subscribers !== 1 ? "s" : ""}
+									</p>
 								</div>
 								<div className="text-right">
-									<p className="text-sm font-semibold">{formatCurrency ? formatCurrency(row.price_usd) : `$${row.price_usd}`}</p>
+									<p className="text-sm font-semibold">
+										{formatCurrency ? formatCurrency(row.price_usd) : `$${row.price_usd}`}
+									</p>
 									<p className="text-xs text-slate-400">/mo</p>
 								</div>
 							</div>
@@ -107,7 +127,9 @@ export function AdminFinanceSection({
 				</div>
 
 				<div className="space-y-3">
-					<p className="text-sm font-semibold text-slate-600 dark:text-slate-300">Recent Transactions</p>
+					<p className="text-sm font-semibold text-slate-600 dark:text-slate-300">
+						Recent Transactions
+					</p>
 					<div className="max-h-64 space-y-2 overflow-y-auto">
 						{ledger.length === 0 && (
 							<p className="text-xs text-slate-400">No recent transactions</p>
@@ -115,12 +137,17 @@ export function AdminFinanceSection({
 						{ledger.slice(0, 10).map((row) => (
 							<div key={row.id} className={`${cardClass} flex items-center justify-between`}>
 								<div className="min-w-0 flex-1">
-									<p className="truncate text-xs font-medium">{row.user_id ? String(row.user_id).slice(0, 16) : "—"}</p>
+									<p className="truncate text-xs font-medium">
+										{row.user_id ? String(row.user_id).slice(0, 16) : "—"}
+									</p>
 									<p className="text-[10px] text-slate-400">{row.reason || "—"}</p>
 								</div>
 								<div className="ml-2 text-right">
-									<p className={`text-xs font-semibold ${Number(row.amount_usd || 0) < 0 ? "text-rose-400" : "text-emerald-400"}`}>
-										{Number(row.amount_usd || 0) < 0 ? "-" : "+"}${Math.abs(Number(row.amount_usd || 0)).toFixed(2)}
+									<p
+										className={`text-xs font-semibold ${Number(row.amount_usd || 0) < 0 ? "text-rose-400" : "text-emerald-400"}`}
+									>
+										{Number(row.amount_usd || 0) < 0 ? "-" : "+"}$
+										{Math.abs(Number(row.amount_usd || 0)).toFixed(2)}
 									</p>
 									<p className="text-[10px] text-slate-400">{row.kind || "—"}</p>
 								</div>
@@ -165,7 +192,9 @@ export function AdminFinanceSection({
 
 			<div className="space-y-3">
 				<div className="flex items-center justify-between">
-					<p className="text-sm font-semibold text-slate-600 dark:text-slate-300">User Subscriptions</p>
+					<p className="text-sm font-semibold text-slate-600 dark:text-slate-300">
+						User Subscriptions
+					</p>
 					<input
 						type="text"
 						placeholder="Search by ID, email, or name..."
@@ -175,9 +204,7 @@ export function AdminFinanceSection({
 					/>
 				</div>
 				<div className="max-h-96 space-y-2 overflow-y-auto">
-					{filteredUsers.length === 0 && (
-						<p className="text-xs text-slate-400">No users found</p>
-					)}
+					{filteredUsers.length === 0 && <p className="text-xs text-slate-400">No users found</p>}
 					{filteredUsers.map((u) => (
 						<div key={u.id} className={`${cardClass} flex items-center justify-between`}>
 							<div className="min-w-0 flex-1">
@@ -204,7 +231,11 @@ export function AdminFinanceSection({
 										onClick={() => changeUserPlan(u.id, "premium")}
 										className="rounded-xl bg-emerald-500/10 px-3 py-1 text-[10px] font-semibold text-emerald-500 transition hover:bg-emerald-500/20 disabled:opacity-40"
 									>
-										{busyUserId === u.id ? <ThreeDot variant3={true} color="#10b981" size={12} /> : "Upgrade"}
+										{busyUserId === u.id ? (
+											<ThreeDot variant3={true} color="#10b981" size={12} />
+										) : (
+											"Upgrade"
+										)}
 									</button>
 								) : (
 									<button
@@ -213,7 +244,11 @@ export function AdminFinanceSection({
 										onClick={() => changeUserPlan(u.id, "free")}
 										className="rounded-xl bg-rose-500/10 px-3 py-1 text-[10px] font-semibold text-rose-400 transition hover:bg-rose-500/20 disabled:opacity-40"
 									>
-										{busyUserId === u.id ? <ThreeDot variant3={true} color="#f43f5e" size={12} /> : "Downgrade"}
+										{busyUserId === u.id ? (
+											<ThreeDot variant3={true} color="#f43f5e" size={12} />
+										) : (
+											"Downgrade"
+										)}
 									</button>
 								)}
 							</div>

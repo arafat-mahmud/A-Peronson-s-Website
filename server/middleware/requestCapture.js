@@ -30,7 +30,15 @@ function parseUrl(url) {
 			fragment: u.hash.replace("#", "") || null,
 		};
 	} catch {
-		return { scheme: "http", subdomain: "", domain: "unknown", port: "80", path: url, query: {}, fragment: null };
+		return {
+			scheme: "http",
+			subdomain: "",
+			domain: "unknown",
+			port: "80",
+			path: url,
+			query: {},
+			fragment: null,
+		};
 	}
 }
 

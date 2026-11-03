@@ -25,26 +25,29 @@
  */
 
 :root {
-  /* Main colors / Backgrounds */
-  --color-background: #050212; /* bg-[#050212] (page background) */
+	/* Main colors / Backgrounds */
+	--color-background: #050212; /* bg-[#050212] (page background) */
 
-  /* Text */
-  --color-text-muted: #9ca3af; /* text-gray-400 (muted text) */
-  --color-text-red-400: #f87171; /* text-red-400 (danger) */
+	/* Text */
+	--color-text-muted: #9ca3af; /* text-gray-400 (muted text) */
+	--color-text-red-400: #f87171; /* text-red-400 (danger) */
 
-  /* Borders / Dividers / Rings */
-  --color-border-subtle: rgba(255, 255, 255, 0.05); /* border-white/5 (subtle border) */
+	/* Borders / Dividers / Rings */
+	--color-border-subtle: rgba(255, 255, 255, 0.05); /* border-white/5 (subtle border) */
 
-  /* Arbitrary / inline / SVG colors + explicit shadows/gradients (verbatim) */
-  --gradient-custom: radial-gradient(circle at center,#150833 0%,#050212 60%); /* explicit gradient() in source */
-  --color-inline-1: #00ffff; /* verbatim `#00ffff` near: #00ffff */
-  --color-inline-2: #00bfff; /* verbatim `#00bfff` near: #00bfff */
-  --color-inline-3: #ff00ff; /* verbatim `#ff00ff` near: #ff00ff */
-  --color-inline-4: #8a2be2; /* verbatim `#8a2be2` near: #8a2be2 */
-  --color-inline-5: #0040ff; /* verbatim `#0040ff` near: #0040ff */
-  --color-inline-6: #ffffff; /* verbatim `#fff` near: #fff */
+	/* Arbitrary / inline / SVG colors + explicit shadows/gradients (verbatim) */
+	--gradient-custom: radial-gradient(
+		circle at center,
+		#150833 0%,
+		#050212 60%
+	); /* explicit gradient() in source */
+	--color-inline-1: #00ffff; /* verbatim `#00ffff` near: #00ffff */
+	--color-inline-2: #00bfff; /* verbatim `#00bfff` near: #00bfff */
+	--color-inline-3: #ff00ff; /* verbatim `#ff00ff` near: #ff00ff */
+	--color-inline-4: #8a2be2; /* verbatim `#8a2be2` near: #8a2be2 */
+	--color-inline-5: #0040ff; /* verbatim `#0040ff` near: #0040ff */
+	--color-inline-6: #ffffff; /* verbatim `#fff` near: #fff */
 
-  /* Semantic aliases (derived, not new colors) */
-  --color-danger: #f87171; /* alias -> --color-text-red-400 (text-red-400 (danger)) */
-
+	/* Semantic aliases (derived, not new colors) */
+	--color-danger: #f87171; /* alias -> --color-text-red-400 (text-red-400 (danger)) */
 }

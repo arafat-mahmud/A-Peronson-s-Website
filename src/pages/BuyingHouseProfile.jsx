@@ -51,17 +51,17 @@ import {
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { ThreeDot } from "react-loading-indicators";
 import { useNavigate, useParams } from "react-router-dom";
+import { industryLabel } from "../../shared/config/platformTaxonomy.js";
 import CrmSummaryPanel from "../components/profile/CrmSummaryPanel.jsx";
 import VerificationPanel from "../components/profile/VerificationPanel.jsx";
 import LazyImage from "../components/ui/LazyImage.jsx";
 import NeonAtom from "../components/ui/NeonAtom.jsx";
 import { usePremiumCheck } from "../hooks/useSecureUser.js";
 import { apiRequest, getCurrentUser, getToken } from "../lib/auth.js";
-import { useFallbackCover } from "../lib/fallbackCover.js";
 import { trackClientEvent } from "../lib/events.js";
+import { useFallbackCover } from "../lib/fallbackCover.js";
 import { recordLeadSource } from "../lib/leadSource.js";
 import { logger } from "../lib/logger.js";
-import { industryLabel } from "../../shared/config/platformTaxonomy.js";
 
 const Motion = motion;
 
@@ -120,7 +120,9 @@ function Metric({ label, value, helper }) {
 				{label}
 			</div>
 			<div className="mt-2 text-sm font-semibold text-slate-900 dark:text-slate-100">{value}</div>
-			{helper ? <div className="mt-1 text-xs text-slate-500 dark:text-slate-400">{helper}</div> : null}
+			{helper ? (
+				<div className="mt-1 text-xs text-slate-500 dark:text-slate-400">{helper}</div>
+			) : null}
 		</div>
 	);
 }
@@ -141,7 +143,14 @@ function AvatarFallback({ name, imageUrl }) {
 		<div className="relative h-24 w-24 overflow-hidden rounded-3xl border border-white/60 bg-gradient-to-br from-sky-500 via-cyan-400 to-indigo-500 p-[2px] shadow-xl">
 			<div className="flex h-full w-full items-center justify-center overflow-hidden rounded-[1.15rem] bg-slate-100 text-2xl font-bold text-slate-700 dark:bg-slate-900 dark:text-slate-100">
 				{imageUrl ? (
-            <LazyImage src={imageUrl} alt={name || "Profile avatar"} width={40} height={40} loading="eager" className="h-full w-full object-cover" />
+					<LazyImage
+						src={imageUrl}
+						alt={name || "Profile avatar"}
+						width={40}
+						height={40}
+						loading="eager"
+						className="h-full w-full object-cover"
+					/>
 				) : (
 					initials(name)
 				)}
@@ -333,7 +342,14 @@ function Lightbox({ open, image, onClose }) {
 				>
 					<X size={18} />
 				</button>
-				<LazyImage src={image} alt="Product preview" width={1200} height={800} loading="lazy" className="max-h-[92vh] w-full object-contain" />
+				<LazyImage
+					src={image}
+					alt="Product preview"
+					width={1200}
+					height={800}
+					loading="lazy"
+					className="max-h-[92vh] w-full object-contain"
+				/>
 			</div>
 		</div>
 	);
@@ -398,11 +414,10 @@ export default function BuyingHouseProfile() {
 		profile?.effective_plan === "premium";
 	const isSelfOrAdmin = viewerPerms.is_self || viewerPerms.is_admin;
 	const hasRelationship = relationship.friend_status === "friends";
-	const brandProfile = isSelfOrAdmin || hasRelationship ? profile?.profile_private || user?.profile || {} : {};
+	const brandProfile =
+		isSelfOrAdmin || hasRelationship ? profile?.profile_private || user?.profile || {} : {};
 	const hasBrandKit = Boolean(
-		brandProfile.brand_name ||
-			brandProfile.brand_logo_url ||
-			brandProfile.brand_tagline,
+		brandProfile.brand_name || brandProfile.brand_logo_url || brandProfile.brand_tagline,
 	);
 	const hasAccountManager = Boolean(
 		brandProfile.account_manager_name ||
@@ -921,17 +936,17 @@ export default function BuyingHouseProfile() {
 											<span className="inline-flex items-center gap-1.5 rounded-full bg-white/15 px-3 py-1 backdrop-blur">
 												<User2 size={13} /> {roleLabel}
 											</span>
-										<span className="inline-flex items-center gap-1.5 rounded-full bg-white/15 px-3 py-1 backdrop-blur">
-											<MapPin size={13} /> {country}
-										</span>
-										{industry ? (
 											<span className="inline-flex items-center gap-1.5 rounded-full bg-white/15 px-3 py-1 backdrop-blur">
-												<Globe2 size={13} /> {industry}
+												<MapPin size={13} /> {country}
 											</span>
-										) : null}
-										<span className="inline-flex items-center gap-1.5 rounded-full bg-white/15 px-3 py-1 backdrop-blur">
-											<Star size={13} /> {avg ? `${avg.toFixed(1)} / 5` : "No rating"}
-										</span>
+											{industry ? (
+												<span className="inline-flex items-center gap-1.5 rounded-full bg-white/15 px-3 py-1 backdrop-blur">
+													<Globe2 size={13} /> {industry}
+												</span>
+											) : null}
+											<span className="inline-flex items-center gap-1.5 rounded-full bg-white/15 px-3 py-1 backdrop-blur">
+												<Star size={13} /> {avg ? `${avg.toFixed(1)} / 5` : "No rating"}
+											</span>
 										</div>
 									</div>
 								</div>
@@ -1387,30 +1402,36 @@ export default function BuyingHouseProfile() {
 												helper="Aggregate reliability"
 											/>
 										</div>
-										{ratingSummary?.aggregate?.category_averages && (() => {
-											const cats = ratingSummary.aggregate.category_averages;
-											const filled = [
-												{ label: "Sample Accuracy", val: cats.sample_accuracy },
-												{ label: "Communication", val: cats.communication_speed },
-												{ label: "Quality Control", val: cats.quality_control },
-												{ label: "Delivery", val: cats.delivery_timeliness },
-												{ label: "After-Sales", val: cats.after_sales_support },
-											].filter((c) => c.val != null);
-											if (filled.length === 0) return null;
-											return (
-												<div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-													{filled.map((c) => (
-														<div key={c.label} className="flex items-center justify-between rounded-2xl border border-slate-200/80 bg-slate-50/80 px-3 py-2 dark:border-slate-800 dark:bg-slate-900/40">
-															<span className="text-xs font-medium text-slate-600 dark:text-slate-300">{c.label}</span>
-															<span className="flex items-center gap-1 text-xs font-semibold text-sky-600 dark:text-sky-300">
-																<Star className="h-3 w-3" />
-																{Number(c.val).toFixed(1)}
-															</span>
-														</div>
-													))}
-												</div>
-											);
-										})()}
+										{ratingSummary?.aggregate?.category_averages &&
+											(() => {
+												const cats = ratingSummary.aggregate.category_averages;
+												const filled = [
+													{ label: "Sample Accuracy", val: cats.sample_accuracy },
+													{ label: "Communication", val: cats.communication_speed },
+													{ label: "Quality Control", val: cats.quality_control },
+													{ label: "Delivery", val: cats.delivery_timeliness },
+													{ label: "After-Sales", val: cats.after_sales_support },
+												].filter((c) => c.val != null);
+												if (filled.length === 0) return null;
+												return (
+													<div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+														{filled.map((c) => (
+															<div
+																key={c.label}
+																className="flex items-center justify-between rounded-2xl border border-slate-200/80 bg-slate-50/80 px-3 py-2 dark:border-slate-800 dark:bg-slate-900/40"
+															>
+																<span className="text-xs font-medium text-slate-600 dark:text-slate-300">
+																	{c.label}
+																</span>
+																<span className="flex items-center gap-1 text-xs font-semibold text-sky-600 dark:text-sky-300">
+																	<Star className="h-3 w-3" />
+																	{Number(c.val).toFixed(1)}
+																</span>
+															</div>
+														))}
+													</div>
+												);
+											})()}
 										<div className="mt-4 rounded-2xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-800 dark:border-amber-900/60 dark:bg-amber-950/20 dark:text-amber-200">
 											<strong>Review policy:</strong> Reviews can only be edited or deleted by the
 											person who wrote them. Profile owners cannot delete reviews to maintain
@@ -1426,7 +1447,9 @@ export default function BuyingHouseProfile() {
 										{(ratingSummary?.recent_reviews || []).length > 0 ? (
 											<div className="space-y-3">
 												{(ratingSummary.recent_reviews || []).map((review) => {
-													const 	isAuthor = currentUser?.id && String(review.from_user_id) === String(currentUser.id);
+													const isAuthor =
+														currentUser?.id &&
+														String(review.from_user_id) === String(currentUser.id);
 													return (
 														<div
 															key={review.id}
@@ -1446,20 +1469,51 @@ export default function BuyingHouseProfile() {
 																	<p className="mt-2 text-sm leading-7 text-slate-600 dark:text-slate-300">
 																		{review.comment || "No comment provided."}
 																	</p>
-																	{[review.sample_accuracy, review.communication_speed, review.quality_control, review.delivery_timeliness, review.after_sales_support].some((v) => v != null) && (
+																	{[
+																		review.sample_accuracy,
+																		review.communication_speed,
+																		review.quality_control,
+																		review.delivery_timeliness,
+																		review.after_sales_support,
+																	].some((v) => v != null) && (
 																		<div className="mt-2 flex flex-wrap gap-2">
 																			{[
-																				{ key: "sample_accuracy", label: "Sample Accuracy", val: review.sample_accuracy },
-																				{ key: "communication_speed", label: "Communication", val: review.communication_speed },
-																				{ key: "quality_control", label: "Quality Control", val: review.quality_control },
-																				{ key: "delivery_timeliness", label: "Delivery", val: review.delivery_timeliness },
-																				{ key: "after_sales_support", label: "After-Sales", val: review.after_sales_support },
-																			].filter((c) => c.val != null).map((c) => (
-																				<span key={c.key} className="inline-flex items-center gap-1 rounded-full border border-sky-500/15 bg-sky-500/5 px-2 py-0.5 text-xs text-slate-600 dark:text-slate-300">
-																					<Star className="h-3 w-3 text-sky-400" />
-																					{c.label}: {Number(c.val)}/5
-																				</span>
-																			))}
+																				{
+																					key: "sample_accuracy",
+																					label: "Sample Accuracy",
+																					val: review.sample_accuracy,
+																				},
+																				{
+																					key: "communication_speed",
+																					label: "Communication",
+																					val: review.communication_speed,
+																				},
+																				{
+																					key: "quality_control",
+																					label: "Quality Control",
+																					val: review.quality_control,
+																				},
+																				{
+																					key: "delivery_timeliness",
+																					label: "Delivery",
+																					val: review.delivery_timeliness,
+																				},
+																				{
+																					key: "after_sales_support",
+																					label: "After-Sales",
+																					val: review.after_sales_support,
+																				},
+																			]
+																				.filter((c) => c.val != null)
+																				.map((c) => (
+																					<span
+																						key={c.key}
+																						className="inline-flex items-center gap-1 rounded-full border border-sky-500/15 bg-sky-500/5 px-2 py-0.5 text-xs text-slate-600 dark:text-slate-300"
+																					>
+																						<Star className="h-3 w-3 text-sky-400" />
+																						{c.label}: {Number(c.val)}/5
+																					</span>
+																				))}
 																		</div>
 																	)}
 																	<div className="mt-2 text-xs text-slate-500 dark:text-slate-400">

@@ -11,6 +11,6 @@
  */
 
 :root {
-  /* No explicit color utilities in this file — inherits global theme. */
-  /* Theme tokens: light #f8fafc / dark #0f172a (themeSlice), brand gtBlue #0a66c2. */
+	/* No explicit color utilities in this file — inherits global theme. */
+	/* Theme tokens: light #f8fafc / dark #0f172a (themeSlice), brand gtBlue #0a66c2. */
 }

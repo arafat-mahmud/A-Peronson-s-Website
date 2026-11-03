@@ -26,12 +26,12 @@ import remarkIns from "remark-ins";
 import remarkSmartypants from "remark-smartypants";
 import remarkSupersub from "remark-supersub";
 import CodeBlock from "../components/ui/CodeBlock.jsx";
+import LazyImage from "../components/ui/LazyImage.jsx";
 import NeonAtom from "../components/ui/NeonAtom.jsx";
 import WordCount from "../components/ui/WordCount.jsx";
 import { apiRequest, getCurrentUser, getToken, syncUserFromApi } from "../lib/auth.js";
 import remarkContainerDirective from "../lib/remarkContainerDirective.js";
 import { useTheme } from "../lib/ThemeProvider.jsx";
-import LazyImage from "../components/ui/LazyImage.jsx";
 
 const initialForm = {
 	title: "",
@@ -598,29 +598,34 @@ export default function FeedManagementPage() {
 									</button>
 								</div>
 
-							<div className="mt-5">
-								{mediaRows.length === 0 ? (
-									<button
-										type="button"
-										onClick={openPicker}
-										disabled={uploading}
-										className={cn(
-											"w-full rounded-2xl border-2 border-dashed px-5 py-10 text-center transition hover:border-sky-400 hover:bg-sky-50/30 cursor-pointer",
-											theme === "dark"
-												? "border-white/15 bg-slate-950/30 hover:bg-sky-500/5"
-												: "border-slate-300 bg-slate-50/70 hover:bg-sky-50/50",
-										)}
-									>
-										<Upload className={cn("mx-auto h-10 w-10", theme === "dark" ? "text-sky-400" : "text-sky-500")} />
-										<p className="mt-3 text-sm font-semibold">
-											Drop images &amp; videos here or click to browse
-										</p>
-										<p className={cn("mt-1 text-xs", subtleText)}>
-											JPG, PNG, GIF, WebP, MP4, WebM — up to 50 MB each
-										</p>
-									</button>
-								) : (
-									<div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+								<div className="mt-5">
+									{mediaRows.length === 0 ? (
+										<button
+											type="button"
+											onClick={openPicker}
+											disabled={uploading}
+											className={cn(
+												"w-full rounded-2xl border-2 border-dashed px-5 py-10 text-center transition hover:border-sky-400 hover:bg-sky-50/30 cursor-pointer",
+												theme === "dark"
+													? "border-white/15 bg-slate-950/30 hover:bg-sky-500/5"
+													: "border-slate-300 bg-slate-50/70 hover:bg-sky-50/50",
+											)}
+										>
+											<Upload
+												className={cn(
+													"mx-auto h-10 w-10",
+													theme === "dark" ? "text-sky-400" : "text-sky-500",
+												)}
+											/>
+											<p className="mt-3 text-sm font-semibold">
+												Drop images &amp; videos here or click to browse
+											</p>
+											<p className={cn("mt-1 text-xs", subtleText)}>
+												JPG, PNG, GIF, WebP, MP4, WebM — up to 50 MB each
+											</p>
+										</button>
+									) : (
+										<div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
 											{mediaRows.map((media) => {
 												const isVideo = media.type.startsWith("video");
 												return (
@@ -734,10 +739,18 @@ export default function FeedManagementPage() {
 					</div>
 
 					<div className="lg:col-span-2 space-y-6">
-						<section className={cn("overflow-hidden rounded-3xl border backdrop-blur-xl", panelBg, editorTab !== "create" && "hidden")}>
+						<section
+							className={cn(
+								"overflow-hidden rounded-3xl border backdrop-blur-xl",
+								panelBg,
+								editorTab !== "create" && "hidden",
+							)}
+						>
 							<div className={cn("border-b px-5 py-4", mutedBorder)}>
 								<h2 className="text-lg font-semibold">Live Preview</h2>
-								<p className={cn("text-sm", subtleText)}>Rendered markdown from your README field.</p>
+								<p className={cn("text-sm", subtleText)}>
+									Rendered markdown from your README field.
+								</p>
 							</div>
 
 							<div className="px-5 py-5">
@@ -849,7 +862,13 @@ export default function FeedManagementPage() {
 							</div>
 						</section>
 
-						<section className={cn("overflow-hidden rounded-3xl border backdrop-blur-xl", panelBg, editorTab !== "posts" && "hidden")}>
+						<section
+							className={cn(
+								"overflow-hidden rounded-3xl border backdrop-blur-xl",
+								panelBg,
+								editorTab !== "posts" && "hidden",
+							)}
+						>
 							<div className={cn("border-b px-5 py-4", mutedBorder)}>
 								<h2 className="text-lg font-semibold">Your posts</h2>
 								<p className={cn("text-sm", subtleText)}>Fetched from /api/feed/posts/mine</p>
@@ -911,14 +930,14 @@ export default function FeedManagementPage() {
 																<Pencil className="h-4 w-4" />
 																Edit
 															</button>
-														<button
-															type="button"
-															onClick={() => setConfirmDelete(post)}
-															className="inline-flex shrink-0 items-center gap-2 rounded-2xl border border-red-500/30 bg-red-500/15 px-3 py-2 text-sm font-semibold text-red-300 transition hover:bg-red-500/25 hover:text-red-200"
-														>
-															<Trash2 className="h-4 w-4" />
-															Delete
-														</button>
+															<button
+																type="button"
+																onClick={() => setConfirmDelete(post)}
+																className="inline-flex shrink-0 items-center gap-2 rounded-2xl border border-red-500/30 bg-red-500/15 px-3 py-2 text-sm font-semibold text-red-300 transition hover:bg-red-500/25 hover:text-red-200"
+															>
+																<Trash2 className="h-4 w-4" />
+																Delete
+															</button>
 														</div>
 													</div>
 
@@ -964,7 +983,11 @@ export default function FeedManagementPage() {
 							</div>
 						</div>
 						<p className={cn("text-sm mb-5", subtleText)}>
-							Are you sure you want to delete <span className="font-semibold text-slate-900 dark:text-white">"{confirmDelete.title}"</span>?
+							Are you sure you want to delete{" "}
+							<span className="font-semibold text-slate-900 dark:text-white">
+								"{confirmDelete.title}"
+							</span>
+							?
 						</p>
 						<div className="flex gap-3 justify-end">
 							<button

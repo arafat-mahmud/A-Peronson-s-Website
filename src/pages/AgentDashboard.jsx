@@ -99,8 +99,12 @@ const StatCard = ({ icon: Icon, label, value, sublabel, accent = false }) => {
 const SectionTitle = ({ title, subtitle, right }) => (
 	<div className="mb-5 flex items-end justify-between gap-4">
 		<div>
-			<h2 className="text-lg font-semibold tracking-tight text-slate-900 dark:text-white">{title}</h2>
-			{subtitle ? <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">{subtitle}</p> : null}
+			<h2 className="text-lg font-semibold tracking-tight text-slate-900 dark:text-white">
+				{title}
+			</h2>
+			{subtitle ? (
+				<p className="mt-1 text-sm text-slate-500 dark:text-slate-400">{subtitle}</p>
+			) : null}
 		</div>
 		{right}
 	</div>
@@ -583,28 +587,28 @@ export default function AgentDashboard() {
 
 									{activeTab === "requests" ? (
 										<StaggerContainer className="grid gap-4 md:grid-cols-3">
-										<StaggerItem>
-											<StatCard
-												icon={FileText}
-												label="Assigned Requests"
-												value={totals.buyer_requests ?? 0}
-											/>
-										</StaggerItem>
-										<StaggerItem>
-											<StatCard
-												icon={Gauge}
-												label="Awaiting Action"
-												value={totals.open_buyer_requests ?? 0}
-												accent={true}
-											/>
-										</StaggerItem>
-										<StaggerItem>
-											<StatCard
-												icon={Landmark}
-												label="Contracts / Documents"
-												value={`${totals.contracts ?? 0} / ${totals.documents ?? 0}`}
-											/>
-										</StaggerItem>
+											<StaggerItem>
+												<StatCard
+													icon={FileText}
+													label="Assigned Requests"
+													value={totals.buyer_requests ?? 0}
+												/>
+											</StaggerItem>
+											<StaggerItem>
+												<StatCard
+													icon={Gauge}
+													label="Awaiting Action"
+													value={totals.open_buyer_requests ?? 0}
+													accent={true}
+												/>
+											</StaggerItem>
+											<StaggerItem>
+												<StatCard
+													icon={Landmark}
+													label="Contracts / Documents"
+													value={`${totals.contracts ?? 0} / ${totals.documents ?? 0}`}
+												/>
+											</StaggerItem>
 										</StaggerContainer>
 									) : null}
 
@@ -701,7 +705,11 @@ export default function AgentDashboard() {
 											<StatCard icon={FileText} label="Documents" value={totals.documents ?? 0} />
 										</StaggerItem>
 										<StaggerItem>
-											<StatCard icon={MessageSquareText} label="Active Conversations" value={totals.chats ?? 0} />
+											<StatCard
+												icon={MessageSquareText}
+												label="Active Conversations"
+												value={totals.chats ?? 0}
+											/>
 										</StaggerItem>
 										<StaggerItem>
 											<StatCard
@@ -818,14 +826,18 @@ export default function AgentDashboard() {
 											<p className="text-slate-500 dark:text-slate-400">Approval</p>
 											<p className="mt-1 font-medium">{approvalState?.status || "idle"}</p>
 											{approvalState?.reason ? (
-												<p className="mt-1 text-rose-600 dark:text-rose-300">{approvalState.reason}</p>
+												<p className="mt-1 text-rose-600 dark:text-rose-300">
+													{approvalState.reason}
+												</p>
 											) : null}
 										</div>
 										<div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm dark:border-slate-800 dark:bg-slate-900/60">
 											<p className="text-slate-500 dark:text-slate-400">Send status</p>
 											<p className="mt-1 font-medium">{sendState?.status || "idle"}</p>
 											{sendState?.message ? (
-												<p className="mt-1 text-slate-500 dark:text-slate-400">{sendState.message}</p>
+												<p className="mt-1 text-slate-500 dark:text-slate-400">
+													{sendState.message}
+												</p>
 											) : null}
 										</div>
 									</div>

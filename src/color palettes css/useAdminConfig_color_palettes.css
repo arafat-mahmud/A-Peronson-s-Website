@@ -13,9 +13,8 @@
  */
 
 :root {
-  /* Arbitrary / inline / SVG colors + explicit shadows/gradients (verbatim) */
-  --color-inline-1: #38bdf8; /* verbatim `#38bdf8` near: #38bdf8 */
-  --color-inline-2: #60a5fa; /* verbatim `#60a5fa` near: #60a5fa */
-  --color-inline-3: #0f172a; /* verbatim `#0f172a` near: #0f172a */
-
+	/* Arbitrary / inline / SVG colors + explicit shadows/gradients (verbatim) */
+	--color-inline-1: #38bdf8; /* verbatim `#38bdf8` near: #38bdf8 */
+	--color-inline-2: #60a5fa; /* verbatim `#60a5fa` near: #60a5fa */
+	--color-inline-3: #0f172a; /* verbatim `#0f172a` near: #0f172a */
 }

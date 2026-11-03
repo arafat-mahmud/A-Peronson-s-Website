@@ -21,6 +21,7 @@ import {
 } from "lucide-react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { ThreeDot } from "react-loading-indicators";
+import { FACTORY_SECTOR_OPTIONS } from "../../shared/config/platformTaxonomy.js";
 import FlipCard from "../components/FlipCard.jsx";
 import ScrollReveal from "../components/ScrollReveal.jsx";
 import { StaggerContainer, StaggerItem } from "../components/StaggerContainer.jsx";
@@ -32,7 +33,6 @@ import { trackClientEvent } from "../lib/events.js";
 import { logger } from "../lib/logger.js";
 import { useTheme } from "../lib/ThemeProvider.jsx";
 import { uploadFile } from "../lib/upload.js";
-import { FACTORY_SECTOR_OPTIONS } from "../../shared/config/platformTaxonomy.js";
 
 const EMPTY_FORM = {
 	title: "",
@@ -69,7 +69,8 @@ function resolveIndustryOption(stored) {
 	}
 	const lowered = raw.toLowerCase();
 	const match = FACTORY_SECTOR_OPTIONS.find(
-		(opt) => String(opt.value).toLowerCase() === lowered || String(opt.label).toLowerCase() === lowered,
+		(opt) =>
+			String(opt.value).toLowerCase() === lowered || String(opt.label).toLowerCase() === lowered,
 	);
 	if (match) {
 		return { value: match.value, isLegacy: false };
@@ -888,7 +889,9 @@ export default function ProductManagement() {
 														>
 															<option value="">Select industry</option>
 															{FACTORY_SECTOR_OPTIONS.map((opt) => (
-																<option key={opt.value} value={opt.value}>{opt.label}</option>
+																<option key={opt.value} value={opt.value}>
+																	{opt.label}
+																</option>
 															))}
 															{resolved.isLegacy ? (
 																<option value={resolved.value}>{resolved.value}</option>
@@ -1046,7 +1049,9 @@ export default function ProductManagement() {
 																"Click to upload images"
 															)}
 														</div>
-														<div className="mt-1 text-xs text-slate-400">PNG, JPG up to 10MB each</div>
+														<div className="mt-1 text-xs text-slate-400">
+															PNG, JPG up to 10MB each
+														</div>
 														<input
 															ref={imageInputRef}
 															type="file"
@@ -1233,7 +1238,9 @@ export default function ProductManagement() {
 				{deleteConfirmId ? (
 					<div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/40 px-4 backdrop-blur-sm dark:bg-slate-950/70">
 						<div className="w-full max-w-md rounded-[28px] border border-slate-200 bg-white p-6 shadow-2xl shadow-black/20 dark:border-white/10 dark:bg-slate-950 dark:text-white dark:shadow-black/40">
-							<h3 className="text-lg font-semibold text-slate-900 dark:text-white">Confirm Delete</h3>
+							<h3 className="text-lg font-semibold text-slate-900 dark:text-white">
+								Confirm Delete
+							</h3>
 							<p className="mt-2 text-sm text-slate-600 dark:text-slate-300">
 								Are you sure you want to delete this product? This action cannot be undone.
 							</p>

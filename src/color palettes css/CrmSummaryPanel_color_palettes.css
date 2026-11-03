@@ -44,33 +44,32 @@
  */
 
 :root {
-  /* Main colors / Backgrounds */
-  --color-background: #f8fafc; /* bg-slate-50 (page background) */
-  --color-surface: #ffffff; /* bg-white (surface / card) */
-  --color-surface-elevated: #0a66c2; /* bg-[#0A66C2] (elevated surface) */
+	/* Main colors / Backgrounds */
+	--color-background: #f8fafc; /* bg-slate-50 (page background) */
+	--color-surface: #ffffff; /* bg-white (surface / card) */
+	--color-surface-elevated: #0a66c2; /* bg-[#0A66C2] (elevated surface) */
 
-  /* Text */
-  --color-text-0a66c2: #0a66c2; /* text-[#0A66C2] (arbitrary text) */
-  --color-text-slate-900: #0f172a; /* text-slate-900 */
-  --color-text-muted: #64748b; /* text-slate-500 (muted text) */
-  --color-text-slate-600: #475569; /* text-slate-600 */
-  --color-text-slate-700: #334155; /* text-slate-700 */
-  --color-text-muted-2: #94a3b8; /* text-slate-400 (muted text) */
-  --color-text-primary: #ffffff; /* text-white (heading / primary text) */
+	/* Text */
+	--color-text-0a66c2: #0a66c2; /* text-[#0A66C2] (arbitrary text) */
+	--color-text-slate-900: #0f172a; /* text-slate-900 */
+	--color-text-muted: #64748b; /* text-slate-500 (muted text) */
+	--color-text-slate-600: #475569; /* text-slate-600 */
+	--color-text-slate-700: #334155; /* text-slate-700 */
+	--color-text-muted-2: #94a3b8; /* text-slate-400 (muted text) */
+	--color-text-primary: #ffffff; /* text-white (heading / primary text) */
 
-  /* Borders / Dividers / Rings */
-  --color-border-slate-200-70: rgba(226, 232, 240, 0.7); /* border-slate-200/70 (border) */
-
+	/* Borders / Dividers / Rings */
+	--color-border-slate-200-70: rgba(226, 232, 240, 0.7); /* border-slate-200/70 (border) */
 }
 
 .dark {
-  --color-background: #020617; /* dark:dark:bg-slate-950 */
-  --color-background-dark-slate-800-60: rgba(30, 41, 59, 0.6); /* dark:dark:bg-slate-800/60 */
-  --color-background-dark-slate-900: #0f172a; /* dark:dark:bg-slate-900 */
-  --color-background-dark-slate-800: #1e293b; /* dark:dark:bg-slate-800 */
-  --color-border-dark-slate-800-80: rgba(30, 41, 59, 0.8); /* dark:dark:border-slate-800/80 */
-  --color-text-dark-slate-100: #f1f5f9; /* dark:dark:text-slate-100 */
-  --color-text-dark-slate-400: #94a3b8; /* dark:dark:text-slate-400 */
-  --color-text-dark-slate-300: #cbd5e1; /* dark:dark:text-slate-300 */
-  --color-text-dark-slate-500: #64748b; /* dark:dark:text-slate-500 */
+	--color-background: #020617; /* dark:dark:bg-slate-950 */
+	--color-background-dark-slate-800-60: rgba(30, 41, 59, 0.6); /* dark:dark:bg-slate-800/60 */
+	--color-background-dark-slate-900: #0f172a; /* dark:dark:bg-slate-900 */
+	--color-background-dark-slate-800: #1e293b; /* dark:dark:bg-slate-800 */
+	--color-border-dark-slate-800-80: rgba(30, 41, 59, 0.8); /* dark:dark:border-slate-800/80 */
+	--color-text-dark-slate-100: #f1f5f9; /* dark:dark:text-slate-100 */
+	--color-text-dark-slate-400: #94a3b8; /* dark:dark:text-slate-400 */
+	--color-text-dark-slate-300: #cbd5e1; /* dark:dark:text-slate-300 */
+	--color-text-dark-slate-500: #64748b; /* dark:dark:text-slate-500 */
 }

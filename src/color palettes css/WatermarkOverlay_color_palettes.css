@@ -14,14 +14,13 @@
  */
 
 :root {
-  /* Text */
-  --color-text-slate-900: #0f172a; /* text-slate-900 */
+	/* Text */
+	--color-text-slate-900: #0f172a; /* text-slate-900 */
 
-  /* Arbitrary / inline / SVG colors + explicit shadows/gradients (verbatim) */
-  --color-inline-1: rgba(0, 0, 0, 0.04); /* verbatim `rgba(0,0,0,0.04)` near: rgba(0,0,0,0.04) */
-
+	/* Arbitrary / inline / SVG colors + explicit shadows/gradients (verbatim) */
+	--color-inline-1: rgba(0, 0, 0, 0.04); /* verbatim `rgba(0,0,0,0.04)` near: rgba(0,0,0,0.04) */
 }
 
 .dark {
-  --color-text-primary: #ffffff; /* dark:dark:text-white */
+	--color-text-primary: #ffffff; /* dark:dark:text-white */
 }

@@ -2,7 +2,14 @@
  * @typedef {import('../lib/types').User} User
  */
 
-import { AnimatePresence, motion, useReducedMotion, useScroll, useSpring, useTransform } from "framer-motion";
+import {
+	AnimatePresence,
+	motion,
+	useReducedMotion,
+	useScroll,
+	useSpring,
+	useTransform,
+} from "framer-motion";
 import {
 	BadgeCheck,
 	BriefcaseBusiness,
@@ -52,6 +59,7 @@ import {
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { Atom } from "react-loading-indicators";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
+import { industryLabel } from "../../shared/config/platformTaxonomy.js";
 import JourneyTimeline from "../components/JourneyTimeline.jsx";
 import CrmSummaryPanel from "../components/profile/CrmSummaryPanel.jsx";
 import VerificationPanel from "../components/profile/VerificationPanel.jsx";
@@ -59,11 +67,10 @@ import LazyImage from "../components/ui/LazyImage.jsx";
 import NeonAtom from "../components/ui/NeonAtom.jsx";
 import { usePremiumCheck } from "../hooks/useSecureUser.js";
 import { apiRequest, getCurrentUser, getToken } from "../lib/auth.js";
-import { useFallbackCover } from "../lib/fallbackCover.js";
 import { trackClientEvent } from "../lib/events.js";
+import { useFallbackCover } from "../lib/fallbackCover.js";
 import { recordLeadSource } from "../lib/leadSource.js";
 import { logger } from "../lib/logger.js";
-import { industryLabel } from "../../shared/config/platformTaxonomy.js";
 
 const Motion = motion;
 
@@ -149,7 +156,9 @@ function Metric({ label, value, helper }) {
 				{label}
 			</div>
 			<div className="mt-1.5 text-sm font-bold text-slate-900 dark:text-white">{value}</div>
-			{helper ? <div className="mt-1 text-xs text-slate-500 dark:text-slate-400">{helper}</div> : null}
+			{helper ? (
+				<div className="mt-1 text-xs text-slate-500 dark:text-slate-400">{helper}</div>
+			) : null}
 		</div>
 	);
 }
@@ -160,7 +169,9 @@ function InfoRow({ label, children }) {
 			<span className="text-[11px] font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
 				{label}
 			</span>
-			<span className="text-right text-sm font-bold text-slate-900 dark:text-white">{children}</span>
+			<span className="text-right text-sm font-bold text-slate-900 dark:text-white">
+				{children}
+			</span>
 		</div>
 	);
 }
@@ -199,10 +210,21 @@ function AvatarFallback({ name, imageUrl, compact = false }) {
 			.join("");
 	};
 	return (
-		<div className={`relative overflow-hidden border border-white/60 bg-gradient-to-br from-sky-500 via-cyan-400 to-indigo-500 p-[2px] shadow-xl ${compact ? "h-12 w-12 rounded-2xl" : "h-24 w-24 rounded-3xl"}`}>
-			<div className={`flex h-full w-full items-center justify-center overflow-hidden bg-slate-100 font-bold text-slate-700 dark:bg-slate-900 dark:text-slate-100 ${compact ? "rounded-[0.85rem] text-base" : "rounded-[1.15rem] text-2xl"}`}>
+		<div
+			className={`relative overflow-hidden border border-white/60 bg-gradient-to-br from-sky-500 via-cyan-400 to-indigo-500 p-[2px] shadow-xl ${compact ? "h-12 w-12 rounded-2xl" : "h-24 w-24 rounded-3xl"}`}
+		>
+			<div
+				className={`flex h-full w-full items-center justify-center overflow-hidden bg-slate-100 font-bold text-slate-700 dark:bg-slate-900 dark:text-slate-100 ${compact ? "rounded-[0.85rem] text-base" : "rounded-[1.15rem] text-2xl"}`}
+			>
 				{imageUrl ? (
-            <LazyImage src={imageUrl} alt={name || "Profile avatar"} width={40} height={40} loading="eager" className="h-full w-full object-cover" />
+					<LazyImage
+						src={imageUrl}
+						alt={name || "Profile avatar"}
+						width={40}
+						height={40}
+						loading="eager"
+						className="h-full w-full object-cover"
+					/>
 				) : (
 					initials(name)
 				)}
@@ -318,11 +340,10 @@ export default function BuyerProfile() {
 		profile?.effective_plan === "premium";
 	const isSelfOrAdmin = viewerPerms.is_self || viewerPerms.is_admin;
 	const hasRelationship = relationship.friend_status === "friends";
-	const brandProfile = isSelfOrAdmin || hasRelationship ? profile?.profile_private || user?.profile || {} : {};
+	const brandProfile =
+		isSelfOrAdmin || hasRelationship ? profile?.profile_private || user?.profile || {} : {};
 	const hasBrandKit = Boolean(
-		brandProfile.brand_name ||
-			brandProfile.brand_logo_url ||
-			brandProfile.brand_tagline,
+		brandProfile.brand_name || brandProfile.brand_logo_url || brandProfile.brand_tagline,
 	);
 	const hasAccountManager = Boolean(
 		brandProfile.account_manager_name ||
@@ -723,292 +744,287 @@ export default function BuyerProfile() {
 				</div>
 
 				<motion.div
-							initial={reduceMotion ? false : { opacity: 0, y: 16 }}
-							animate={reduceMotion ? false : { opacity: 1, y: 0 }}
-							transition={{ duration: 0.45 }}
-							className="overflow-hidden rounded-[2rem] border border-slate-200/80 bg-white/80 shadow-[0_24px_100px_rgba(51,122,176,0.08)] backdrop-blur-xl dark:border-slate-800 dark:bg-slate-950/70"
-						>
-							<div className="relative h-[280px] overflow-hidden sm:h-[340px]">
-								{coverImage ? (
-									<motion.img
-										src={coverImage}
-										alt="Cover"
-										className="absolute inset-0 h-full w-full object-cover"
-										style={{ y: reduceMotion ? 0 : coverParallax }}
-									/>
-								) : fallbackCover ? (
-									<motion.img
-										src={fallbackCover}
-										alt="Cover"
-										className="absolute inset-0 h-full w-full object-cover"
-										style={{ y: reduceMotion ? 0 : coverParallax }}
-									/>
-								) : (
-									<div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(109,171,223,0.35),transparent_25%),radial-gradient(circle_at_80%_0%,rgba(99,102,241,0.22),transparent_30%),linear-gradient(135deg,rgba(15,23,42,0.95),rgba(51,122,176,0.3))]" />
-								)}
-								<div className="absolute inset-0 bg-gradient-to-t from-slate-950/75 via-slate-950/35 to-transparent" />
-								<div className="absolute inset-x-0 bottom-0 p-5 sm:p-7">
-									<div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-										<div className="flex items-center gap-4">
-											<div className="shrink-0">
-												<AvatarFallback name={displayName} imageUrl={avatarImage} />
-											</div>
-											<div className="min-w-0 text-white">
-												<h1 className="truncate text-2xl font-semibold tracking-tight sm:text-3xl">
-													{displayName}
-												</h1>
-												<div className="mt-2 flex flex-wrap items-center gap-2">
-													{badges.map((badge) => (
-														<Pill key={badge.label} tone={badge.tone} title={badge.title}>
-															{badge.label}
-														</Pill>
-													))}
-													<Pill tone="info">{roleLabel}</Pill>
-													{country === "—" ? null : (
-														<Pill tone="info">
-															<MapPin className="h-3.5 w-3.5" /> {country}
-														</Pill>
-													)}
-													{industry ? (
-														<Pill tone="info">
-															<Building2 className="h-3.5 w-3.5" /> {industry}
-														</Pill>
-													) : null}
-												</div>
-												<p className="mt-1 truncate text-sm text-slate-200/90">{organization}</p>
-											</div>
-										</div>
-										<div className="flex w-full shrink-0 flex-col gap-2 md:w-60">
-											{currentUser?.id !== user?.id ? (
-												<>
-													<button
-														onClick={contact}
-														className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-sky-500 px-4 py-2.5 text-sm font-semibold text-white shadow-lg shadow-sky-500/20 transition hover:-translate-y-0.5 hover:bg-sky-400"
-													>
-														<Mail className="h-4 w-4" /> Contact
-													</button>
-													<button
-														onClick={connect}
-														className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-white/15 bg-white/10 px-4 py-2.5 text-sm font-semibold text-white backdrop-blur transition hover:-translate-y-0.5 hover:bg-white/15"
-													>
-														<Users className="h-4 w-4" />{" "}
-														{relationship.friend_status === "friends"
-															? "Connected"
-															: relationship.friend_status === "requested"
-																? "Requested"
-																: "Connect"}
-													</button>
-													<div className="relative">
-														<button
-															type="button"
-															onClick={() => setMoreActionsOpen((v) => !v)}
-															aria-expanded={moreActionsOpen}
-															className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm font-medium text-slate-200 backdrop-blur transition hover:bg-white/10"
-														>
-															More actions
-															<ChevronDown
-																className={`h-4 w-4 transition-transform ${moreActionsOpen ? "rotate-180" : ""}`}
-															/>
-														</button>
-														{moreActionsOpen ? (
-															<>
-																<button
-																	type="button"
-																	aria-label="Close menu"
-																	onClick={() => setMoreActionsOpen(false)}
-																	className="fixed inset-0 z-10 cursor-default"
-																/>
-																<div className="absolute right-0 z-20 mt-2 w-64 overflow-hidden rounded-2xl border border-slate-200 bg-white p-1.5 shadow-xl dark:border-slate-800 dark:bg-slate-950">
-																	<button
-																		type="button"
-																		onClick={() => {
-																			setMoreActionsOpen(false);
-																			follow();
-																		}}
-																		className="flex w-full items-center gap-2 rounded-xl px-3 py-2 text-left text-sm font-medium text-slate-700 transition hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-white/5"
-																	>
-																		<Heart
-																			className={`h-4 w-4 ${relationship.following ? "fill-current" : ""}`}
-																		/>{" "}
-																		{relationship.following ? "Following" : "Follow"}
-																	</button>
-																	<button
-																		type="button"
-																		onClick={() => {
-																			setMoreActionsOpen(false);
-																			requestRelationship();
-																		}}
-																		className="flex w-full items-center gap-2 rounded-xl px-3 py-2 text-left text-sm font-medium text-slate-700 transition hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-white/5"
-																	>
-																		<Handshake className="h-4 w-4" /> Confirm Business
-																		Relationship
-																	</button>
-																	<button
-																		type="button"
-																		onClick={() => {
-																			setMoreActionsOpen(false);
-																			requestLicense();
-																		}}
-																		className="flex w-full items-center gap-2 rounded-xl px-3 py-2 text-left text-sm font-medium text-slate-700 transition hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-white/5"
-																	>
-																		<ShieldCheck className="h-4 w-4" /> Request License
-																	</button>
-																</div>
-															</>
-														) : null}
-													</div>
-												</>
-											) : (
-												<Link
-													to="/settings?tab=profile"
-													className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-sky-500 px-4 py-2.5 text-sm font-semibold text-white transition hover:-translate-y-0.5"
-												>
-													Edit profile
-												</Link>
+					initial={reduceMotion ? false : { opacity: 0, y: 16 }}
+					animate={reduceMotion ? false : { opacity: 1, y: 0 }}
+					transition={{ duration: 0.45 }}
+					className="overflow-hidden rounded-[2rem] border border-slate-200/80 bg-white/80 shadow-[0_24px_100px_rgba(51,122,176,0.08)] backdrop-blur-xl dark:border-slate-800 dark:bg-slate-950/70"
+				>
+					<div className="relative h-[280px] overflow-hidden sm:h-[340px]">
+						{coverImage ? (
+							<motion.img
+								src={coverImage}
+								alt="Cover"
+								className="absolute inset-0 h-full w-full object-cover"
+								style={{ y: reduceMotion ? 0 : coverParallax }}
+							/>
+						) : fallbackCover ? (
+							<motion.img
+								src={fallbackCover}
+								alt="Cover"
+								className="absolute inset-0 h-full w-full object-cover"
+								style={{ y: reduceMotion ? 0 : coverParallax }}
+							/>
+						) : (
+							<div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(109,171,223,0.35),transparent_25%),radial-gradient(circle_at_80%_0%,rgba(99,102,241,0.22),transparent_30%),linear-gradient(135deg,rgba(15,23,42,0.95),rgba(51,122,176,0.3))]" />
+						)}
+						<div className="absolute inset-0 bg-gradient-to-t from-slate-950/75 via-slate-950/35 to-transparent" />
+						<div className="absolute inset-x-0 bottom-0 p-5 sm:p-7">
+							<div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+								<div className="flex items-center gap-4">
+									<div className="shrink-0">
+										<AvatarFallback name={displayName} imageUrl={avatarImage} />
+									</div>
+									<div className="min-w-0 text-white">
+										<h1 className="truncate text-2xl font-semibold tracking-tight sm:text-3xl">
+											{displayName}
+										</h1>
+										<div className="mt-2 flex flex-wrap items-center gap-2">
+											{badges.map((badge) => (
+												<Pill key={badge.label} tone={badge.tone} title={badge.title}>
+													{badge.label}
+												</Pill>
+											))}
+											<Pill tone="info">{roleLabel}</Pill>
+											{country === "—" ? null : (
+												<Pill tone="info">
+													<MapPin className="h-3.5 w-3.5" /> {country}
+												</Pill>
 											)}
-											{feedback ? (
-												<p className="w-full text-center text-xs text-white/80">{feedback}</p>
+											{industry ? (
+												<Pill tone="info">
+													<Building2 className="h-3.5 w-3.5" /> {industry}
+												</Pill>
 											) : null}
 										</div>
+										<p className="mt-1 truncate text-sm text-slate-200/90">{organization}</p>
+									</div>
+								</div>
+								<div className="flex w-full shrink-0 flex-col gap-2 md:w-60">
+									{currentUser?.id !== user?.id ? (
+										<>
+											<button
+												onClick={contact}
+												className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-sky-500 px-4 py-2.5 text-sm font-semibold text-white shadow-lg shadow-sky-500/20 transition hover:-translate-y-0.5 hover:bg-sky-400"
+											>
+												<Mail className="h-4 w-4" /> Contact
+											</button>
+											<button
+												onClick={connect}
+												className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-white/15 bg-white/10 px-4 py-2.5 text-sm font-semibold text-white backdrop-blur transition hover:-translate-y-0.5 hover:bg-white/15"
+											>
+												<Users className="h-4 w-4" />{" "}
+												{relationship.friend_status === "friends"
+													? "Connected"
+													: relationship.friend_status === "requested"
+														? "Requested"
+														: "Connect"}
+											</button>
+											<div className="relative">
+												<button
+													type="button"
+													onClick={() => setMoreActionsOpen((v) => !v)}
+													aria-expanded={moreActionsOpen}
+													className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm font-medium text-slate-200 backdrop-blur transition hover:bg-white/10"
+												>
+													More actions
+													<ChevronDown
+														className={`h-4 w-4 transition-transform ${moreActionsOpen ? "rotate-180" : ""}`}
+													/>
+												</button>
+												{moreActionsOpen ? (
+													<>
+														<button
+															type="button"
+															aria-label="Close menu"
+															onClick={() => setMoreActionsOpen(false)}
+															className="fixed inset-0 z-10 cursor-default"
+														/>
+														<div className="absolute right-0 z-20 mt-2 w-64 overflow-hidden rounded-2xl border border-slate-200 bg-white p-1.5 shadow-xl dark:border-slate-800 dark:bg-slate-950">
+															<button
+																type="button"
+																onClick={() => {
+																	setMoreActionsOpen(false);
+																	follow();
+																}}
+																className="flex w-full items-center gap-2 rounded-xl px-3 py-2 text-left text-sm font-medium text-slate-700 transition hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-white/5"
+															>
+																<Heart
+																	className={`h-4 w-4 ${relationship.following ? "fill-current" : ""}`}
+																/>{" "}
+																{relationship.following ? "Following" : "Follow"}
+															</button>
+															<button
+																type="button"
+																onClick={() => {
+																	setMoreActionsOpen(false);
+																	requestRelationship();
+																}}
+																className="flex w-full items-center gap-2 rounded-xl px-3 py-2 text-left text-sm font-medium text-slate-700 transition hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-white/5"
+															>
+																<Handshake className="h-4 w-4" /> Confirm Business Relationship
+															</button>
+															<button
+																type="button"
+																onClick={() => {
+																	setMoreActionsOpen(false);
+																	requestLicense();
+																}}
+																className="flex w-full items-center gap-2 rounded-xl px-3 py-2 text-left text-sm font-medium text-slate-700 transition hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-white/5"
+															>
+																<ShieldCheck className="h-4 w-4" /> Request License
+															</button>
+														</div>
+													</>
+												) : null}
+											</div>
+										</>
+									) : (
+										<Link
+											to="/settings?tab=profile"
+											className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-sky-500 px-4 py-2.5 text-sm font-semibold text-white transition hover:-translate-y-0.5"
+										>
+											Edit profile
+										</Link>
+									)}
+									{feedback ? (
+										<p className="w-full text-center text-xs text-white/80">{feedback}</p>
+									) : null}
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div className="grid gap-4 p-5 sm:grid-cols-2 lg:grid-cols-4">
+						<Metric
+							label="Trust"
+							value={
+								<span className="inline-flex items-center gap-2">
+									{user?.verified ? (
+										<CheckCircle2 className="h-4 w-4 text-emerald-500" />
+									) : (
+										<CircleDashed className="h-4 w-4 text-slate-400" />
+									)}{" "}
+									{user?.verified ? "Verified" : "Unverified"}
+								</span>
+							}
+							helper="Identity signal"
+						/>
+						<Metric
+							label="Rating"
+							value={
+								<span className="inline-flex items-center gap-1">
+									<Star className="h-4 w-4 text-amber-500" /> {avg.toFixed(1)} / 5
+								</span>
+							}
+							helper={`${totalRatings} reviews`}
+						/>
+						<Metric
+							label="Requests"
+							value={`${totalRequests} request${totalRequests === 1 ? "" : "s"}`}
+							helper="Posted on the platform"
+						/>
+						<Metric
+							label="Joined"
+							value={joinedYear}
+							helper={profile?.effective_plan ? `Plan: ${profile.effective_plan}` : "Account age"}
+						/>
+					</div>
+				</motion.div>
+
+				<div className="mt-6 grid grid-cols-1 gap-6 xl:grid-cols-[0.95fr_2.05fr]">
+					<div className="space-y-6 xl:sticky xl:top-6 xl:self-start">
+						<SoftCard>
+							<div className="flex items-center gap-3">
+								<div className="shrink-0">
+									<AvatarFallback name={displayName} imageUrl={avatarImage} compact={true} />
+								</div>
+								<div className="min-w-0">
+									<div className="truncate text-base font-bold text-slate-900 dark:text-white">
+										{displayName}
+									</div>
+									<div className="mt-1.5 flex flex-wrap gap-1.5">
+										{badges.map((badge) => (
+											<Pill key={badge.label} tone={badge.tone} title={badge.title}>
+												{badge.label}
+											</Pill>
+										))}
 									</div>
 								</div>
 							</div>
-
-							<div className="grid gap-4 p-5 sm:grid-cols-2 lg:grid-cols-4">
-								<Metric
-									label="Trust"
-									value={
-										<span className="inline-flex items-center gap-2">
-											{user?.verified ? (
-												<CheckCircle2 className="h-4 w-4 text-emerald-500" />
-											) : (
-												<CircleDashed className="h-4 w-4 text-slate-400" />
-											)}{" "}
-											{user?.verified ? "Verified" : "Unverified"}
-										</span>
-									}
-									helper="Identity signal"
-								/>
-								<Metric
-									label="Rating"
-									value={
-										<span className="inline-flex items-center gap-1">
-											<Star className="h-4 w-4 text-amber-500" /> {avg.toFixed(1)} / 5
-										</span>
-									}
-									helper={`${totalRatings} reviews`}
-								/>
-								<Metric
-									label="Requests"
-									value={`${totalRequests} request${totalRequests === 1 ? "" : "s"}`}
-									helper="Posted on the platform"
-								/>
-								<Metric
-									label="Joined"
-									value={joinedYear}
-									helper={
-										profile?.effective_plan ? `Plan: ${profile.effective_plan}` : "Account age"
-									}
-								/>
-							</div>
-						</motion.div>
-
-						<div className="mt-6 grid grid-cols-1 gap-6 xl:grid-cols-[0.95fr_2.05fr]">
-							<div className="space-y-6 xl:sticky xl:top-6 xl:self-start">
-								<SoftCard>
-									<div className="flex items-center gap-3">
-										<div className="shrink-0">
-											<AvatarFallback name={displayName} imageUrl={avatarImage} compact={true} />
-										</div>
-										<div className="min-w-0">
-											<div className="truncate text-base font-bold text-slate-900 dark:text-white">
-												{displayName}
-											</div>
-											<div className="mt-1.5 flex flex-wrap gap-1.5">
-												{badges.map((badge) => (
-													<Pill key={badge.label} tone={badge.tone} title={badge.title}>
-														{badge.label}
-													</Pill>
-												))}
-											</div>
-										</div>
-									</div>
-									<div className="mt-4 divide-y divide-slate-200/60 dark:divide-slate-800/60">
-										<InfoRow label="Country">{country === "—" ? "—" : country}</InfoRow>
-										<InfoRow label="Industry">{industry || "—"}</InfoRow>
-										<InfoRow label="Organization">{organization}</InfoRow>
-										<InfoRow label="Role">
-											<span className="capitalize">{roleLabel}</span>
-										</InfoRow>
-										{user?.profile?.employee_count ? (
-											<InfoRow label="Employees">
-												{Number(user.profile.employee_count).toLocaleString("en-US")}
-											</InfoRow>
-										) : null}
-										<InfoRow label="Capacity">
-											{user?.profile?.purchasing_capacity || "—"}
-										</InfoRow>
-									</div>
-									<div className="mt-4 space-y-2">
-										{currentUser?.id !== user?.id ? (
-											<>
-												<button
-													onClick={contact}
-													className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-sky-500 px-4 py-2.5 text-sm font-semibold text-white shadow-lg shadow-sky-500/20 transition hover:-translate-y-0.5 hover:bg-sky-400"
-												>
-													<Mail className="h-4 w-4" /> Contact
-												</button>
-												<button
-													onClick={connect}
-													className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 transition hover:-translate-y-0.5 hover:border-sky-300 hover:text-sky-700 dark:border-slate-800 dark:bg-slate-950 dark:text-slate-200 dark:hover:text-sky-300"
-												>
-													<Users className="h-4 w-4" />{" "}
-													{relationship.friend_status === "friends"
-														? "Connected"
-														: relationship.friend_status === "requested"
-															? "Requested"
-															: "Connect"}
-												</button>
-											</>
-										) : (
-											<Link
-												to="/settings?tab=profile"
-												className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-sky-500 px-4 py-2.5 text-sm font-semibold text-white transition hover:-translate-y-0.5"
-											>
-												Edit profile
-											</Link>
-										)}
-									</div>
-								</SoftCard>
-								{certification ? (
-									<SoftCard>
-										<SectionTitle
-											icon={BadgeCheck}
-											title="Order Completion Certification"
-											subtitle="Signed contract record."
-										/>
-										<div className="space-y-3">
-											<div className="flex items-center justify-between rounded-2xl border border-slate-200/80 bg-slate-50/80 p-4 dark:border-slate-800 dark:bg-slate-900/40">
-												<div>
-													<div className="text-sm font-semibold text-slate-900 dark:text-slate-100">
-														Status
-													</div>
-													<div className="mt-1 text-sm text-slate-500 dark:text-slate-400">
-														Certification status
-													</div>
-												</div>
-												<Pill tone={certification.status === "certified" ? "success" : "default"}>
-													{certification.status || "pending"}
-												</Pill>
-											</div>
-											<Metric label="Signed contracts" value={certification.signed_contracts ?? 0} />
-										</div>
-									</SoftCard>
+							<div className="mt-4 divide-y divide-slate-200/60 dark:divide-slate-800/60">
+								<InfoRow label="Country">{country === "—" ? "—" : country}</InfoRow>
+								<InfoRow label="Industry">{industry || "—"}</InfoRow>
+								<InfoRow label="Organization">{organization}</InfoRow>
+								<InfoRow label="Role">
+									<span className="capitalize">{roleLabel}</span>
+								</InfoRow>
+								{user?.profile?.employee_count ? (
+									<InfoRow label="Employees">
+										{Number(user.profile.employee_count).toLocaleString("en-US")}
+									</InfoRow>
 								) : null}
+								<InfoRow label="Capacity">{user?.profile?.purchasing_capacity || "—"}</InfoRow>
 							</div>
-							<div className="w-full min-w-0 space-y-6">
-								<SoftCard>
-									<div className="flex flex-wrap gap-2">
+							<div className="mt-4 space-y-2">
+								{currentUser?.id !== user?.id ? (
+									<>
+										<button
+											onClick={contact}
+											className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-sky-500 px-4 py-2.5 text-sm font-semibold text-white shadow-lg shadow-sky-500/20 transition hover:-translate-y-0.5 hover:bg-sky-400"
+										>
+											<Mail className="h-4 w-4" /> Contact
+										</button>
+										<button
+											onClick={connect}
+											className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 transition hover:-translate-y-0.5 hover:border-sky-300 hover:text-sky-700 dark:border-slate-800 dark:bg-slate-950 dark:text-slate-200 dark:hover:text-sky-300"
+										>
+											<Users className="h-4 w-4" />{" "}
+											{relationship.friend_status === "friends"
+												? "Connected"
+												: relationship.friend_status === "requested"
+													? "Requested"
+													: "Connect"}
+										</button>
+									</>
+								) : (
+									<Link
+										to="/settings?tab=profile"
+										className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-sky-500 px-4 py-2.5 text-sm font-semibold text-white transition hover:-translate-y-0.5"
+									>
+										Edit profile
+									</Link>
+								)}
+							</div>
+						</SoftCard>
+						{certification ? (
+							<SoftCard>
+								<SectionTitle
+									icon={BadgeCheck}
+									title="Order Completion Certification"
+									subtitle="Signed contract record."
+								/>
+								<div className="space-y-3">
+									<div className="flex items-center justify-between rounded-2xl border border-slate-200/80 bg-slate-50/80 p-4 dark:border-slate-800 dark:bg-slate-900/40">
+										<div>
+											<div className="text-sm font-semibold text-slate-900 dark:text-slate-100">
+												Status
+											</div>
+											<div className="mt-1 text-sm text-slate-500 dark:text-slate-400">
+												Certification status
+											</div>
+										</div>
+										<Pill tone={certification.status === "certified" ? "success" : "default"}>
+											{certification.status || "pending"}
+										</Pill>
+									</div>
+									<Metric label="Signed contracts" value={certification.signed_contracts ?? 0} />
+								</div>
+							</SoftCard>
+						) : null}
+					</div>
+					<div className="w-full min-w-0 space-y-6">
+						<SoftCard>
+							<div className="flex flex-wrap gap-2">
 								{["overview", "requests", "work", "reviews"].map((tab) => {
 									const active = activeTab === tab;
 									const label =
@@ -1077,7 +1093,9 @@ export default function BuyerProfile() {
 												<Metric label="Role" value={roleLabel} />
 												<div className="flex items-center justify-between rounded-2xl border border-slate-200/80 bg-slate-50/80 p-4 dark:border-slate-800 dark:bg-slate-900/40">
 													<div>
-														<div className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">Purchasing Capacity</div>
+														<div className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+															Purchasing Capacity
+														</div>
 														<div className="mt-1 text-sm font-semibold text-slate-900 dark:text-slate-100">
 															{user?.profile?.purchasing_capacity || "—"}
 														</div>
@@ -1148,7 +1166,7 @@ export default function BuyerProfile() {
 															{brandProfile.brand_tagline}
 														</div>
 													) : null}
-											</div>
+												</div>
 											</div>
 										</SoftCard>
 									) : null}
@@ -1179,21 +1197,21 @@ export default function BuyerProfile() {
 										/>
 										{(user?.profile?.companies_worked_with || []).length > 0 ? (
 											<div className="grid gap-3 md:grid-cols-2">
-											{(user.profile.companies_worked_with || []).map((company, idx) => (
-												<div
-													key={idx}
-													className="flex items-center gap-3 rounded-2xl border border-slate-200/80 bg-slate-50/80 p-4 dark:border-slate-800 dark:bg-slate-900/40"
-												>
-													<div className="flex h-12 w-12 items-center justify-center overflow-hidden rounded-2xl bg-gradient-to-br from-sky-500/15 to-indigo-500/15 ring-1 ring-sky-500/10">
-														{company.logo ? (
-                      <LazyImage
-                        src={company.logo}
-                        alt={company.name}
-                        width={80}
-                        height={80}
-                        loading="lazy"
-                        className="h-full w-full object-cover"
-                      />
+												{(user.profile.companies_worked_with || []).map((company, idx) => (
+													<div
+														key={idx}
+														className="flex items-center gap-3 rounded-2xl border border-slate-200/80 bg-slate-50/80 p-4 dark:border-slate-800 dark:bg-slate-900/40"
+													>
+														<div className="flex h-12 w-12 items-center justify-center overflow-hidden rounded-2xl bg-gradient-to-br from-sky-500/15 to-indigo-500/15 ring-1 ring-sky-500/10">
+															{company.logo ? (
+																<LazyImage
+																	src={company.logo}
+																	alt={company.name}
+																	width={80}
+																	height={80}
+																	loading="lazy"
+																	className="h-full w-full object-cover"
+																/>
 															) : (
 																<Building2 className="h-5 w-5 text-sky-500" />
 															)}
@@ -1427,36 +1445,42 @@ export default function BuyerProfile() {
 												helper="Aggregate reliability"
 											/>
 										</div>
-										{ratingSummary?.aggregate?.category_averages && (() => {
-											const cats = ratingSummary.aggregate.category_averages;
-											const filled = [
-												{ label: "Sample Accuracy", val: cats.sample_accuracy },
-												{ label: "Communication", val: cats.communication_speed },
-												{ label: "Quality Control", val: cats.quality_control },
-												{ label: "Delivery", val: cats.delivery_timeliness },
-												{ label: "After-Sales", val: cats.after_sales_support },
-											].filter((c) => c.val != null);
-											if (filled.length === 0) return null;
-											return (
-												<div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-													{filled.map((c) => (
-														<div key={c.label} className="flex items-center justify-between rounded-2xl border border-slate-200/80 bg-slate-50/80 px-3 py-2 dark:border-slate-800 dark:bg-slate-900/40">
-															<span className="text-xs font-medium text-slate-600 dark:text-slate-300">{c.label}</span>
-															<span className="flex items-center gap-1 text-xs font-semibold text-sky-600 dark:text-sky-300">
-																<Star className="h-3 w-3" />
-																{Number(c.val).toFixed(1)}
-															</span>
-														</div>
-													))}
-												</div>
-											);
-										})()}
+										{ratingSummary?.aggregate?.category_averages &&
+											(() => {
+												const cats = ratingSummary.aggregate.category_averages;
+												const filled = [
+													{ label: "Sample Accuracy", val: cats.sample_accuracy },
+													{ label: "Communication", val: cats.communication_speed },
+													{ label: "Quality Control", val: cats.quality_control },
+													{ label: "Delivery", val: cats.delivery_timeliness },
+													{ label: "After-Sales", val: cats.after_sales_support },
+												].filter((c) => c.val != null);
+												if (filled.length === 0) return null;
+												return (
+													<div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+														{filled.map((c) => (
+															<div
+																key={c.label}
+																className="flex items-center justify-between rounded-2xl border border-slate-200/80 bg-slate-50/80 px-3 py-2 dark:border-slate-800 dark:bg-slate-900/40"
+															>
+																<span className="text-xs font-medium text-slate-600 dark:text-slate-300">
+																	{c.label}
+																</span>
+																<span className="flex items-center gap-1 text-xs font-semibold text-sky-600 dark:text-sky-300">
+																	<Star className="h-3 w-3" />
+																	{Number(c.val).toFixed(1)}
+																</span>
+															</div>
+														))}
+													</div>
+												);
+											})()}
 									</SoftCard>
 
 									<div className="rounded-3xl border border-amber-400/25 bg-amber-500/10 p-4 text-sm leading-7 text-amber-950 dark:text-amber-100">
-										<strong className="font-semibold">Review Policy:</strong> Reviews can only be edited
-										or deleted by the person who wrote them. Profile owners cannot delete reviews to
-										maintain transparency and trust.
+										<strong className="font-semibold">Review Policy:</strong> Reviews can only be
+										edited or deleted by the person who wrote them. Profile owners cannot delete
+										reviews to maintain transparency and trust.
 									</div>
 
 									<SoftCard>
@@ -1490,20 +1514,51 @@ export default function BuyerProfile() {
 																	<p className="mt-2 text-sm leading-7 text-slate-600 dark:text-slate-300">
 																		{review.comment || "No comment provided."}
 																	</p>
-																	{[review.sample_accuracy, review.communication_speed, review.quality_control, review.delivery_timeliness, review.after_sales_support].some((v) => v != null) && (
+																	{[
+																		review.sample_accuracy,
+																		review.communication_speed,
+																		review.quality_control,
+																		review.delivery_timeliness,
+																		review.after_sales_support,
+																	].some((v) => v != null) && (
 																		<div className="mt-2 flex flex-wrap gap-2">
 																			{[
-																				{ key: "sample_accuracy", label: "Sample Accuracy", val: review.sample_accuracy },
-																				{ key: "communication_speed", label: "Communication", val: review.communication_speed },
-																				{ key: "quality_control", label: "Quality Control", val: review.quality_control },
-																				{ key: "delivery_timeliness", label: "Delivery", val: review.delivery_timeliness },
-																				{ key: "after_sales_support", label: "After-Sales", val: review.after_sales_support },
-																			].filter((c) => c.val != null).map((c) => (
-																				<span key={c.key} className="inline-flex items-center gap-1 rounded-full border border-sky-500/15 bg-sky-500/5 px-2 py-0.5 text-xs text-slate-600 dark:text-slate-300">
-																					<Star className="h-3 w-3 text-sky-400" />
-																					{c.label}: {Number(c.val)}/5
-																				</span>
-																			))}
+																				{
+																					key: "sample_accuracy",
+																					label: "Sample Accuracy",
+																					val: review.sample_accuracy,
+																				},
+																				{
+																					key: "communication_speed",
+																					label: "Communication",
+																					val: review.communication_speed,
+																				},
+																				{
+																					key: "quality_control",
+																					label: "Quality Control",
+																					val: review.quality_control,
+																				},
+																				{
+																					key: "delivery_timeliness",
+																					label: "Delivery",
+																					val: review.delivery_timeliness,
+																				},
+																				{
+																					key: "after_sales_support",
+																					label: "After-Sales",
+																					val: review.after_sales_support,
+																				},
+																			]
+																				.filter((c) => c.val != null)
+																				.map((c) => (
+																					<span
+																						key={c.key}
+																						className="inline-flex items-center gap-1 rounded-full border border-sky-500/15 bg-sky-500/5 px-2 py-0.5 text-xs text-slate-600 dark:text-slate-300"
+																					>
+																						<Star className="h-3 w-3 text-sky-400" />
+																						{c.label}: {Number(c.val)}/5
+																					</span>
+																				))}
 																		</div>
 																	)}
 																	<div className="mt-2 text-xs text-slate-500 dark:text-slate-400">
@@ -1710,7 +1765,9 @@ export default function BuyerProfile() {
 						className="w-full max-w-sm rounded-3xl border border-slate-200 bg-white p-6 shadow-2xl dark:border-slate-800 dark:bg-slate-950"
 						onClick={(e) => e.stopPropagation()}
 					>
-						<h3 className="text-lg font-semibold text-slate-900 dark:text-white">Edit Purchasing Capacity</h3>
+						<h3 className="text-lg font-semibold text-slate-900 dark:text-white">
+							Edit Purchasing Capacity
+						</h3>
 						<p className="mt-2 text-sm text-slate-600 dark:text-slate-300">
 							Update the purchasing capacity for this buyer account.
 						</p>
@@ -1720,6 +1777,7 @@ export default function BuyerProfile() {
 							onChange={(e) => setCapacityValue(e.target.value)}
 							placeholder="e.g. 5000 yards/month"
 							className="mt-4 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 focus:border-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-500/20 dark:border-slate-800 dark:bg-slate-900 dark:text-white dark:placeholder:text-slate-500"
+							// biome-ignore lint/a11y/noAutofocus: focus moves into the dialog/editor the user just opened
 							autoFocus
 						/>
 						<div className="mt-6 flex items-center justify-end gap-3">

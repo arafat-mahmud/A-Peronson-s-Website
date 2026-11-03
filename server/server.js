@@ -76,10 +76,7 @@ import userRoutes from "./routes/userRoutes.js";
 import verificationRoutes from "./routes/verificationRoutes.js";
 import walletRoutes from "./routes/walletRoutes.js";
 import workflowLifecycleRoutes from "./routes/workflowLifecycleRoutes.js";
-import {
-	initOpencodeServer,
-	streamOpencodeReply,
-} from "./services/assistantService.js";
+import { initOpencodeServer, streamOpencodeReply } from "./services/assistantService.js";
 import { getCallSession } from "./services/callSessionService.js";
 import { maybeGenerateBotReply } from "./services/chatbotService.js";
 import { runJoinRequestReminderSweep } from "./services/companyJoinService.js";
@@ -94,6 +91,7 @@ import { setUserOffline, setUserOnline, touchUser } from "./services/presenceSer
 import { startSyslogServer } from "./services/syslogServer.js";
 import { revokeExpiredVerifications } from "./services/verificationService.js";
 import { recordWorkflowEvent } from "./services/workflowLifecycleService.js";
+import { corsOptions } from "./utils/corsPolicy.js";
 import {
 	installCrashHandlers,
 	recordFatalAndExit,
@@ -112,7 +110,6 @@ import { logError, logInfo, logWarn } from "./utils/logger.js";
 import { consumePendingInvites, enqueuePendingInvites } from "./utils/pendingInvites.js";
 import prisma from "./utils/prisma.js";
 import { closeRedis, initRedis } from "./utils/redis.js";
-import { corsOptions } from "./utils/corsPolicy.js";
 import { requestStatsMiddleware } from "./utils/requestContext.js";
 import { startCaseRetentionWorker } from "./workers/caseRetentionWorker.js";
 

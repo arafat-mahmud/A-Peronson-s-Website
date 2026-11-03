@@ -279,18 +279,27 @@ export function AdminCMSSection({
 										)}
 									>
 										<div className="flex items-center justify-between gap-3">
-											<h3 className={cn("font-semibold", adminDark ? "text-white" : "text-slate-900")}>
+											<h3
+												className={cn("font-semibold", adminDark ? "text-white" : "text-slate-900")}
+											>
 												{card.title}
 											</h3>
 											<ChevronRight
 												className={cn("h-4 w-4", adminDark ? "text-slate-400" : "text-slate-500")}
 											/>
 										</div>
-										<p className={cn("mt-2 text-sm", adminDark ? "text-slate-400" : "text-slate-600")}>
+										<p
+											className={cn(
+												"mt-2 text-sm",
+												adminDark ? "text-slate-400" : "text-slate-600",
+											)}
+										>
 											{card.desc}
 										</p>
 										<div className="mt-4 flex items-center justify-between gap-3">
-											<span className={cn("text-xs", adminDark ? "text-slate-400" : "text-slate-500")}>
+											<span
+												className={cn("text-xs", adminDark ? "text-slate-400" : "text-slate-500")}
+											>
 												{card.meta}
 											</span>
 											<span className={cmsChipClass(adminDark)}>
@@ -331,7 +340,9 @@ export function AdminCMSSection({
 												<Database className="h-4 w-4" />
 											</div>
 											<div>
-												<p className={cn("font-medium", adminDark ? "text-white" : "text-slate-900")}>
+												<p
+													className={cn("font-medium", adminDark ? "text-white" : "text-slate-900")}
+												>
 													{title}
 												</p>
 												<p
@@ -396,7 +407,9 @@ export function AdminCMSSection({
 											)}
 										>
 											<div>
-												<p className={cn("text-sm", adminDark ? "text-slate-400" : "text-slate-600")}>
+												<p
+													className={cn("text-sm", adminDark ? "text-slate-400" : "text-slate-600")}
+												>
 													{label}
 												</p>
 												<p
@@ -440,12 +453,19 @@ export function AdminCMSSection({
 										)}
 									>
 										<div className="flex items-center justify-between">
-											<h3 className={cn("font-semibold", adminDark ? "text-white" : "text-slate-900")}>
+											<h3
+												className={cn("font-semibold", adminDark ? "text-white" : "text-slate-900")}
+											>
 												{title}
 											</h3>
 											<TerminalSquare className="h-4 w-4 text-sky-400" />
 										</div>
-										<p className={cn("mt-2 text-sm", adminDark ? "text-slate-400" : "text-slate-600")}>
+										<p
+											className={cn(
+												"mt-2 text-sm",
+												adminDark ? "text-slate-400" : "text-slate-600",
+											)}
+										>
 											{desc}
 										</p>
 										<div className="mt-4 flex items-center gap-2 text-xs text-sky-400">
@@ -492,7 +512,10 @@ export function AdminCMSSection({
 												{item.path || item.action || "--"}
 											</p>
 											<p
-												className={cn("mt-1 text-sm", adminDark ? "text-slate-400" : "text-slate-600")}
+												className={cn(
+													"mt-1 text-sm",
+													adminDark ? "text-slate-400" : "text-slate-600",
+												)}
 											>
 												{item.at ? new Date(item.at).toLocaleString() : "--"} · system
 											</p>
@@ -643,7 +666,9 @@ export function AdminCMSSection({
 											? `${verificationQueue.length} items pending review.`
 											: emptyCopy("verification.pending", "No pending verifications in queue.")}
 									</p>
-									<p className={cn("mt-1 text-sm", adminDark ? "text-slate-400" : "text-slate-600")}>
+									<p
+										className={cn("mt-1 text-sm", adminDark ? "text-slate-400" : "text-slate-600")}
+									>
 										All onboarding documents are currently in a clean state.
 									</p>
 								</div>
@@ -727,7 +752,10 @@ export function AdminCMSSection({
 												{log.path || log.action || "--"}
 											</p>
 											<p
-												className={cn("mt-1 text-sm", adminDark ? "text-slate-400" : "text-slate-600")}
+												className={cn(
+													"mt-1 text-sm",
+													adminDark ? "text-slate-400" : "text-slate-600",
+												)}
 											>
 												{log.at ? new Date(log.at).toLocaleString() : "--"}
 											</p>

@@ -35,7 +35,6 @@ function normalizeMultiplier(multiplier) {
 	return Math.min(3, Math.max(1.05, value));
 }
 
-
 function _isActiveBoost(boost) {
 	if (!boost) {
 		return false;

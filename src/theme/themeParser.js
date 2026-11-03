@@ -93,7 +93,8 @@ export function parseColorClass(cls) {
 	const { variants, body } = splitVariants(input);
 
 	// Bare keywords.
-	if (body === "transparent") return { prefix: "color", color: "transparent", alpha: null, raw: input, variants };
+	if (body === "transparent")
+		return { prefix: "color", color: "transparent", alpha: null, raw: input, variants };
 	if (body === "inherit" || body === "text-inherit")
 		return { prefix: "text", color: "inherit", alpha: null, raw: input, variants };
 
@@ -111,18 +112,36 @@ export function parseColorClass(cls) {
 
 	// Non-color utilities sharing a prefix (text-sm/md, shadow-lg/md, shadow-borderless, …).
 	const head = rest.startsWith("[") ? null : rest.split("/")[0];
-	if (head && (NON_COLOR_SUFFIXES.has(head) || CUSTOM_SHADOW_PREFIXES.some((p) => head.startsWith(p))))
+	if (
+		head &&
+		(NON_COLOR_SUFFIXES.has(head) || CUSTOM_SHADOW_PREFIXES.some((p) => head.startsWith(p)))
+	)
 		return null;
 
 	// Border sides are widths, not colors: border-r-2, border-t, border-x-0, …
-	if (prefix === "border" && BORDER_SIDES.has(rest.split("-")[0]) && !rest.includes("#") && !rest.includes("[color")) {
+	if (
+		prefix === "border" &&
+		BORDER_SIDES.has(rest.split("-")[0]) &&
+		!rest.includes("#") &&
+		!rest.includes("[color")
+	) {
 		const side = rest.split("-")[0];
 		// `border-r-red-500` is not a real utility; treat side-led classes as non-color
 		// unless the remainder is itself a parseable color after the side (defensive: still parse it).
 		const after = rest.slice(side.length + 1);
 		if (!after) return null;
-		if (!/^(red|rose|blue|sky|cyan|slate|white|black|emerald|amber)-/.test(after) && !after.startsWith("[")) return null;
-		return { prefix: `border-${side}`, color: after.split("/")[0], alpha: after.includes("/") ? after.split("/").slice(1).join("/") : null, raw: input, variants };
+		if (
+			!/^(red|rose|blue|sky|cyan|slate|white|black|emerald|amber)-/.test(after) &&
+			!after.startsWith("[")
+		)
+			return null;
+		return {
+			prefix: `border-${side}`,
+			color: after.split("/")[0],
+			alpha: after.includes("/") ? after.split("/").slice(1).join("/") : null,
+			raw: input,
+			variants,
+		};
 	}
 
 	// Arbitrary value: bg-[#3b82f6]/10, bg-white/[0.03], shadow-[0_0_30px_rgba(...)]

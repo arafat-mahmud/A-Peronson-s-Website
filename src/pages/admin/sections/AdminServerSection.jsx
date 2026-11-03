@@ -250,89 +250,92 @@ export function AdminServerSection({
 						<button
 							type="button"
 							onClick={() =>
-								downloadJson(`server_admin_snapshot_${new Date().toISOString().slice(0, 10)}.json`, {
-									generated_at: new Date().toISOString(),
-									summary: {
-										total_accounts: users?.length || 0,
-										pending_verifications: verificationQueue?.length || 0,
-										infra_alerts: (infraState?.zombie_processes || []).length,
-										open_tickets: supportTickets?.length || 0,
-									},
-									server_admin: serverAdminState
-										? {
-												uptime: serverAdminState.uptime,
-												node_version: serverAdminState.node_version,
-												os_info: serverAdminState.os_info,
-												cpu_usage: serverAdminState.cpu_usage,
-												memory_usage: serverAdminState.memory_usage,
-												disk_usage: serverAdminState.disk_usage,
-												service_health: serverAdminState.service_health,
-												database_status: serverAdminState.database_status,
-												cache_status: serverAdminState.cache_status,
-												queue_status: serverAdminState.queue_status,
-												version: serverAdminState.version,
-												active_processes: serverAdminState.active_processes,
-												scheduled_tasks: serverAdminState.scheduled_tasks,
-												cron_jobs: serverAdminState.cron_jobs,
-												ssl_expiry: serverAdminState.ssl_expiry,
-												last_deploy: serverAdminState.last_deploy,
-												package_versions: serverAdminState.package_versions,
-											}
-										: null,
-									integrations: integrationStatus
-										? {
-												email: {
-													status: integrationStatus?.email?.status,
-													provider: integrationStatus?.email?.provider,
-													last_sync: integrationStatus?.email?.last_sync,
-												},
-												crm: {
-													status: integrationStatus?.crm?.status,
-													last_sync: integrationStatus?.crm?.last_sync,
-												},
-												storage: {
-													status: integrationStatus?.storage?.status,
-													used_mb: integrationStatus?.storage?.used_mb,
-													limit_mb: integrationStatus?.storage?.limit_mb,
-												},
-											}
-										: null,
-									opensearch: {
-										config: openSearchConfig
+								downloadJson(
+									`server_admin_snapshot_${new Date().toISOString().slice(0, 10)}.json`,
+									{
+										generated_at: new Date().toISOString(),
+										summary: {
+											total_accounts: users?.length || 0,
+											pending_verifications: verificationQueue?.length || 0,
+											infra_alerts: (infraState?.zombie_processes || []).length,
+											open_tickets: supportTickets?.length || 0,
+										},
+										server_admin: serverAdminState
 											? {
-													index_prefix: openSearchConfig.index_prefix,
-													shard_count: openSearchConfig.shard_count,
-													replica_count: openSearchConfig.replica_count,
-													version: openSearchConfig.version,
+													uptime: serverAdminState.uptime,
+													node_version: serverAdminState.node_version,
+													os_info: serverAdminState.os_info,
+													cpu_usage: serverAdminState.cpu_usage,
+													memory_usage: serverAdminState.memory_usage,
+													disk_usage: serverAdminState.disk_usage,
+													service_health: serverAdminState.service_health,
+													database_status: serverAdminState.database_status,
+													cache_status: serverAdminState.cache_status,
+													queue_status: serverAdminState.queue_status,
+													version: serverAdminState.version,
+													active_processes: serverAdminState.active_processes,
+													scheduled_tasks: serverAdminState.scheduled_tasks,
+													cron_jobs: serverAdminState.cron_jobs,
+													ssl_expiry: serverAdminState.ssl_expiry,
+													last_deploy: serverAdminState.last_deploy,
+													package_versions: serverAdminState.package_versions,
 												}
 											: null,
-										status: openSearchStatus
+										integrations: integrationStatus
 											? {
-													connected: openSearchStatus.connected,
-													index_count: openSearchStatus.index_count,
-													document_count: openSearchStatus.document_count,
-													node_count: openSearchStatus.node_count,
-													cluster_health: openSearchStatus.cluster_health,
+													email: {
+														status: integrationStatus?.email?.status,
+														provider: integrationStatus?.email?.provider,
+														last_sync: integrationStatus?.email?.last_sync,
+													},
+													crm: {
+														status: integrationStatus?.crm?.status,
+														last_sync: integrationStatus?.crm?.last_sync,
+													},
+													storage: {
+														status: integrationStatus?.storage?.status,
+														used_mb: integrationStatus?.storage?.used_mb,
+														limit_mb: integrationStatus?.storage?.limit_mb,
+													},
 												}
 											: null,
+										opensearch: {
+											config: openSearchConfig
+												? {
+														index_prefix: openSearchConfig.index_prefix,
+														shard_count: openSearchConfig.shard_count,
+														replica_count: openSearchConfig.replica_count,
+														version: openSearchConfig.version,
+													}
+												: null,
+											status: openSearchStatus
+												? {
+														connected: openSearchStatus.connected,
+														index_count: openSearchStatus.index_count,
+														document_count: openSearchStatus.document_count,
+														node_count: openSearchStatus.node_count,
+														cluster_health: openSearchStatus.cluster_health,
+													}
+												: null,
+										},
+										email: emailConfig
+											? {
+													provider: emailConfig.provider,
+													from_address: emailConfig.from_address,
+													verified: emailConfig.verified,
+												}
+											: null,
+										audit: Array.isArray(audit)
+											? audit.slice(0, 40).map((e) => ({
+													action: e.action,
+													timestamp: e.created_at || e.timestamp,
+													actor: e.actor,
+													path: e.path,
+													status: e.status,
+												}))
+											: [],
 									},
-									email: emailConfig
-										? {
-												provider: emailConfig.provider,
-												from_address: emailConfig.from_address,
-												verified: emailConfig.verified,
-											}
-										: null,
-									audit: Array.isArray(audit)
-										? audit.slice(0, 40).map((e) => ({
-												action: e.action,
-												timestamp: e.created_at || e.timestamp,
-												actor: e.actor,
-												path: e.path,
-												status: e.status,
-											}))
-										: [],
-								})
+								)
 							}
 							className={cn(
 								"inline-flex items-center gap-2 rounded-2xl border px-4 py-3 text-sm font-medium transition",
@@ -594,7 +597,9 @@ export function AdminServerSection({
 									)}
 								>
 									<div className="flex items-center justify-between gap-3">
-										<span className={cn("text-sm", adminDark ? "text-slate-300" : "text-slate-600")}>
+										<span
+											className={cn("text-sm", adminDark ? "text-slate-300" : "text-slate-600")}
+										>
 											{label}
 										</span>
 										<Pill>{value}</Pill>
@@ -617,7 +622,9 @@ export function AdminServerSection({
 									<p className={cn("font-medium", adminDark ? "text-white" : "text-slate-900")}>
 										OpenSearch control
 									</p>
-									<p className={cn("mt-1 text-sm", adminDark ? "text-slate-300" : "text-slate-600")}>
+									<p
+										className={cn("mt-1 text-sm", adminDark ? "text-slate-300" : "text-slate-600")}
+									>
 										Enable search only when reachable, then save settings, ensure indices, and
 										reindex.
 									</p>
@@ -1280,7 +1287,9 @@ export function AdminServerSection({
 							)}
 						>
 							<div className="flex items-center gap-3">
-								<ShieldCheck className={cn("h-5 w-5", adminDark ? "text-sky-300" : "text-sky-600")} />
+								<ShieldCheck
+									className={cn("h-5 w-5", adminDark ? "text-sky-300" : "text-sky-600")}
+								/>
 								<div>
 									<h3 className={cn("font-semibold", adminDark ? "text-white" : "text-slate-900")}>
 										Allowed roles
@@ -1499,7 +1508,9 @@ export function AdminServerSection({
 							)}
 						>
 							<div className="flex items-center gap-3">
-								<ShieldAlert className={cn("h-5 w-5", adminDark ? "text-sky-300" : "text-sky-600")} />
+								<ShieldAlert
+									className={cn("h-5 w-5", adminDark ? "text-sky-300" : "text-sky-600")}
+								/>
 								<div>
 									<h3 className={cn("font-semibold", adminDark ? "text-white" : "text-slate-900")}>
 										Ultra Security demo data
@@ -1721,10 +1732,20 @@ export function AdminServerSection({
 													<Icon className="h-4 w-4" />
 												</div>
 												<div>
-													<p className={cn("font-medium", adminDark ? "text-white" : "text-slate-900")}>
+													<p
+														className={cn(
+															"font-medium",
+															adminDark ? "text-white" : "text-slate-900",
+														)}
+													>
 														{item.title}
 													</p>
-													<p className={cn("text-sm", adminDark ? "text-slate-400" : "text-slate-600")}>
+													<p
+														className={cn(
+															"text-sm",
+															adminDark ? "text-slate-400" : "text-slate-600",
+														)}
+													>
 														{item.count} capabilities
 													</p>
 												</div>
@@ -1811,7 +1832,10 @@ export function AdminServerSection({
 												{item.path || item.action || "--"}
 											</p>
 											<p
-												className={cn("mt-1 text-sm", adminDark ? "text-slate-400" : "text-slate-600")}
+												className={cn(
+													"mt-1 text-sm",
+													adminDark ? "text-slate-400" : "text-slate-600",
+												)}
 											>
 												{item.at ? new Date(item.at).toLocaleString() : "--"} · system
 											</p>

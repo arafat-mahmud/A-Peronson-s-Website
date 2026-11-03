@@ -1,7 +1,7 @@
-import { Router } from "express";
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { Router } from "express";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const LOG_DIR = path.resolve(process.env.LOG_DIR || path.join(process.cwd(), "log"));
@@ -21,7 +21,8 @@ function safeLogPath(name) {
 	const clean = path.basename(String(name || ""));
 	if (!clean || clean !== String(name)) throw new Error("Invalid log filename");
 	const full = path.resolve(LOG_DIR, clean);
-	if (!full.startsWith(LOG_DIR + path.sep) && full !== LOG_DIR) throw new Error("Path traversal blocked");
+	if (!full.startsWith(LOG_DIR + path.sep) && full !== LOG_DIR)
+		throw new Error("Path traversal blocked");
 	return full;
 }
 
@@ -43,7 +44,10 @@ function readChunk(file, start, size) {
 			if (err) return reject(err);
 			fs.fstat(fd, (statErr, st) => {
 				if (statErr) return fs.close(fd, () => reject(statErr));
-				if (start >= st.size) return fs.close(fd, () => resolve({ text: "", nextOffset: start, eof: true, size: st.size }));
+				if (start >= st.size)
+					return fs.close(fd, () =>
+						resolve({ text: "", nextOffset: start, eof: true, size: st.size }),
+					);
 				const end = Math.min(start + size, st.size);
 				const length = end - start;
 				const buf = Buffer.allocUnsafe(length);
@@ -89,7 +93,13 @@ router.get("/api/logs/:name/chunk", async (req, res) => {
 			return res.status(400).json({ error: "Invalid offset/size" });
 		}
 		const result = await readChunk(file, offset, size);
-		res.json({ offset, nextOffset: result.nextOffset, eof: result.eof, size: result.size, text: result.text });
+		res.json({
+			offset,
+			nextOffset: result.nextOffset,
+			eof: result.eof,
+			size: result.size,
+			text: result.text,
+		});
 	} catch (err) {
 		const status = err.code === "ENOENT" ? 404 : 400;
 		res.status(status).json({ error: err.message });

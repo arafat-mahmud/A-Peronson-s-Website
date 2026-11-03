@@ -41,39 +41,38 @@
  */
 
 :root {
-  /* Main colors / Backgrounds */
-  --color-background: #f1f5f9; /* bg-slate-100 (page background) */
-  --color-surface: #ffffff; /* bg-white (surface / card) */
-  --color-surface-elevated: #ef4444; /* bg-red-500 (elevated surface) */
-  --color-bg-sky-500: #0ea5e9; /* bg-sky-500 (accent) */
+	/* Main colors / Backgrounds */
+	--color-background: #f1f5f9; /* bg-slate-100 (page background) */
+	--color-surface: #ffffff; /* bg-white (surface / card) */
+	--color-surface-elevated: #ef4444; /* bg-red-500 (elevated surface) */
+	--color-bg-sky-500: #0ea5e9; /* bg-sky-500 (accent) */
 
-  /* Text */
-  --color-text-slate-900: #0f172a; /* text-slate-900 */
-  --color-text-slate-600: #475569; /* text-slate-600 */
-  --color-text-slate-700: #334155; /* text-slate-700 */
-  --color-text-primary: #ffffff; /* text-white (heading / primary text) */
+	/* Text */
+	--color-text-slate-900: #0f172a; /* text-slate-900 */
+	--color-text-slate-600: #475569; /* text-slate-600 */
+	--color-text-slate-700: #334155; /* text-slate-700 */
+	--color-text-primary: #ffffff; /* text-white (heading / primary text) */
 
-  /* Borders / Dividers / Rings */
-  --color-border-slate-200: #e2e8f0; /* border-slate-200 (border) */
+	/* Borders / Dividers / Rings */
+	--color-border-slate-200: #e2e8f0; /* border-slate-200 (border) */
 
-  /* States (hover / focus / active / disabled / responsive / data / aria) */
-  --color-bg-red-600-hover: #dc2626; /* hover:hover:bg-red-600 (state) */
-  --color-bg-sky-600-hover: #0284c7; /* hover:hover:bg-sky-600 (state) */
-  --color-panel-hover: #e2e8f0; /* hover:hover:bg-slate-200 (state) */
-  --color-panel-hover-2: #334155; /* dark:hover:dark:hover:bg-slate-700 (state) */
+	/* States (hover / focus / active / disabled / responsive / data / aria) */
+	--color-bg-red-600-hover: #dc2626; /* hover:hover:bg-red-600 (state) */
+	--color-bg-sky-600-hover: #0284c7; /* hover:hover:bg-sky-600 (state) */
+	--color-panel-hover: #e2e8f0; /* hover:hover:bg-slate-200 (state) */
+	--color-panel-hover-2: #334155; /* dark:hover:dark:hover:bg-slate-700 (state) */
 
-  /* Semantic aliases (derived, not new colors) */
-  --color-danger: #ef4444; /* alias -> --color-surface-elevated (bg-red-500 (elevated surface)) */
-  --color-info: #0ea5e9; /* alias -> --color-bg-sky-500 (bg-sky-500 (accent)) */
-
+	/* Semantic aliases (derived, not new colors) */
+	--color-danger: #ef4444; /* alias -> --color-surface-elevated (bg-red-500 (elevated surface)) */
+	--color-info: #0ea5e9; /* alias -> --color-bg-sky-500 (bg-sky-500 (accent)) */
 }
 
 .dark {
-  --color-background: #0f172a; /* dark:dark:bg-slate-900 */
-  --color-background-dark-slate-800: #1e293b; /* dark:dark:bg-slate-800 */
-  --color-background-dark-slate-700: #334155; /* dark:hover:dark:hover:bg-slate-700 */
-  --color-border-dark-slate-700: #334155; /* dark:dark:border-slate-700 */
-  --color-text-dark-slate-400: #94a3b8; /* dark:dark:text-slate-400 */
-  --color-text-dark-slate-300: #cbd5e1; /* dark:dark:text-slate-300 */
-  --color-text-primary: #ffffff; /* dark:dark:text-white */
+	--color-background: #0f172a; /* dark:dark:bg-slate-900 */
+	--color-background-dark-slate-800: #1e293b; /* dark:dark:bg-slate-800 */
+	--color-background-dark-slate-700: #334155; /* dark:hover:dark:hover:bg-slate-700 */
+	--color-border-dark-slate-700: #334155; /* dark:dark:border-slate-700 */
+	--color-text-dark-slate-400: #94a3b8; /* dark:dark:text-slate-400 */
+	--color-text-dark-slate-300: #cbd5e1; /* dark:dark:text-slate-300 */
+	--color-text-primary: #ffffff; /* dark:dark:text-white */
 }

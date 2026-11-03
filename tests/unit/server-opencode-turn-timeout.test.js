@@ -1,5 +1,5 @@
-import { waitForAssistantTurn } from "../../server/services/opencodeTurns.js";
 import { runAgentPrompt } from "../../server/services/investigation/opencodeRuntime.js";
+import { waitForAssistantTurn } from "../../server/services/opencodeTurns.js";
 
 /**
  * The v2 server's real contract, measured against a live runtime:

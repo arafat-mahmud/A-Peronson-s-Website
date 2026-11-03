@@ -47,41 +47,40 @@
  */
 
 :root {
-  /* Main colors / Backgrounds */
-  --color-background: rgba(2, 6, 23, 0.9); /* bg-slate-950/90 (page background) */
-  --color-surface: #fbbf24; /* bg-amber-400 (surface / card) */
-  --color-surface-elevated: #22d3ee; /* bg-cyan-400 (elevated surface) */
-  --color-bg-emerald-400: #34d399; /* bg-emerald-400 (success) */
-  --color-bg-emerald-500: #10b981; /* bg-emerald-500 (success) */
-  --color-bg-orange-400: #fb923c; /* bg-orange-400 (warning) */
-  --color-bg-red-400: #f87171; /* bg-red-400 (danger) */
-  --color-bg-sky-400: #38bdf8; /* bg-sky-400 (accent) */
+	/* Main colors / Backgrounds */
+	--color-background: rgba(2, 6, 23, 0.9); /* bg-slate-950/90 (page background) */
+	--color-surface: #fbbf24; /* bg-amber-400 (surface / card) */
+	--color-surface-elevated: #22d3ee; /* bg-cyan-400 (elevated surface) */
+	--color-bg-emerald-400: #34d399; /* bg-emerald-400 (success) */
+	--color-bg-emerald-500: #10b981; /* bg-emerald-500 (success) */
+	--color-bg-orange-400: #fb923c; /* bg-orange-400 (warning) */
+	--color-bg-red-400: #f87171; /* bg-red-400 (danger) */
+	--color-bg-sky-400: #38bdf8; /* bg-sky-400 (accent) */
 
-  /* Text */
-  --color-text-cyan-300: #67e8f9; /* text-cyan-300 (accent-soft) */
-  --color-text-muted: #94a3b8; /* text-slate-400 (muted text) */
-  --color-text-secondary: #e2e8f0; /* text-slate-200 (body / secondary text) */
-  --color-text-secondary-2: #cbd5e1; /* text-slate-300 (body / secondary text) */
-  --color-text-primary: #ffffff; /* text-white (heading / primary text) */
+	/* Text */
+	--color-text-cyan-300: #67e8f9; /* text-cyan-300 (accent-soft) */
+	--color-text-muted: #94a3b8; /* text-slate-400 (muted text) */
+	--color-text-secondary: #e2e8f0; /* text-slate-200 (body / secondary text) */
+	--color-text-secondary-2: #cbd5e1; /* text-slate-300 (body / secondary text) */
+	--color-text-primary: #ffffff; /* text-white (heading / primary text) */
 
-  /* Borders / Dividers / Rings */
-  --color-border-emerald-400-30: rgba(52, 211, 153, 0.3); /* border-emerald-400/30 (border) */
-  --color-border: rgba(255, 255, 255, 0.1); /* border-white/10 (default border) */
-  --color-border-2: rgba(255, 255, 255, 0.15); /* border-white/15 (default border) */
+	/* Borders / Dividers / Rings */
+	--color-border-emerald-400-30: rgba(52, 211, 153, 0.3); /* border-emerald-400/30 (border) */
+	--color-border: rgba(255, 255, 255, 0.1); /* border-white/10 (default border) */
+	--color-border-2: rgba(255, 255, 255, 0.15); /* border-white/15 (default border) */
 
-  /* Shadow colors */
-  --color-shadow-emerald-500-10: rgba(16, 185, 129, 0.1); /* shadow-emerald-500/10 (shadow color) */
+	/* Shadow colors */
+	--color-shadow-emerald-500-10: rgba(16, 185, 129, 0.1); /* shadow-emerald-500/10 (shadow color) */
 
-  /* States (hover / focus / active / disabled / responsive / data / aria) */
-  --color-bg-emerald-400-hover: #34d399; /* hover:hover:bg-emerald-400 (state) */
-  --color-border-hover: rgba(255, 255, 255, 0.3); /* hover:hover:border-white/30 (state) */
-  --color-text-hover: #ffffff; /* hover:hover:text-white (state) */
+	/* States (hover / focus / active / disabled / responsive / data / aria) */
+	--color-bg-emerald-400-hover: #34d399; /* hover:hover:bg-emerald-400 (state) */
+	--color-border-hover: rgba(255, 255, 255, 0.3); /* hover:hover:border-white/30 (state) */
+	--color-text-hover: #ffffff; /* hover:hover:text-white (state) */
 
-  /* Semantic aliases (derived, not new colors) */
-  --color-warning: #fbbf24; /* alias -> --color-surface (bg-amber-400 (surface / card)) */
-  --color-success: #34d399; /* alias -> --color-bg-emerald-400 (bg-emerald-400 (success)) */
-  --color-danger: #f87171; /* alias -> --color-bg-red-400 (bg-red-400 (danger)) */
-  --color-info: #38bdf8; /* alias -> --color-bg-sky-400 (bg-sky-400 (accent)) */
-  --color-accent: #22d3ee; /* alias -> --color-surface-elevated (bg-cyan-400 (elevated surface)) */
-
+	/* Semantic aliases (derived, not new colors) */
+	--color-warning: #fbbf24; /* alias -> --color-surface (bg-amber-400 (surface / card)) */
+	--color-success: #34d399; /* alias -> --color-bg-emerald-400 (bg-emerald-400 (success)) */
+	--color-danger: #f87171; /* alias -> --color-bg-red-400 (bg-red-400 (danger)) */
+	--color-info: #38bdf8; /* alias -> --color-bg-sky-400 (bg-sky-400 (accent)) */
+	--color-accent: #22d3ee; /* alias -> --color-surface-elevated (bg-cyan-400 (elevated surface)) */
 }

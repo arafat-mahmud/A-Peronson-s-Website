@@ -94,6 +94,15 @@ export default function SignupUltra() {
 	const [passwordVisible, setPasswordVisible] = useState(false);
 	const [confirmVisible, setConfirmVisible] = useState(false);
 
+	const onChange = (key, value) => setForm((prev) => ({ ...prev, [key]: value }));
+
+	// Hooks run before any early return, so every render calls them in the same order.
+	useEffect(() => {
+		if (form.role !== "factory" && form.factorySector) {
+			onChange("factorySector", "");
+		}
+	}, [form.role, form.factorySector]);
+
 	if (!isAuthorized) {
 		return <Navigate to="/" replace={true} />;
 	}
@@ -102,14 +111,6 @@ export default function SignupUltra() {
 	if (currentUser && currentUser.role !== "admin" && currentUser.role !== "owner") {
 		return <Navigate to="/" replace={true} />;
 	}
-
-	const onChange = (key, value) => setForm((prev) => ({ ...prev, [key]: value }));
-
-	useEffect(() => {
-		if (form.role !== "factory" && form.factorySector) {
-			onChange("factorySector", "");
-		}
-	}, [form.role, form.factorySector]);
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();

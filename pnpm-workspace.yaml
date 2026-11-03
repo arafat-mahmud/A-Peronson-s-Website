@@ -1,9 +1,9 @@
 packages:
   - .
 allowBuilds:
-  '@google/genai': true
-  '@prisma/client': true
-  '@prisma/engines': true
+  "@google/genai": true
+  "@prisma/client": true
+  "@prisma/engines": true
   electron: true
   esbuild: true
   inotify: true

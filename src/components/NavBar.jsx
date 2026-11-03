@@ -565,7 +565,9 @@ export default function NavBar() {
 		} else {
 			document.body.style.overflow = "";
 		}
-		return () => { document.body.style.overflow = ""; };
+		return () => {
+			document.body.style.overflow = "";
+		};
 	}, [mobileOpen]);
 
 	useEffect(() => {
@@ -706,171 +708,177 @@ export default function NavBar() {
 
 					<div className="flex flex-shrink-0 items-center gap-2 sm:gap-3">
 						{user && (
-						<div ref={searchRef} className="relative hidden items-center md:flex">
-							{searchExpanded ? (
-								<div
-									className={cn(
-										"relative flex w-[400px] max-w-[calc(100vw-2rem)] items-center rounded-full border border-white/10 bg-white/65 px-3 py-2 backdrop-blur-xl shadow-[0_20px_45px_rgba(51,122,176,0.12)] transition-[width,box-shadow] duration-300",
-										"dark:bg-slate-950/70",
-									)}
-								>
-									<Search className="h-4 w-4 text-slate-400" />
-									<input
-										ref={searchInputRef}
-										value={searchQuery}
-										onChange={(e) => {
-											setSearchQuery(e.target.value);
-											setSearchOpen(true);
-										}}
-										onFocus={() => setSearchOpen(true)}
-										onBlur={() => {
-											if (!searchQuery.trim()) {
+							<div ref={searchRef} className="relative hidden items-center md:flex">
+								{searchExpanded ? (
+									<div
+										className={cn(
+											"relative flex w-[400px] max-w-[calc(100vw-2rem)] items-center rounded-full border border-white/10 bg-white/65 px-3 py-2 backdrop-blur-xl shadow-[0_20px_45px_rgba(51,122,176,0.12)] transition-[width,box-shadow] duration-300",
+											"dark:bg-slate-950/70",
+										)}
+									>
+										<Search className="h-4 w-4 text-slate-400" />
+										<input
+											ref={searchInputRef}
+											value={searchQuery}
+											onChange={(e) => {
+												setSearchQuery(e.target.value);
+												setSearchOpen(true);
+											}}
+											onFocus={() => setSearchOpen(true)}
+											onBlur={() => {
+												if (!searchQuery.trim()) {
+													setSearchExpanded(false);
+												}
+											}}
+											onKeyDown={(e) => {
+												if (e.key === "Enter" && searchQuery.trim()) {
+													navigate(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
+													setSearchExpanded(false);
+													setSearchOpen(false);
+												}
+											}}
+											placeholder="Search users..."
+											className="min-w-0 flex-1 bg-transparent px-2 text-sm text-slate-700 outline-none placeholder:text-slate-400 dark:text-slate-100 dark:placeholder:text-slate-500"
+										/>
+										<button
+											type="button"
+											onClick={() => {
 												setSearchExpanded(false);
-											}
-										}}
-										onKeyDown={(e) => {
-											if (e.key === "Enter" && searchQuery.trim()) {
-												navigate(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
-												setSearchExpanded(false);
+												setSearchQuery("");
 												setSearchOpen(false);
-											}
-										}}
-										placeholder="Search users..."
-										className="min-w-0 flex-1 bg-transparent px-2 text-sm text-slate-700 outline-none placeholder:text-slate-400 dark:text-slate-100 dark:placeholder:text-slate-500"
-									/>
+											}}
+											className="pointer-events-auto rounded-full bg-slate-900/5 px-2.5 py-1 text-xs font-semibold text-slate-500 hover:bg-slate-900/10 dark:bg-white/5 dark:text-slate-400 dark:hover:bg-white/10"
+										>
+											✕
+										</button>
+									</div>
+								) : (
 									<button
 										type="button"
-										onClick={() => {
-											setSearchExpanded(false);
-											setSearchQuery("");
-											setSearchOpen(false);
-										}}
-										className="pointer-events-auto rounded-full bg-slate-900/5 px-2.5 py-1 text-xs font-semibold text-slate-500 hover:bg-slate-900/10 dark:bg-white/5 dark:text-slate-400 dark:hover:bg-white/10"
+										onClick={() => setSearchExpanded(true)}
+										className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-white/65 text-slate-600 shadow-sm transition hover:-translate-y-0.5 hover:text-sky-600 dark:bg-slate-950/70 dark:text-slate-300 dark:hover:text-sky-300"
+										aria-label="Open search"
 									>
-										✕
+										<Search className="h-5 w-5" />
 									</button>
-								</div>
-							) : (
-								<button
-									type="button"
-									onClick={() => setSearchExpanded(true)}
-									className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-white/65 text-slate-600 shadow-sm transition hover:-translate-y-0.5 hover:text-sky-600 dark:bg-slate-950/70 dark:text-slate-300 dark:hover:text-sky-300"
-									aria-label="Open search"
-								>
-									<Search className="h-5 w-5" />
-								</button>
-							)}
+								)}
 
-							{user && searchOpen && searchQuery.trim().length > 0 ? (
-								<div className="absolute left-0 top-[calc(100%+10px)] z-50 w-[360px] overflow-hidden rounded-3xl border border-white/10 bg-white/95 p-2 shadow-[0_25px_70px_rgba(15,23,42,0.16)] backdrop-blur-2xl dark:bg-slate-950/95">
-									{searchLoading ? (
-										<ThreeDot variant="bounce" color="#337ab0" size="small" text="" textColor="" />
-									) : null}
-									{!searchLoading && searchError ? (
-										<p className="px-2 py-3 text-xs text-rose-500">{searchError}</p>
-									) : null}
-									{!(searchLoading || searchError) && searchResults.length === 0 ? (
-										<p className="px-2 py-3 text-xs text-slate-500">No users found.</p>
-									) : null}
-									{!(searchLoading || searchError) && searchResults.length > 0 ? (
-										<p className="px-3 pb-2 text-[11px] uppercase tracking-[0.2em] text-slate-400">
-											Suggestions
-										</p>
-									) : null}
-									{actionStatus ? (
-										<p className="px-3 pb-2 text-[11px] text-emerald-600">{actionStatus}</p>
-									) : null}
+								{user && searchOpen && searchQuery.trim().length > 0 ? (
+									<div className="absolute left-0 top-[calc(100%+10px)] z-50 w-[360px] overflow-hidden rounded-3xl border border-white/10 bg-white/95 p-2 shadow-[0_25px_70px_rgba(15,23,42,0.16)] backdrop-blur-2xl dark:bg-slate-950/95">
+										{searchLoading ? (
+											<ThreeDot
+												variant="bounce"
+												color="#337ab0"
+												size="small"
+												text=""
+												textColor=""
+											/>
+										) : null}
+										{!searchLoading && searchError ? (
+											<p className="px-2 py-3 text-xs text-rose-500">{searchError}</p>
+										) : null}
+										{!(searchLoading || searchError) && searchResults.length === 0 ? (
+											<p className="px-2 py-3 text-xs text-slate-500">No users found.</p>
+										) : null}
+										{!(searchLoading || searchError) && searchResults.length > 0 ? (
+											<p className="px-3 pb-2 text-[11px] uppercase tracking-[0.2em] text-slate-400">
+												Suggestions
+											</p>
+										) : null}
+										{actionStatus ? (
+											<p className="px-3 pb-2 text-[11px] text-emerald-600">{actionStatus}</p>
+										) : null}
 
-									{!(searchLoading || searchError) &&
-										searchResults.map((result) => (
-											<div
-												key={result.id}
-												className="mb-1 rounded-2xl px-2 py-2 last:mb-0 transition hover:bg-slate-900/5 dark:hover:bg-white/5"
-											>
-												<div className="flex items-center justify-between gap-2">
-													<div>
-														<p className="text-sm font-semibold text-slate-800 dark:text-slate-100">
-															{result.name}
-															{result.is_self ? " (You)" : ""}
-														</p>
-														<p className="text-xs text-slate-500">
-															{result.role} - {result.email}
-														</p>
+										{!(searchLoading || searchError) &&
+											searchResults.map((result) => (
+												<div
+													key={result.id}
+													className="mb-1 rounded-2xl px-2 py-2 last:mb-0 transition hover:bg-slate-900/5 dark:hover:bg-white/5"
+												>
+													<div className="flex items-center justify-between gap-2">
+														<div>
+															<p className="text-sm font-semibold text-slate-800 dark:text-slate-100">
+																{result.name}
+																{result.is_self ? " (You)" : ""}
+															</p>
+															<p className="text-xs text-slate-500">
+																{result.role} - {result.email}
+															</p>
+														</div>
+														{result.verified ? (
+															<span className="rounded-full bg-emerald-100 px-2 py-0.5 text-[10px] font-semibold text-emerald-700">
+																Verified
+															</span>
+														) : null}
 													</div>
-													{result.verified ? (
-														<span className="rounded-full bg-emerald-100 px-2 py-0.5 text-[10px] font-semibold text-emerald-700">
-															Verified
-														</span>
-													) : null}
-												</div>
 
-												<div className="mt-2 flex flex-wrap gap-2">
-													<button
-														disabled={
-															result.is_self ||
-															result.following ||
-															actionBusyKey === `follow:${result.id}`
-														}
-														onClick={() => followUser(result.id)}
-														className="inline-flex items-center rounded-xl bg-sky-500/10 px-2.5 py-1.5 text-xs font-semibold text-sky-700 transition hover:bg-sky-500/20 disabled:cursor-not-allowed disabled:opacity-60 dark:text-sky-300"
-													>
-														{actionBusyKey === `follow:${result.id}`
-															? "Following..."
-															: result.is_self
-																? "Follow"
-																: result.following
-																	? "Following"
-																	: "Follow"}
-													</button>
-													<button
-														disabled={
-															result.is_self ||
-															["friends", "requested", "self"].includes(result.friend_status) ||
-															actionBusyKey === `friend:${result.id}`
-														}
-														onClick={() => addFriend(result.id)}
-														className="inline-flex items-center rounded-xl bg-indigo-500/10 px-2.5 py-1.5 text-xs font-semibold text-indigo-700 transition hover:bg-indigo-500/20 disabled:cursor-not-allowed disabled:opacity-60 dark:text-indigo-300"
-													>
-														{actionBusyKey === `friend:${result.id}` ? (
-															<ThreeDot
-																variant="bounce"
-																color="#337ab0"
-																size="small"
-																text=""
-																textColor=""
-															/>
-														) : result.is_self ? (
-															"Add Friend"
-														) : result.friend_status === "incoming" ? (
-															"Accept"
-														) : (
-															"Add Friend"
-														)}
-													</button>
-													{result.friend_status === "friends" ? (
-														<>
-															<button
-																disabled={actionBusyKey === `message:${result.id}`}
-																onClick={() => messageFriend(result.id)}
-																className="inline-flex items-center rounded-xl bg-emerald-500/10 px-2.5 py-1.5 text-xs font-semibold text-emerald-700 transition hover:bg-emerald-500/20 disabled:cursor-not-allowed disabled:opacity-60 dark:text-emerald-300"
-															>
-																Message
-															</button>
-															<button
-																disabled={actionBusyKey === `call:${result.id}`}
-																onClick={() => callFriend(result.id)}
-																className="inline-flex items-center rounded-xl bg-sky-500/10 px-2.5 py-1.5 text-xs font-semibold text-sky-700 transition hover:bg-sky-500/20 disabled:cursor-not-allowed disabled:opacity-60 dark:text-sky-300"
-															>
-																Call
-															</button>
-														</>
-													) : null}
+													<div className="mt-2 flex flex-wrap gap-2">
+														<button
+															disabled={
+																result.is_self ||
+																result.following ||
+																actionBusyKey === `follow:${result.id}`
+															}
+															onClick={() => followUser(result.id)}
+															className="inline-flex items-center rounded-xl bg-sky-500/10 px-2.5 py-1.5 text-xs font-semibold text-sky-700 transition hover:bg-sky-500/20 disabled:cursor-not-allowed disabled:opacity-60 dark:text-sky-300"
+														>
+															{actionBusyKey === `follow:${result.id}`
+																? "Following..."
+																: result.is_self
+																	? "Follow"
+																	: result.following
+																		? "Following"
+																		: "Follow"}
+														</button>
+														<button
+															disabled={
+																result.is_self ||
+																["friends", "requested", "self"].includes(result.friend_status) ||
+																actionBusyKey === `friend:${result.id}`
+															}
+															onClick={() => addFriend(result.id)}
+															className="inline-flex items-center rounded-xl bg-indigo-500/10 px-2.5 py-1.5 text-xs font-semibold text-indigo-700 transition hover:bg-indigo-500/20 disabled:cursor-not-allowed disabled:opacity-60 dark:text-indigo-300"
+														>
+															{actionBusyKey === `friend:${result.id}` ? (
+																<ThreeDot
+																	variant="bounce"
+																	color="#337ab0"
+																	size="small"
+																	text=""
+																	textColor=""
+																/>
+															) : result.is_self ? (
+																"Add Friend"
+															) : result.friend_status === "incoming" ? (
+																"Accept"
+															) : (
+																"Add Friend"
+															)}
+														</button>
+														{result.friend_status === "friends" ? (
+															<>
+																<button
+																	disabled={actionBusyKey === `message:${result.id}`}
+																	onClick={() => messageFriend(result.id)}
+																	className="inline-flex items-center rounded-xl bg-emerald-500/10 px-2.5 py-1.5 text-xs font-semibold text-emerald-700 transition hover:bg-emerald-500/20 disabled:cursor-not-allowed disabled:opacity-60 dark:text-emerald-300"
+																>
+																	Message
+																</button>
+																<button
+																	disabled={actionBusyKey === `call:${result.id}`}
+																	onClick={() => callFriend(result.id)}
+																	className="inline-flex items-center rounded-xl bg-sky-500/10 px-2.5 py-1.5 text-xs font-semibold text-sky-700 transition hover:bg-sky-500/20 disabled:cursor-not-allowed disabled:opacity-60 dark:text-sky-300"
+																>
+																	Call
+																</button>
+															</>
+														) : null}
+													</div>
 												</div>
-											</div>
-										))}
-								</div>
-							) : null}
-						</div>
+											))}
+									</div>
+								) : null}
+							</div>
 						)}
 
 						<div className="ml-auto flex items-center gap-2">
@@ -892,7 +900,11 @@ export default function NavBar() {
 							<button
 								onClick={toggleTheme}
 								className="inline-flex h-11 items-center gap-2 rounded-full border border-white/10 bg-white/65 px-4 py-2 text-sm font-semibold text-slate-900 shadow-sm transition hover:-translate-y-0.5 dark:bg-slate-950/70 dark:text-white"
-								aria-label={dark ? "Light theme on, switch to dark mode" : "Dark theme on, switch to light mode"}
+								aria-label={
+									dark
+										? "Light theme on, switch to dark mode"
+										: "Dark theme on, switch to light mode"
+								}
 							>
 								{dark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
 								<span className="hidden sm:inline">{dark ? "Light" : "Dark"}</span>
@@ -919,14 +931,14 @@ export default function NavBar() {
 							)}
 
 							{user && (
-							<button
-								type="button"
-								onClick={() => navigate("/search")}
-								className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-white/70 text-slate-600 shadow-sm transition hover:-translate-y-0.5 hover:text-sky-600 dark:bg-slate-950/70 dark:text-slate-300 dark:hover:text-sky-300 md:hidden"
-								aria-label="Search"
-							>
-								<Search className="h-5 w-5" />
-							</button>
+								<button
+									type="button"
+									onClick={() => navigate("/search")}
+									className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-white/70 text-slate-600 shadow-sm transition hover:-translate-y-0.5 hover:text-sky-600 dark:bg-slate-950/70 dark:text-slate-300 dark:hover:text-sky-300 md:hidden"
+									aria-label="Search"
+								>
+									<Search className="h-5 w-5" />
+								</button>
 							)}
 							<button
 								onClick={() => setMobileOpen((v) => !v)}
@@ -960,7 +972,9 @@ export default function NavBar() {
 								<div className="flex items-center gap-3">
 									<BrandMark size={32} />
 									<div>
-										<div className="text-sm font-semibold text-slate-900 dark:text-white">GarTexHub</div>
+										<div className="text-sm font-semibold text-slate-900 dark:text-white">
+											GarTexHub
+										</div>
 										<div className="text-xs text-slate-500 dark:text-slate-400">Navigation</div>
 									</div>
 								</div>
@@ -1010,9 +1024,9 @@ export default function NavBar() {
 																		"Agent Dashboard": Star,
 																		"Admin Panel": ShieldCheck,
 																		Governance: Settings,
-																	"Contact Support": Settings,
-																	Onboarding: Star,
-																}[item.label] || Settings;
+																		"Contact Support": Settings,
+																		Onboarding: Star,
+																	}[item.label] || Settings;
 																const LinkTag2 = item.external ? "a" : Link;
 																const linkProps2 = item.external
 																	? { href: item.to, target: "_blank", rel: "noopener noreferrer" }
@@ -1167,7 +1181,6 @@ export default function NavBar() {
 									</div>
 								)}
 							</div>
-
 						</Motion.div>
 					</Motion.div>
 				)}

@@ -202,13 +202,13 @@ export default function FloatingAssistant() {
 					setMessages(formatted);
 					hasUserMessagesRef.current = formatted.some((m) => m.role === "user");
 				} else {
-			setMessages([
-					{
-						role: "assistant",
-						text: "Hello! I am your GarTex Assistant. I can help you with:\n\n- **Account** verification & settings\n- **Products** listing & management\n- **Contracts** & payment proofs\n- **Buyer requests** & matching\n- **Premium** plans & billing\n- **LC (Letter of Credit)** guidance\n\nHow can I help you today?",
-						isNew: false,
-					},
-				]);
+					setMessages([
+						{
+							role: "assistant",
+							text: "Hello! I am your GarTex Assistant. I can help you with:\n\n- **Account** verification & settings\n- **Products** listing & management\n- **Contracts** & payment proofs\n- **Buyer requests** & matching\n- **Premium** plans & billing\n- **LC (Letter of Credit)** guidance\n\nHow can I help you today?",
+							isNew: false,
+						},
+					]);
 				}
 				if (t) {
 					setTitle(t);
@@ -448,7 +448,10 @@ export default function FloatingAssistant() {
 
 	return (
 		<>
-			<motion.div className="fixed right-4 bottom-20 z-50 sm:right-6 sm:bottom-10" style={{ opacity: buttonOpacity }}>
+			<motion.div
+				className="fixed right-4 bottom-20 z-50 sm:right-6 sm:bottom-10"
+				style={{ opacity: buttonOpacity }}
+			>
 				<button
 					type="button"
 					onClick={() => (open ? closePanel() : openPanel())}

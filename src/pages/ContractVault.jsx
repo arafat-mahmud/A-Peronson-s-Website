@@ -1140,7 +1140,11 @@ export default function ContractVaultPage({ embedded = false }) {
 													<ActionButton
 														icon={<icons.check className="h-4 w-4" />}
 														title="Buyer sign"
-														subtitle={signSubtitle("buyer", contract.buyerSign === "signed", canSignBuyer)}
+														subtitle={signSubtitle(
+															"buyer",
+															contract.buyerSign === "signed",
+															canSignBuyer,
+														)}
 														disabled={saving || !canSignBuyer || contract.buyerSign === "signed"}
 														onClick={handleBuyerSign}
 													/>
@@ -1152,7 +1156,9 @@ export default function ContractVaultPage({ embedded = false }) {
 															contract.factorySign === "signed",
 															canSignFactory,
 														)}
-														disabled={saving || !canSignFactory || contract.factorySign === "signed"}
+														disabled={
+															saving || !canSignFactory || contract.factorySign === "signed"
+														}
 														onClick={handleFactorySign}
 													/>
 													<ActionButton

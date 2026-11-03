@@ -594,7 +594,6 @@ async function runRole({ runtime, models, role, prompt, row, caseId, sessionIDs 
  * @returns {Promise<{role: string, status: string, findings: object[], limitations: string[], summary: string, error?: string, retryable?: boolean}>}
  */
 async function runRoleOnce({ runtime, model, role, prompt, row, caseId, sessionIDs }) {
-
 	await updateRow(row, {
 		status: "running",
 		attempt: row.attempt,

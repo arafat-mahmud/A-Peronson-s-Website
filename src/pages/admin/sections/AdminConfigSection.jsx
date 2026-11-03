@@ -85,7 +85,9 @@ export function AdminConfigSection({
 									<span className="font-semibold">{mod.label}</span>
 									<span className="text-xs text-slate-500">({mod.id})</span>
 								</div>
-								<div className="mt-2 text-xs text-slate-500">{mod.sections?.length || 0} sections</div>
+								<div className="mt-2 text-xs text-slate-500">
+									{mod.sections?.length || 0} sections
+								</div>
 							</div>
 						))}
 					</div>

@@ -29,23 +29,22 @@
  */
 
 :root {
-  /* Main colors / Backgrounds */
-  --color-background: #f8fafc; /* bg-slate-50 (page background) */
-  --color-surface: #ffffff; /* bg-white (surface / card) */
-  --color-surface-elevated: #ecfdf5; /* bg-emerald-50 (elevated surface) */
+	/* Main colors / Backgrounds */
+	--color-background: #f8fafc; /* bg-slate-50 (page background) */
+	--color-surface: #ffffff; /* bg-white (surface / card) */
+	--color-surface-elevated: #ecfdf5; /* bg-emerald-50 (elevated surface) */
 
-  /* Text */
-  --color-text-emerald-700: #047857; /* text-emerald-700 (success) */
-  --color-text-slate-900: #0f172a; /* text-slate-900 */
-  --color-text-muted: #64748b; /* text-slate-500 (muted text) */
-  --color-text-slate-600: #475569; /* text-slate-600 */
+	/* Text */
+	--color-text-emerald-700: #047857; /* text-emerald-700 (success) */
+	--color-text-slate-900: #0f172a; /* text-slate-900 */
+	--color-text-muted: #64748b; /* text-slate-500 (muted text) */
+	--color-text-slate-600: #475569; /* text-slate-600 */
 
-  /* Borders / Dividers / Rings */
-  --color-ring: #a7f3d0; /* ring-emerald-200 (focus ring) */
-  --color-ring-2: rgba(226, 232, 240, 0.7); /* ring-slate-200/70 (focus ring) */
-  --color-ring-3: #e2e8f0; /* ring-slate-200 (focus ring) */
+	/* Borders / Dividers / Rings */
+	--color-ring: #a7f3d0; /* ring-emerald-200 (focus ring) */
+	--color-ring-2: rgba(226, 232, 240, 0.7); /* ring-slate-200/70 (focus ring) */
+	--color-ring-3: #e2e8f0; /* ring-slate-200 (focus ring) */
 
-  /* Semantic aliases (derived, not new colors) */
-  --color-success: #ecfdf5; /* alias -> --color-surface-elevated (bg-emerald-50 (elevated surface)) */
-
+	/* Semantic aliases (derived, not new colors) */
+	--color-success: #ecfdf5; /* alias -> --color-surface-elevated (bg-emerald-50 (elevated surface)) */
 }

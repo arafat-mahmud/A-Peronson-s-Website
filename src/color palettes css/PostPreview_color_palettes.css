@@ -57,43 +57,57 @@
  */
 
 :root {
-  /* Main colors / Backgrounds */
-  --color-background: #f1f5f9; /* bg-slate-100 (page background) */
-  --color-surface: #ffffff; /* bg-white (surface / card) */
-  --color-surface-elevated: rgba(16, 185, 129, 0.1); /* bg-emerald-500/10 (elevated surface) */
-  --color-bg-3b82f6-10: rgba(59, 130, 246, 0.1); /* bg-[#3b82f6]/10 (arbitrary background) */
-  --color-bg-fuchsia-500-0-1: rgba(217, 70, 239, 0.1); /* bg-fuchsia-500/10 (secondary) */
-  --color-bg-sky-500-0-1: rgba(14, 165, 233, 0.1); /* bg-sky-500/10 (accent) */
+	/* Main colors / Backgrounds */
+	--color-background: #f1f5f9; /* bg-slate-100 (page background) */
+	--color-surface: #ffffff; /* bg-white (surface / card) */
+	--color-surface-elevated: rgba(16, 185, 129, 0.1); /* bg-emerald-500/10 (elevated surface) */
+	--color-bg-3b82f6-10: rgba(59, 130, 246, 0.1); /* bg-[#3b82f6]/10 (arbitrary background) */
+	--color-bg-fuchsia-500-0-1: rgba(217, 70, 239, 0.1); /* bg-fuchsia-500/10 (secondary) */
+	--color-bg-sky-500-0-1: rgba(14, 165, 233, 0.1); /* bg-sky-500/10 (accent) */
 
-  /* Text */
-  --color-text-2563eb: #2563eb; /* text-[#2563eb] (arbitrary text) */
-  --color-text-emerald-700: #047857; /* text-emerald-700 (success) */
-  --color-text-fuchsia-700: #a21caf; /* text-fuchsia-700 (secondary-soft) */
-  --color-text-sky-700: #0369a1; /* text-sky-700 (info) */
-  --color-text-muted: #94a3b8; /* text-slate-400 (muted text) */
-  --color-text-slate-900: #0f172a; /* text-slate-900 */
-  --color-text-slate-700: #334155; /* text-slate-700 */
+	/* Text */
+	--color-text-2563eb: #2563eb; /* text-[#2563eb] (arbitrary text) */
+	--color-text-emerald-700: #047857; /* text-emerald-700 (success) */
+	--color-text-fuchsia-700: #a21caf; /* text-fuchsia-700 (secondary-soft) */
+	--color-text-sky-700: #0369a1; /* text-sky-700 (info) */
+	--color-text-muted: #94a3b8; /* text-slate-400 (muted text) */
+	--color-text-slate-900: #0f172a; /* text-slate-900 */
+	--color-text-slate-700: #334155; /* text-slate-700 */
 
-  /* Borders / Dividers / Rings */
-  --color-ring: rgba(226, 232, 240, 0.7); /* ring-slate-200/70 (focus ring) */
+	/* Borders / Dividers / Rings */
+	--color-ring: rgba(226, 232, 240, 0.7); /* ring-slate-200/70 (focus ring) */
 
-  /* Semantic aliases (derived, not new colors) */
-  --color-success: rgba(16, 185, 129, 0.1); /* alias -> --color-surface-elevated (bg-emerald-500/10 (elevated surface)) */
-  --color-info: rgba(14, 165, 233, 0.1); /* alias -> --color-bg-sky-500-0-1 (bg-sky-500/10 (accent)) */
-  --color-secondary: rgba(217, 70, 239, 0.1); /* alias -> --color-bg-fuchsia-500-0-1 (bg-fuchsia-500/10 (secondary)) */
-
+	/* Semantic aliases (derived, not new colors) */
+	--color-success: rgba(
+		16,
+		185,
+		129,
+		0.1
+	); /* alias -> --color-surface-elevated (bg-emerald-500/10 (elevated surface)) */
+	--color-info: rgba(
+		14,
+		165,
+		233,
+		0.1
+	); /* alias -> --color-bg-sky-500-0-1 (bg-sky-500/10 (accent)) */
+	--color-secondary: rgba(
+		217,
+		70,
+		239,
+		0.1
+	); /* alias -> --color-bg-fuchsia-500-0-1 (bg-fuchsia-500/10 (secondary)) */
 }
 
 .dark {
-  --color-dark-38bdf8-10: rgba(56, 189, 248, 0.1); /* dark:dark:bg-[#38bdf8]/10 */
-  --color-background-dark-slate-950-40: rgba(2, 6, 23, 0.4); /* dark:dark:bg-slate-950/40 */
-  --color-background: #0f172a; /* dark:dark:bg-slate-900 */
-  --color-ring-dark-white-10: rgba(255, 255, 255, 0.1); /* dark:dark:ring-white/10 */
-  --color-dark-38bdf8: #38bdf8; /* dark:dark:text-[#38bdf8] */
-  --color-text-dark-emerald-300: #6ee7b7; /* dark:dark:text-emerald-300 */
-  --color-text-dark-fuchsia-300: #f0abfc; /* dark:dark:text-fuchsia-300 */
-  --color-text-dark-sky-300: #7dd3fc; /* dark:dark:text-sky-300 */
-  --color-text-dark-slate-500: #64748b; /* dark:dark:text-slate-500 */
-  --color-text-dark-slate-100: #f1f5f9; /* dark:dark:text-slate-100 */
-  --color-text-dark-slate-300: #cbd5e1; /* dark:dark:text-slate-300 */
+	--color-dark-38bdf8-10: rgba(56, 189, 248, 0.1); /* dark:dark:bg-[#38bdf8]/10 */
+	--color-background-dark-slate-950-40: rgba(2, 6, 23, 0.4); /* dark:dark:bg-slate-950/40 */
+	--color-background: #0f172a; /* dark:dark:bg-slate-900 */
+	--color-ring-dark-white-10: rgba(255, 255, 255, 0.1); /* dark:dark:ring-white/10 */
+	--color-dark-38bdf8: #38bdf8; /* dark:dark:text-[#38bdf8] */
+	--color-text-dark-emerald-300: #6ee7b7; /* dark:dark:text-emerald-300 */
+	--color-text-dark-fuchsia-300: #f0abfc; /* dark:dark:text-fuchsia-300 */
+	--color-text-dark-sky-300: #7dd3fc; /* dark:dark:text-sky-300 */
+	--color-text-dark-slate-500: #64748b; /* dark:dark:text-slate-500 */
+	--color-text-dark-slate-100: #f1f5f9; /* dark:dark:text-slate-100 */
+	--color-text-dark-slate-300: #cbd5e1; /* dark:dark:text-slate-300 */
 }

@@ -17,14 +17,17 @@
  */
 
 :root {
-  /* Main colors / Backgrounds */
-  --color-background: #e2e8f0; /* bg-slate-200 (page background) */
+	/* Main colors / Backgrounds */
+	--color-background: #e2e8f0; /* bg-slate-200 (page background) */
 
-  /* Gradients (every distinct stop-set preserved) */
-  --gradient-primary: linear-gradient(90deg, #0ea5e9 0%, #22d3ee 100%); /* from-sky-500 to-cyan-400 (gradient; direction 90deg) */
-
+	/* Gradients (every distinct stop-set preserved) */
+	--gradient-primary: linear-gradient(
+		90deg,
+		#0ea5e9 0%,
+		#22d3ee 100%
+	); /* from-sky-500 to-cyan-400 (gradient; direction 90deg) */
 }
 
 .dark {
-  --color-background: #1e293b; /* dark:dark:bg-slate-800 */
+	--color-background: #1e293b; /* dark:dark:bg-slate-800 */
 }

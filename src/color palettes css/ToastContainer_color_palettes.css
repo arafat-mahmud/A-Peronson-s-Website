@@ -23,22 +23,21 @@
  */
 
 :root {
-  /* Main colors / Backgrounds */
-  --color-background: #059669; /* bg-emerald-600 (page background) */
-  --color-surface: #dc2626; /* bg-red-600 (surface / card) */
-  --color-surface-elevated: #0284c7; /* bg-sky-600 (elevated surface) */
+	/* Main colors / Backgrounds */
+	--color-background: #059669; /* bg-emerald-600 (page background) */
+	--color-surface: #dc2626; /* bg-red-600 (surface / card) */
+	--color-surface-elevated: #0284c7; /* bg-sky-600 (elevated surface) */
 
-  /* Text */
-  --color-text-primary: #ffffff; /* text-white (heading / primary text) */
+	/* Text */
+	--color-text-primary: #ffffff; /* text-white (heading / primary text) */
 
-  /* Shadow colors */
-  --color-shadow-emerald-500-20: rgba(16, 185, 129, 0.2); /* shadow-emerald-500/20 (shadow color) */
-  --color-shadow-red-500-20: rgba(239, 68, 68, 0.2); /* shadow-red-500/20 (shadow color) */
-  --color-shadow-sky-500-20: rgba(14, 165, 233, 0.2); /* shadow-sky-500/20 (shadow color) */
+	/* Shadow colors */
+	--color-shadow-emerald-500-20: rgba(16, 185, 129, 0.2); /* shadow-emerald-500/20 (shadow color) */
+	--color-shadow-red-500-20: rgba(239, 68, 68, 0.2); /* shadow-red-500/20 (shadow color) */
+	--color-shadow-sky-500-20: rgba(14, 165, 233, 0.2); /* shadow-sky-500/20 (shadow color) */
 
-  /* Semantic aliases (derived, not new colors) */
-  --color-success: #059669; /* alias -> --color-background (bg-emerald-600 (page background)) */
-  --color-danger: #dc2626; /* alias -> --color-surface (bg-red-600 (surface / card)) */
-  --color-info: #0284c7; /* alias -> --color-surface-elevated (bg-sky-600 (elevated surface)) */
-
+	/* Semantic aliases (derived, not new colors) */
+	--color-success: #059669; /* alias -> --color-background (bg-emerald-600 (page background)) */
+	--color-danger: #dc2626; /* alias -> --color-surface (bg-red-600 (surface / card)) */
+	--color-info: #0284c7; /* alias -> --color-surface-elevated (bg-sky-600 (elevated surface)) */
 }

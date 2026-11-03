@@ -870,9 +870,7 @@ export default function TexHub() {
 										</span>
 									</div>
 									<div class="mt-3 flex items-end justify-between gap-3">
-										<div class="text-4xl font-bold tabular-nums tracking-tight">
-											{item.value}
-										</div>
+										<div class="text-4xl font-bold tabular-nums tracking-tight">{item.value}</div>
 										<svg
 											aria-hidden="true"
 											viewBox="0 0 64 24"
@@ -885,7 +883,11 @@ export default function TexHub() {
 										>
 											<polyline
 												points={
-													["2,20 14,16 26,17 38,10 50,12 62,4", "2,18 14,19 26,12 38,13 50,7 62,8", "2,21 14,14 26,15 38,9 50,10 62,5"][i % 3]
+													[
+														"2,20 14,16 26,17 38,10 50,12 62,4",
+														"2,18 14,19 26,12 38,13 50,7 62,8",
+														"2,21 14,14 26,15 38,9 50,10 62,5",
+													][i % 3]
 												}
 											/>
 										</svg>
@@ -950,7 +952,10 @@ export default function TexHub() {
 									</div>
 									<div class="mt-3 grid gap-2 text-xs text-slate-600 sm:grid-cols-2 dark:text-sky-200">
 										{heroValueProps.slice(0, 4).map((t) => (
-											<div key={t} class="rounded-2xl bg-slate-50 px-3 py-2 transition-colors hover:bg-sky-50 hover:text-sky-700 dark:bg-white/5 dark:hover:bg-sky-400/10 dark:hover:text-sky-200">
+											<div
+												key={t}
+												class="rounded-2xl bg-slate-50 px-3 py-2 transition-colors hover:bg-sky-50 hover:text-sky-700 dark:bg-white/5 dark:hover:bg-sky-400/10 dark:hover:text-sky-200"
+											>
 												{t}
 											</div>
 										))}

@@ -51,4 +51,3 @@ export function corsOptions(req, callback) {
 		process.env.NODE_ENV !== "production"; // Dev: allow all
 	callback(null, { ...base, origin: allowed });
 }
-

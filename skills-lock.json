@@ -1,11 +1,11 @@
 {
-  "version": 1,
-  "skills": {
-    "karpathy-coder": {
-      "source": "alirezarezvani/claude-skills",
-      "sourceType": "github",
-      "skillPath": "engineering/karpathy-coder/skills/karpathy-coder/SKILL.md",
-      "computedHash": "bb8fba43bd23537513622172243e1836963b6926bd161eddd6b10805a0ef234e"
-    }
-  }
+	"version": 1,
+	"skills": {
+		"karpathy-coder": {
+			"source": "alirezarezvani/claude-skills",
+			"sourceType": "github",
+			"skillPath": "engineering/karpathy-coder/skills/karpathy-coder/SKILL.md",
+			"computedHash": "bb8fba43bd23537513622172243e1836963b6926bd161eddd6b10805a0ef234e"
+		}
+	}
 }

@@ -22,24 +22,36 @@
  */
 
 :root {
-  /* Text */
-  --color-text-primary: #ffffff; /* text-white (heading / primary text) */
+	/* Text */
+	--color-text-primary: #ffffff; /* text-white (heading / primary text) */
 
-  /* Shadow colors */
-  --color-shadow-sky-500-30: rgba(14, 165, 233, 0.3); /* shadow-sky-500/30 (shadow color) */
+	/* Shadow colors */
+	--color-shadow-sky-500-30: rgba(14, 165, 233, 0.3); /* shadow-sky-500/30 (shadow color) */
 
-  /* States (hover / focus / active / disabled / responsive / data / aria) */
-  --color-from-sky-400-hover: #38bdf8; /* hover:hover:from-sky-400 (state) */
-  --color-to-blue-500-hover: #3b82f6; /* hover:hover:to-blue-500 (state) */
+	/* States (hover / focus / active / disabled / responsive / data / aria) */
+	--color-from-sky-400-hover: #38bdf8; /* hover:hover:from-sky-400 (state) */
+	--color-to-blue-500-hover: #3b82f6; /* hover:hover:to-blue-500 (state) */
 
-  /* Gradients (every distinct stop-set preserved) */
-  --gradient-primary: linear-gradient(135deg, #0ea5e9 0%, #2563eb 100%); /* from-sky-500 to-blue-600 (gradient; direction 135deg) */
-  --gradient-2: linear-gradient(135deg, #38bdf8 0%, #3b82f6 100%); /* hover:from-sky-400 hover:to-blue-500 (gradient; direction 135deg) */
+	/* Gradients (every distinct stop-set preserved) */
+	--gradient-primary: linear-gradient(
+		135deg,
+		#0ea5e9 0%,
+		#2563eb 100%
+	); /* from-sky-500 to-blue-600 (gradient; direction 135deg) */
+	--gradient-2: linear-gradient(
+		135deg,
+		#38bdf8 0%,
+		#3b82f6 100%
+	); /* hover:from-sky-400 hover:to-blue-500 (gradient; direction 135deg) */
 
-  /* Arbitrary / inline / SVG colors + explicit shadows/gradients (verbatim) */
-  --color-inline-1: currentColor; /* verbatim `stroke="currentColor"` near: stroke="currentColor" */
+	/* Arbitrary / inline / SVG colors + explicit shadows/gradients (verbatim) */
+	--color-inline-1: currentColor; /* verbatim `stroke="currentColor"` near: stroke="currentColor" */
 
-  /* Semantic aliases (derived, not new colors) */
-  --color-info: rgba(14, 165, 233, 0.3); /* alias -> --color-shadow-sky-500-30 (shadow-sky-500/30 (shadow color)) */
-
+	/* Semantic aliases (derived, not new colors) */
+	--color-info: rgba(
+		14,
+		165,
+		233,
+		0.3
+	); /* alias -> --color-shadow-sky-500-30 (shadow-sky-500/30 (shadow color)) */
 }

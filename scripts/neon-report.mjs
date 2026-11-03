@@ -55,22 +55,18 @@ for (const file of ["reports/jest-results.json", "reports/playwright-results.jso
 
 // 2. Jest: full suite, JSON summary + coverage summary for the hub.
 // (Allure per-test results are emitted by the allure-jest environment.)
-const jestCode = run(
-	"jest suite",
-	"node",
-	[
-		"--experimental-vm-modules",
-		"node_modules/jest/bin/jest.js",
-		"--runInBand",
-		"--json",
-		"--outputFile=reports/jest-results.json",
-		"--coverage",
-		"--coverageReporters=json-summary",
-		"--coverageReporters=lcov",
-		"--coverageReporters=text",
-		"--coverageDirectory=coverage",
-	],
-);
+const jestCode = run("jest suite", "node", [
+	"--experimental-vm-modules",
+	"node_modules/jest/bin/jest.js",
+	"--runInBand",
+	"--json",
+	"--outputFile=reports/jest-results.json",
+	"--coverage",
+	"--coverageReporters=json-summary",
+	"--coverageReporters=lcov",
+	"--coverageReporters=text",
+	"--coverageDirectory=coverage",
+]);
 
 // 3. Playwright: single execution, three parallel reporter outputs.
 const e2eCode = run("playwright suite", "npx", ["playwright", "test"]);

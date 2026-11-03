@@ -245,8 +245,7 @@ function JsonBlock({ value, minHeight = 160 }) {
  */
 export default function AdminGovernance() {
 	const [darkMode, setDarkMode] = useState(true);
-	const { navCollapsed, footerCollapsed, toggleNav, toggleFooter } =
-		usePageChrome("governance");
+	const { navCollapsed, footerCollapsed, toggleNav, toggleFooter } = usePageChrome("governance");
 	const [policy, setPolicy] = useState(initialPolicy);
 	const [version, setVersion] = useState(initialVersion);
 	const [simulation, setSimulation] = useState(initialSimulation);

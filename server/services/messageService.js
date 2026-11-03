@@ -5,6 +5,7 @@ import { trackTransition } from "../utils/metrics.js";
 import prisma from "../utils/prisma.js";
 import { sanitizeString } from "../utils/validators.js";
 import { autoSummarizeMatch, resolveOrgOwnerFromMatch } from "./aiConversationService.js";
+import { hasCompletedCallByMatch } from "./callSessionService.js";
 import { attachMessageToQueue, evaluateMessagePolicy } from "./communicationPolicyService.js";
 import {
 	buildFriendMatchId,
@@ -14,7 +15,6 @@ import {
 } from "./friendService.js";
 import { upsertLeadFromMessage } from "./leadService.js";
 import { getOrgAiSettings } from "./orgAiService.js";
-import { hasCompletedCallByMatch } from "./callSessionService.js";
 import { assertMessagingAllowed, moderateTextOrRedactWithContext } from "./policyService.js";
 import { hasPendingRatingForCounterparty } from "./ratingsService.js";
 import { getRequirementById } from "./requirementService.js";

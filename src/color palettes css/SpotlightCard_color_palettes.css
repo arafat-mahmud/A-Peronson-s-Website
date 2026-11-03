@@ -14,12 +14,23 @@
  */
 
 :root {
-  /* Arbitrary / inline / SVG colors + explicit shadows/gradients (verbatim) */
-  --gradient-custom: radial-gradient(600px circle at var(--spotlight-x) var(--spotlight-y),rgba(255,255,255,0.55),transparent 40%); /* explicit gradient() in source */
-  --gradient-custom-2: radial-gradient(600px circle at var(--spotlight-x) var(--spotlight-y),rgba(10,102,194,0.16),transparent 45%); /* explicit gradient() in source */
-
+	/* Arbitrary / inline / SVG colors + explicit shadows/gradients (verbatim) */
+	--gradient-custom: radial-gradient(
+		600px circle at var(--spotlight-x) var(--spotlight-y),
+		rgba(255, 255, 255, 0.55),
+		transparent 40%
+	); /* explicit gradient() in source */
+	--gradient-custom-2: radial-gradient(
+		600px circle at var(--spotlight-x) var(--spotlight-y),
+		rgba(10, 102, 194, 0.16),
+		transparent 45%
+	); /* explicit gradient() in source */
 }
 
 .dark {
-  --gradient-custom-2: radial-gradient(600px circle at var(--spotlight-x) var(--spotlight-y),rgba(10,102,194,0.16),transparent 45%); /* dark:before:dark:before:bg-[radial-gradient(600px_circle_at_var(--spotlight-x)_var(--spotlight-y),rgba(10,102,194,0.16),transparent_45%)] (explicit gradient) */
+	--gradient-custom-2: radial-gradient(
+		600px circle at var(--spotlight-x) var(--spotlight-y),
+		rgba(10, 102, 194, 0.16),
+		transparent 45%
+	); /* dark:before:dark:before:bg-[radial-gradient(600px_circle_at_var(--spotlight-x)_var(--spotlight-y),rgba(10,102,194,0.16),transparent_45%)] (explicit gradient) */
 }

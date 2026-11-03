@@ -22,7 +22,9 @@ const DEFAULT_AI_TIMEOUT_MS = 180_000;
  * REQUEST_TIMEOUT_MS is still honoured. Override with AI_REQUEST_TIMEOUT_MS.
  */
 export function resolveRequestTimeoutMs(originalUrl, defaultMs) {
-	const isAiRoute = AI_ROUTE_PREFIXES.some((prefix) => String(originalUrl || "").startsWith(prefix));
+	const isAiRoute = AI_ROUTE_PREFIXES.some((prefix) =>
+		String(originalUrl || "").startsWith(prefix),
+	);
 	if (!isAiRoute) {
 		return defaultMs;
 	}

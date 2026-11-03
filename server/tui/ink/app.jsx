@@ -119,7 +119,19 @@ const parseMouse = (seq) => {
 };
 
 const hitTest = (g) => {
-	const { x, y, columns, sidebarW, inspW, mainW, mainRowH, showBottom, window, selectedId, height } = g;
+	const {
+		x,
+		y,
+		columns,
+		sidebarW,
+		inspW,
+		mainW,
+		mainRowH,
+		showBottom,
+		window,
+		selectedId,
+		height,
+	} = g;
 	const mainTop = 3;
 	const logareaTop = mainTop + 6;
 	const logrowsTop = logareaTop + 3;
@@ -205,19 +217,28 @@ const hitTest = (g) => {
 };
 
 const HEAT_COLORS = [
-	"#0d1525", "#131d35", "#1a2744", "#243154",
-	"#352d63", "#4b2d72", "#63308a", "#7c30a0",
-	"#96329e", "#b03e9a", "#cc4d94", "#e65d8a",
+	"#0d1525",
+	"#131d35",
+	"#1a2744",
+	"#243154",
+	"#352d63",
+	"#4b2d72",
+	"#63308a",
+	"#7c30a0",
+	"#96329e",
+	"#b03e9a",
+	"#cc4d94",
+	"#e65d8a",
 ];
 
 const Chip = ({ label, on, color }) => (
 	<Box
 		borderStyle="round"
-		borderColor={on ? (color || C.neonCyan) : "#1a2540"}
+		borderColor={on ? color || C.neonCyan : "#1a2540"}
 		paddingX={1}
 		backgroundColor={on ? "#0a1830" : "#0c1420"}
 	>
-		<Text color={on ? (color || C.text) : "#5a6888"} bold={on}>
+		<Text color={on ? color || C.text : "#5a6888"} bold={on}>
 			{on ? LEVEL_ICON[label] || "●" : "○"} {label}
 		</Text>
 	</Box>
@@ -227,7 +248,9 @@ const Divider = ({ width, color = C.border, glow }) =>
 	glow ? (
 		<Box>
 			<Text color={C.neonViolet}>{NEON_CHARS.repeat(Math.floor(width / 2))}</Text>
-			<Text color={C.neonCyan}>{NEON_CHARS.repeat(Math.max(0, width - Math.floor(width / 2)))}</Text>
+			<Text color={C.neonCyan}>
+				{NEON_CHARS.repeat(Math.max(0, width - Math.floor(width / 2)))}
+			</Text>
 		</Box>
 	) : (
 		<Box>{barrier(width, color)}</Box>
@@ -290,7 +313,13 @@ const NavItem = ({ icon, label, badge, hot, active }) => {
 	return (
 		<Box paddingX={1} backgroundColor={active ? "#121d38" : undefined}>
 			<Text wrap="truncate-end">
-				{active ? <Text color={C.neonCyan} bold={true}>▸</Text> : <Text color={C.muted2}> </Text>}
+				{active ? (
+					<Text color={C.neonCyan} bold={true}>
+						▸
+					</Text>
+				) : (
+					<Text color={C.muted2}> </Text>
+				)}
 				<Text color={active ? C.neonCyan : "#7a88aa"} bold={active}>
 					{icon} {pad(label, badge === undefined ? 12 : 9)}
 				</Text>
@@ -406,7 +435,11 @@ const Overview = ({ width, stats }) => {
 	const roomy = width >= 78;
 	const delta = pctDelta(stats?.lastRates);
 	const deltaStr = delta ? `${delta.up ? "▲" : "▼"} ${Math.abs(delta.pct).toFixed(1)}%` : "—";
-	const total = (stats?.byLevel?.info ?? 0) + (stats?.byLevel?.warn ?? 0) + (stats?.byLevel?.error ?? 0) + (stats?.byLevel?.critical ?? 0);
+	const total =
+		(stats?.byLevel?.info ?? 0) +
+		(stats?.byLevel?.warn ?? 0) +
+		(stats?.byLevel?.error ?? 0) +
+		(stats?.byLevel?.critical ?? 0);
 	return (
 		<Box width={width} flexDirection="row" gap={1} flexShrink={0}>
 			<Box
@@ -432,15 +465,53 @@ const Overview = ({ width, stats }) => {
 			</Box>
 			{roomy ? (
 				<>
-					<Metric label="INFO" value={(stats?.byLevel?.info ?? 0).toLocaleString()} color={C.blue} delta={deltaStr} minW={13} />
-					<Metric label="WARN" value={(stats?.byLevel?.warn ?? 0).toLocaleString()} color={C.amber} delta="live" minW={13} />
-					<Metric label="ERROR" value={((stats?.byLevel?.error ?? 0) + (stats?.byLevel?.critical ?? 0)).toLocaleString()} color={C.pink} delta="live" minW={13} />
-					<Metric label="REQ/S" value={String(stats?.reqRate ?? 0)} color={C.text} delta={`${stats?.rate ?? 0}/s`} minW={13} />
+					<Metric
+						label="INFO"
+						value={(stats?.byLevel?.info ?? 0).toLocaleString()}
+						color={C.blue}
+						delta={deltaStr}
+						minW={13}
+					/>
+					<Metric
+						label="WARN"
+						value={(stats?.byLevel?.warn ?? 0).toLocaleString()}
+						color={C.amber}
+						delta="live"
+						minW={13}
+					/>
+					<Metric
+						label="ERROR"
+						value={(
+							(stats?.byLevel?.error ?? 0) + (stats?.byLevel?.critical ?? 0)
+						).toLocaleString()}
+						color={C.pink}
+						delta="live"
+						minW={13}
+					/>
+					<Metric
+						label="REQ/S"
+						value={String(stats?.reqRate ?? 0)}
+						color={C.text}
+						delta={`${stats?.rate ?? 0}/s`}
+						minW={13}
+					/>
 				</>
 			) : (
 				<>
-					<Metric label="INFO" value={(stats?.byLevel?.info ?? 0).toLocaleString()} color={C.blue} delta={deltaStr} minW={12} />
-					<Metric label="WARN" value={(stats?.byLevel?.warn ?? 0).toLocaleString()} color={C.amber} delta="live" minW={12} />
+					<Metric
+						label="INFO"
+						value={(stats?.byLevel?.info ?? 0).toLocaleString()}
+						color={C.blue}
+						delta={deltaStr}
+						minW={12}
+					/>
+					<Metric
+						label="WARN"
+						value={(stats?.byLevel?.warn ?? 0).toLocaleString()}
+						color={C.amber}
+						delta="live"
+						minW={12}
+					/>
 				</>
 			)}
 		</Box>
@@ -594,7 +665,8 @@ const LogRow = ({ log, selected, mainWidth }) => {
 					{lvlIcon} {pad(log.level, 7)}
 				</Text>
 				<Text color={log.bookmarked ? C.amber : C.text}>
-					{log.bookmarked ? "★ " : ""}{trunc(log.msg, msgW)}
+					{log.bookmarked ? "★ " : ""}
+					{trunc(log.msg, msgW)}
 				</Text>
 				{tagW > 0 && (
 					<Box marginLeft="auto">
@@ -606,7 +678,9 @@ const LogRow = ({ log, selected, mainWidth }) => {
 				<Box flexDirection="row" backgroundColor={bg} paddingX={1}>
 					<Text color={C.neonCyan}>{pad(trunc(log.src, 12), 12)}</Text>
 					<Text color={C.muted}>
-						{log.requestId ? `req:${shortId(log.requestId)}` : trunc(log.src.slice(12) || "", Math.max(1, mainWidth - 13))}
+						{log.requestId
+							? `req:${shortId(log.requestId)}`
+							: trunc(log.src.slice(12) || "", Math.max(1, mainWidth - 13))}
 					</Text>
 				</Box>
 			)}
@@ -615,8 +689,19 @@ const LogRow = ({ log, selected, mainWidth }) => {
 };
 
 const LogArea = ({
-	width, height, filtered, selectedId, search, searchActive, enabled, paused,
-	queryResult, onSearchChange, scrollOffset, visible, canInput,
+	width,
+	height,
+	filtered,
+	selectedId,
+	search,
+	searchActive,
+	enabled,
+	paused,
+	queryResult,
+	onSearchChange,
+	scrollOffset,
+	visible,
+	canInput,
 }) => {
 	const start = Math.max(0, Math.min(scrollOffset, Math.max(0, filtered.length - visible)));
 	let window = filtered.slice(start, start + visible);
@@ -904,7 +989,8 @@ const StatusBar = ({ width, stats, paused, cpu, ram, mouseOn, shiftActive }) => 
 			<RamIcon /> <Text color={C.text}>{ram}</Text>GB
 		</Text>,
 		<Text key="redis" color={C.muted2}>
-			DbIcon <Text color={isRedisOk(stats?.redis) ? C.neonGreen : C.neonPink}>
+			DbIcon{" "}
+			<Text color={isRedisOk(stats?.redis) ? C.neonGreen : C.neonPink}>
 				{isRedisOk(stats?.redis) ? "●" : "○"}
 			</Text>
 		</Text>,
@@ -942,7 +1028,8 @@ const StatusBar = ({ width, stats, paused, cpu, ram, mouseOn, shiftActive }) => 
 			{width >= 205 && (
 				<Box marginLeft="auto">
 					<Text color={C.muted2}>
-						/ Search · SP Pause · F Follow · J/K Nav · Enter Inspect · B Bookmark · R Record · E Export · M Mouse
+						/ Search · SP Pause · F Follow · J/K Nav · Enter Inspect · B Bookmark · R Record · E
+						Export · M Mouse
 					</Text>
 				</Box>
 			)}
@@ -1326,9 +1413,21 @@ const NeonObserveApp = ({ url, port }) => {
 
 	const geoRef = useRef({});
 	geoRef.current = {
-		columns, rows, sidebarW, inspW, mainW, mainRowH, showBottom, visible,
-		window: cleanWindow, selectedId, scrollOffset, height: logHeight,
-		filteredCount: filtered.length, rec, paused,
+		columns,
+		rows,
+		sidebarW,
+		inspW,
+		mainW,
+		mainRowH,
+		showBottom,
+		visible,
+		window: cleanWindow,
+		selectedId,
+		scrollOffset,
+		height: logHeight,
+		filteredCount: filtered.length,
+		rec,
+		paused,
 		footerInfo: `${new Set(entries.map((e) => e.category)).size} sources · ${clientRef.current?.connected ? "1 live stream" : "offline"}`,
 		inspectorInfo: "Event Inspector — click a tab or select a log row",
 		telemetryInfo: `LIVE TELEMETRY — ${stats?.rate ?? 0} logs/sec · ${stats?.reqRate ?? 0} req/s`,
@@ -1377,8 +1476,14 @@ const NeonObserveApp = ({ url, port }) => {
 	const applyTargetRef = useRef(applyTarget);
 	applyTargetRef.current = applyTarget;
 
-	const keyHandler = useCallback((input, key) => {
-		if (key.ctrlC) { disableMouseRef.current(); process.exit(0); }
+	// Read through keyHandlerRef on every keypress, so a plain function (fresh
+	// closure each render) is all it needs; the useCallback dependency list
+	// had gone stale and was the only thing that could make it see old state.
+	const keyHandler = (input, key) => {
+		if (key.ctrlC) {
+			disableMouseRef.current();
+			process.exit(0);
+		}
 		if (key.shift && !shiftHeld.current) {
 			shiftHeld.current = true;
 			mouseWereOnBeforeShift.current = mouseOnRef.current;
@@ -1413,40 +1518,116 @@ const NeonObserveApp = ({ url, port }) => {
 			else if (input === "b") clientRef.current?.bookmark(selected?.id);
 			return;
 		}
-		if (input === "/") { disableMouseRef.current(); setSearchActive(true); return; }
-		if (key.return) { if (selected) setModalId(selected.id); return; }
-		if (input === "j" || key.downArrow) { move(1); return; }
-		if (input === "k" || key.upArrow) { move(-1); return; }
-		if (key.tab) { setTab((t) => (t + 1) % 4); return; }
-		if (input === " ") { togglePause(!paused); toast(paused ? "stream resumed" : "stream paused"); return; }
-		if (input === "f") { setFollowing((f) => !f); return; }
-		if (input === "F") { setViewFilter("favorites"); return; }
-		if (input === "r") { doRecord(0); return; }
-		if (input === "g") { setGlow((g) => !g); return; }
-		if (input === "b") { clientRef.current?.bookmark(selected?.id); return; }
-		if (input === "e") { setViewFilter("errors"); return; }
-		if (input === "E") { doExport(); return; }
-		if (input === "o") { setViewFilter("overview"); return; }
-		if (input === "l") { setViewFilter("live"); return; }
-		if (input === "w") { setViewFilter("warnings"); return; }
-		if (input === "i") { setViewFilter("info"); return; }
-		const SERVICE_KEYS = {
-			a: "assistant", q: "image_queue", z: "redis", p: "prisma",
-			y: "syslog", u: "audit", n: "analytics", x: "workers", s: "auth",
-		};
-		if (SERVICE_KEYS[input]) { setViewFilter(SERVICE_KEYS[input]); return; }
-		const levelIdx = ["1", "2", "3", "4", "5", "6"].indexOf(input);
-		if (levelIdx >= 0) { toggleChip(LEVELS[levelIdx]); return; }
-		if (input === "m") {
-			setMouseOn((v) => { toast(v ? "mouse off" : "mouse on"); return !v; });
+		if (input === "/") {
+			disableMouseRef.current();
+			setSearchActive(true);
 			return;
 		}
-		if (input === "c") { toast("copy: m to disable mouse, then select text"); return; }
-		if (key.escape) {
-			if (queryResult) { setQueryResult(null); toast("back to live stream"); }
-			else { setModalId(null); }
+		if (key.return) {
+			if (selected) setModalId(selected.id);
+			return;
 		}
-	}, [searchActive, queryResult, search, modalId, selected, paused, following, glow, toast]);
+		if (input === "j" || key.downArrow) {
+			move(1);
+			return;
+		}
+		if (input === "k" || key.upArrow) {
+			move(-1);
+			return;
+		}
+		if (key.tab) {
+			setTab((t) => (t + 1) % 4);
+			return;
+		}
+		if (input === " ") {
+			togglePause(!paused);
+			toast(paused ? "stream resumed" : "stream paused");
+			return;
+		}
+		if (input === "f") {
+			setFollowing((f) => !f);
+			return;
+		}
+		if (input === "F") {
+			setViewFilter("favorites");
+			return;
+		}
+		if (input === "r") {
+			doRecord(0);
+			return;
+		}
+		if (input === "g") {
+			setGlow((g) => !g);
+			return;
+		}
+		if (input === "b") {
+			clientRef.current?.bookmark(selected?.id);
+			return;
+		}
+		if (input === "e") {
+			setViewFilter("errors");
+			return;
+		}
+		if (input === "E") {
+			doExport();
+			return;
+		}
+		if (input === "o") {
+			setViewFilter("overview");
+			return;
+		}
+		if (input === "l") {
+			setViewFilter("live");
+			return;
+		}
+		if (input === "w") {
+			setViewFilter("warnings");
+			return;
+		}
+		if (input === "i") {
+			setViewFilter("info");
+			return;
+		}
+		const SERVICE_KEYS = {
+			a: "assistant",
+			q: "image_queue",
+			z: "redis",
+			p: "prisma",
+			y: "syslog",
+			u: "audit",
+			n: "analytics",
+			x: "workers",
+			s: "auth",
+		};
+		if (SERVICE_KEYS[input]) {
+			setViewFilter(SERVICE_KEYS[input]);
+			return;
+		}
+		const levelIdx = ["1", "2", "3", "4", "5", "6"].indexOf(input);
+		if (levelIdx >= 0) {
+			toggleChip(LEVELS[levelIdx]);
+			return;
+		}
+		if (input === "m") {
+			setMouseOn((v) => {
+				toast(v ? "mouse off" : "mouse on");
+				return !v;
+			});
+			return;
+		}
+		if (input === "c") {
+			toast("copy: m to disable mouse, then select text");
+			return;
+		}
+		if (key.escape) {
+			if (queryResult) {
+				setQueryResult(null);
+				toast("back to live stream");
+			} else {
+				setModalId(null);
+			}
+		}
+	};
 
 	const keyHandlerRef = useRef(null);
 	keyHandlerRef.current = keyHandler;
@@ -1458,7 +1639,10 @@ const NeonObserveApp = ({ url, port }) => {
 			const t = setTimeout(() => {
 				try {
 					const pin = process.stdin;
-					if (pin?.setRawMode) { pin.setRawMode(true); pin.resume(); }
+					if (pin?.setRawMode) {
+						pin.setRawMode(true);
+						pin.resume();
+					}
 					process.stdout.write("\x1b[?1000h\x1b[?1002h\x1b[?1006h");
 				} catch {}
 			}, 10);
@@ -1475,16 +1659,25 @@ const NeonObserveApp = ({ url, port }) => {
 		pin.resume();
 
 		const enableMouse = () => {
-			try { pout.write("\x1b[?1000h\x1b[?1002h\x1b[?1006h"); } catch {}
+			try {
+				pout.write("\x1b[?1000h\x1b[?1002h\x1b[?1006h");
+			} catch {}
 		};
 		const disableMouse = () => {
-			try { pout.write("\x1b[?1000l\x1b[?1002l\x1b[?1006l"); } catch {}
+			try {
+				pout.write("\x1b[?1000l\x1b[?1002l\x1b[?1006l");
+			} catch {}
 		};
 		disableMouseRef.current = disableMouse;
 
 		enableMouse();
 		const reenableTimer = setInterval(() => {
-			if (!searchActiveRef.current && modalIdRef.current === null && mouseOnRef.current && !shiftHeld.current) {
+			if (
+				!searchActiveRef.current &&
+				modalIdRef.current === null &&
+				mouseOnRef.current &&
+				!shiftHeld.current
+			) {
 				if (pin.setRawMode) pin.setRawMode(true);
 				if (pin.isPaused?.()) pin.resume();
 				enableMouse();
@@ -1525,19 +1718,20 @@ const NeonObserveApp = ({ url, port }) => {
 		};
 
 		const handleKeyInput = (parsed) => {
-			if (keyHandlerRef.current) keyHandlerRef.current(parsed.input || "", {
-				ctrlC: parsed.key === "ctrlC",
-				escape: parsed.key === "escape",
-				return: parsed.key === "return",
-				tab: parsed.key === "tab",
-				backspace: parsed.key === "backspace",
-				space: parsed.key === "space",
-				upArrow: parsed.key === "upArrow",
-				downArrow: parsed.key === "downArrow",
-				leftArrow: parsed.key === "leftArrow",
-				rightArrow: parsed.key === "rightArrow",
-				shift: !!parsed.shift,
-			});
+			if (keyHandlerRef.current)
+				keyHandlerRef.current(parsed.input || "", {
+					ctrlC: parsed.key === "ctrlC",
+					escape: parsed.key === "escape",
+					return: parsed.key === "return",
+					tab: parsed.key === "tab",
+					backspace: parsed.key === "backspace",
+					space: parsed.key === "space",
+					upArrow: parsed.key === "upArrow",
+					downArrow: parsed.key === "downArrow",
+					leftArrow: parsed.key === "leftArrow",
+					rightArrow: parsed.key === "rightArrow",
+					shift: !!parsed.shift,
+				});
 		};
 
 		const onData = (chunk) => {
@@ -1549,7 +1743,12 @@ const NeonObserveApp = ({ url, port }) => {
 			let m;
 			while ((m = RAW_MOUSE_RE.exec(stdinBufRef.current)) !== null) {
 				last = m.index + m[0].length;
-				if (!searchActiveRef.current && modalIdRef.current === null && mouseOnRef.current && !shiftHeld.current) {
+				if (
+					!searchActiveRef.current &&
+					modalIdRef.current === null &&
+					mouseOnRef.current &&
+					!shiftHeld.current
+				) {
 					const b = +m[1];
 					const x = +m[2];
 					const y = +m[3];
@@ -1571,10 +1770,23 @@ const NeonObserveApp = ({ url, port }) => {
 			stdinBufRef.current = stdinBufRef.current.slice(last);
 
 			if (searchActiveRef.current || modalIdRef.current !== null) {
-				stdinBufRef.current = stdinBufRef.current.replace(/\x1b\[<[^Mm]*[Mm]/g, "").replace(/\x1b\[?[A-Z]/g, "");
-				if (stdinBufRef.current === "\x1b") { stdinBufRef.current = ""; keyHandlerRef.current("", { escape: true }); return; }
-				if (stdinBufRef.current === "\r" || stdinBufRef.current === "\n") { stdinBufRef.current = ""; keyHandlerRef.current("", { return: true }); return; }
-				if (stdinBufRef.current.length > 0 && !stdinBufRef.current.startsWith("\x1b")) stdinBufRef.current = "";
+				stdinBufRef.current = stdinBufRef.current
+					// biome-ignore lint/suspicious/noControlCharactersInRegex: strips ANSI escape sequences from terminal input
+					.replace(/\x1b\[<[^Mm]*[Mm]/g, "")
+					// biome-ignore lint/suspicious/noControlCharactersInRegex: strips ANSI escape sequences from terminal input
+					.replace(/\x1b\[?[A-Z]/g, "");
+				if (stdinBufRef.current === "\x1b") {
+					stdinBufRef.current = "";
+					keyHandlerRef.current("", { escape: true });
+					return;
+				}
+				if (stdinBufRef.current === "\r" || stdinBufRef.current === "\n") {
+					stdinBufRef.current = "";
+					keyHandlerRef.current("", { return: true });
+					return;
+				}
+				if (stdinBufRef.current.length > 0 && !stdinBufRef.current.startsWith("\x1b"))
+					stdinBufRef.current = "";
 				return;
 			}
 
@@ -1583,7 +1795,10 @@ const NeonObserveApp = ({ url, port }) => {
 				if (parsed) {
 					stdinBufRef.current = "";
 					if (parsed.type === "key") handleKeyInput(parsed);
-				} else if (stdinBufRef.current.length > 6 || stdinBufRef.current.length > 0 && !stdinBufRef.current.startsWith("\x1b")) {
+				} else if (
+					stdinBufRef.current.length > 6 ||
+					(stdinBufRef.current.length > 0 && !stdinBufRef.current.startsWith("\x1b"))
+				) {
 					stdinBufRef.current = "";
 				}
 			}
@@ -1599,13 +1814,17 @@ const NeonObserveApp = ({ url, port }) => {
 		};
 	}, []);
 
-	const counts = useMemo(() => ({
-		overview: stats?.total ?? 0,
-		live: entries.length,
-		errors: (stats?.byLevel?.error ?? 0) + (stats?.byLevel?.critical ?? 0),
-		warnings: stats?.byLevel?.warn ?? 0,
-		info: (stats?.byLevel?.info ?? 0) + (stats?.byLevel?.debug ?? 0) + (stats?.byLevel?.success ?? 0),
-	}), [stats, entries]);
+	const counts = useMemo(
+		() => ({
+			overview: stats?.total ?? 0,
+			live: entries.length,
+			errors: (stats?.byLevel?.error ?? 0) + (stats?.byLevel?.critical ?? 0),
+			warnings: stats?.byLevel?.warn ?? 0,
+			info:
+				(stats?.byLevel?.info ?? 0) + (stats?.byLevel?.debug ?? 0) + (stats?.byLevel?.success ?? 0),
+		}),
+		[stats, entries],
+	);
 
 	const border = glow ? C.border : C.border2;
 	const recStartedAt = rec ? fmtTime(stats?.startedAt || Date.now()) : "";
@@ -1674,7 +1893,15 @@ const NeonObserveApp = ({ url, port }) => {
 				)}
 			</Box>
 			<Divider width={columns} color={border} glow={glow} />
-			<StatusBar width={columns} stats={stats} paused={paused} cpu={sys.cpu} ram={sys.ram} mouseOn={mouseOn} shiftActive={shiftActive} />
+			<StatusBar
+				width={columns}
+				stats={stats}
+				paused={paused}
+				cpu={sys.cpu}
+				ram={sys.ram}
+				mouseOn={mouseOn}
+				shiftActive={shiftActive}
+			/>
 			{toastMsg && <Toast msg={toastMsg} />}
 			{modalId !== null && (
 				<Modal

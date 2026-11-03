@@ -37,37 +37,36 @@
  */
 
 :root {
-  /* Main colors / Backgrounds */
-  --color-background: #ffffff; /* bg-white (page background) */
-  --color-surface: #fff1f2; /* bg-rose-50 (surface / card) */
+	/* Main colors / Backgrounds */
+	--color-background: #ffffff; /* bg-white (page background) */
+	--color-surface: #fff1f2; /* bg-rose-50 (surface / card) */
 
-  /* Text */
-  --color-text-rose-700: #be123c; /* text-rose-700 (danger) */
-  --color-text-slate-700: #334155; /* text-slate-700 */
-  --color-text-muted: #64748b; /* text-slate-500 (muted text) */
+	/* Text */
+	--color-text-rose-700: #be123c; /* text-rose-700 (danger) */
+	--color-text-slate-700: #334155; /* text-slate-700 */
+	--color-text-muted: #64748b; /* text-slate-500 (muted text) */
 
-  /* Borders / Dividers / Rings */
-  --color-border-slate-200: #e2e8f0; /* border-slate-200 (border) */
-  --color-ring: rgba(226, 232, 240, 0.6); /* ring-slate-200/60 (focus ring) */
+	/* Borders / Dividers / Rings */
+	--color-border-slate-200: #e2e8f0; /* border-slate-200 (border) */
+	--color-ring: rgba(226, 232, 240, 0.6); /* ring-slate-200/60 (focus ring) */
 
-  /* States (hover / focus / active / disabled / responsive / data / aria) */
-  --color-panel-hover: #f8fafc; /* hover:hover:bg-slate-50 (state) */
-  --color-panel-hover-2: #1e293b; /* dark:hover:dark:hover:bg-slate-800 (state) */
+	/* States (hover / focus / active / disabled / responsive / data / aria) */
+	--color-panel-hover: #f8fafc; /* hover:hover:bg-slate-50 (state) */
+	--color-panel-hover-2: #1e293b; /* dark:hover:dark:hover:bg-slate-800 (state) */
 
-  /* Arbitrary / inline / SVG colors + explicit shadows/gradients (verbatim) */
-  --color-inline-1: #6100ff; /* verbatim `#6100ff` near: #6100ff */
+	/* Arbitrary / inline / SVG colors + explicit shadows/gradients (verbatim) */
+	--color-inline-1: #6100ff; /* verbatim `#6100ff` near: #6100ff */
 
-  /* Semantic aliases (derived, not new colors) */
-  --color-danger: #fff1f2; /* alias -> --color-surface (bg-rose-50 (surface / card)) */
-
+	/* Semantic aliases (derived, not new colors) */
+	--color-danger: #fff1f2; /* alias -> --color-surface (bg-rose-50 (surface / card)) */
 }
 
 .dark {
-  --color-background-dark-rose-500-10: rgba(244, 63, 94, 0.1); /* dark:dark:bg-rose-500/10 */
-  --color-background: #0f172a; /* dark:dark:bg-slate-900 */
-  --color-background-dark-slate-800: #1e293b; /* dark:hover:dark:hover:bg-slate-800 */
-  --color-border-dark-slate-700: #334155; /* dark:dark:border-slate-700 */
-  --color-ring-dark-slate-800: #1e293b; /* dark:dark:ring-slate-800 */
-  --color-text-dark-rose-200: #fecdd3; /* dark:dark:text-rose-200 */
-  --color-text-dark-slate-200: #e2e8f0; /* dark:dark:text-slate-200 */
+	--color-background-dark-rose-500-10: rgba(244, 63, 94, 0.1); /* dark:dark:bg-rose-500/10 */
+	--color-background: #0f172a; /* dark:dark:bg-slate-900 */
+	--color-background-dark-slate-800: #1e293b; /* dark:hover:dark:hover:bg-slate-800 */
+	--color-border-dark-slate-700: #334155; /* dark:dark:border-slate-700 */
+	--color-ring-dark-slate-800: #1e293b; /* dark:dark:ring-slate-800 */
+	--color-text-dark-rose-200: #fecdd3; /* dark:dark:text-rose-200 */
+	--color-text-dark-slate-200: #e2e8f0; /* dark:dark:text-slate-200 */
 }

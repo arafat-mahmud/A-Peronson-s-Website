@@ -79,7 +79,9 @@ export default function RejectionReasonModal({
 
 					{selectedReason === "Other" ? (
 						<div>
-							<label className="block text-xs font-semibold text-slate-700 mb-1">Custom reason</label>
+							<label className="block text-xs font-semibold text-slate-700 mb-1">
+								Custom reason
+							</label>
 							<textarea
 								value={customReason}
 								onChange={(e) => setCustomReason(e.target.value)}

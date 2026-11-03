@@ -46,9 +46,7 @@ export default function ConversionFunnel({ steps = DEFAULT_STEPS, data = {} }) {
 							className="flex h-full items-center justify-end rounded-xl bg-gradient-to-r from-sky-400 to-cyan-400 px-3 transition-all duration-500"
 							style={{ width: `${step.barWidth}%`, minWidth: step.value > 0 ? "48px" : "0" }}
 						>
-							<span className="text-[11px] font-bold text-white drop-shadow-sm">
-								{step.value}
-							</span>
+							<span className="text-[11px] font-bold text-white drop-shadow-sm">{step.value}</span>
 						</div>
 					</div>
 					<div className="w-16 shrink-0 text-right text-[11px] text-slate-400">

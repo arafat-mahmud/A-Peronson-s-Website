@@ -396,7 +396,10 @@ async function readJson(res, method, path) {
 	}
 }
 
-async function performApiRequest(path, { method = "GET", token = "", body, signal, headers = {} } = {}) {
+async function performApiRequest(
+	path,
+	{ method = "GET", token = "", body, signal, headers = {} } = {},
+) {
 	const debugRequests = import.meta.env.DEV;
 	const startedAt = debugRequests ? performance.now() : 0;
 

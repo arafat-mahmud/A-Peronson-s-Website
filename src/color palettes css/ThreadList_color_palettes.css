@@ -48,41 +48,45 @@
  */
 
 :root {
-  /* Main colors / Backgrounds */
-  --color-background: #f1f5f9; /* bg-slate-100 (page background) */
-  --color-surface: #fef3c7; /* bg-amber-100 (surface / card) */
-  --color-surface-elevated: #0a66c2; /* bg-gtBlue (elevated surface) */
-  --color-bg-indigo-100: #e0e7ff; /* bg-indigo-100 */
-  --color-bg-violet-100: #ede9fe; /* bg-violet-100 (primary) */
+	/* Main colors / Backgrounds */
+	--color-background: #f1f5f9; /* bg-slate-100 (page background) */
+	--color-surface: #fef3c7; /* bg-amber-100 (surface / card) */
+	--color-surface-elevated: #0a66c2; /* bg-gtBlue (elevated surface) */
+	--color-bg-indigo-100: #e0e7ff; /* bg-indigo-100 */
+	--color-bg-violet-100: #ede9fe; /* bg-violet-100 (primary) */
 
-  /* Text */
-  --color-text-amber-700: #b45309; /* text-amber-700 (warning) */
-  --color-text-gtblue: #0a66c2; /* text-gtBlue */
-  --color-text-indigo-700: #4338ca; /* text-indigo-700 */
-  --color-text-red-400: #f87171; /* text-red-400 (danger) */
-  --color-text-muted: #94a3b8; /* text-slate-400 (muted text) */
-  --color-text-muted-2: #64748b; /* text-slate-500 (muted text) */
-  --color-text-slate-600: #475569; /* text-slate-600 */
-  --color-text-slate-700: #334155; /* text-slate-700 */
-  --color-text-violet-700: #6d28d9; /* text-violet-700 (primary-soft) */
-  --color-text-primary: #ffffff; /* text-white (heading / primary text) */
+	/* Text */
+	--color-text-amber-700: #b45309; /* text-amber-700 (warning) */
+	--color-text-gtblue: #0a66c2; /* text-gtBlue */
+	--color-text-indigo-700: #4338ca; /* text-indigo-700 */
+	--color-text-red-400: #f87171; /* text-red-400 (danger) */
+	--color-text-muted: #94a3b8; /* text-slate-400 (muted text) */
+	--color-text-muted-2: #64748b; /* text-slate-500 (muted text) */
+	--color-text-slate-600: #475569; /* text-slate-600 */
+	--color-text-slate-700: #334155; /* text-slate-700 */
+	--color-text-violet-700: #6d28d9; /* text-violet-700 (primary-soft) */
+	--color-text-primary: #ffffff; /* text-white (heading / primary text) */
 
-  /* Borders / Dividers / Rings */
-  --color-ring: rgba(10, 102, 194, 0.2); /* ring-gtBlue/20 (focus ring) */
-  --color-ring-2: rgba(167, 139, 250, 0.3); /* ring-violet-400/30 (focus ring) */
+	/* Borders / Dividers / Rings */
+	--color-ring: rgba(10, 102, 194, 0.2); /* ring-gtBlue/20 (focus ring) */
+	--color-ring-2: rgba(167, 139, 250, 0.3); /* ring-violet-400/30 (focus ring) */
 
-  /* Arbitrary / inline / SVG colors + explicit shadows/gradients (verbatim) */
-  --color-inline-1: #3b00ff; /* verbatim `#3b00ff` near: #3b00ff */
-  --color-inline-2: #eef6ff; /* verbatim `#eef6ff` near: #eef6ff */
-  --color-inline-3: #1b1f3b; /* verbatim `#1b1f3b` near: #1b1f3b */
-  --color-inline-4: #22c55e; /* verbatim `#22c55e` near: #22c55e */
-  --color-inline-5: #e2e8f0; /* verbatim `#e2e8f0` near: #e2e8f0 */
-  --color-inline-6: rgba(255, 255, 255, 0.18); /* verbatim `rgba(255,255,255,0.18)` near: rgba(255,255,255,0.18) */
+	/* Arbitrary / inline / SVG colors + explicit shadows/gradients (verbatim) */
+	--color-inline-1: #3b00ff; /* verbatim `#3b00ff` near: #3b00ff */
+	--color-inline-2: #eef6ff; /* verbatim `#eef6ff` near: #eef6ff */
+	--color-inline-3: #1b1f3b; /* verbatim `#1b1f3b` near: #1b1f3b */
+	--color-inline-4: #22c55e; /* verbatim `#22c55e` near: #22c55e */
+	--color-inline-5: #e2e8f0; /* verbatim `#e2e8f0` near: #e2e8f0 */
+	--color-inline-6: rgba(
+		255,
+		255,
+		255,
+		0.18
+	); /* verbatim `rgba(255,255,255,0.18)` near: rgba(255,255,255,0.18) */
 
-  /* Semantic aliases (derived, not new colors) */
-  --color-warning: #fef3c7; /* alias -> --color-surface (bg-amber-100 (surface / card)) */
-  --color-brand: #0a66c2; /* alias -> --color-surface-elevated (bg-gtBlue (elevated surface)) */
-  --color-danger: #f87171; /* alias -> --color-text-red-400 (text-red-400 (danger)) */
-  --color-primary: #ede9fe; /* alias -> --color-bg-violet-100 (bg-violet-100 (primary)) */
-
+	/* Semantic aliases (derived, not new colors) */
+	--color-warning: #fef3c7; /* alias -> --color-surface (bg-amber-100 (surface / card)) */
+	--color-brand: #0a66c2; /* alias -> --color-surface-elevated (bg-gtBlue (elevated surface)) */
+	--color-danger: #f87171; /* alias -> --color-text-red-400 (text-red-400 (danger)) */
+	--color-primary: #ede9fe; /* alias -> --color-bg-violet-100 (bg-violet-100 (primary)) */
 }

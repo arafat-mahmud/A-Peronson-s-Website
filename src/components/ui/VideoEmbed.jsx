@@ -37,6 +37,7 @@ export default function VideoEmbed({ url, className = "" }) {
 					src={`https://www.youtube.com/embed/${ytId}`}
 					title="Product video"
 					allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+					sandbox="allow-scripts allow-same-origin allow-presentation allow-popups allow-popups-to-escape-sandbox"
 					allowFullScreen
 					className="aspect-video w-full"
 				/>
@@ -51,6 +52,7 @@ export default function VideoEmbed({ url, className = "" }) {
 					src={`https://player.vimeo.com/video/${vimeoId}`}
 					title="Product video"
 					allow="autoplay; fullscreen; picture-in-picture"
+					sandbox="allow-scripts allow-same-origin allow-presentation allow-popups allow-popups-to-escape-sandbox"
 					allowFullScreen
 					className="aspect-video w-full"
 				/>

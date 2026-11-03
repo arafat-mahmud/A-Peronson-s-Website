@@ -91,75 +91,103 @@
  */
 
 :root {
-  /* Main colors / Backgrounds */
-  --color-background: #f1f5f9; /* bg-slate-100 (page background) */
-  --color-surface: #ffffff; /* bg-white (surface / card) */
-  --color-surface-elevated: rgba(255, 255, 255, 0.8); /* bg-white/80 (elevated surface) */
-  --color-bg-amber-400: #fbbf24; /* bg-amber-400 (warning) */
-  --color-bg-green-300: #86efac; /* bg-green-300 (success) */
-  --color-bg-sky-50: #f0f9ff; /* bg-sky-50 (accent) */
-  --color-bg-white-0-2: rgba(255, 255, 255, 0.2); /* bg-white/20 */
-  --color-bg-white-0-5: rgba(255, 255, 255, 0.5); /* bg-white/50 */
+	/* Main colors / Backgrounds */
+	--color-background: #f1f5f9; /* bg-slate-100 (page background) */
+	--color-surface: #ffffff; /* bg-white (surface / card) */
+	--color-surface-elevated: rgba(255, 255, 255, 0.8); /* bg-white/80 (elevated surface) */
+	--color-bg-amber-400: #fbbf24; /* bg-amber-400 (warning) */
+	--color-bg-green-300: #86efac; /* bg-green-300 (success) */
+	--color-bg-sky-50: #f0f9ff; /* bg-sky-50 (accent) */
+	--color-bg-white-0-2: rgba(255, 255, 255, 0.2); /* bg-white/20 */
+	--color-bg-white-0-5: rgba(255, 255, 255, 0.5); /* bg-white/50 */
 
-  /* Text */
-  --color-text-sky-700: #0369a1; /* text-sky-700 (info) */
-  --color-text-slate-800: #1e293b; /* text-slate-800 */
-  --color-text-muted: #94a3b8; /* text-slate-400 (muted text) */
-  --color-text-primary: #ffffff; /* text-white (heading / primary text) */
-  --color-text-white-80: rgba(255, 255, 255, 0.8); /* text-white/80 */
-  --color-placeholder: #94a3b8; /* placeholder:placeholder:text-slate-400 (input placeholder) */
-  --color-placeholder-2: #64748b; /* dark:placeholder:dark:placeholder:text-slate-500 (input placeholder) */
+	/* Text */
+	--color-text-sky-700: #0369a1; /* text-sky-700 (info) */
+	--color-text-slate-800: #1e293b; /* text-slate-800 */
+	--color-text-muted: #94a3b8; /* text-slate-400 (muted text) */
+	--color-text-primary: #ffffff; /* text-white (heading / primary text) */
+	--color-text-white-80: rgba(255, 255, 255, 0.8); /* text-white/80 */
+	--color-placeholder: #94a3b8; /* placeholder:placeholder:text-slate-400 (input placeholder) */
+	--color-placeholder-2: #64748b; /* dark:placeholder:dark:placeholder:text-slate-500 (input placeholder) */
 
-  /* Borders / Dividers / Rings */
-  --color-border-sky-200-60: rgba(186, 230, 253, 0.6); /* border-sky-200/60 (border) */
-  --color-border-slate-200-70: rgba(226, 232, 240, 0.7); /* border-slate-200/70 (border) */
-  --color-border-slate-200-60: rgba(226, 232, 240, 0.6); /* border-slate-200/60 (border) */
-  --color-border-strong: rgba(255, 255, 255, 0.3); /* ring-white/30 (strong border) */
+	/* Borders / Dividers / Rings */
+	--color-border-sky-200-60: rgba(186, 230, 253, 0.6); /* border-sky-200/60 (border) */
+	--color-border-slate-200-70: rgba(226, 232, 240, 0.7); /* border-slate-200/70 (border) */
+	--color-border-slate-200-60: rgba(226, 232, 240, 0.6); /* border-slate-200/60 (border) */
+	--color-border-strong: rgba(255, 255, 255, 0.3); /* ring-white/30 (strong border) */
 
-  /* Shadow colors */
-  --color-shadow-sky-500-30: rgba(14, 165, 233, 0.3); /* shadow-sky-500/30 (shadow color) */
-  --color-shadow-sky-500-20: rgba(14, 165, 233, 0.2); /* shadow-sky-500/20 (shadow color) */
+	/* Shadow colors */
+	--color-shadow-sky-500-30: rgba(14, 165, 233, 0.3); /* shadow-sky-500/30 (shadow color) */
+	--color-shadow-sky-500-20: rgba(14, 165, 233, 0.2); /* shadow-sky-500/20 (shadow color) */
 
-  /* States (hover / focus / active / disabled / responsive / data / aria) */
-  --color-bg-sky-100-hover: #e0f2fe; /* hover:hover:bg-sky-100 (state) */
-  --color-bg-sky-900-40-dark-hover: rgba(12, 74, 110, 0.4); /* dark:hover:dark:hover:bg-sky-900/40 (state) */
-  --color-panel-hover: rgba(255, 255, 255, 0.15); /* hover:hover:bg-white/15 (state) */
-  --color-ring-sky-400-50-focus: rgba(56, 189, 248, 0.5); /* focus:focus:ring-sky-400/50 (state) */
-  --color-shadow-sky-500-40-hover: rgba(14, 165, 233, 0.4); /* hover:hover:shadow-sky-500/40 (state) */
-  --color-shadow-sky-500-30-hover: rgba(14, 165, 233, 0.3); /* hover:hover:shadow-sky-500/30 (state) */
-  --color-text-slate-400-placeholder: #94a3b8; /* placeholder:placeholder:text-slate-400 (state) */
-  --color-text-slate-500-dark-placeholder: #64748b; /* dark:placeholder:dark:placeholder:text-slate-500 (state) */
+	/* States (hover / focus / active / disabled / responsive / data / aria) */
+	--color-bg-sky-100-hover: #e0f2fe; /* hover:hover:bg-sky-100 (state) */
+	--color-bg-sky-900-40-dark-hover: rgba(
+		12,
+		74,
+		110,
+		0.4
+	); /* dark:hover:dark:hover:bg-sky-900/40 (state) */
+	--color-panel-hover: rgba(255, 255, 255, 0.15); /* hover:hover:bg-white/15 (state) */
+	--color-ring-sky-400-50-focus: rgba(56, 189, 248, 0.5); /* focus:focus:ring-sky-400/50 (state) */
+	--color-shadow-sky-500-40-hover: rgba(
+		14,
+		165,
+		233,
+		0.4
+	); /* hover:hover:shadow-sky-500/40 (state) */
+	--color-shadow-sky-500-30-hover: rgba(
+		14,
+		165,
+		233,
+		0.3
+	); /* hover:hover:shadow-sky-500/30 (state) */
+	--color-text-slate-400-placeholder: #94a3b8; /* placeholder:placeholder:text-slate-400 (state) */
+	--color-text-slate-500-dark-placeholder: #64748b; /* dark:placeholder:dark:placeholder:text-slate-500 (state) */
 
-  /* Gradients (every distinct stop-set preserved) */
-  --gradient-primary: linear-gradient(135deg, #0ea5e9 0%, #22d3ee 100%); /* from-sky-500 to-cyan-400 (gradient; direction 135deg) */
-  --gradient-2: linear-gradient(90deg, #0ea5e9 0%, #0284c7 50%, #22d3ee 100%); /* from-sky-500 via-sky-600 to-cyan-400 (gradient; direction 90deg) */
+	/* Gradients (every distinct stop-set preserved) */
+	--gradient-primary: linear-gradient(
+		135deg,
+		#0ea5e9 0%,
+		#22d3ee 100%
+	); /* from-sky-500 to-cyan-400 (gradient; direction 135deg) */
+	--gradient-2: linear-gradient(
+		90deg,
+		#0ea5e9 0%,
+		#0284c7 50%,
+		#22d3ee 100%
+	); /* from-sky-500 via-sky-600 to-cyan-400 (gradient; direction 90deg) */
 
-  /* Arbitrary / inline / SVG colors + explicit shadows/gradients (verbatim) */
-  --color-inline-1: #6100ff; /* verbatim `#6100ff` near: #6100ff */
-  --color-inline-2: #38bdf8; /* verbatim `#38bdf8` near: #38bdf8 */
-  --color-inline-3: currentColor; /* verbatim `stroke="currentColor"` near: stroke="currentColor" */
+	/* Arbitrary / inline / SVG colors + explicit shadows/gradients (verbatim) */
+	--color-inline-1: #6100ff; /* verbatim `#6100ff` near: #6100ff */
+	--color-inline-2: #38bdf8; /* verbatim `#38bdf8` near: #38bdf8 */
+	--color-inline-3: currentColor; /* verbatim `stroke="currentColor"` near: stroke="currentColor" */
 
-  /* Semantic aliases (derived, not new colors) */
-  --color-warning: #fbbf24; /* alias -> --color-bg-amber-400 (bg-amber-400 (warning)) */
-  --color-success: #86efac; /* alias -> --color-bg-green-300 (bg-green-300 (success)) */
-  --color-info: #f0f9ff; /* alias -> --color-bg-sky-50 (bg-sky-50 (accent)) */
-
+	/* Semantic aliases (derived, not new colors) */
+	--color-warning: #fbbf24; /* alias -> --color-bg-amber-400 (bg-amber-400 (warning)) */
+	--color-success: #86efac; /* alias -> --color-bg-green-300 (bg-green-300 (success)) */
+	--color-info: #f0f9ff; /* alias -> --color-bg-sky-50 (bg-sky-50 (accent)) */
 }
 
 .dark {
-  --color-background-dark-sky-950-40: rgba(8, 47, 73, 0.4); /* dark:dark:bg-sky-950/40 */
-  --color-background-dark-sky-900-40: rgba(12, 74, 110, 0.4); /* dark:hover:dark:hover:bg-sky-900/40 */
-  --color-background: rgba(2, 6, 23, 0.9); /* dark:dark:bg-slate-950/90 */
-  --color-background-dark-slate-900-80: rgba(15, 23, 42, 0.8); /* dark:dark:bg-slate-900/80 */
-  --color-background-dark-slate-950-50: rgba(2, 6, 23, 0.5); /* dark:dark:bg-slate-950/50 */
-  --color-background-dark-slate-800-60: rgba(30, 41, 59, 0.6); /* dark:dark:bg-slate-800/60 */
-  --color-border-dark-sky-800-50: rgba(7, 89, 133, 0.5); /* dark:dark:border-sky-800/50 */
-  --color-border-dark-slate-800-60: rgba(30, 41, 59, 0.6); /* dark:dark:border-slate-800/60 */
-  --color-border-dark-slate-700-50: rgba(51, 65, 85, 0.5); /* dark:dark:border-slate-700/50 */
-  --color-border-dark-slate-800-50: rgba(30, 41, 59, 0.5); /* dark:dark:border-slate-800/50 */
-  --color-ring-dark-white-10: rgba(255, 255, 255, 0.1); /* dark:dark:ring-white/10 */
-  --color-text-dark-sky-300: #7dd3fc; /* dark:dark:text-sky-300 */
-  --color-text-dark-slate-100: #f1f5f9; /* dark:dark:text-slate-100 */
-  --color-text-dark-slate-500: #64748b; /* dark:placeholder:dark:placeholder:text-slate-500 */
-  --color-text-dark-slate-500-dark: #64748b; /* dark:dark:text-slate-500 */
+	--color-background-dark-sky-950-40: rgba(8, 47, 73, 0.4); /* dark:dark:bg-sky-950/40 */
+	--color-background-dark-sky-900-40: rgba(
+		12,
+		74,
+		110,
+		0.4
+	); /* dark:hover:dark:hover:bg-sky-900/40 */
+	--color-background: rgba(2, 6, 23, 0.9); /* dark:dark:bg-slate-950/90 */
+	--color-background-dark-slate-900-80: rgba(15, 23, 42, 0.8); /* dark:dark:bg-slate-900/80 */
+	--color-background-dark-slate-950-50: rgba(2, 6, 23, 0.5); /* dark:dark:bg-slate-950/50 */
+	--color-background-dark-slate-800-60: rgba(30, 41, 59, 0.6); /* dark:dark:bg-slate-800/60 */
+	--color-border-dark-sky-800-50: rgba(7, 89, 133, 0.5); /* dark:dark:border-sky-800/50 */
+	--color-border-dark-slate-800-60: rgba(30, 41, 59, 0.6); /* dark:dark:border-slate-800/60 */
+	--color-border-dark-slate-700-50: rgba(51, 65, 85, 0.5); /* dark:dark:border-slate-700/50 */
+	--color-border-dark-slate-800-50: rgba(30, 41, 59, 0.5); /* dark:dark:border-slate-800/50 */
+	--color-ring-dark-white-10: rgba(255, 255, 255, 0.1); /* dark:dark:ring-white/10 */
+	--color-text-dark-sky-300: #7dd3fc; /* dark:dark:text-sky-300 */
+	--color-text-dark-slate-100: #f1f5f9; /* dark:dark:text-slate-100 */
+	--color-text-dark-slate-500: #64748b; /* dark:placeholder:dark:placeholder:text-slate-500 */
+	--color-text-dark-slate-500-dark: #64748b; /* dark:dark:text-slate-500 */
 }

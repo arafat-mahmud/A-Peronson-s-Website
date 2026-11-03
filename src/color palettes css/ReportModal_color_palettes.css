@@ -28,23 +28,22 @@
  */
 
 :root {
-  /* Main colors / Backgrounds */
-  --color-background: #ffffff; /* bg-white (page background) */
-  --color-surface: #e11d48; /* bg-rose-600 (surface / card) */
-  --color-surface-elevated: rgba(0, 0, 0, 0.4); /* bg-black/40 (elevated surface) */
+	/* Main colors / Backgrounds */
+	--color-background: #ffffff; /* bg-white (page background) */
+	--color-surface: #e11d48; /* bg-rose-600 (surface / card) */
+	--color-surface-elevated: rgba(0, 0, 0, 0.4); /* bg-black/40 (elevated surface) */
 
-  /* Text */
-  --color-text-slate-900: #0f172a; /* text-slate-900 */
-  --color-text-muted: #64748b; /* text-slate-500 (muted text) */
-  --color-text-slate-700: #334155; /* text-slate-700 */
-  --color-text-primary: #ffffff; /* text-white (heading / primary text) */
+	/* Text */
+	--color-text-slate-900: #0f172a; /* text-slate-900 */
+	--color-text-muted: #64748b; /* text-slate-500 (muted text) */
+	--color-text-slate-700: #334155; /* text-slate-700 */
+	--color-text-primary: #ffffff; /* text-white (heading / primary text) */
 
-  /* States (hover / focus / active / disabled / responsive / data / aria) */
-  --color-bg-rose-700-hover: #be123c; /* hover:hover:bg-rose-700 (state) */
-  --color-panel-hover: #f1f5f9; /* hover:hover:bg-slate-100 (state) */
-  --color-panel-hover-2: #f8fafc; /* hover:hover:bg-slate-50 (state) */
+	/* States (hover / focus / active / disabled / responsive / data / aria) */
+	--color-bg-rose-700-hover: #be123c; /* hover:hover:bg-rose-700 (state) */
+	--color-panel-hover: #f1f5f9; /* hover:hover:bg-slate-100 (state) */
+	--color-panel-hover-2: #f8fafc; /* hover:hover:bg-slate-50 (state) */
 
-  /* Semantic aliases (derived, not new colors) */
-  --color-danger: #e11d48; /* alias -> --color-surface (bg-rose-600 (surface / card)) */
-
+	/* Semantic aliases (derived, not new colors) */
+	--color-danger: #e11d48; /* alias -> --color-surface (bg-rose-600 (surface / card)) */
 }

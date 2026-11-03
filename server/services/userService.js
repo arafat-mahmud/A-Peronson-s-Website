@@ -196,8 +196,10 @@ export function companyDisplayName(user = {}) {
 function isSameOrg(a = {}, b = {}) {
 	const aOwner = String(a?.org_owner_id || "");
 	const bOwner = String(b?.org_owner_id || "");
-	return (aOwner !== "" && aOwner === String(b?.id || "")) ||
-		(bOwner !== "" && bOwner === String(a?.id || ""));
+	return (
+		(aOwner !== "" && aOwner === String(b?.id || "")) ||
+		(bOwner !== "" && bOwner === String(a?.id || ""))
+	);
 }
 
 // Strangers get the public company card only. Contact details are withheld

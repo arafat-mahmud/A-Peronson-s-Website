@@ -365,7 +365,9 @@ export function CmsStatCard({ dark, icon: Icon, label, value, meta, trend }) {
 							</span>
 						) : null}
 					</div>
-					<p className={dark ? "mt-2 text-sm text-slate-400" : "mt-2 text-sm text-slate-600"}>{meta}</p>
+					<p className={dark ? "mt-2 text-sm text-slate-400" : "mt-2 text-sm text-slate-600"}>
+						{meta}
+					</p>
 				</div>
 				<div className="rounded-2xl border border-sky-400/20 bg-sky-400/10 p-3 text-sky-400">
 					<Icon className="h-5 w-5" />

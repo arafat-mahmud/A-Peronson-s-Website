@@ -30,33 +30,42 @@
  */
 
 :root {
-  /* Main colors / Backgrounds */
-  --color-background: rgba(15, 23, 42, 0.05); /* bg-slate-900/5 (page background) */
-  --color-surface: #0b1020; /* bg-[#0b1020] (surface / card) */
+	/* Main colors / Backgrounds */
+	--color-background: rgba(15, 23, 42, 0.05); /* bg-slate-900/5 (page background) */
+	--color-surface: #0b1020; /* bg-[#0b1020] (surface / card) */
 
-  /* Text */
-  --color-text-inherit: inherit; /* text-inherit */
-  --color-text-slate-100: #f1f5f9; /* text-slate-100 */
+	/* Text */
+	--color-text-inherit: inherit; /* text-inherit */
+	--color-text-slate-100: #f1f5f9; /* text-slate-100 */
 
-  /* Arbitrary / inline / SVG colors + explicit shadows/gradients (verbatim) */
-  --shadow-custom-1: inset 3px 0 0 rgba(148,163,184,0.75); /* shadow-[inset_3px_0_0_rgba(148,163,184,0.75)] (explicit shadow/glow) */
-  --shadow-custom-2: inset 3px 0 0 rgba(255,255,255,0.12); /* dark:shadow-[inset_3px_0_0_rgba(255,255,255,0.12)] (explicit shadow/glow) */
-  --shadow-custom-3: inset 0 0 0 1px rgba(148,163,184,0.35); /* shadow-[inset_0_0_0_1px_rgba(148,163,184,0.35)] (explicit shadow/glow) */
-  --shadow-custom-4: inset 0 0 0 1px rgba(255,255,255,0.12); /* dark:shadow-[inset_0_0_0_1px_rgba(255,255,255,0.12)] (explicit shadow/glow) */
+	/* Arbitrary / inline / SVG colors + explicit shadows/gradients (verbatim) */
+	--shadow-custom-1: inset 3px 0 0 rgba(148, 163, 184, 0.75); /* shadow-[inset_3px_0_0_rgba(148,163,184,0.75)] (explicit shadow/glow) */
+	--shadow-custom-2: inset 3px 0 0 rgba(255, 255, 255, 0.12); /* dark:shadow-[inset_3px_0_0_rgba(255,255,255,0.12)] (explicit shadow/glow) */
+	--shadow-custom-3: inset 0 0 0 1px rgba(148, 163, 184, 0.35); /* shadow-[inset_0_0_0_1px_rgba(148,163,184,0.35)] (explicit shadow/glow) */
+	--shadow-custom-4: inset 0 0 0 1px rgba(255, 255, 255, 0.12); /* dark:shadow-[inset_0_0_0_1px_rgba(255,255,255,0.12)] (explicit shadow/glow) */
 
-  /* Semantic aliases (derived, not new colors) */
-  --color-brand: #0a66c2; /* alias -> --color-accent-gtblue (accent-gtBlue (accent)) */
+	/* Semantic aliases (derived, not new colors) */
+	--color-brand: #0a66c2; /* alias -> --color-accent-gtblue (accent-gtBlue (accent)) */
 
-  /* Additional tokens (inputs / fills / strokes / accents) */
-  --color-accent-gtblue: #0a66c2; /* accent-gtBlue (accent) */
-
+	/* Additional tokens (inputs / fills / strokes / accents) */
+	--color-accent-gtblue: #0a66c2; /* accent-gtBlue (accent) */
 }
 
 .dark {
-  --color-background-dark-black-35: rgba(0, 0, 0, 0.35); /* dark:dark:bg-black/35 */
-  --color-background: rgba(255, 255, 255, 0.05); /* dark:dark:bg-white/5 */
-  --color-dark-arbitrary: rgba(255, 255, 255, 0.12); /* dark:dark:shadow-[inset_3px_0_0_rgba(255,255,255,0.12)] */
-  --color-dark-arbitrary-2: rgba(255, 255, 255, 0.12); /* dark:dark:shadow-[inset_0_0_0_1px_rgba(255,255,255,0.12)] */
-  --shadow-custom-2: inset 3px 0 0 rgba(255,255,255,0.12); /* dark:dark:shadow-[inset_3px_0_0_rgba(255,255,255,0.12)] (explicit shadow/glow) */
-  --shadow-custom-4: inset 0 0 0 1px rgba(255,255,255,0.12); /* dark:dark:shadow-[inset_0_0_0_1px_rgba(255,255,255,0.12)] (explicit shadow/glow) */
+	--color-background-dark-black-35: rgba(0, 0, 0, 0.35); /* dark:dark:bg-black/35 */
+	--color-background: rgba(255, 255, 255, 0.05); /* dark:dark:bg-white/5 */
+	--color-dark-arbitrary: rgba(
+		255,
+		255,
+		255,
+		0.12
+	); /* dark:dark:shadow-[inset_3px_0_0_rgba(255,255,255,0.12)] */
+	--color-dark-arbitrary-2: rgba(
+		255,
+		255,
+		255,
+		0.12
+	); /* dark:dark:shadow-[inset_0_0_0_1px_rgba(255,255,255,0.12)] */
+	--shadow-custom-2: inset 3px 0 0 rgba(255, 255, 255, 0.12); /* dark:dark:shadow-[inset_3px_0_0_rgba(255,255,255,0.12)] (explicit shadow/glow) */
+	--shadow-custom-4: inset 0 0 0 1px rgba(255, 255, 255, 0.12); /* dark:dark:shadow-[inset_0_0_0_1px_rgba(255,255,255,0.12)] (explicit shadow/glow) */
 }

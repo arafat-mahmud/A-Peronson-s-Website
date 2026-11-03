@@ -31,28 +31,32 @@
  */
 
 :root {
-  /* Main colors / Backgrounds */
-  --color-background: #ffffff; /* bg-white (page background) */
-  --color-surface: #171031; /* bg-[#171031] (surface / card) */
-  --color-surface-elevated: rgba(10, 102, 194, 0.18); /* bg-[rgba(10,102,194,0.18)] (elevated surface) */
-  --color-bg-gtblue: #0a66c2; /* bg-gtBlue (brand) */
-  --color-bg-red-500: #ef4444; /* bg-red-500 (danger) */
+	/* Main colors / Backgrounds */
+	--color-background: #ffffff; /* bg-white (page background) */
+	--color-surface: #171031; /* bg-[#171031] (surface / card) */
+	--color-surface-elevated: rgba(
+		10,
+		102,
+		194,
+		0.18
+	); /* bg-[rgba(10,102,194,0.18)] (elevated surface) */
+	--color-bg-gtblue: #0a66c2; /* bg-gtBlue (brand) */
+	--color-bg-red-500: #ef4444; /* bg-red-500 (danger) */
 
-  /* Text */
-  --color-text-d4ff59: #d4ff59; /* text-[#D4FF59] (arbitrary text) */
-  --color-text-8f95bb: #8f95bb; /* text-[#8f95bb] (arbitrary text) */
-  --color-text-orange-400: #fb923c; /* text-orange-400 */
-  --color-text-muted: #94a3b8; /* text-slate-400 (muted text) */
-  --color-text-primary: #ffffff; /* text-white (heading / primary text) */
+	/* Text */
+	--color-text-d4ff59: #d4ff59; /* text-[#D4FF59] (arbitrary text) */
+	--color-text-8f95bb: #8f95bb; /* text-[#8f95bb] (arbitrary text) */
+	--color-text-orange-400: #fb923c; /* text-orange-400 */
+	--color-text-muted: #94a3b8; /* text-slate-400 (muted text) */
+	--color-text-primary: #ffffff; /* text-white (heading / primary text) */
 
-  /* States (hover / focus / active / disabled / responsive / data / aria) */
-  --color-panel-hover: #ffffff; /* hover:hover:bg-white (state) */
-  --color-text-hover: #0a66c2; /* hover:hover:text-gtBlue (state) */
-  --color-text-hover-2: #ffffff; /* hover:hover:text-white (state) */
+	/* States (hover / focus / active / disabled / responsive / data / aria) */
+	--color-panel-hover: #ffffff; /* hover:hover:bg-white (state) */
+	--color-text-hover: #0a66c2; /* hover:hover:text-gtBlue (state) */
+	--color-text-hover-2: #ffffff; /* hover:hover:text-white (state) */
 
-  /* Semantic aliases (derived, not new colors) */
-  --color-brand: #0a66c2; /* alias -> --color-bg-gtblue (bg-gtBlue (brand)) */
-  --color-danger: #ef4444; /* alias -> --color-bg-red-500 (bg-red-500 (danger)) */
-  --color-warning: #fb923c; /* alias -> --color-text-orange-400 (text-orange-400) */
-
+	/* Semantic aliases (derived, not new colors) */
+	--color-brand: #0a66c2; /* alias -> --color-bg-gtblue (bg-gtBlue (brand)) */
+	--color-danger: #ef4444; /* alias -> --color-bg-red-500 (bg-red-500 (danger)) */
+	--color-warning: #fb923c; /* alias -> --color-text-orange-400 (text-orange-400) */
 }

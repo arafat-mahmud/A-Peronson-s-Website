@@ -578,7 +578,9 @@ export default function Insights() {
 												key={row.page}
 												className="flex items-center justify-between rounded-2xl border border-slate-200/80 bg-slate-50/80 px-3 py-2 text-sm dark:border-slate-800 dark:bg-slate-900/60"
 											>
-												<span className="truncate text-slate-700 dark:text-slate-300">{row.page}</span>
+												<span className="truncate text-slate-700 dark:text-slate-300">
+													{row.page}
+												</span>
 												<span className="ml-3 font-medium text-slate-950 dark:text-white">
 													{formatNumber(row.count)}
 												</span>
@@ -630,7 +632,9 @@ export default function Insights() {
 													key={type}
 													className="flex items-center justify-between rounded-2xl border border-slate-200/80 bg-white px-3 py-2 text-sm shadow-sm dark:border-slate-800 dark:bg-slate-950/60"
 												>
-													<span className="truncate text-slate-700 dark:text-slate-300">{type}</span>
+													<span className="truncate text-slate-700 dark:text-slate-300">
+														{type}
+													</span>
 													<span className="font-medium text-slate-950 dark:text-white">
 														{formatNumber(count)}
 													</span>
@@ -767,7 +771,9 @@ export default function Insights() {
 											</button>
 										</div>
 										{exportError ? (
-											<div className="mt-3 text-xs text-rose-600 dark:text-rose-300">{exportError}</div>
+											<div className="mt-3 text-xs text-rose-600 dark:text-rose-300">
+												{exportError}
+											</div>
 										) : null}
 										{canExportAnalytics ? null : (
 											<div className="mt-3 text-xs text-slate-500 dark:text-slate-400">
@@ -1446,7 +1452,9 @@ export default function Insights() {
 										emptyText="No search data yet."
 										renderItem={(item) => (
 											<div>
-												<div className="font-medium text-slate-900 dark:text-white">{item.country}</div>
+												<div className="font-medium text-slate-900 dark:text-white">
+													{item.country}
+												</div>
 												<div className="text-xs text-slate-500 dark:text-slate-400">
 													{(item.categories || []).map((c) => c.label).join(", ") || "--"}
 												</div>

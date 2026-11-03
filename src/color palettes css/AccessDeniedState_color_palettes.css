@@ -15,14 +15,13 @@
  */
 
 :root {
-  /* Main colors / Backgrounds */
-  --color-background: #fffbeb; /* bg-amber-50 (page background) */
+	/* Main colors / Backgrounds */
+	--color-background: #fffbeb; /* bg-amber-50 (page background) */
 
-  /* Text */
-  --color-text-0a66c2: #0a66c2; /* text-[#0A66C2] (arbitrary text) */
-  --color-text-amber-800: #92400e; /* text-amber-800 (warning) */
+	/* Text */
+	--color-text-0a66c2: #0a66c2; /* text-[#0A66C2] (arbitrary text) */
+	--color-text-amber-800: #92400e; /* text-amber-800 (warning) */
 
-  /* Semantic aliases (derived, not new colors) */
-  --color-warning: #fffbeb; /* alias -> --color-background (bg-amber-50 (page background)) */
-
+	/* Semantic aliases (derived, not new colors) */
+	--color-warning: #fffbeb; /* alias -> --color-background (bg-amber-50 (page background)) */
 }

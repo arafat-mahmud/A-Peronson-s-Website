@@ -70,7 +70,9 @@ export default function IndustryPage() {
 		description: slug
 			? `Explore ${slug.replace(/-/g, " ")} products, buyer requests, and suppliers on GarTexHub — the global textile and garment marketplace.`
 			: "Explore textile and garment industry categories on GarTexHub.",
-		canonical: slug ? `https://gartexhub.onrender.com/industry/${slug}` : "https://gartexhub.onrender.com/industry",
+		canonical: slug
+			? `https://gartexhub.onrender.com/industry/${slug}`
+			: "https://gartexhub.onrender.com/industry",
 		robots: "noindex,nofollow",
 		url: slug ? `/industry/${slug}` : "/industry",
 	});

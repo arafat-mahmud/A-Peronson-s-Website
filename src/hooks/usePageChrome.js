@@ -55,5 +55,12 @@ export default function usePageChrome(pageKey) {
 		};
 	}, [navHidden, footerHidden]);
 
-	return { navCollapsed, footerCollapsed, toggleNav, toggleFooter, autoHiddenNav, autoHiddenFooter };
+	return {
+		navCollapsed,
+		footerCollapsed,
+		toggleNav,
+		toggleFooter,
+		autoHiddenNav,
+		autoHiddenFooter,
+	};
 }

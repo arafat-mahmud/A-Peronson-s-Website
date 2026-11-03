@@ -158,7 +158,11 @@ export default function MemberManagement() {
 	const [createForm, setCreateForm] = useState(DEFAULT_CREATE_FORM);
 	const [activePermissionMember, setActivePermissionMember] = useState(null);
 	const [permissionMetrics, setPermissionMetrics] = useState(null);
-	const [removeConfirm, setRemoveConfirm] = useState({ open: false, memberId: null, memberName: "" });
+	const [removeConfirm, setRemoveConfirm] = useState({
+		open: false,
+		memberId: null,
+		memberName: "",
+	});
 	const [removePassword, setRemovePassword] = useState("");
 
 	const token = getToken();
@@ -278,9 +282,7 @@ export default function MemberManagement() {
 			const temp = created?.temporary_password
 				? ` Temporary password: ${created.temporary_password}`
 				: "";
-			const inviteMsg = createForm.email
-				? ` Invitation sent to ${createForm.email}.`
-				: "";
+			const inviteMsg = createForm.email ? ` Invitation sent to ${createForm.email}.` : "";
 			setSuccess(`Member created.${inviteMsg}${temp}`);
 			setCreateForm({
 				...DEFAULT_CREATE_FORM,
@@ -469,7 +471,9 @@ export default function MemberManagement() {
 						/>
 						<InfoCard
 							title="Team access"
-							value={canTeamAccess ? "Permissions enabled on all plans" : "Premium permissions locked"}
+							value={
+								canTeamAccess ? "Permissions enabled on all plans" : "Premium permissions locked"
+							}
 						/>
 						<InfoCard
 							title="Members"
@@ -755,8 +759,8 @@ export default function MemberManagement() {
 							</p>
 							{canTeamAccess ? null : (
 								<div className="mt-4 rounded-2xl border border-amber-500/20 bg-amber-500/10 p-4 text-sm text-amber-900 dark:text-amber-100">
-									Team/agent access management is available for premium users. Upgrade
-									to edit permissions and access controls.
+									Team/agent access management is available for premium users. Upgrade to edit
+									permissions and access controls.
 								</div>
 							)}
 						</div>
@@ -766,7 +770,9 @@ export default function MemberManagement() {
 								<h4 className="text-base font-semibold text-slate-900 dark:text-white">
 									Permission matrix
 								</h4>
-								<span className="text-sm text-slate-500 dark:text-slate-400">view/edit per module</span>
+								<span className="text-sm text-slate-500 dark:text-slate-400">
+									view/edit per module
+								</span>
 							</div>
 							<PermissionMatrixEditor
 								matrix={createForm.permission_matrix}
@@ -861,6 +867,7 @@ export default function MemberManagement() {
 									onKeyDown={(e) => {
 										if (e.key === "Enter") confirmRemoveMember();
 									}}
+									// biome-ignore lint/a11y/noAutofocus: focus moves into the dialog/editor the user just opened
 									autoFocus
 								/>
 							</label>
@@ -1029,7 +1036,9 @@ const MemberEditor = function MemberEditor({
 		<div className="space-y-6">
 			<div className="grid gap-4 md:grid-cols-2">
 				<label className="space-y-2">
-					<span className="text-sm font-medium text-slate-700 dark:text-slate-200">Member name</span>
+					<span className="text-sm font-medium text-slate-700 dark:text-slate-200">
+						Member name
+					</span>
 					<input
 						value={form.name}
 						onChange={(e) => setForm({ ...form, name: e.target.value })}
@@ -1100,7 +1109,9 @@ const MemberEditor = function MemberEditor({
 
 			<div>
 				<div className="mb-3 flex items-center justify-between">
-					<h4 className="text-base font-semibold text-slate-900 dark:text-white">Permission matrix</h4>
+					<h4 className="text-base font-semibold text-slate-900 dark:text-white">
+						Permission matrix
+					</h4>
 					<span className="text-sm text-slate-500 dark:text-slate-400">view/edit per module</span>
 				</div>
 				<PermissionMatrixEditor

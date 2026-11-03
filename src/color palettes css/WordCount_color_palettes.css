@@ -13,11 +13,10 @@
  */
 
 :root {
-  /* Text */
-  --color-text-red-500: #ef4444; /* text-red-500 (danger) */
-  --color-text-muted: #94a3b8; /* text-slate-400 (muted text) */
+	/* Text */
+	--color-text-red-500: #ef4444; /* text-red-500 (danger) */
+	--color-text-muted: #94a3b8; /* text-slate-400 (muted text) */
 
-  /* Semantic aliases (derived, not new colors) */
-  --color-danger: #ef4444; /* alias -> --color-text-red-500 (text-red-500 (danger)) */
-
+	/* Semantic aliases (derived, not new colors) */
+	--color-danger: #ef4444; /* alias -> --color-text-red-500 (text-red-500 (danger)) */
 }

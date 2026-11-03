@@ -11,7 +11,6 @@
  */
 
 :root {
-  /* Arbitrary / inline / SVG colors + explicit shadows/gradients (verbatim) */
-  --color-inline-1: currentColor; /* verbatim `stroke="currentColor"` near: stroke="currentColor" */
-
+	/* Arbitrary / inline / SVG colors + explicit shadows/gradients (verbatim) */
+	--color-inline-1: currentColor; /* verbatim `stroke="currentColor"` near: stroke="currentColor" */
 }

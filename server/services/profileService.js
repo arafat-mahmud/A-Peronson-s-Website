@@ -1,7 +1,4 @@
-import {
-	formatProductionCapacity,
-	industryLabel,
-} from "../../shared/config/platformTaxonomy.js";
+import { formatProductionCapacity, industryLabel } from "../../shared/config/platformTaxonomy.js";
 import prisma from "../utils/prisma.js";
 import { redactPhoneFromProfile } from "../utils/privacy.js";
 import { sanitizeString } from "../utils/validators.js";
@@ -151,31 +148,37 @@ export async function getProfileOverview(viewerId, profileUserId) {
 
 	// Every figure is scoped to this profile: the relationship only depends on
 	// the rows between viewer and profile, and the counts are COUNT queries.
-	const [connections, requestCount, productCount, connectedFactories, effectivePlan, verificationRecord] =
-		await Promise.all([
-			viewerId && !isSelf
-				? prisma.userConnection.findMany({
-						where: {
-							OR: [
-								{ requester_id: viewerId, receiver_id: profileUserId },
-								{ requester_id: profileUserId, receiver_id: viewerId },
-							],
-						},
-					})
-				: [],
-			prisma.requirement.count({ where: { buyer_id: profileUserId } }),
-			prisma.product.count({ where: { company_id: profileUserId } }),
-			user.role === "buying_house"
-				? prisma.partnerRequest.count({
-						where: {
-							status: "connected",
-							OR: [{ requester_id: profileUserId }, { target_id: profileUserId }],
-						},
-					})
-				: null,
-			getPlanForUser(user),
-			getVerification(profileUserId),
-		]);
+	const [
+		connections,
+		requestCount,
+		productCount,
+		connectedFactories,
+		effectivePlan,
+		verificationRecord,
+	] = await Promise.all([
+		viewerId && !isSelf
+			? prisma.userConnection.findMany({
+					where: {
+						OR: [
+							{ requester_id: viewerId, receiver_id: profileUserId },
+							{ requester_id: profileUserId, receiver_id: viewerId },
+						],
+					},
+				})
+			: [],
+		prisma.requirement.count({ where: { buyer_id: profileUserId } }),
+		prisma.product.count({ where: { company_id: profileUserId } }),
+		user.role === "buying_house"
+			? prisma.partnerRequest.count({
+					where: {
+						status: "connected",
+						OR: [{ requester_id: profileUserId }, { target_id: profileUserId }],
+					},
+				})
+			: null,
+		getPlanForUser(user),
+		getVerification(profileUserId),
+	]);
 
 	const safeUser = cleanUserPublic(user);
 

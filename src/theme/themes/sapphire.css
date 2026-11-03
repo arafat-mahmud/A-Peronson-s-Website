@@ -80,7 +80,6 @@
 	--theme-brand-20: rgba(29, 78, 216, 0.2);
 	--theme-brand-40: rgba(29, 78, 216, 0.4);
 	--theme-brand-5: rgba(29, 78, 216, 0.05);
-	--theme-brand-hover: #1e40af;
 	--theme-custom-020617-0: rgba(2, 6, 23, 0);
 	--theme-custom-020617-2: rgba(2, 6, 23, 0.02);
 	--theme-custom-020617-8: rgba(2, 6, 23, 0.08);
@@ -1165,7 +1164,6 @@
      Secondary enterprise blue
      ======================================================================== */
 
-	--theme-azure-50: #eff8ff;
 	--theme-azure-100: #dff1ff;
 	--theme-azure-200: #bde2ff;
 	--theme-azure-300: #8dcbff;
@@ -1182,7 +1180,6 @@
      Bright highlight / realtime / informational blue
      ======================================================================== */
 
-	--theme-sky-50: #f0f9ff;
 	--theme-sky-100: #dff4ff;
 	--theme-sky-200: #bceaff;
 	--theme-sky-300: #8bdcff;
@@ -1401,7 +1398,6 @@
      ======================================================================== */
 
 	--theme-brand: #405ce3;
-	--theme-brand-hover: #3048c7;
 	--theme-brand-active: #263a9f;
 
 	--theme-accent: #405ce3;

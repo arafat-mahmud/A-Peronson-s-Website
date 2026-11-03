@@ -33,4 +33,3 @@ export interface ChatTheme {
 	shadow: string;
 	accent: string;
 }
-

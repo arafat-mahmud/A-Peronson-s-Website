@@ -163,9 +163,12 @@ describe("error handler: database outages are retryable 503s", () => {
 	test.each(["P1001", "P1017", "P2024"])("%s -> 503 DATABASE_UNAVAILABLE", (code) => {
 		const res = mockRes();
 		res.headersSent = false;
-		const err = Object.assign(new Error("Invalid `prisma.x.findMany()` invocation:\n\nCan't reach"), {
-			code,
-		});
+		const err = Object.assign(
+			new Error("Invalid `prisma.x.findMany()` invocation:\n\nCan't reach"),
+			{
+				code,
+			},
+		);
 		errorHandler(err, { path: "/api/feed", method: "GET" }, res, jest.fn());
 		expect(res.status).toHaveBeenCalledWith(503);
 		expect(res.json.mock.calls[0][0].code).toBe("DATABASE_UNAVAILABLE");
@@ -318,7 +321,9 @@ describe("a locked account can still unlock itself (router mounted at /api/users
 
 	test("DELETE /api/users/me/lock passes (it used to answer 403 forever)", async () => {
 		const { default: request } = await import("supertest");
-		const res = await request(app).delete("/api/users/me/lock").set("Authorization", `Bearer ${token}`);
+		const res = await request(app)
+			.delete("/api/users/me/lock")
+			.set("Authorization", `Bearer ${token}`);
 		expect(res.status).toBe(200);
 		expect(res.body.unlocked).toBe(true);
 	});

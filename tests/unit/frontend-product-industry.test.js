@@ -27,7 +27,10 @@ describe("product industry dropdown contract", () => {
 	});
 
 	test("unlisted industries are preserved verbatim as legacy values", () => {
-		expect(resolveIndustryOption("Home Textiles")).toEqual({ value: "Home Textiles", isLegacy: true });
+		expect(resolveIndustryOption("Home Textiles")).toEqual({
+			value: "Home Textiles",
+			isLegacy: true,
+		});
 		expect(resolveIndustryOption("Apparel")).toEqual({ value: "Apparel", isLegacy: true });
 	});
 });

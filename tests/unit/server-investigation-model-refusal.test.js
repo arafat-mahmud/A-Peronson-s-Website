@@ -1,5 +1,5 @@
-import { waitForAssistantTurn } from "../../server/services/opencodeTurns.js";
 import { runAgentPrompt } from "../../server/services/investigation/opencodeRuntime.js";
+import { waitForAssistantTurn } from "../../server/services/opencodeTurns.js";
 
 /**
  * The model can REFUSE the request, and it says so on the message:

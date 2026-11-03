@@ -10,7 +10,13 @@ ScrollReveal.propTypes = {
 	as: PropTypes.string,
 };
 
-export default function ScrollReveal({ children, class: cls = "", className = "", as: Tag = "div", ...rest }) {
+export default function ScrollReveal({
+	children,
+	class: cls = "",
+	className = "",
+	as: Tag = "div",
+	...rest
+}) {
 	const reduceMotion = useReducedMotion();
 	const mergedClass = `${className} ${cls}`.trim();
 

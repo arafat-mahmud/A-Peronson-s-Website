@@ -421,7 +421,9 @@ export default function Privacy() {
 									<Fingerprint className={`h-4 w-4 ${dark ? "text-sky-300" : "text-sky-700"}`} />
 									Secure Business Platform
 								</div>
-								<p className={`mt-2 text-sm leading-6 ${dark ? "text-slate-300" : "text-slate-600"}`}>
+								<p
+									className={`mt-2 text-sm leading-6 ${dark ? "text-slate-300" : "text-slate-600"}`}
+								>
 									GarTexHub connects Buyers, Factories, and Buying Houses in a secure and
 									professional environment.
 								</p>
@@ -436,7 +438,9 @@ export default function Privacy() {
 									<span className="inline-flex items-center rounded-full bg-gradient-to-r from-sky-500/15 to-cyan-300/15 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-sky-700 ring-1 ring-inset ring-sky-200 dark:text-sky-300 dark:ring-sky-400/20">
 										Legal Documentation
 									</span>
-									<span className={`text-xs font-medium ${dark ? "text-slate-400" : "text-slate-500"}`}>
+									<span
+										className={`text-xs font-medium ${dark ? "text-slate-400" : "text-slate-500"}`}
+									>
 										Route: /privacy &middot; Access: Public
 									</span>
 								</div>

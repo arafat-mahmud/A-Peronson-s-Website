@@ -7,7 +7,8 @@ import fs from "node:fs/promises";
 
 const DANGEROUS_TAGS =
 	/<(script|foreignObject|iframe|object|embed|form|input|textarea|select|button|link|meta|base|applet|style)(\s|>|\/)/gi;
-const DANGEROUS_TAGS_CLOSE = /<\/(script|foreignObject|iframe|object|embed|form|input|textarea|select|button|link|meta|base|applet|style)\s*>/gi;
+const DANGEROUS_TAGS_CLOSE =
+	/<\/(script|foreignObject|iframe|object|embed|form|input|textarea|select|button|link|meta|base|applet|style)\s*>/gi;
 const EVENT_HANDLERS = /\s+on\w+\s*=\s*(?:"[^"]*"|'[^']*'|[^\s>]+)/gi;
 const DATA_ATTRS = /\s+data-\w[\w.-]*\s*=\s*(?:"[^"]*"|'[^']*'|[^\s>]+)/gi;
 const JS_URLS = /(href|src|action)\s*=\s*(?:"[^"]*javascript:[^"]*"|'[^']*javascript:[^']*')/gi;

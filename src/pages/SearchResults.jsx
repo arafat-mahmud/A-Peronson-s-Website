@@ -419,7 +419,9 @@ function ResultCards({
 			return (
 				<div className="flex flex-col items-center justify-center py-16 text-center space-y-4">
 					<PackageSearch className="h-12 w-12 text-slate-300 dark:text-slate-600" />
-					<p className="text-lg font-medium text-slate-900 dark:text-white">No buyer requests found</p>
+					<p className="text-lg font-medium text-slate-900 dark:text-white">
+						No buyer requests found
+					</p>
 					<p className="text-sm text-slate-500 dark:text-slate-400">Try adjusting your filters</p>
 					{query && (
 						<div className="mt-2 rounded-2xl bg-gtBlue/10 p-4 ring-1 ring-gtBlue/20 dark:bg-gtBlue/5">
@@ -523,7 +525,9 @@ function ResultCards({
 										)}
 										{item.targetPrice && (
 											<div className="rounded-2xl bg-slate-50 dark:bg-slate-900/70 p-3">
-												<div className="text-xs text-slate-500 dark:text-slate-400">Target price</div>
+												<div className="text-xs text-slate-500 dark:text-slate-400">
+													Target price
+												</div>
 												<div className="mt-1 font-semibold text-slate-900 dark:text-white">
 													{item.targetPrice}
 												</div>
@@ -1455,9 +1459,13 @@ export default function SearchResults() {
 		const token = getToken();
 		if (token) {
 			setExportingCsv(true);
-			const ids = shortlist.length > 0
-				? [...filteredRequests.map((r) => `req:${r.id}`), ...filteredCompanies.map((c) => `prod:${c.id}`)]
-				: undefined;
+			const ids =
+				shortlist.length > 0
+					? [
+							...filteredRequests.map((r) => `req:${r.id}`),
+							...filteredCompanies.map((c) => `prod:${c.id}`),
+						]
+					: undefined;
 			apiRequest("/search/export", {
 				method: "POST",
 				token,
@@ -2073,7 +2081,7 @@ export default function SearchResults() {
 		}, 180);
 	}
 
-	function useCurrentLocation() {
+	function applyCurrentLocation() {
 		if (!navigator.geolocation) {
 			addToast("Location unavailable", "Geolocation is not supported in this browser.", "error");
 			return;
@@ -2439,7 +2447,7 @@ export default function SearchResults() {
 									{searchImageUploadProgress > 0 && (
 										<UploadProgressBar progress={searchImageUploadProgress} className="w-16" />
 									)}
-																		<button
+									<button
 										onClick={() => setBatchOpen(true)}
 										className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white/70 dark:bg-slate-900/60 px-2 py-3 text-sm text-slate-500 hover:border-sky-300 dark:hover:border-sky-700 sm:px-3 sm:py-4"
 										title="Batch search"
@@ -2451,7 +2459,7 @@ export default function SearchResults() {
 										disabled={loading}
 										className="inline-flex items-center justify-center gap-2 rounded-3xl bg-gradient-to-r from-sky-600 to-blue-600 px-4 py-3 text-sm font-semibold text-white shadow-xl shadow-sky-500/25 transition hover:from-sky-500 hover:to-blue-500 disabled:cursor-not-allowed disabled:opacity-70 sm:px-6 sm:py-4 sm:text-base"
 									>
-										<Search className="h-4 w-4 sm:h-5 sm:w-5" /> {" "}
+										<Search className="h-4 w-4 sm:h-5 sm:w-5" />{" "}
 										{loading ? (
 											<ThreeDot
 												variant="bounce"
@@ -2529,7 +2537,9 @@ export default function SearchResults() {
 										</button>
 									))
 								) : (
-									<span className="text-xs text-slate-500 dark:text-slate-400 sm:text-sm">No filters active.</span>
+									<span className="text-xs text-slate-500 dark:text-slate-400 sm:text-sm">
+										No filters active.
+									</span>
 								)}
 								<button
 									onClick={clearAll}
@@ -3070,7 +3080,7 @@ export default function SearchResults() {
 										/>
 
 										<button
-											onClick={useCurrentLocation}
+											onClick={applyCurrentLocation}
 											className="inline-flex items-center gap-2 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white/70 dark:bg-slate-900/60 px-4 py-3 text-sm font-medium hover:border-sky-300 dark:hover:border-sky-700"
 										>
 											<LocateFixed className="h-4 w-4" /> Use current location

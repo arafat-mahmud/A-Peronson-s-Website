@@ -1,5 +1,5 @@
 {
-	"$schema": "https://biomejs.dev/schemas/2.5.5/schema.json",
+	"$schema": "https://biomejs.dev/schemas/2.6.3/schema.json",
 
 	"css": {
 		"parser": {
@@ -25,7 +25,17 @@
 			"!package-lock.json",
 			"!**/*.docx",
 			"!tests/e2e/*.cypress.*",
-			"!eslint.config.js"
+			"!eslint.config.js",
+			"!bugs",
+			"!_GarTexHub_Audit",
+			"!client_forensic_analysis",
+			"!whatsapp-chats",
+			"!more conv",
+			"!.claude",
+			"!.agents",
+			"!test-results",
+			"!render.yaml",
+			"!**/*.md"
 		]
 	},
 

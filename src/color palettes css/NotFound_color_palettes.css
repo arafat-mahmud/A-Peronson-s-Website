@@ -47,43 +47,52 @@
  */
 
 :root {
-  /* Main colors / Backgrounds */
-  --color-background: #0f172a; /* bg-slate-900 (page background) */
-  --color-surface: rgba(34, 211, 238, 0.15); /* bg-cyan-400/15 (surface / card) */
-  --color-surface-elevated: rgba(56, 189, 248, 0.2); /* bg-sky-400/20 (elevated surface) */
-  --color-bg-edf6ff: #edf6ff; /* bg-[#edf6ff] (arbitrary background) */
+	/* Main colors / Backgrounds */
+	--color-background: #0f172a; /* bg-slate-900 (page background) */
+	--color-surface: rgba(34, 211, 238, 0.15); /* bg-cyan-400/15 (surface / card) */
+	--color-surface-elevated: rgba(56, 189, 248, 0.2); /* bg-sky-400/20 (elevated surface) */
+	--color-bg-edf6ff: #edf6ff; /* bg-[#edf6ff] (arbitrary background) */
 
-  /* Text */
-  --color-text-sky-500-20: rgba(14, 165, 233, 0.2); /* text-sky-500/20 (info) */
-  --color-text-slate-900: #0f172a; /* text-slate-900 */
-  --color-text-muted: #64748b; /* text-slate-500 (muted text) */
-  --color-text-slate-700: #334155; /* text-slate-700 */
-  --color-text-primary: #ffffff; /* text-white (heading / primary text) */
+	/* Text */
+	--color-text-sky-500-20: rgba(14, 165, 233, 0.2); /* text-sky-500/20 (info) */
+	--color-text-slate-900: #0f172a; /* text-slate-900 */
+	--color-text-muted: #64748b; /* text-slate-500 (muted text) */
+	--color-text-slate-700: #334155; /* text-slate-700 */
+	--color-text-primary: #ffffff; /* text-white (heading / primary text) */
 
-  /* Borders / Dividers / Rings */
-  --color-border-slate-200: #e2e8f0; /* border-slate-200 (border) */
+	/* Borders / Dividers / Rings */
+	--color-border-slate-200: #e2e8f0; /* border-slate-200 (border) */
 
-  /* States (hover / focus / active / disabled / responsive / data / aria) */
-  --color-panel-hover: #1e293b; /* hover:hover:bg-slate-800 (state) */
-  --color-panel-hover-2: #e2e8f0; /* dark:hover:dark:hover:bg-slate-200 (state) */
-  --color-panel-hover-3: #f8fafc; /* hover:hover:bg-slate-50 (state) */
-  --color-panel-hover-4: #1e293b; /* dark:hover:dark:hover:bg-slate-800 (state) */
+	/* States (hover / focus / active / disabled / responsive / data / aria) */
+	--color-panel-hover: #1e293b; /* hover:hover:bg-slate-800 (state) */
+	--color-panel-hover-2: #e2e8f0; /* dark:hover:dark:hover:bg-slate-200 (state) */
+	--color-panel-hover-3: #f8fafc; /* hover:hover:bg-slate-50 (state) */
+	--color-panel-hover-4: #1e293b; /* dark:hover:dark:hover:bg-slate-800 (state) */
 
-  /* Semantic aliases (derived, not new colors) */
-  --color-info: rgba(56, 189, 248, 0.2); /* alias -> --color-surface-elevated (bg-sky-400/20 (elevated surface)) */
-  --color-accent: rgba(34, 211, 238, 0.15); /* alias -> --color-surface (bg-cyan-400/15 (surface / card)) */
-
+	/* Semantic aliases (derived, not new colors) */
+	--color-info: rgba(
+		56,
+		189,
+		248,
+		0.2
+	); /* alias -> --color-surface-elevated (bg-sky-400/20 (elevated surface)) */
+	--color-accent: rgba(
+		34,
+		211,
+		238,
+		0.15
+	); /* alias -> --color-surface (bg-cyan-400/15 (surface / card)) */
 }
 
 .dark {
-  --color-dark-06131f: #06131f; /* dark:dark:bg-[#06131f] */
-  --color-background-dark-slate-200: #e2e8f0; /* dark:hover:dark:hover:bg-slate-200 */
-  --color-background-dark-slate-800: #1e293b; /* dark:hover:dark:hover:bg-slate-800 */
-  --color-background: #ffffff; /* dark:dark:bg-white */
-  --color-border-dark-slate-700: #334155; /* dark:dark:border-slate-700 */
-  --color-text-dark-sky-400-15: rgba(56, 189, 248, 0.15); /* dark:dark:text-sky-400/15 */
-  --color-text-dark-slate-400: #94a3b8; /* dark:dark:text-slate-400 */
-  --color-text-dark-slate-950: #020617; /* dark:dark:text-slate-950 */
-  --color-text-dark-slate-300: #cbd5e1; /* dark:dark:text-slate-300 */
-  --color-text-primary: #ffffff; /* dark:dark:text-white */
+	--color-dark-06131f: #06131f; /* dark:dark:bg-[#06131f] */
+	--color-background-dark-slate-200: #e2e8f0; /* dark:hover:dark:hover:bg-slate-200 */
+	--color-background-dark-slate-800: #1e293b; /* dark:hover:dark:hover:bg-slate-800 */
+	--color-background: #ffffff; /* dark:dark:bg-white */
+	--color-border-dark-slate-700: #334155; /* dark:dark:border-slate-700 */
+	--color-text-dark-sky-400-15: rgba(56, 189, 248, 0.15); /* dark:dark:text-sky-400/15 */
+	--color-text-dark-slate-400: #94a3b8; /* dark:dark:text-slate-400 */
+	--color-text-dark-slate-950: #020617; /* dark:dark:text-slate-950 */
+	--color-text-dark-slate-300: #cbd5e1; /* dark:dark:text-slate-300 */
+	--color-text-primary: #ffffff; /* dark:dark:text-white */
 }

@@ -200,5 +200,8 @@ Verified root causes (Render events + logs, read-only DB inspection, local repro
 - PRs #101 and #102 are merged; `main` = `b7001fe6` is live (Render deploy `dep-dbkv4et9el5s73f26jr0`, 2026-11-03 14:44 UTC).
 - **Owner:** review and merge the stability PR (`fix/production-stability-2026-11-04`) → Render deploys `main`; then check
   Render events for `oomKilled`, `/health`, `/ready`, and the `Server-Timing` header on `/api/feed`. No new migrations.
-- Lint backlog (~2,600 Biome findings, mostly style + CRLF) — this pass added no new errors in touched files.
+- Lint: `pnpm run lint` exits 0 since 2026-11-04 (798 errors -> 0: CRLF/format, import order, 60+ duplicate CSS custom
+  properties removed with last-wins equivalence checked, reasoned suppressions). ~13k warnings / ~27k infos remain (style
+  rules such as noHexColors/noMagicNumbers); Biome's "safe" fixes were NOT applied repo-wide (they add the regex `u` flag,
+  which can change behaviour). Client-evidence folders, `.md`, `render.yaml` are excluded from Biome.
 - `/api/chatbot/settings` 403 for free plans is the intended Premium gate.

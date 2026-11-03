@@ -82,64 +82,87 @@
  */
 
 :root {
-  /* Main colors / Backgrounds */
-  --color-background: #f8fafc; /* bg-slate-50 (page background) */
-  --color-surface: #ffffff; /* bg-white (surface / card) */
-  --color-surface-elevated: #1e293b; /* bg-slate-800 (elevated surface) */
-  --color-bg-green-500-0-1: rgba(34, 197, 94, 0.1); /* bg-green-500/10 (success) */
-  --color-bg-indigo-500-0-2: rgba(99, 102, 241, 0.2); /* bg-indigo-500/20 */
-  --color-bg-indigo-500-0-1: rgba(99, 102, 241, 0.1); /* bg-indigo-500/10 */
-  --color-bg-indigo-50: #eef2ff; /* bg-indigo-50 */
-  --color-bg-red-500-0-1: rgba(239, 68, 68, 0.1); /* bg-red-500/10 (danger) */
-  --color-bg-white-0-05: rgba(255, 255, 255, 0.05); /* bg-white/5 */
+	/* Main colors / Backgrounds */
+	--color-background: #f8fafc; /* bg-slate-50 (page background) */
+	--color-surface: #ffffff; /* bg-white (surface / card) */
+	--color-surface-elevated: #1e293b; /* bg-slate-800 (elevated surface) */
+	--color-bg-green-500-0-1: rgba(34, 197, 94, 0.1); /* bg-green-500/10 (success) */
+	--color-bg-indigo-500-0-2: rgba(99, 102, 241, 0.2); /* bg-indigo-500/20 */
+	--color-bg-indigo-500-0-1: rgba(99, 102, 241, 0.1); /* bg-indigo-500/10 */
+	--color-bg-indigo-50: #eef2ff; /* bg-indigo-50 */
+	--color-bg-red-500-0-1: rgba(239, 68, 68, 0.1); /* bg-red-500/10 (danger) */
+	--color-bg-white-0-05: rgba(255, 255, 255, 0.05); /* bg-white/5 */
 
-  /* Text */
-  --color-text-green-400: #4ade80; /* text-green-400 (success) */
-  --color-text-indigo-300: #a5b4fc; /* text-indigo-300 */
-  --color-text-indigo-600: #4f46e5; /* text-indigo-600 */
-  --color-text-indigo-400: #818cf8; /* text-indigo-400 */
-  --color-text-red-400: #f87171; /* text-red-400 (danger) */
-  --color-text-slate-900: #0f172a; /* text-slate-900 */
-  --color-text-muted: #94a3b8; /* text-slate-400 (muted text) */
-  --color-text-muted-2: #64748b; /* text-slate-500 (muted text) */
-  --color-text-slate-600: #475569; /* text-slate-600 */
-  --color-text-secondary: #cbd5e1; /* text-slate-300 (body / secondary text) */
-  --color-text-slate-700: #334155; /* text-slate-700 */
-  --color-text-primary: #ffffff; /* text-white (heading / primary text) */
-  --color-placeholder: #64748b; /* placeholder:placeholder:text-slate-500 (input placeholder) */
-  --color-placeholder-2: #94a3b8; /* placeholder:placeholder:text-slate-400 (input placeholder) */
+	/* Text */
+	--color-text-green-400: #4ade80; /* text-green-400 (success) */
+	--color-text-indigo-300: #a5b4fc; /* text-indigo-300 */
+	--color-text-indigo-600: #4f46e5; /* text-indigo-600 */
+	--color-text-indigo-400: #818cf8; /* text-indigo-400 */
+	--color-text-red-400: #f87171; /* text-red-400 (danger) */
+	--color-text-slate-900: #0f172a; /* text-slate-900 */
+	--color-text-muted: #94a3b8; /* text-slate-400 (muted text) */
+	--color-text-muted-2: #64748b; /* text-slate-500 (muted text) */
+	--color-text-slate-600: #475569; /* text-slate-600 */
+	--color-text-secondary: #cbd5e1; /* text-slate-300 (body / secondary text) */
+	--color-text-slate-700: #334155; /* text-slate-700 */
+	--color-text-primary: #ffffff; /* text-white (heading / primary text) */
+	--color-placeholder: #64748b; /* placeholder:placeholder:text-slate-500 (input placeholder) */
+	--color-placeholder-2: #94a3b8; /* placeholder:placeholder:text-slate-400 (input placeholder) */
 
-  /* Borders / Dividers / Rings */
-  --color-border-green-500-30: rgba(34, 197, 94, 0.3); /* border-green-500/30 (border) */
-  --color-border-indigo-500-30: rgba(99, 102, 241, 0.3); /* border-indigo-500/30 (border) */
-  --color-border-indigo-200: #c7d2fe; /* border-indigo-200 (border) */
-  --color-border-red-500-30: rgba(239, 68, 68, 0.3); /* border-red-500/30 (border) */
-  --color-border-slate-200: #e2e8f0; /* border-slate-200 (border) */
-  --color-border-slate-700: #334155; /* border-slate-700 (border) */
-  --color-border-slate-200-10: rgba(226, 232, 240, 0.1); /* border-slate-200/10 (border) */
-  --color-border: rgba(255, 255, 255, 0.1); /* border-white/10 (default border) */
-  --color-divider: rgba(226, 232, 240, 0.1); /* divide-slate-200/10 (divider) */
+	/* Borders / Dividers / Rings */
+	--color-border-green-500-30: rgba(34, 197, 94, 0.3); /* border-green-500/30 (border) */
+	--color-border-indigo-500-30: rgba(99, 102, 241, 0.3); /* border-indigo-500/30 (border) */
+	--color-border-indigo-200: #c7d2fe; /* border-indigo-200 (border) */
+	--color-border-red-500-30: rgba(239, 68, 68, 0.3); /* border-red-500/30 (border) */
+	--color-border-slate-200: #e2e8f0; /* border-slate-200 (border) */
+	--color-border-slate-700: #334155; /* border-slate-700 (border) */
+	--color-border-slate-200-10: rgba(226, 232, 240, 0.1); /* border-slate-200/10 (border) */
+	--color-border: rgba(255, 255, 255, 0.1); /* border-white/10 (default border) */
+	--color-divider: rgba(226, 232, 240, 0.1); /* divide-slate-200/10 (divider) */
 
-  /* States (hover / focus / active / disabled / responsive / data / aria) */
-  --color-bg-indigo-500-30-hover: rgba(99, 102, 241, 0.3); /* hover:hover:bg-indigo-500/30 (state) */
-  --color-bg-indigo-500-20-hover: rgba(99, 102, 241, 0.2); /* hover:hover:bg-indigo-500/20 (state) */
-  --color-bg-red-500-20-hover: rgba(239, 68, 68, 0.2); /* hover:hover:bg-red-500/20 (state) */
-  --color-panel-hover: rgba(255, 255, 255, 0.05); /* hover:hover:bg-white/5 (state) */
-  --color-border-indigo-500-focus: #6366f1; /* focus:focus:border-indigo-500 (state) */
-  --color-text-hover: #0f172a; /* hover:hover:text-slate-900 (state) */
-  --color-text-slate-500-placeholder: #64748b; /* placeholder:placeholder:text-slate-500 (state) */
-  --color-text-slate-400-placeholder: #94a3b8; /* placeholder:placeholder:text-slate-400 (state) */
-  --color-text-hover-2: #ffffff; /* hover:hover:text-white (state) */
+	/* States (hover / focus / active / disabled / responsive / data / aria) */
+	--color-bg-indigo-500-30-hover: rgba(
+		99,
+		102,
+		241,
+		0.3
+	); /* hover:hover:bg-indigo-500/30 (state) */
+	--color-bg-indigo-500-20-hover: rgba(
+		99,
+		102,
+		241,
+		0.2
+	); /* hover:hover:bg-indigo-500/20 (state) */
+	--color-bg-red-500-20-hover: rgba(239, 68, 68, 0.2); /* hover:hover:bg-red-500/20 (state) */
+	--color-panel-hover: rgba(255, 255, 255, 0.05); /* hover:hover:bg-white/5 (state) */
+	--color-border-indigo-500-focus: #6366f1; /* focus:focus:border-indigo-500 (state) */
+	--color-text-hover: #0f172a; /* hover:hover:text-slate-900 (state) */
+	--color-text-slate-500-placeholder: #64748b; /* placeholder:placeholder:text-slate-500 (state) */
+	--color-text-slate-400-placeholder: #94a3b8; /* placeholder:placeholder:text-slate-400 (state) */
+	--color-text-hover-2: #ffffff; /* hover:hover:text-white (state) */
 
-  /* Gradients (every distinct stop-set preserved) */
-  --gradient-primary: linear-gradient(135deg, #6366f1 0%, #60a5fa 100%); /* from-indigo-500 to-blue-400 (gradient; direction 135deg) */
+	/* Gradients (every distinct stop-set preserved) */
+	--gradient-primary: linear-gradient(
+		135deg,
+		#6366f1 0%,
+		#60a5fa 100%
+	); /* from-indigo-500 to-blue-400 (gradient; direction 135deg) */
 
-  /* Arbitrary / inline / SVG colors + explicit shadows/gradients (verbatim) */
-  --color-inline-1: #3b00ff; /* verbatim `#3b00ff` near: #3b00ff */
-  --color-inline-2: #6100ff; /* verbatim `#6100ff` near: #6100ff */
+	/* Arbitrary / inline / SVG colors + explicit shadows/gradients (verbatim) */
+	--color-inline-1: #3b00ff; /* verbatim `#3b00ff` near: #3b00ff */
+	--color-inline-2: #6100ff; /* verbatim `#6100ff` near: #6100ff */
 
-  /* Semantic aliases (derived, not new colors) */
-  --color-success: rgba(34, 197, 94, 0.1); /* alias -> --color-bg-green-500-0-1 (bg-green-500/10 (success)) */
-  --color-danger: rgba(239, 68, 68, 0.1); /* alias -> --color-bg-red-500-0-1 (bg-red-500/10 (danger)) */
-
+	/* Semantic aliases (derived, not new colors) */
+	--color-success: rgba(
+		34,
+		197,
+		94,
+		0.1
+	); /* alias -> --color-bg-green-500-0-1 (bg-green-500/10 (success)) */
+	--color-danger: rgba(
+		239,
+		68,
+		68,
+		0.1
+	); /* alias -> --color-bg-red-500-0-1 (bg-red-500/10 (danger)) */
 }

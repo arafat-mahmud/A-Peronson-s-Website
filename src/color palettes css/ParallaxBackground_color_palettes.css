@@ -21,19 +21,28 @@
  */
 
 :root {
-  /* Main colors / Backgrounds */
-  --color-background: rgba(59, 130, 246, 0.2); /* bg-blue-500/20 (page background) */
-  --color-surface: rgba(34, 211, 238, 0.15); /* bg-cyan-400/15 (surface / card) */
-  --color-surface-elevated: rgba(56, 189, 248, 0.2); /* bg-sky-400/20 (elevated surface) */
+	/* Main colors / Backgrounds */
+	--color-background: rgba(59, 130, 246, 0.2); /* bg-blue-500/20 (page background) */
+	--color-surface: rgba(34, 211, 238, 0.15); /* bg-cyan-400/15 (surface / card) */
+	--color-surface-elevated: rgba(56, 189, 248, 0.2); /* bg-sky-400/20 (elevated surface) */
 
-  /* Semantic aliases (derived, not new colors) */
-  --color-info: rgba(59, 130, 246, 0.2); /* alias -> --color-background (bg-blue-500/20 (page background)) */
-  --color-accent: rgba(34, 211, 238, 0.15); /* alias -> --color-surface (bg-cyan-400/15 (surface / card)) */
-
+	/* Semantic aliases (derived, not new colors) */
+	--color-info: rgba(
+		59,
+		130,
+		246,
+		0.2
+	); /* alias -> --color-background (bg-blue-500/20 (page background)) */
+	--color-accent: rgba(
+		34,
+		211,
+		238,
+		0.15
+	); /* alias -> --color-surface (bg-cyan-400/15 (surface / card)) */
 }
 
 .dark {
-  --color-background: rgba(59, 130, 246, 0.1); /* dark:dark:bg-blue-500/10 */
-  --color-background-dark-cyan-400-10: rgba(34, 211, 238, 0.1); /* dark:dark:bg-cyan-400/10 */
-  --color-background-dark-sky-500-15: rgba(14, 165, 233, 0.15); /* dark:dark:bg-sky-500/15 */
+	--color-background: rgba(59, 130, 246, 0.1); /* dark:dark:bg-blue-500/10 */
+	--color-background-dark-cyan-400-10: rgba(34, 211, 238, 0.1); /* dark:dark:bg-cyan-400/10 */
+	--color-background-dark-sky-500-15: rgba(14, 165, 233, 0.15); /* dark:dark:bg-sky-500/15 */
 }

@@ -31,30 +31,33 @@
  */
 
 :root {
-  /* Main colors / Backgrounds */
-  --color-background: #ffffff; /* bg-white (page background) */
+	/* Main colors / Backgrounds */
+	--color-background: #ffffff; /* bg-white (page background) */
 
-  /* Text */
-  --color-text-gtblue: #0a66c2; /* text-gtBlue */
-  --color-text-slate-900: #0f172a; /* text-slate-900 */
-  --color-text-slate-600: #475569; /* text-slate-600 */
-  --color-text-muted: #64748b; /* text-slate-500 (muted text) */
-  --color-text-muted-2: #94a3b8; /* text-slate-400 (muted text) */
-  --color-text-primary: #ffffff; /* text-white (heading / primary text) */
+	/* Text */
+	--color-text-gtblue: #0a66c2; /* text-gtBlue */
+	--color-text-slate-900: #0f172a; /* text-slate-900 */
+	--color-text-slate-600: #475569; /* text-slate-600 */
+	--color-text-muted: #64748b; /* text-slate-500 (muted text) */
+	--color-text-muted-2: #94a3b8; /* text-slate-400 (muted text) */
+	--color-text-primary: #ffffff; /* text-white (heading / primary text) */
 
-  /* States (hover / focus / active / disabled / responsive / data / aria) */
-  --color-text-hover: #0a66c2; /* hover:hover:text-gtBlue (state) */
+	/* States (hover / focus / active / disabled / responsive / data / aria) */
+	--color-text-hover: #0a66c2; /* hover:hover:text-gtBlue (state) */
 
-  /* Gradients (every distinct stop-set preserved) */
-  --gradient-primary: linear-gradient(90deg, #0ea5e9 0%, #6366f1 100%); /* from-sky-500 to-indigo-500 (gradient; direction 90deg) */
+	/* Gradients (every distinct stop-set preserved) */
+	--gradient-primary: linear-gradient(
+		90deg,
+		#0ea5e9 0%,
+		#6366f1 100%
+	); /* from-sky-500 to-indigo-500 (gradient; direction 90deg) */
 
-  /* Semantic aliases (derived, not new colors) */
-  --color-brand: #0a66c2; /* alias -> --color-text-gtblue (text-gtBlue) */
-
+	/* Semantic aliases (derived, not new colors) */
+	--color-brand: #0a66c2; /* alias -> --color-text-gtblue (text-gtBlue) */
 }
 
 .dark {
-  --color-background: #020617; /* dark:dark:bg-slate-950 */
-  --color-text-dark-slate-400: #94a3b8; /* dark:dark:text-slate-400 */
-  --color-text-primary: #ffffff; /* dark:dark:text-white */
+	--color-background: #020617; /* dark:dark:bg-slate-950 */
+	--color-text-dark-slate-400: #94a3b8; /* dark:dark:text-slate-400 */
+	--color-text-primary: #ffffff; /* dark:dark:text-white */
 }

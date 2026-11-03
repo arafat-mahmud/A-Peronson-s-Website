@@ -133,13 +133,14 @@ export default function Footer() {
 									</Link>
 								</li>
 							)}
-							{isRouteValid("/contracts") && ["owner", "admin", "buying_house", "factory"].includes(user?.role) && (
-								<li>
-									<Link to="/contracts" className="hover:text-gtBlue">
-										Digital Contract System
-									</Link>
-								</li>
-							)}
+							{isRouteValid("/contracts") &&
+								["owner", "admin", "buying_house", "factory"].includes(user?.role) && (
+									<li>
+										<Link to="/contracts" className="hover:text-gtBlue">
+											Digital Contract System
+										</Link>
+									</li>
+								)}
 							<li>
 								<Link to="/privacy" className="hover:text-gtBlue">
 									Privacy Policy

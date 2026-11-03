@@ -113,24 +113,33 @@ const data = {
 		: { present: false, note: "reports/jest-results.json not found — run npm run test:report" },
 	playwright: pwDoc
 		? { present: true, ...summarizePlaywright(pwDoc) }
-		: { present: false, note: "reports/playwright-results.json not found — run npm run test:report" },
+		: {
+				present: false,
+				note: "reports/playwright-results.json not found — run npm run test:report",
+			},
 	coverage: coverageDoc?.total
 		? {
-			present: true,
-			lines: coverageDoc.total.lines?.pct ?? null,
-			statements: coverageDoc.total.statements?.pct ?? null,
-			functions: coverageDoc.total.functions?.pct ?? null,
-			branches: coverageDoc.total.branches?.pct ?? null,
-		}
-		: { present: false, note: "coverage/coverage-summary.json not found — run npm run test:coverage" },
+				present: true,
+				lines: coverageDoc.total.lines?.pct ?? null,
+				statements: coverageDoc.total.statements?.pct ?? null,
+				functions: coverageDoc.total.functions?.pct ?? null,
+				branches: coverageDoc.total.branches?.pct ?? null,
+			}
+		: {
+				present: false,
+				note: "coverage/coverage-summary.json not found — run npm run test:coverage",
+			},
 	allure: allureSummary?.stats
 		? {
-			present: true,
-			name: allureSummary.name ?? null,
-			...allureSummary.stats,
-			status: allureSummary.status ?? null,
-		}
-		: { present: false, note: "reports/allure-report/summary.json not found — run npm run test:allure" },
+				present: true,
+				name: allureSummary.name ?? null,
+				...allureSummary.stats,
+				status: allureSummary.status ?? null,
+			}
+		: {
+				present: false,
+				note: "reports/allure-report/summary.json not found — run npm run test:allure",
+			},
 };
 
 fs.mkdirSync(HUB_DIR, { recursive: true });

@@ -14,10 +14,9 @@
  */
 
 :root {
-  /* Arbitrary / inline / SVG colors + explicit shadows/gradients (verbatim) */
-  --color-inline-1: #0a66c2; /* verbatim `#0A66C2` near: #0A66C2 */
-  --color-inline-2: #2e8bff; /* verbatim `#2E8BFF` near: #2E8BFF */
-  --color-inline-3: #ffffff; /* verbatim `#FFFFFF` near: #FFFFFF */
-  --color-inline-4: currentColor; /* verbatim `stroke="currentColor"` near: stroke="currentColor" */
-
+	/* Arbitrary / inline / SVG colors + explicit shadows/gradients (verbatim) */
+	--color-inline-1: #0a66c2; /* verbatim `#0A66C2` near: #0A66C2 */
+	--color-inline-2: #2e8bff; /* verbatim `#2E8BFF` near: #2E8BFF */
+	--color-inline-3: #ffffff; /* verbatim `#FFFFFF` near: #FFFFFF */
+	--color-inline-4: currentColor; /* verbatim `stroke="currentColor"` near: stroke="currentColor" */
 }

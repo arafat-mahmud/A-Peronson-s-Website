@@ -1,4 +1,3 @@
-import { findUserById } from "../services/userService.js";
 import {
 	createJoinRequest,
 	disputeDuplicateFlag,
@@ -8,6 +7,7 @@ import {
 	resolveDuplicateDispute,
 	respondToJoinRequest,
 } from "../services/companyJoinService.js";
+import { findUserById } from "../services/userService.js";
 
 export async function createJoinRequestController(req, res) {
 	const companyId = String(req.body?.company_id || req.body?.company_owner_id || "").trim();
@@ -52,7 +52,9 @@ export async function respondToJoinRequestController(req, res) {
 		const result = await respondToJoinRequest({
 			notificationId: req.params.requestId,
 			user: req.user,
-			action: String(req.body?.action || "").trim().toLowerCase(),
+			action: String(req.body?.action || "")
+				.trim()
+				.toLowerCase(),
 			reason: req.body?.reason || "",
 		});
 		return res.json({ ok: true, request: result });
@@ -105,7 +107,9 @@ export async function resolveDuplicateDisputeController(req, res) {
 		const result = await resolveDuplicateDispute({
 			notificationId: req.params.disputeId,
 			user: req.user,
-			action: String(req.body?.action || "").trim().toLowerCase(),
+			action: String(req.body?.action || "")
+				.trim()
+				.toLowerCase(),
 			reason: req.body?.reason || "",
 		});
 		return res.json({ ok: true, dispute: result });

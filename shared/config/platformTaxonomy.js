@@ -68,77 +68,153 @@ const MAX_EMPLOYEE_COUNT = 1_000_000;
 const MAX_CAPACITY_QUANTITY = 1_000_000_000;
 
 const garmentCategories = [
-	"T-Shirt", "Polo", "Denim", "Hoodie", "Sportswear", "Knitwear",
-	"Woven", "Outerwear", "Activewear", "Casual Wear", "Formal Wear",
-	"Uniforms", "Workwear", "Sleepwear", "Undergarments", "Swimwear",
-	"Childrenswear", "Accessories", "Footwear", "Bottoms", "Tops",
-	"Dresses", "Suits", "Jackets", "Jeans",
+	"T-Shirt",
+	"Polo",
+	"Denim",
+	"Hoodie",
+	"Sportswear",
+	"Knitwear",
+	"Woven",
+	"Outerwear",
+	"Activewear",
+	"Casual Wear",
+	"Formal Wear",
+	"Uniforms",
+	"Workwear",
+	"Sleepwear",
+	"Undergarments",
+	"Swimwear",
+	"Childrenswear",
+	"Accessories",
+	"Footwear",
+	"Bottoms",
+	"Tops",
+	"Dresses",
+	"Suits",
+	"Jackets",
+	"Jeans",
 ];
 
 const textileCategories = [
-	"Cotton", "Polyester", "Nylon", "Silk", "Wool", "Linen",
-	"Rayon", "Spandex", "Denim", "Velvet", "Satin", "Chiffon",
-	"Jersey", "Fleece", "Tweed", "Canvas", "Twill", "Crepe",
-	"Georgette", "Organza", "Chambray", "Flannel", "Jute",
+	"Cotton",
+	"Polyester",
+	"Nylon",
+	"Silk",
+	"Wool",
+	"Linen",
+	"Rayon",
+	"Spandex",
+	"Denim",
+	"Velvet",
+	"Satin",
+	"Chiffon",
+	"Jersey",
+	"Fleece",
+	"Tweed",
+	"Canvas",
+	"Twill",
+	"Crepe",
+	"Georgette",
+	"Organza",
+	"Chambray",
+	"Flannel",
+	"Jute",
 ];
 
 const INDUSTRY_CATEGORIES = [
 	{
 		label: "Garments",
 		items: [
-			"T-Shirt", "Polo", "Denim", "Hoodie", "Sportswear", "Knitwear",
-			"Woven", "Outerwear", "Activewear", "Casual Wear", "Formal Wear",
-			"Uniforms", "Workwear", "Sleepwear", "Undergarments", "Swimwear",
-			"Childrenswear", "Jeans",
+			"T-Shirt",
+			"Polo",
+			"Denim",
+			"Hoodie",
+			"Sportswear",
+			"Knitwear",
+			"Woven",
+			"Outerwear",
+			"Activewear",
+			"Casual Wear",
+			"Formal Wear",
+			"Uniforms",
+			"Workwear",
+			"Sleepwear",
+			"Undergarments",
+			"Swimwear",
+			"Childrenswear",
+			"Jeans",
 		],
 	},
 	{
 		label: "Textile & Fabrics",
 		items: [
-			"Cotton", "Polyester", "Nylon", "Silk", "Wool", "Linen",
-			"Rayon", "Spandex", "Velvet", "Satin", "Chiffon",
+			"Cotton",
+			"Polyester",
+			"Nylon",
+			"Silk",
+			"Wool",
+			"Linen",
+			"Rayon",
+			"Spandex",
+			"Velvet",
+			"Satin",
+			"Chiffon",
 		],
 	},
 	{
 		label: "Fabric Weaves & Finishes",
 		items: [
-			"Jersey", "Fleece", "Tweed", "Canvas", "Twill", "Crepe",
-			"Georgette", "Organza", "Chambray", "Flannel", "Jute",
+			"Jersey",
+			"Fleece",
+			"Tweed",
+			"Canvas",
+			"Twill",
+			"Crepe",
+			"Georgette",
+			"Organza",
+			"Chambray",
+			"Flannel",
+			"Jute",
 		],
 	},
 	{
 		label: "Accessories & Trims",
 		items: [
-			"Buttons", "Zippers", "Labels & Tags", "Ribbons & Bows",
-			"Elastic & Waistbands", "Laces & Cords",
+			"Buttons",
+			"Zippers",
+			"Labels & Tags",
+			"Ribbons & Bows",
+			"Elastic & Waistbands",
+			"Laces & Cords",
 		],
 	},
 	{
 		label: "Footwear & Leather",
-		items: [
-			"Footwear", "Leather Goods", "Bags & Luggage", "Belts & Suspenders",
-		],
+		items: ["Footwear", "Leather Goods", "Bags & Luggage", "Belts & Suspenders"],
 	},
 	{
 		label: "Home Textiles & Furnishing",
 		items: [
-			"Bed Linen", "Curtains & Drapes", "Carpets & Rugs",
-			"Towels & Towelling", "Table Linen",
+			"Bed Linen",
+			"Curtains & Drapes",
+			"Carpets & Rugs",
+			"Towels & Towelling",
+			"Table Linen",
 		],
 	},
 	{
 		label: "Industrial & Technical Textiles",
 		items: [
-			"Nonwoven Fabrics", "Geotextiles", "Medical Textiles",
-			"Automotive Textiles", "Protective Wear",
+			"Nonwoven Fabrics",
+			"Geotextiles",
+			"Medical Textiles",
+			"Automotive Textiles",
+			"Protective Wear",
 		],
 	},
 	{
 		label: "Dyeing, Printing & Finishing",
-		items: [
-			"Fabric Dyeing", "Screen Printing", "Digital Printing",
-			"Embroidery", "Wash & Finish",
-		],
+		items: ["Fabric Dyeing", "Screen Printing", "Digital Printing", "Embroidery", "Wash & Finish"],
 	},
 ];
 
@@ -246,7 +322,9 @@ const CAPACITY_PERIOD_SET = new Set(CAPACITY_PERIOD_OPTIONS.map((option) => opti
 
 /** "garments" -> "Garments Industry"; free-text legacy values pass through. */
 export function industryLabel(value) {
-	const key = String(value || "").trim().toLowerCase();
+	const key = String(value || "")
+		.trim()
+		.toLowerCase();
 	const option = FACTORY_SECTOR_OPTIONS.find((item) => item.value === key);
 	if (option) return option.label;
 	return String(value || "").trim();
@@ -254,7 +332,9 @@ export function industryLabel(value) {
 
 /** Units that fit a sector; every unit when the sector is unknown. */
 export function capacityUnitsForSector(sector) {
-	const key = String(sector || "").trim().toLowerCase();
+	const key = String(sector || "")
+		.trim()
+		.toLowerCase();
 	const matching = CAPACITY_UNIT_OPTIONS.filter((unit) => unit.sectors.includes(key));
 	return matching.length > 0 ? matching : CAPACITY_UNIT_OPTIONS;
 }
@@ -287,8 +367,12 @@ export function normalizeCompanyFacts(input = {}) {
 	const capacity = input.production_capacity;
 	if (capacity && typeof capacity === "object") {
 		const quantity = toWholeNumber(capacity.quantity);
-		const unit = String(capacity.unit || "").trim().toLowerCase();
-		const period = String(capacity.period || "").trim().toLowerCase();
+		const unit = String(capacity.unit || "")
+			.trim()
+			.toLowerCase();
+		const period = String(capacity.period || "")
+			.trim()
+			.toLowerCase();
 		const anyGiven = quantity !== null || unit || period;
 		if (anyGiven) {
 			if (!Number.isInteger(quantity) || quantity < 1 || quantity > MAX_CAPACITY_QUANTITY) {
@@ -333,12 +417,12 @@ export {
 	ELEVATED_ACCOUNT_TYPES,
 	EU_COUNTRIES,
 	FACTORY_SECTOR_OPTIONS,
-	INDUSTRY_CATEGORIES,
-	LEGAL_ID_FIELDS,
-	STRONG_EVIDENCE_FIELDS,
-	isEuCountry,
-	PUBLIC_ACCOUNT_TYPES,
-	VERIFICATION_FIELD_LABELS,
 	garmentCategories,
+	INDUSTRY_CATEGORIES,
+	isEuCountry,
+	LEGAL_ID_FIELDS,
+	PUBLIC_ACCOUNT_TYPES,
+	STRONG_EVIDENCE_FIELDS,
 	textileCategories,
+	VERIFICATION_FIELD_LABELS,
 };

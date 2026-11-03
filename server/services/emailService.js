@@ -44,7 +44,9 @@ function isGmailConfigured() {
  * pinned provider wins over it.
  */
 function resolveProvider(emailConfig, pinned) {
-	return String(pinned || process.env.EMAIL_PROVIDER || emailConfig?.provider || "smtp").toLowerCase();
+	return String(
+		pinned || process.env.EMAIL_PROVIDER || emailConfig?.provider || "smtp",
+	).toLowerCase();
 }
 
 async function getEmailConfig() {
@@ -169,10 +171,10 @@ export async function sendEmail({ to, subject, text, html, source, provider: pin
 				status: provider === "gmail" ? "logged_no_gmail" : "logged_no_smtp",
 				source,
 			});
-			logWarn(
-				provider === "gmail" ? "email_logged_no_gmail" : "email_logged_no_smtp",
-				{ to: recipients, subject: payload.subject },
-			);
+			logWarn(provider === "gmail" ? "email_logged_no_gmail" : "email_logged_no_smtp", {
+				to: recipients,
+				subject: payload.subject,
+			});
 			return { ok: false, status: provider === "gmail" ? "logged_no_gmail" : "logged_no_smtp" };
 		}
 	} else if (provider === "gmail_api") {
@@ -228,9 +230,7 @@ export async function sendEmail({ to, subject, text, html, source, provider: pin
 				? String(process.env.GMAIL_SMTP_SECURE || "").toLowerCase() === "true" || port === 465
 				: String(process.env.SMTP_SECURE || "").toLowerCase() === "true" || port === 465;
 			const user = isGmail ? process.env.GMAIL_USER || "" : process.env.SMTP_USER;
-			const pass = isGmail
-				? process.env.GMAIL_APP_PASSWORD || ""
-				: process.env.SMTP_PASS || "";
+			const pass = isGmail ? process.env.GMAIL_APP_PASSWORD || "" : process.env.SMTP_PASS || "";
 			const transport = nodemailer.createTransport({
 				host,
 				port,

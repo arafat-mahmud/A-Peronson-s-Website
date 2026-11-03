@@ -44,7 +44,9 @@ function Metric({ label, value, helper }) {
 				{label}
 			</div>
 			<div className="mt-1.5 text-sm font-bold text-slate-900 dark:text-white">{value}</div>
-			{helper ? <div className="mt-1 text-xs text-slate-500 dark:text-slate-400">{helper}</div> : null}
+			{helper ? (
+				<div className="mt-1 text-xs text-slate-500 dark:text-slate-400">{helper}</div>
+			) : null}
 		</div>
 	);
 }
@@ -55,7 +57,9 @@ function InfoRow({ label, children }) {
 			<span className="text-[11px] font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
 				{label}
 			</span>
-			<span className="text-right text-sm font-bold text-slate-900 dark:text-white">{children}</span>
+			<span className="text-right text-sm font-bold text-slate-900 dark:text-white">
+				{children}
+			</span>
 		</div>
 	);
 }
@@ -86,7 +90,14 @@ function AvatarFallback({ name, imageUrl }) {
 		<div className="relative h-24 w-24 overflow-hidden rounded-3xl border border-white/60 bg-gradient-to-br from-sky-500 via-cyan-400 to-indigo-500 p-[2px] shadow-xl">
 			<div className="flex h-full w-full items-center justify-center overflow-hidden rounded-[1.15rem] bg-slate-100 text-2xl font-bold text-slate-700 dark:bg-slate-900 dark:text-slate-100">
 				{imageUrl ? (
-            <LazyImage src={imageUrl} alt={name || "Profile avatar"} width={40} height={40} loading="eager" className="h-full w-full object-cover" />
+					<LazyImage
+						src={imageUrl}
+						alt={name || "Profile avatar"}
+						width={40}
+						height={40}
+						loading="eager"
+						className="h-full w-full object-cover"
+					/>
 				) : (
 					initials(name)
 				)}
@@ -212,7 +223,9 @@ export default function ProfilePage() {
 					</button>
 					<div className="flex items-center gap-2 rounded-full bg-slate-100 px-3 py-1.5 text-xs text-slate-500 dark:bg-slate-900/70 dark:text-slate-400">
 						<Shield className="h-3.5 w-3.5" /> Role:{" "}
-						<span className="font-bold capitalize text-slate-900 dark:text-white">{displayRole}</span>
+						<span className="font-bold capitalize text-slate-900 dark:text-white">
+							{displayRole}
+						</span>
 					</div>
 				</div>
 
@@ -283,108 +296,108 @@ export default function ProfilePage() {
 							</div>
 
 							<div className="border-t border-slate-200/70 dark:border-slate-800/80">
-							<div
-								role="tablist"
-								aria-label="Profile sections"
-								className="flex gap-1 overflow-x-auto p-2"
-							>
-								{[
-									{ id: "overview", label: "Overview" },
-									{ id: "company", label: "Company Details" },
-									{ id: "verification", label: "Verification & Docs" },
-									{ id: "activity", label: "Activity" },
-								].map((tab) => (
-									<button
-										key={tab.id}
-										type="button"
-										role="tab"
-										aria-selected={activeTab === tab.id}
-										onClick={() => setActiveTab(tab.id)}
-										className={`shrink-0 rounded-full px-4 py-2 text-sm font-medium transition ${
-											activeTab === tab.id
-												? "bg-sky-500 text-white shadow-lg shadow-sky-500/25"
-												: "text-slate-600 hover:bg-slate-900/5 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-white/5 dark:hover:text-white"
-										}`}
-									>
-										{tab.label}
-									</button>
-								))}
+								<div
+									role="tablist"
+									aria-label="Profile sections"
+									className="flex gap-1 overflow-x-auto p-2"
+								>
+									{[
+										{ id: "overview", label: "Overview" },
+										{ id: "company", label: "Company Details" },
+										{ id: "verification", label: "Verification & Docs" },
+										{ id: "activity", label: "Activity" },
+									].map((tab) => (
+										<button
+											key={tab.id}
+											type="button"
+											role="tab"
+											aria-selected={activeTab === tab.id}
+											onClick={() => setActiveTab(tab.id)}
+											className={`shrink-0 rounded-full px-4 py-2 text-sm font-medium transition ${
+												activeTab === tab.id
+													? "bg-sky-500 text-white shadow-lg shadow-sky-500/25"
+													: "text-slate-600 hover:bg-slate-900/5 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-white/5 dark:hover:text-white"
+											}`}
+										>
+											{tab.label}
+										</button>
+									))}
+								</div>
 							</div>
-						</div>
-					</motion.div>
+						</motion.div>
 
-					{activeTab === "overview" && (
-						<div className="space-y-6">
-							<div className="grid gap-4 sm:grid-cols-3">
-								<SoftCard>
-									<h3 className="text-sm font-semibold tracking-wide text-slate-900 dark:text-slate-100">
-										Trust & Compliance
-									</h3>
-									<div className="mt-2 divide-y divide-slate-200/60 dark:divide-slate-800/60">
-										{target.verified ? (
-											<InfoRow label="Status">
-												<span className="inline-flex items-center gap-1.5">
-													<BadgeCheck className="h-4 w-4 text-emerald-500" />
-													Verified
-												</span>
-											</InfoRow>
-										) : null}
-										{target.verified ? (
-											<InfoRow label="Identity">Verified account</InfoRow>
-										) : null}
-									</div>
-								</SoftCard>
-								<SoftCard>
-									<h3 className="text-sm font-semibold tracking-wide text-slate-900 dark:text-slate-100">
-										Account Metrics
-									</h3>
-									<div className="mt-2 divide-y divide-slate-200/60 dark:divide-slate-800/60">
-										<InfoRow label="Account age">{joinedYear}</InfoRow>
-										<InfoRow label="Role">
-											<span className="capitalize">{displayRole}</span>
-										</InfoRow>
-									</div>
-								</SoftCard>
-								{industry || country || (showEmail && email) ? (
+						{activeTab === "overview" && (
+							<div className="space-y-6">
+								<div className="grid gap-4 sm:grid-cols-3">
 									<SoftCard>
 										<h3 className="text-sm font-semibold tracking-wide text-slate-900 dark:text-slate-100">
-											Business Info
+											Trust & Compliance
 										</h3>
 										<div className="mt-2 divide-y divide-slate-200/60 dark:divide-slate-800/60">
-											{industry ? <InfoRow label="Industry">{industry}</InfoRow> : null}
-											{country ? <InfoRow label="Country">{country}</InfoRow> : null}
-											{Number.isFinite(Number(target.capacity)) && Number(target.capacity) > 0 ? (
-												<InfoRow label="Capacity">
-													{Number(target.capacity).toLocaleString()} employees
+											{target.verified ? (
+												<InfoRow label="Status">
+													<span className="inline-flex items-center gap-1.5">
+														<BadgeCheck className="h-4 w-4 text-emerald-500" />
+														Verified
+													</span>
 												</InfoRow>
 											) : null}
-											{showEmail && email ? <InfoRow label="Email">{email}</InfoRow> : null}
+											{target.verified ? (
+												<InfoRow label="Identity">Verified account</InfoRow>
+											) : null}
 										</div>
+									</SoftCard>
+									<SoftCard>
+										<h3 className="text-sm font-semibold tracking-wide text-slate-900 dark:text-slate-100">
+											Account Metrics
+										</h3>
+										<div className="mt-2 divide-y divide-slate-200/60 dark:divide-slate-800/60">
+											<InfoRow label="Account age">{joinedYear}</InfoRow>
+											<InfoRow label="Role">
+												<span className="capitalize">{displayRole}</span>
+											</InfoRow>
+										</div>
+									</SoftCard>
+									{industry || country || (showEmail && email) ? (
+										<SoftCard>
+											<h3 className="text-sm font-semibold tracking-wide text-slate-900 dark:text-slate-100">
+												Business Info
+											</h3>
+											<div className="mt-2 divide-y divide-slate-200/60 dark:divide-slate-800/60">
+												{industry ? <InfoRow label="Industry">{industry}</InfoRow> : null}
+												{country ? <InfoRow label="Country">{country}</InfoRow> : null}
+												{Number.isFinite(Number(target.capacity)) && Number(target.capacity) > 0 ? (
+													<InfoRow label="Capacity">
+														{Number(target.capacity).toLocaleString()} employees
+													</InfoRow>
+												) : null}
+												{showEmail && email ? <InfoRow label="Email">{email}</InfoRow> : null}
+											</div>
+										</SoftCard>
+									) : null}
+								</div>
+
+								{headline || bio ? (
+									<SoftCard>
+										<h3 className="text-sm font-semibold tracking-wide text-slate-900 dark:text-slate-100">
+											About / Executive Summary
+										</h3>
+										{headline && headline !== bio ? (
+											<p className="mt-2 text-sm font-medium text-slate-900 dark:text-white">
+												{headline}
+											</p>
+										) : null}
+										{bio ? (
+											<p className="mt-2 text-sm leading-relaxed text-slate-600 dark:text-slate-300">
+												{bio}
+											</p>
+										) : null}
 									</SoftCard>
 								) : null}
 							</div>
+						)}
 
-							{headline || bio ? (
-								<SoftCard>
-									<h3 className="text-sm font-semibold tracking-wide text-slate-900 dark:text-slate-100">
-										About / Executive Summary
-									</h3>
-									{headline && headline !== bio ? (
-										<p className="mt-2 text-sm font-medium text-slate-900 dark:text-white">
-											{headline}
-										</p>
-									) : null}
-									{bio ? (
-										<p className="mt-2 text-sm leading-relaxed text-slate-600 dark:text-slate-300">
-											{bio}
-										</p>
-									) : null}
-								</SoftCard>
-							) : null}
-						</div>
-					)}
-
-					{activeTab === "company" && (company || industry || country || email) ? (
+						{activeTab === "company" && (company || industry || country || email) ? (
 							<SoftCard>
 								<h3 className="text-sm font-semibold tracking-wide text-slate-900 dark:text-slate-100">
 									Company Details
@@ -464,9 +477,7 @@ export default function ProfilePage() {
 												</span>
 											</InfoRow>
 										) : null}
-										{target.verified ? (
-											<InfoRow label="Identity">Verified account</InfoRow>
-										) : null}
+										{target.verified ? <InfoRow label="Identity">Verified account</InfoRow> : null}
 									</div>
 									<div className="mt-4 rounded-2xl border border-dashed border-slate-300/70 px-4 py-6 text-center text-sm text-slate-500 dark:border-slate-700 dark:text-slate-400">
 										No verification documents shared yet.
@@ -497,14 +508,18 @@ export default function ProfilePage() {
 							</div>
 							<div className="mt-4 space-y-3">
 								<div className="flex items-center justify-between text-sm">
-									<span className="text-[11px] font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">Role</span>
+									<span className="text-[11px] font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+										Role
+									</span>
 									<span className="font-bold capitalize text-slate-900 dark:text-white">
 										{displayRole}
 									</span>
 								</div>
 								{target.verified ? (
 									<div className="flex items-center justify-between text-sm">
-										<span className="text-[11px] font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">Status</span>
+										<span className="text-[11px] font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+											Status
+										</span>
 										<span className="inline-flex items-center gap-1 font-bold text-emerald-600 dark:text-emerald-400">
 											<BadgeCheck className="h-3.5 w-3.5" />
 											Verified
@@ -512,7 +527,9 @@ export default function ProfilePage() {
 									</div>
 								) : null}
 								<div className="flex items-center justify-between text-sm">
-									<span className="text-[11px] font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">Joined</span>
+									<span className="text-[11px] font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+										Joined
+									</span>
 									<span className="font-bold text-slate-900 dark:text-white">{joinedYear}</span>
 								</div>
 							</div>

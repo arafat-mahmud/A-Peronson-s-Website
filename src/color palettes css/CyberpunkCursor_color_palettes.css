@@ -48,44 +48,188 @@
  */
 
 :root {
-  /* Arbitrary / inline / SVG colors + explicit shadows/gradients (verbatim) */
-  --color-inline-1: #ffffff; /* verbatim `#ffffff` near: #ffffff */
-  --color-inline-2: #00f0ff; /* verbatim `#00f0ff` near: #00f0ff */
-  --color-inline-3: #ff00c8; /* verbatim `#ff00c8` near: #ff00c8 */
-  --color-inline-4: #102238; /* verbatim `#102238` near: #102238 */
-  --color-inline-5: #3b82f6; /* verbatim `#3b82f6` near: #3b82f6 */
-  --color-inline-6: #f5f9ff; /* verbatim `#f5f9ff` near: #f5f9ff */
-  --color-inline-7: #eaf2ff; /* verbatim `#eaf2ff` near: #eaf2ff */
-  --color-inline-8: rgba(0, 240, 255, 0.55); /* verbatim `rgba(0, 240, 255, 0.55)` near: rgba(0, 240, 255, 0.55) */
-  --color-inline-9: rgba(255, 0, 200, 0.35); /* verbatim `rgba(255, 0, 200, 0.35)` near: rgba(255, 0, 200, 0.35) */
-  --color-inline-10: rgba(0, 240, 255, 0.95); /* verbatim `rgba(0, 240, 255, 0.95)` near: rgba(0, 240, 255, 0.95) */
-  --color-inline-11: rgba(255, 0, 200, 0.95); /* verbatim `rgba(255, 0, 200, 0.95)` near: rgba(255, 0, 200, 0.95) */
-  --color-inline-12: rgba(0, 240, 255, 0.25); /* verbatim `rgba(0, 240, 255, 0.25)` near: rgba(0, 240, 255, 0.25) */
-  --color-inline-13: rgba(255, 0, 200, 0.14); /* verbatim `rgba(255, 0, 200, 0.14)` near: rgba(255, 0, 200, 0.14) */
-  --color-inline-14: rgba(13, 77, 155, 0.28); /* verbatim `rgba(13, 77, 155, 0.28)` near: rgba(13, 77, 155, 0.28) */
-  --color-inline-15: rgba(117, 31, 99, 0.16); /* verbatim `rgba(117, 31, 99, 0.16)` near: rgba(117, 31, 99, 0.16) */
-  --color-inline-16: rgba(10, 40, 78, 0.92); /* verbatim `rgba(10, 40, 78, 0.92)` near: rgba(10, 40, 78, 0.92) */
-  --color-inline-17: rgba(128, 31, 97, 0.82); /* verbatim `rgba(128, 31, 97, 0.82)` near: rgba(128, 31, 97, 0.82) */
-  --color-inline-18: rgba(10, 40, 78, 0.05); /* verbatim `rgba(10, 40, 78, 0.05)` near: rgba(10, 40, 78, 0.05) */
-  --color-inline-19: rgba(128, 31, 97, 0.04); /* verbatim `rgba(128, 31, 97, 0.04)` near: rgba(128, 31, 97, 0.04) */
-  --color-inline-20: rgba(0, 240, 255, 0.2); /* verbatim `rgba(0,240,255,0.2)` near: rgba(0,240,255,0.2) */
-  --color-inline-21: rgba(16, 34, 56, 0.25); /* verbatim `rgba(16, 34, 56, 0.25)` near: rgba(16, 34, 56, 0.25) */
-  --color-inline-22: rgba(0, 0, 0, 0.08); /* verbatim `rgba(0,0,0,0.08)` near: rgba(0,0,0,0.08) */
-  --color-inline-23: rgba(255, 255, 255, 0.9); /* verbatim `rgba(255,255,255,0.9)` near: rgba(255,255,255,0.9) */
-  --color-inline-24: rgba(0, 0, 0, 0); /* verbatim `rgba(0, 0, 0, 0)` near: rgba(0, 0, 0, 0) */
-  --color-inline-25: rgba(0, 240, 255, 0.9); /* verbatim `rgba(0, 240, 255, 0.9)` near: rgba(0, 240, 255, 0.9) */
-  --color-inline-26: rgba(255, 0, 200, 0.55); /* verbatim `rgba(255, 0, 200, 0.55)` near: rgba(255, 0, 200, 0.55) */
-  --color-inline-27: rgba(59, 130, 246, 0.25); /* verbatim `rgba(59,130,246,0.25)` near: rgba(59,130,246,0.25) */
-  --color-inline-28: rgba(0, 240, 255, 0.18); /* verbatim `rgba(0, 240, 255, 0.18)` near: rgba(0, 240, 255, 0.18) */
-  --color-inline-29: rgba(255, 0, 200, 0.65); /* verbatim `rgba(255, 0, 200, 0.65)` near: rgba(255, 0, 200, 0.65) */
-  --color-inline-30: rgba(0, 240, 255, 0.35); /* verbatim `rgba(0, 240, 255, 0.35)` near: rgba(0, 240, 255, 0.35) */
-  --color-inline-31: rgba(255, 255, 255, 0.08); /* verbatim `rgba(255, 255, 255, 0.08)` near: rgba(255, 255, 255, 0.08) */
-  --color-inline-32: rgba(0, 240, 255, 0.8); /* verbatim `rgba(0, 240, 255, 0.8)` near: rgba(0, 240, 255, 0.8) */
-  --color-inline-33: rgba(255, 0, 200, 0.28); /* verbatim `rgba(255, 0, 200, 0.28)` near: rgba(255, 0, 200, 0.28) */
-  --color-inline-34: rgba(0, 240, 255, 0.4); /* verbatim `rgba(0, 240, 255, 0.4)` near: rgba(0, 240, 255, 0.4) */
-  --color-inline-35: rgba(255, 255, 255, 0.65); /* verbatim `rgba(255,255,255,0.65)` near: rgba(255,255,255,0.65) */
-  --color-inline-36: rgba(0, 240, 255, 0.7); /* verbatim `rgba(0, 240, 255, 0.7)` near: rgba(0, 240, 255, 0.7) */
-  --color-inline-37: rgba(255, 0, 200, 0.3); /* verbatim `rgba(255, 0, 200, 0.3)` near: rgba(255, 0, 200, 0.3) */
-  --color-inline-38: rgba(59, 130, 246, 0.06); /* verbatim `rgba(59,130,246,0.06)` near: rgba(59,130,246,0.06) */
-
+	/* Arbitrary / inline / SVG colors + explicit shadows/gradients (verbatim) */
+	--color-inline-1: #ffffff; /* verbatim `#ffffff` near: #ffffff */
+	--color-inline-2: #00f0ff; /* verbatim `#00f0ff` near: #00f0ff */
+	--color-inline-3: #ff00c8; /* verbatim `#ff00c8` near: #ff00c8 */
+	--color-inline-4: #102238; /* verbatim `#102238` near: #102238 */
+	--color-inline-5: #3b82f6; /* verbatim `#3b82f6` near: #3b82f6 */
+	--color-inline-6: #f5f9ff; /* verbatim `#f5f9ff` near: #f5f9ff */
+	--color-inline-7: #eaf2ff; /* verbatim `#eaf2ff` near: #eaf2ff */
+	--color-inline-8: rgba(
+		0,
+		240,
+		255,
+		0.55
+	); /* verbatim `rgba(0, 240, 255, 0.55)` near: rgba(0, 240, 255, 0.55) */
+	--color-inline-9: rgba(
+		255,
+		0,
+		200,
+		0.35
+	); /* verbatim `rgba(255, 0, 200, 0.35)` near: rgba(255, 0, 200, 0.35) */
+	--color-inline-10: rgba(
+		0,
+		240,
+		255,
+		0.95
+	); /* verbatim `rgba(0, 240, 255, 0.95)` near: rgba(0, 240, 255, 0.95) */
+	--color-inline-11: rgba(
+		255,
+		0,
+		200,
+		0.95
+	); /* verbatim `rgba(255, 0, 200, 0.95)` near: rgba(255, 0, 200, 0.95) */
+	--color-inline-12: rgba(
+		0,
+		240,
+		255,
+		0.25
+	); /* verbatim `rgba(0, 240, 255, 0.25)` near: rgba(0, 240, 255, 0.25) */
+	--color-inline-13: rgba(
+		255,
+		0,
+		200,
+		0.14
+	); /* verbatim `rgba(255, 0, 200, 0.14)` near: rgba(255, 0, 200, 0.14) */
+	--color-inline-14: rgba(
+		13,
+		77,
+		155,
+		0.28
+	); /* verbatim `rgba(13, 77, 155, 0.28)` near: rgba(13, 77, 155, 0.28) */
+	--color-inline-15: rgba(
+		117,
+		31,
+		99,
+		0.16
+	); /* verbatim `rgba(117, 31, 99, 0.16)` near: rgba(117, 31, 99, 0.16) */
+	--color-inline-16: rgba(
+		10,
+		40,
+		78,
+		0.92
+	); /* verbatim `rgba(10, 40, 78, 0.92)` near: rgba(10, 40, 78, 0.92) */
+	--color-inline-17: rgba(
+		128,
+		31,
+		97,
+		0.82
+	); /* verbatim `rgba(128, 31, 97, 0.82)` near: rgba(128, 31, 97, 0.82) */
+	--color-inline-18: rgba(
+		10,
+		40,
+		78,
+		0.05
+	); /* verbatim `rgba(10, 40, 78, 0.05)` near: rgba(10, 40, 78, 0.05) */
+	--color-inline-19: rgba(
+		128,
+		31,
+		97,
+		0.04
+	); /* verbatim `rgba(128, 31, 97, 0.04)` near: rgba(128, 31, 97, 0.04) */
+	--color-inline-20: rgba(
+		0,
+		240,
+		255,
+		0.2
+	); /* verbatim `rgba(0,240,255,0.2)` near: rgba(0,240,255,0.2) */
+	--color-inline-21: rgba(
+		16,
+		34,
+		56,
+		0.25
+	); /* verbatim `rgba(16, 34, 56, 0.25)` near: rgba(16, 34, 56, 0.25) */
+	--color-inline-22: rgba(0, 0, 0, 0.08); /* verbatim `rgba(0,0,0,0.08)` near: rgba(0,0,0,0.08) */
+	--color-inline-23: rgba(
+		255,
+		255,
+		255,
+		0.9
+	); /* verbatim `rgba(255,255,255,0.9)` near: rgba(255,255,255,0.9) */
+	--color-inline-24: rgba(0, 0, 0, 0); /* verbatim `rgba(0, 0, 0, 0)` near: rgba(0, 0, 0, 0) */
+	--color-inline-25: rgba(
+		0,
+		240,
+		255,
+		0.9
+	); /* verbatim `rgba(0, 240, 255, 0.9)` near: rgba(0, 240, 255, 0.9) */
+	--color-inline-26: rgba(
+		255,
+		0,
+		200,
+		0.55
+	); /* verbatim `rgba(255, 0, 200, 0.55)` near: rgba(255, 0, 200, 0.55) */
+	--color-inline-27: rgba(
+		59,
+		130,
+		246,
+		0.25
+	); /* verbatim `rgba(59,130,246,0.25)` near: rgba(59,130,246,0.25) */
+	--color-inline-28: rgba(
+		0,
+		240,
+		255,
+		0.18
+	); /* verbatim `rgba(0, 240, 255, 0.18)` near: rgba(0, 240, 255, 0.18) */
+	--color-inline-29: rgba(
+		255,
+		0,
+		200,
+		0.65
+	); /* verbatim `rgba(255, 0, 200, 0.65)` near: rgba(255, 0, 200, 0.65) */
+	--color-inline-30: rgba(
+		0,
+		240,
+		255,
+		0.35
+	); /* verbatim `rgba(0, 240, 255, 0.35)` near: rgba(0, 240, 255, 0.35) */
+	--color-inline-31: rgba(
+		255,
+		255,
+		255,
+		0.08
+	); /* verbatim `rgba(255, 255, 255, 0.08)` near: rgba(255, 255, 255, 0.08) */
+	--color-inline-32: rgba(
+		0,
+		240,
+		255,
+		0.8
+	); /* verbatim `rgba(0, 240, 255, 0.8)` near: rgba(0, 240, 255, 0.8) */
+	--color-inline-33: rgba(
+		255,
+		0,
+		200,
+		0.28
+	); /* verbatim `rgba(255, 0, 200, 0.28)` near: rgba(255, 0, 200, 0.28) */
+	--color-inline-34: rgba(
+		0,
+		240,
+		255,
+		0.4
+	); /* verbatim `rgba(0, 240, 255, 0.4)` near: rgba(0, 240, 255, 0.4) */
+	--color-inline-35: rgba(
+		255,
+		255,
+		255,
+		0.65
+	); /* verbatim `rgba(255,255,255,0.65)` near: rgba(255,255,255,0.65) */
+	--color-inline-36: rgba(
+		0,
+		240,
+		255,
+		0.7
+	); /* verbatim `rgba(0, 240, 255, 0.7)` near: rgba(0, 240, 255, 0.7) */
+	--color-inline-37: rgba(
+		255,
+		0,
+		200,
+		0.3
+	); /* verbatim `rgba(255, 0, 200, 0.3)` near: rgba(255, 0, 200, 0.3) */
+	--color-inline-38: rgba(
+		59,
+		130,
+		246,
+		0.06
+	); /* verbatim `rgba(59,130,246,0.06)` near: rgba(59,130,246,0.06) */
 }

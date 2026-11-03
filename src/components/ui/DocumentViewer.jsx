@@ -18,7 +18,9 @@ export default function DocumentViewer({ documentId, src, alt, className = "" })
 				// silently ignore — view logging is best-effort
 			}
 		})();
-		return () => { cancelled = true; };
+		return () => {
+			cancelled = true;
+		};
 	}, [documentId]);
 
 	return (

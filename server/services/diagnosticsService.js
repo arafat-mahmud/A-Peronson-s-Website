@@ -1,9 +1,9 @@
 import { getDbStatus } from "../utils/db.js";
+import { logError } from "../utils/logger.js";
+import { isRedisConnected } from "../utils/redis.js";
 import { getFxHealth } from "./currencyService.js";
 import { getOpenSearchStatus } from "./openSearchService.js";
 import { getQdrantStatus } from "./qdrantService.js";
-import { isRedisConnected } from "../utils/redis.js";
-import { logError } from "../utils/logger.js";
 
 const startedAt = Date.now();
 
@@ -80,8 +80,14 @@ export async function runLightDiagnostics() {
 
 export async function runDeepDiagnostics() {
 	const light = await runLightDiagnostics();
-	const os = await getOpenSearchStatus().catch((err) => ({ configured: false, error: err.message }));
-	const qdrant = await getQdrantStatus().catch((err) => ({ configured: false, error: err.message }));
+	const os = await getOpenSearchStatus().catch((err) => ({
+		configured: false,
+		error: err.message,
+	}));
+	const qdrant = await getQdrantStatus().catch((err) => ({
+		configured: false,
+		error: err.message,
+	}));
 	return {
 		...light,
 		node: getNodeInfo(),

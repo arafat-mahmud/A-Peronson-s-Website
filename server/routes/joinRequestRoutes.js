@@ -13,7 +13,12 @@ import { allowRoles, requireAuth } from "../middleware/auth.js";
 const router = Router();
 
 router.get("/", requireAuth, listMyJoinRequestsController);
-router.post("/", requireAuth, allowRoles("buyer", "factory", "buying_house"), createJoinRequestController);
+router.post(
+	"/",
+	requireAuth,
+	allowRoles("buyer", "factory", "buying_house"),
+	createJoinRequestController,
+);
 router.get("/:requestId", requireAuth, getJoinRequestController);
 router.post("/:requestId/respond", requireAuth, respondToJoinRequestController);
 

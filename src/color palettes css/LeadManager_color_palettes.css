@@ -90,68 +90,77 @@
  */
 
 :root {
-  /* Main colors / Backgrounds */
-  --color-background: #f8fafc; /* bg-slate-50 (page background) */
-  --color-surface: #ffffff; /* bg-white (surface / card) */
-  --color-surface-elevated: #e2e8f0; /* bg-slate-200 (elevated surface) */
-  --color-bg-amber-100: #fef3c7; /* bg-amber-100 (warning) */
-  --color-bg-amber-500: #f59e0b; /* bg-amber-500 (warning) */
-  --color-bg-black-0-5: rgba(0, 0, 0, 0.5); /* bg-black/50 */
-  --color-bg-emerald-100: #d1fae5; /* bg-emerald-100 (success) */
-  --color-bg-emerald-600: #059669; /* bg-emerald-600 (success) */
-  --color-bg-gtblue-0-1: rgba(10, 102, 194, 0.1); /* bg-gtBlue/10 (brand) */
-  --color-bg-gtblue: #0a66c2; /* bg-gtBlue (brand) */
-  --color-bg-indigo-600: #4f46e5; /* bg-indigo-600 */
-  --color-bg-rose-100: #ffe4e6; /* bg-rose-100 (danger) */
+	/* Main colors / Backgrounds */
+	--color-background: #f8fafc; /* bg-slate-50 (page background) */
+	--color-surface: #ffffff; /* bg-white (surface / card) */
+	--color-surface-elevated: #e2e8f0; /* bg-slate-200 (elevated surface) */
+	--color-bg-amber-100: #fef3c7; /* bg-amber-100 (warning) */
+	--color-bg-amber-500: #f59e0b; /* bg-amber-500 (warning) */
+	--color-bg-black-0-5: rgba(0, 0, 0, 0.5); /* bg-black/50 */
+	--color-bg-emerald-100: #d1fae5; /* bg-emerald-100 (success) */
+	--color-bg-emerald-600: #059669; /* bg-emerald-600 (success) */
+	--color-bg-gtblue-0-1: rgba(10, 102, 194, 0.1); /* bg-gtBlue/10 (brand) */
+	--color-bg-gtblue: #0a66c2; /* bg-gtBlue (brand) */
+	--color-bg-indigo-600: #4f46e5; /* bg-indigo-600 */
+	--color-bg-rose-100: #ffe4e6; /* bg-rose-100 (danger) */
 
-  /* Text */
-  --color-text-amber-800: #92400e; /* text-amber-800 (warning) */
-  --color-text-emerald-700: #047857; /* text-emerald-700 (success) */
-  --color-text-gtblue: #0a66c2; /* text-gtBlue */
-  --color-text-rose-700: #be123c; /* text-rose-700 (danger) */
-  --color-text-rose-600: #e11d48; /* text-rose-600 (danger) */
-  --color-text-muted: #64748b; /* text-slate-500 (muted text) */
-  --color-text-slate-600: #475569; /* text-slate-600 */
-  --color-text-slate-700: #334155; /* text-slate-700 */
-  --color-text-slate-900: #0f172a; /* text-slate-900 */
-  --color-text-primary: #ffffff; /* text-white (heading / primary text) */
+	/* Text */
+	--color-text-amber-800: #92400e; /* text-amber-800 (warning) */
+	--color-text-emerald-700: #047857; /* text-emerald-700 (success) */
+	--color-text-gtblue: #0a66c2; /* text-gtBlue */
+	--color-text-rose-700: #be123c; /* text-rose-700 (danger) */
+	--color-text-rose-600: #e11d48; /* text-rose-600 (danger) */
+	--color-text-muted: #64748b; /* text-slate-500 (muted text) */
+	--color-text-slate-600: #475569; /* text-slate-600 */
+	--color-text-slate-700: #334155; /* text-slate-700 */
+	--color-text-slate-900: #0f172a; /* text-slate-900 */
+	--color-text-primary: #ffffff; /* text-white (heading / primary text) */
 
-  /* Borders / Dividers / Rings */
-  --color-ring: rgba(10, 102, 194, 0.4); /* ring-gtBlue/40 (focus ring) */
-  --color-ring-2: rgba(226, 232, 240, 0.6); /* ring-slate-200/60 (focus ring) */
+	/* Borders / Dividers / Rings */
+	--color-ring: rgba(10, 102, 194, 0.4); /* ring-gtBlue/40 (focus ring) */
+	--color-ring-2: rgba(226, 232, 240, 0.6); /* ring-slate-200/60 (focus ring) */
 
-  /* States (hover / focus / active / disabled / responsive / data / aria) */
-  --color-bg-amber-400-hover: #fbbf24; /* hover:hover:bg-amber-400 (state) */
-  --color-bg-gtbluehover-hover: #004182; /* hover:hover:bg-gtBlueHover (state) */
-  --color-bg-indigo-500-hover: #6366f1; /* hover:hover:bg-indigo-500 (state) */
-  --color-panel-hover: #f8fafc; /* hover:hover:bg-slate-50 (state) */
-  --color-panel-hover-2: #f1f5f9; /* hover:hover:bg-slate-100 (state) */
-  --color-panel-hover-3: rgba(255, 255, 255, 0.08); /* dark:hover:dark:hover:bg-white/8 (state) */
+	/* States (hover / focus / active / disabled / responsive / data / aria) */
+	--color-bg-amber-400-hover: #fbbf24; /* hover:hover:bg-amber-400 (state) */
+	--color-bg-gtbluehover-hover: #004182; /* hover:hover:bg-gtBlueHover (state) */
+	--color-bg-indigo-500-hover: #6366f1; /* hover:hover:bg-indigo-500 (state) */
+	--color-panel-hover: #f8fafc; /* hover:hover:bg-slate-50 (state) */
+	--color-panel-hover-2: #f1f5f9; /* hover:hover:bg-slate-100 (state) */
+	--color-panel-hover-3: rgba(255, 255, 255, 0.08); /* dark:hover:dark:hover:bg-white/8 (state) */
 
-  /* Arbitrary / inline / SVG colors + explicit shadows/gradients (verbatim) */
-  --color-inline-1: #3b00ff; /* verbatim `#3b00ff` near: #3b00ff */
+	/* Arbitrary / inline / SVG colors + explicit shadows/gradients (verbatim) */
+	--color-inline-1: #3b00ff; /* verbatim `#3b00ff` near: #3b00ff */
 
-  /* Semantic aliases (derived, not new colors) */
-  --color-warning: #fef3c7; /* alias -> --color-bg-amber-100 (bg-amber-100 (warning)) */
-  --color-success: #d1fae5; /* alias -> --color-bg-emerald-100 (bg-emerald-100 (success)) */
-  --color-brand: rgba(10, 102, 194, 0.1); /* alias -> --color-bg-gtblue-0-1 (bg-gtBlue/10 (brand)) */
-  --color-danger: #ffe4e6; /* alias -> --color-bg-rose-100 (bg-rose-100 (danger)) */
-
+	/* Semantic aliases (derived, not new colors) */
+	--color-warning: #fef3c7; /* alias -> --color-bg-amber-100 (bg-amber-100 (warning)) */
+	--color-success: #d1fae5; /* alias -> --color-bg-emerald-100 (bg-emerald-100 (success)) */
+	--color-brand: rgba(
+		10,
+		102,
+		194,
+		0.1
+	); /* alias -> --color-bg-gtblue-0-1 (bg-gtBlue/10 (brand)) */
+	--color-danger: #ffe4e6; /* alias -> --color-bg-rose-100 (bg-rose-100 (danger)) */
 }
 
 .dark {
-  --color-background-dark-amber-500-15: rgba(245, 158, 11, 0.15); /* dark:dark:bg-amber-500/15 */
-  --color-background-dark-emerald-500-15: rgba(16, 185, 129, 0.15); /* dark:dark:bg-emerald-500/15 */
-  --color-background-dark-gtblue-15: rgba(10, 102, 194, 0.15); /* dark:dark:bg-gtBlue/15 */
-  --color-background-dark-rose-500-15: rgba(244, 63, 94, 0.15); /* dark:dark:bg-rose-500/15 */
-  --color-background: #1e293b; /* dark:dark:bg-slate-800 */
-  --color-background-dark-white-5: rgba(255, 255, 255, 0.05); /* dark:dark:bg-white/5 */
-  --color-background-dark-white-8: rgba(255, 255, 255, 0.08); /* dark:hover:dark:hover:bg-white/8 */
-  --color-background-dark-white-10: rgba(255, 255, 255, 0.1); /* dark:dark:bg-white/10 */
-  --color-ring-dark-gtblue-40: rgba(10, 102, 194, 0.4); /* dark:dark:ring-gtBlue/40 */
-  --color-ring-dark-white-10: rgba(255, 255, 255, 0.1); /* dark:dark:ring-white/10 */
-  --color-text-dark-amber-200: #fde68a; /* dark:dark:text-amber-200 */
-  --color-text-dark-emerald-200: #a7f3d0; /* dark:dark:text-emerald-200 */
-  --color-text-dark-rose-200: #fecdd3; /* dark:dark:text-rose-200 */
-  --color-text-dark-slate-200: #e2e8f0; /* dark:dark:text-slate-200 */
+	--color-background-dark-amber-500-15: rgba(245, 158, 11, 0.15); /* dark:dark:bg-amber-500/15 */
+	--color-background-dark-emerald-500-15: rgba(
+		16,
+		185,
+		129,
+		0.15
+	); /* dark:dark:bg-emerald-500/15 */
+	--color-background-dark-gtblue-15: rgba(10, 102, 194, 0.15); /* dark:dark:bg-gtBlue/15 */
+	--color-background-dark-rose-500-15: rgba(244, 63, 94, 0.15); /* dark:dark:bg-rose-500/15 */
+	--color-background: #1e293b; /* dark:dark:bg-slate-800 */
+	--color-background-dark-white-5: rgba(255, 255, 255, 0.05); /* dark:dark:bg-white/5 */
+	--color-background-dark-white-8: rgba(255, 255, 255, 0.08); /* dark:hover:dark:hover:bg-white/8 */
+	--color-background-dark-white-10: rgba(255, 255, 255, 0.1); /* dark:dark:bg-white/10 */
+	--color-ring-dark-gtblue-40: rgba(10, 102, 194, 0.4); /* dark:dark:ring-gtBlue/40 */
+	--color-ring-dark-white-10: rgba(255, 255, 255, 0.1); /* dark:dark:ring-white/10 */
+	--color-text-dark-amber-200: #fde68a; /* dark:dark:text-amber-200 */
+	--color-text-dark-emerald-200: #a7f3d0; /* dark:dark:text-emerald-200 */
+	--color-text-dark-rose-200: #fecdd3; /* dark:dark:text-rose-200 */
+	--color-text-dark-slate-200: #e2e8f0; /* dark:dark:text-slate-200 */
 }

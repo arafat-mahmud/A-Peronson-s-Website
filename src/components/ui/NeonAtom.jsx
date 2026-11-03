@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
+import { useEffect, useState } from "react";
 
 NeonAtom.propTypes = {
 	size: PropTypes.number,
@@ -9,7 +9,13 @@ NeonAtom.propTypes = {
 	timeout: PropTypes.number,
 };
 
-export default function NeonAtom({ size = 180, className = "", text = "", fill = false, timeout = 0 }) {
+export default function NeonAtom({
+	size = 180,
+	className = "",
+	text = "",
+	fill = false,
+	timeout = 0,
+}) {
 	const [timedOut, setTimedOut] = useState(false);
 
 	useEffect(() => {

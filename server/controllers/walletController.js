@@ -1,4 +1,9 @@
-import { assertCouponRedeemable, getWallet, listWalletHistory, redeemCouponForUser } from "../services/walletService.js";
+import {
+	assertCouponRedeemable,
+	getWallet,
+	listWalletHistory,
+	redeemCouponForUser,
+} from "../services/walletService.js";
 
 export async function getMyWallet(req, res) {
 	const wallet = await getWallet(req.user.id);

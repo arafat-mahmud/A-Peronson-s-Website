@@ -64,7 +64,9 @@ export default function LinkPreviewCard({ url, preview }) {
 					{title}
 				</h4>
 				{description ? (
-					<p className="mt-1 text-xs text-slate-500 dark:text-slate-400 line-clamp-2">{description}</p>
+					<p className="mt-1 text-xs text-slate-500 dark:text-slate-400 line-clamp-2">
+						{description}
+					</p>
 				) : null}
 			</div>
 		</a>

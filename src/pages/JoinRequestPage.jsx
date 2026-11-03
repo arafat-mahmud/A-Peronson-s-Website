@@ -1,8 +1,8 @@
 import { CheckCircle2, Mail, MessageSquareText, Shield, UserRound } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import NeonAtom from "../components/ui/NeonAtom.jsx";
 import LazyImage from "../components/ui/LazyImage.jsx";
+import NeonAtom from "../components/ui/NeonAtom.jsx";
 import { apiRequest, getToken } from "../lib/auth.js";
 import { useTheme } from "../lib/ThemeProvider.jsx";
 
@@ -87,7 +87,9 @@ export default function JoinRequestPage() {
 				},
 			});
 			setFeedback(action === "accept" ? "Join request approved." : "Join request rejected.");
-			const refreshed = await apiRequest(`/join-requests/${encodeURIComponent(requestId)}`, { token });
+			const refreshed = await apiRequest(`/join-requests/${encodeURIComponent(requestId)}`, {
+				token,
+			});
 			setRequest(refreshed);
 		} catch (err) {
 			setError(err.message || "Unable to update join request");
@@ -101,7 +103,13 @@ export default function JoinRequestPage() {
 	}
 
 	return (
-		<div className={isDark ? "min-h-screen bg-slate-950 text-slate-100" : "min-h-screen bg-slate-50 text-slate-900"}>
+		<div
+			className={
+				isDark
+					? "min-h-screen bg-slate-950 text-slate-100"
+					: "min-h-screen bg-slate-50 text-slate-900"
+			}
+		>
 			<div className="mx-auto flex w-full max-w-5xl flex-col gap-6 px-4 py-8 md:px-6 lg:px-8">
 				<div className={`overflow-hidden rounded-[2rem] border ${cardClass}`}>
 					<div className="h-44 w-full" style={bannerStyle}>
@@ -114,7 +122,7 @@ export default function JoinRequestPage() {
 								<h1 className="mt-4 text-3xl font-black text-white">{companyName}</h1>
 								<p className="mt-2 max-w-2xl text-sm text-white/85">
 									{isPending
-										? 'A Verified Company Account already exists with this information. Are you a representative of this company?'
+										? "A Verified Company Account already exists with this information. Are you a representative of this company?"
 										: `This request has been ${String(meta.status || "").toLowerCase()}.`}
 								</p>
 							</div>
@@ -146,7 +154,9 @@ export default function JoinRequestPage() {
 							</div>
 							<div>
 								<h2 className="text-xl font-bold">Applicant details</h2>
-								<p className="text-sm text-slate-400">Review who is asking to join your company account.</p>
+								<p className="text-sm text-slate-400">
+									Review who is asking to join your company account.
+								</p>
 							</div>
 						</div>
 
@@ -182,15 +192,22 @@ export default function JoinRequestPage() {
 
 						<div className="mt-5 rounded-2xl border border-white/10 bg-white/5 p-4 text-sm text-slate-300">
 							<div className="font-semibold text-white">
-								{isPending ? "Waiting for your approval" : `Status: ${String(meta.status || "").toUpperCase()}`}
+								{isPending
+									? "Waiting for your approval"
+									: `Status: ${String(meta.status || "").toUpperCase()}`}
 							</div>
 							{meta.reason ? <div className="mt-2">Reason: {meta.reason}</div> : null}
-							{meta.acted_at ? <div className="mt-2">Handled at: {new Date(meta.acted_at).toLocaleString()}</div> : null}
+							{meta.acted_at ? (
+								<div className="mt-2">Handled at: {new Date(meta.acted_at).toLocaleString()}</div>
+							) : null}
 						</div>
 
 						{isPending ? (
 							<div className="mt-5 space-y-3">
-								<label className="block text-sm font-medium text-slate-300" htmlFor="join-request-reason">
+								<label
+									className="block text-sm font-medium text-slate-300"
+									htmlFor="join-request-reason"
+								>
 									Rejection reason
 								</label>
 								<textarea

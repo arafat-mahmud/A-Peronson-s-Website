@@ -97,7 +97,9 @@ export default function FeedbackPage() {
 			</div>
 
 			<div className="relative mx-auto max-w-3xl px-4 py-6 sm:px-6 lg:px-8">
-				<header className={`mb-6 overflow-hidden rounded-[28px] border ${cardTheme} backdrop-blur-xl`}>
+				<header
+					className={`mb-6 overflow-hidden rounded-[28px] border ${cardTheme} backdrop-blur-xl`}
+				>
 					<div className="p-6 lg:p-8">
 						<h1 className="text-3xl font-semibold tracking-tight sm:text-4xl lg:text-5xl">
 							Feedback
@@ -126,7 +128,9 @@ export default function FeedbackPage() {
 				<section className={`rounded-[28px] border ${cardTheme} p-5 backdrop-blur-xl sm:p-6`}>
 					<form onSubmit={handleSubmit} className="space-y-5">
 						<label className="block">
-							<span className={`mb-2 block text-sm font-medium ${darkMode ? "text-slate-200" : "text-slate-700"}`}>
+							<span
+								className={`mb-2 block text-sm font-medium ${darkMode ? "text-slate-200" : "text-slate-700"}`}
+							>
 								Category
 							</span>
 							<select
@@ -144,7 +148,9 @@ export default function FeedbackPage() {
 						</label>
 
 						<label className="block">
-							<span className={`mb-2 block text-sm font-medium ${darkMode ? "text-slate-200" : "text-slate-700"}`}>
+							<span
+								className={`mb-2 block text-sm font-medium ${darkMode ? "text-slate-200" : "text-slate-700"}`}
+							>
 								Subject
 							</span>
 							<input
@@ -157,7 +163,9 @@ export default function FeedbackPage() {
 						</label>
 
 						<label className="block">
-							<span className={`mb-2 block text-sm font-medium ${darkMode ? "text-slate-200" : "text-slate-700"}`}>
+							<span
+								className={`mb-2 block text-sm font-medium ${darkMode ? "text-slate-200" : "text-slate-700"}`}
+							>
 								Description
 							</span>
 							<textarea
@@ -170,14 +178,20 @@ export default function FeedbackPage() {
 							/>
 						</label>
 
-						<div className={`rounded-[24px] border border-dashed p-5 ${darkMode ? "border-white/10 bg-slate-900/30" : "border-slate-200 bg-slate-50"}`}>
+						<div
+							className={`rounded-[24px] border border-dashed p-5 ${darkMode ? "border-white/10 bg-slate-900/30" : "border-slate-200 bg-slate-50"}`}
+						>
 							<div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
 								<div className="flex items-start gap-3">
-									<Upload className={`mt-0.5 h-5 w-5 ${darkMode ? "text-sky-300" : "text-sky-600"}`} />
+									<Upload
+										className={`mt-0.5 h-5 w-5 ${darkMode ? "text-sky-300" : "text-sky-600"}`}
+									/>
 									<div>
 										<p className="font-medium">
 											File attachment{" "}
-											<span className={darkMode ? "text-slate-500" : "text-slate-400"}>(optional)</span>
+											<span className={darkMode ? "text-slate-500" : "text-slate-400"}>
+												(optional)
+											</span>
 										</p>
 										<p className={`mt-1 text-sm ${darkMode ? "text-slate-400" : "text-slate-600"}`}>
 											{attachment ? attachment.name : "No file chosen"}
@@ -201,7 +215,9 @@ export default function FeedbackPage() {
 						</div>
 
 						<label className="block">
-							<span className={`mb-2 block text-sm font-medium ${darkMode ? "text-slate-200" : "text-slate-700"}`}>
+							<span
+								className={`mb-2 block text-sm font-medium ${darkMode ? "text-slate-200" : "text-slate-700"}`}
+							>
 								Contact Email{" "}
 								<span className={darkMode ? "text-slate-500" : "text-slate-400"}>(optional)</span>
 							</span>

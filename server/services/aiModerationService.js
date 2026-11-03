@@ -251,7 +251,14 @@ export async function runImageFileAnalysis(filePath) {
 		};
 	} catch (err) {
 		logError("runImageFileAnalysis failed", err);
-		return { label: "ERROR", score: 0, confidence: "low", signals: [], details: {}, error: err.message };
+		return {
+			label: "ERROR",
+			score: 0,
+			confidence: "low",
+			signals: [],
+			details: {},
+			error: err.message,
+		};
 	}
 }
 

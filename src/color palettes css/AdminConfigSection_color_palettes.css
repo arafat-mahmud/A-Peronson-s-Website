@@ -42,35 +42,44 @@
  */
 
 :root {
-  /* Main colors / Backgrounds */
-  --color-background: #f1f5f9; /* bg-slate-100 (page background) */
-  --color-surface: #0f172a; /* bg-slate-900 (surface / card) */
-  --color-surface-elevated: rgba(16, 185, 129, 0.1); /* bg-emerald-500/10 (elevated surface) */
-  --color-bg-rose-500-0-1: rgba(244, 63, 94, 0.1); /* bg-rose-500/10 (danger) */
-  --color-bg-sky-500: #0ea5e9; /* bg-sky-500 (accent) */
+	/* Main colors / Backgrounds */
+	--color-background: #f1f5f9; /* bg-slate-100 (page background) */
+	--color-surface: #0f172a; /* bg-slate-900 (surface / card) */
+	--color-surface-elevated: rgba(16, 185, 129, 0.1); /* bg-emerald-500/10 (elevated surface) */
+	--color-bg-rose-500-0-1: rgba(244, 63, 94, 0.1); /* bg-rose-500/10 (danger) */
+	--color-bg-sky-500: #0ea5e9; /* bg-sky-500 (accent) */
 
-  /* Text */
-  --color-text-emerald-400: #34d399; /* text-emerald-400 (success) */
-  --color-text-rose-500: #f43f5e; /* text-rose-500 (danger) */
-  --color-text-rose-400: #fb7185; /* text-rose-400 (danger) */
-  --color-text-muted: #64748b; /* text-slate-500 (muted text) */
-  --color-text-slate-600: #475569; /* text-slate-600 */
-  --color-text-muted-2: #94a3b8; /* text-slate-400 (muted text) */
-  --color-text-secondary: #e2e8f0; /* text-slate-200 (body / secondary text) */
-  --color-text-primary: #ffffff; /* text-white (heading / primary text) */
+	/* Text */
+	--color-text-emerald-400: #34d399; /* text-emerald-400 (success) */
+	--color-text-rose-500: #f43f5e; /* text-rose-500 (danger) */
+	--color-text-rose-400: #fb7185; /* text-rose-400 (danger) */
+	--color-text-muted: #64748b; /* text-slate-500 (muted text) */
+	--color-text-slate-600: #475569; /* text-slate-600 */
+	--color-text-muted-2: #94a3b8; /* text-slate-400 (muted text) */
+	--color-text-secondary: #e2e8f0; /* text-slate-200 (body / secondary text) */
+	--color-text-primary: #ffffff; /* text-white (heading / primary text) */
 
-  /* Arbitrary / inline / SVG colors + explicit shadows/gradients (verbatim) */
-  --color-inline-1: #6100ff; /* verbatim `#6100ff` near: #6100ff */
+	/* Arbitrary / inline / SVG colors + explicit shadows/gradients (verbatim) */
+	--color-inline-1: #6100ff; /* verbatim `#6100ff` near: #6100ff */
 
-  /* Semantic aliases (derived, not new colors) */
-  --color-success: rgba(16, 185, 129, 0.1); /* alias -> --color-surface-elevated (bg-emerald-500/10 (elevated surface)) */
-  --color-danger: rgba(244, 63, 94, 0.1); /* alias -> --color-bg-rose-500-0-1 (bg-rose-500/10 (danger)) */
-  --color-info: #0ea5e9; /* alias -> --color-bg-sky-500 (bg-sky-500 (accent)) */
-
+	/* Semantic aliases (derived, not new colors) */
+	--color-success: rgba(
+		16,
+		185,
+		129,
+		0.1
+	); /* alias -> --color-surface-elevated (bg-emerald-500/10 (elevated surface)) */
+	--color-danger: rgba(
+		244,
+		63,
+		94,
+		0.1
+	); /* alias -> --color-bg-rose-500-0-1 (bg-rose-500/10 (danger)) */
+	--color-info: #0ea5e9; /* alias -> --color-bg-sky-500 (bg-sky-500 (accent)) */
 }
 
 .dark {
-  --color-background: #1e293b; /* dark:dark:bg-slate-800 */
-  --color-border-dark-white-10: rgba(255, 255, 255, 0.1); /* dark:dark:border-white/10 */
-  --color-text-dark-slate-300: #cbd5e1; /* dark:dark:text-slate-300 */
+	--color-background: #1e293b; /* dark:dark:bg-slate-800 */
+	--color-border-dark-white-10: rgba(255, 255, 255, 0.1); /* dark:dark:border-white/10 */
+	--color-text-dark-slate-300: #cbd5e1; /* dark:dark:text-slate-300 */
 }

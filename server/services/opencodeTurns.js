@@ -278,9 +278,7 @@ export async function waitForAssistantTurn({
 	// was indistinguishable from an agent that said nothing - and a free-tier
 	// quota error was reported as "the agent did not answer with JSON".
 	const modelError =
-		newest?.error ??
-		[...assistants].reverse().find((message) => message?.error)?.error ??
-		null;
+		newest?.error ?? [...assistants].reverse().find((message) => message?.error)?.error ?? null;
 
 	return {
 		messages: fresh,

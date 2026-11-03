@@ -74,51 +74,68 @@
  */
 
 :root {
-  /* Main colors / Backgrounds */
-  --color-background: #f1f5f9; /* bg-slate-100 (page background) */
-  --color-surface: #ffffff; /* bg-white (surface / card) */
-  --color-surface-elevated: rgba(241, 245, 249, 0.7); /* bg-slate-100/70 (elevated surface) */
-  --color-bg-ffffff: #ffffff; /* bg-[#ffffff] (arbitrary background) */
-  --color-bg-slate-50-0-7: rgba(248, 250, 252, 0.7); /* bg-slate-50/70 */
+	/* Main colors / Backgrounds */
+	--color-background: #f1f5f9; /* bg-slate-100 (page background) */
+	--color-surface: #ffffff; /* bg-white (surface / card) */
+	--color-surface-elevated: rgba(241, 245, 249, 0.7); /* bg-slate-100/70 (elevated surface) */
+	--color-bg-ffffff: #ffffff; /* bg-[#ffffff] (arbitrary background) */
+	--color-bg-slate-50-0-7: rgba(248, 250, 252, 0.7); /* bg-slate-50/70 */
 
-  /* Text */
-  --color-text-emerald-700: #047857; /* text-emerald-700 (success) */
-  --color-text-rose-700: #be123c; /* text-rose-700 (danger) */
-  --color-text-slate-700: #334155; /* text-slate-700 */
-  --color-text-slate-900: #0f172a; /* text-slate-900 */
-  --color-text-muted: #64748b; /* text-slate-500 (muted text) */
-  --color-text-slate-600: #475569; /* text-slate-600 */
-  --color-text-slate-800: #1e293b; /* text-slate-800 */
+	/* Text */
+	--color-text-emerald-700: #047857; /* text-emerald-700 (success) */
+	--color-text-rose-700: #be123c; /* text-rose-700 (danger) */
+	--color-text-slate-700: #334155; /* text-slate-700 */
+	--color-text-slate-900: #0f172a; /* text-slate-900 */
+	--color-text-muted: #64748b; /* text-slate-500 (muted text) */
+	--color-text-slate-600: #475569; /* text-slate-600 */
+	--color-text-slate-800: #1e293b; /* text-slate-800 */
 
-  /* Borders / Dividers / Rings */
-  --color-ring: rgba(16, 185, 129, 0.2); /* ring-emerald-500/20 (focus ring) */
-  --color-ring-2: rgba(226, 232, 240, 0.7); /* ring-slate-200/70 (focus ring) */
-  --color-ring-3: rgba(226, 232, 240, 0.6); /* ring-slate-200/60 (focus ring) */
+	/* Borders / Dividers / Rings */
+	--color-ring: rgba(16, 185, 129, 0.2); /* ring-emerald-500/20 (focus ring) */
+	--color-ring-2: rgba(226, 232, 240, 0.7); /* ring-slate-200/70 (focus ring) */
+	--color-ring-3: rgba(226, 232, 240, 0.6); /* ring-slate-200/60 (focus ring) */
 
-  /* Gradients (every distinct stop-set preserved) */
-  --gradient-primary: linear-gradient(90deg, rgba(16, 185, 129, 0.15) 0%, rgba(20, 184, 166, 0.15) 100%); /* from-emerald-500/15 to-teal-500/15 (gradient; direction 90deg) */
-  --gradient-2: linear-gradient(90deg, #f43f5e 0%, #f59e0b 50%, #10b981 100%); /* from-rose-500 via-amber-500 to-emerald-500 (gradient; direction 90deg) */
+	/* Gradients (every distinct stop-set preserved) */
+	--gradient-primary: linear-gradient(
+		90deg,
+		rgba(16, 185, 129, 0.15) 0%,
+		rgba(20, 184, 166, 0.15) 100%
+	); /* from-emerald-500/15 to-teal-500/15 (gradient; direction 90deg) */
+	--gradient-2: linear-gradient(
+		90deg,
+		#f43f5e 0%,
+		#f59e0b 50%,
+		#10b981 100%
+	); /* from-rose-500 via-amber-500 to-emerald-500 (gradient; direction 90deg) */
 
-  /* Semantic aliases (derived, not new colors) */
-  --color-success: #047857; /* alias -> --color-text-emerald-700 (text-emerald-700 (success)) */
-  --color-danger: #be123c; /* alias -> --color-text-rose-700 (text-rose-700 (danger)) */
-
+	/* Semantic aliases (derived, not new colors) */
+	--color-success: #047857; /* alias -> --color-text-emerald-700 (text-emerald-700 (success)) */
+	--color-danger: #be123c; /* alias -> --color-text-rose-700 (text-rose-700 (danger)) */
 }
 
 .dark {
-  --color-background: rgba(15, 23, 42, 0.5); /* dark:dark:bg-slate-900/50 */
-  --color-background-dark-white-5: rgba(255, 255, 255, 0.05); /* dark:dark:bg-white/5 */
-  --color-gradient-from-dark-emerald-500-12: rgba(16, 185, 129, 0.12); /* dark:dark:from-emerald-500/12 */
-  --color-ring-dark-emerald-400-25: rgba(52, 211, 153, 0.25); /* dark:dark:ring-emerald-400/25 */
-  --color-ring-dark-slate-800: #1e293b; /* dark:dark:ring-slate-800 */
-  --color-ring-dark-white-10: rgba(255, 255, 255, 0.1); /* dark:dark:ring-white/10 */
-  --color-text-dark-emerald-200: #a7f3d0; /* dark:dark:text-emerald-200 */
-  --color-text-dark-emerald-300: #6ee7b7; /* dark:dark:text-emerald-300 */
-  --color-text-dark-rose-300: #fda4af; /* dark:dark:text-rose-300 */
-  --color-text-dark-slate-200: #e2e8f0; /* dark:dark:text-slate-200 */
-  --color-text-dark-slate-100: #f1f5f9; /* dark:dark:text-slate-100 */
-  --color-text-dark-slate-400: #94a3b8; /* dark:dark:text-slate-400 */
-  --color-text-dark-slate-300: #cbd5e1; /* dark:dark:text-slate-300 */
-  --color-gradient-to-dark-teal-400-10: rgba(45, 212, 191, 0.1); /* dark:dark:to-teal-400/10 */
-  --gradient-dark: linear-gradient(90deg, rgba(16, 185, 129, 0.12) 0%, rgba(45, 212, 191, 0.1) 100%); /* dark:from-emerald-500/12 dark:to-teal-400/10 (gradient; direction 90deg) */
+	--color-background: rgba(15, 23, 42, 0.5); /* dark:dark:bg-slate-900/50 */
+	--color-background-dark-white-5: rgba(255, 255, 255, 0.05); /* dark:dark:bg-white/5 */
+	--color-gradient-from-dark-emerald-500-12: rgba(
+		16,
+		185,
+		129,
+		0.12
+	); /* dark:dark:from-emerald-500/12 */
+	--color-ring-dark-emerald-400-25: rgba(52, 211, 153, 0.25); /* dark:dark:ring-emerald-400/25 */
+	--color-ring-dark-slate-800: #1e293b; /* dark:dark:ring-slate-800 */
+	--color-ring-dark-white-10: rgba(255, 255, 255, 0.1); /* dark:dark:ring-white/10 */
+	--color-text-dark-emerald-200: #a7f3d0; /* dark:dark:text-emerald-200 */
+	--color-text-dark-emerald-300: #6ee7b7; /* dark:dark:text-emerald-300 */
+	--color-text-dark-rose-300: #fda4af; /* dark:dark:text-rose-300 */
+	--color-text-dark-slate-200: #e2e8f0; /* dark:dark:text-slate-200 */
+	--color-text-dark-slate-100: #f1f5f9; /* dark:dark:text-slate-100 */
+	--color-text-dark-slate-400: #94a3b8; /* dark:dark:text-slate-400 */
+	--color-text-dark-slate-300: #cbd5e1; /* dark:dark:text-slate-300 */
+	--color-gradient-to-dark-teal-400-10: rgba(45, 212, 191, 0.1); /* dark:dark:to-teal-400/10 */
+	--gradient-dark: linear-gradient(
+		90deg,
+		rgba(16, 185, 129, 0.12) 0%,
+		rgba(45, 212, 191, 0.1) 100%
+	); /* dark:from-emerald-500/12 dark:to-teal-400/10 (gradient; direction 90deg) */
 }

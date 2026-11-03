@@ -124,7 +124,11 @@ export default function AnimatedModal({
 				aria-modal="true"
 			>
 				{overlay && (
-					<div className="absolute inset-0 bg-black/50" onClick={onClose} aria-label="Close modal" />
+					<div
+						className="absolute inset-0 bg-black/50"
+						onClick={onClose}
+						aria-label="Close modal"
+					/>
 				)}
 				<div className={`relative ${className}`}>{children}</div>
 			</div>

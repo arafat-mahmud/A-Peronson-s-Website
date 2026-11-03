@@ -40,7 +40,12 @@ function MetricCard({ metric }) {
 	if (metric.key === "trusted_deal_score" || metric.key === "buyer_supplier_match_rate") {
 		const num = Number(metric.value);
 		if (!Number.isNaN(num)) {
-			hintColor = num >= 70 ? "text-emerald-600 dark:text-emerald-400" : num >= 40 ? "text-amber-600 dark:text-amber-400" : "text-rose-600 dark:text-rose-400";
+			hintColor =
+				num >= 70
+					? "text-emerald-600 dark:text-emerald-400"
+					: num >= 40
+						? "text-amber-600 dark:text-amber-400"
+						: "text-rose-600 dark:text-rose-400";
 		}
 	}
 
@@ -70,7 +75,9 @@ export default function CoreMetricsCards() {
 	if (loading) {
 		return (
 			<div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-				{Array.from({ length: 5 }).map((_, i) => <SkeletonCard key={i} />)}
+				{Array.from({ length: 5 }).map((_, i) => (
+					<SkeletonCard key={i} />
+				))}
 			</div>
 		);
 	}
@@ -89,7 +96,9 @@ export default function CoreMetricsCards() {
 
 	return (
 		<div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-			{metrics.map((m) => <MetricCard key={m.key} metric={m} />)}
+			{metrics.map((m) => (
+				<MetricCard key={m.key} metric={m} />
+			))}
 		</div>
 	);
 }

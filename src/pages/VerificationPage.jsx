@@ -24,8 +24,8 @@
 */
 
 import {
-	Check,
 	Camera,
+	Check,
 	Clock,
 	CreditCard,
 	HelpCircle,
@@ -43,9 +43,9 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { ThreeDot } from "react-loading-indicators";
 import {
 	BUYER_COUNTRY_OPTIONS,
+	getBuyerRegionFromCountry,
 	VERIFICATION_FIELD_LABELS,
 	VERIFICATION_REQUIREMENTS,
-	getBuyerRegionFromCountry,
 } from "../../shared/config/platformTaxonomy.js";
 import ScrollReveal from "../components/ScrollReveal.jsx";
 import LazyImage from "../components/ui/LazyImage.jsx";
@@ -100,7 +100,9 @@ export default function VerificationPage({ embedded = false }) {
 	const pendingDocRef = useRef("");
 
 	function handleDuplicateResult(result) {
-		const tier = String(result?.duplicate_match_tier || result?.duplicate_candidate?.match?.tier || "").toLowerCase();
+		const tier = String(
+			result?.duplicate_match_tier || result?.duplicate_candidate?.match?.tier || "",
+		).toLowerCase();
 		if (!["exact", "strong"].includes(tier)) {
 			return;
 		}
@@ -118,7 +120,9 @@ export default function VerificationPage({ embedded = false }) {
 			country: candidate.country || "",
 			website: candidate.website || "",
 			matchReason: candidate.match?.reason || "",
-			matchedFields: Array.isArray(candidate.match?.matched_fields) ? candidate.match.matched_fields : [],
+			matchedFields: Array.isArray(candidate.match?.matched_fields)
+				? candidate.match.matched_fields
+				: [],
 		});
 	}
 
@@ -366,9 +370,7 @@ export default function VerificationPage({ embedded = false }) {
 				});
 			}
 
-			const existingFiles = Array.isArray(
-				verification?.documents?.factory_visit_files,
-			)
+			const existingFiles = Array.isArray(verification?.documents?.factory_visit_files)
 				? verification.documents.factory_visit_files
 				: [];
 			const updatedDocs = {
@@ -516,7 +518,9 @@ export default function VerificationPage({ embedded = false }) {
 					applicant_email: user?.email || "",
 				},
 			});
-			setJoinFeedback("This duplicate flag has been sent to admin review. You will be notified of the outcome.");
+			setJoinFeedback(
+				"This duplicate flag has been sent to admin review. You will be notified of the outcome.",
+			);
 			setDuplicatePrompt(null);
 		} catch (err) {
 			setError(err.message || "Could not submit dispute");
@@ -548,7 +552,9 @@ export default function VerificationPage({ embedded = false }) {
 				body: { document_visibility: updatedVisibility },
 			});
 			setVerification(updated);
-			setFeedback(`${VERIFICATION_FIELD_LABELS[documentKey] || documentKey} visibility updated to ${visibility}.`);
+			setFeedback(
+				`${VERIFICATION_FIELD_LABELS[documentKey] || documentKey} visibility updated to ${visibility}.`,
+			);
 		} catch (err) {
 			setError(err.message || "Could not update document visibility");
 		}
@@ -597,7 +603,9 @@ export default function VerificationPage({ embedded = false }) {
 					</div>
 					<div>
 						<div className="flex items-center gap-2">
-							<h1 className="text-xl font-semibold tracking-tight sm:text-2xl">Verification Center</h1>
+							<h1 className="text-xl font-semibold tracking-tight sm:text-2xl">
+								Verification Center
+							</h1>
 							<span
 								className={`rounded-full border px-3 py-1 text-xs font-medium uppercase tracking-[0.2em] ${chipBg}`}
 							>
@@ -725,7 +733,10 @@ export default function VerificationPage({ embedded = false }) {
 									Business Registration + VAT Number + EORI + Bank proof
 								</span>
 								. USA buyers need:{" "}
-								<span className="font-semibold">Business Registration + EIN + IOR + Bank proof</span>.
+								<span className="font-semibold">
+									Business Registration + EIN + IOR + Bank proof
+								</span>
+								.
 							</p>
 
 							{!buyerCountry && (
@@ -772,7 +783,9 @@ export default function VerificationPage({ embedded = false }) {
 												<label className={`text-xs font-medium ${mutedText}`}>Visibility</label>
 												<select
 													value={documentVisibility[requiredDocs[idx]] || "private"}
-													onChange={(e) => updateDocumentVisibility(requiredDocs[idx], e.target.value)}
+													onChange={(e) =>
+														updateDocumentVisibility(requiredDocs[idx], e.target.value)
+													}
 													className={`mt-1 w-full rounded-xl border px-3 py-2 text-xs outline-none transition ${fieldBg}`}
 												>
 													<option value="private">Private</option>
@@ -870,7 +883,8 @@ export default function VerificationPage({ embedded = false }) {
 								<div>
 									<h3 className="text-xl font-semibold">Factory Visit Documentation</h3>
 									<p className={`mt-1 text-sm ${softText}`}>
-										Upload photos or videos from your factory visits. This strengthens your buyer credibility.
+										Upload photos or videos from your factory visits. This strengthens your buyer
+										credibility.
 									</p>
 								</div>
 								<div className={`flex items-center gap-2 text-sm ${softText}`}>
@@ -909,9 +923,12 @@ export default function VerificationPage({ embedded = false }) {
 								const existingFiles = Array.isArray(verification?.documents?.factory_visit_files)
 									? verification.documents.factory_visit_files
 									: [];
-								const allFiles = [...existingFiles, ...factoryVisitFiles.filter(
-									(f) => !existingFiles.some((e) => e.file_name === f.file_name),
-								)];
+								const allFiles = [
+									...existingFiles,
+									...factoryVisitFiles.filter(
+										(f) => !existingFiles.some((e) => e.file_name === f.file_name),
+									),
+								];
 								if (allFiles.length === 0) return null;
 								return (
 									<div className="mt-5 grid gap-3 sm:grid-cols-2">
@@ -920,7 +937,9 @@ export default function VerificationPage({ embedded = false }) {
 												key={`${file.file_name}-${idx}`}
 												className={`flex items-center gap-3 rounded-2xl border p-3 ${isDark ? "border-white/10 bg-white/5" : "border-slate-200 bg-slate-50"}`}
 											>
-												<div className={`grid h-10 w-10 place-items-center rounded-xl ${file.file_type?.startsWith("video") ? "bg-cyan-500/15 text-cyan-400" : "bg-sky-500/15 text-sky-400"}`}>
+												<div
+													className={`grid h-10 w-10 place-items-center rounded-xl ${file.file_type?.startsWith("video") ? "bg-cyan-500/15 text-cyan-400" : "bg-sky-500/15 text-sky-400"}`}
+												>
 													{file.file_type?.startsWith("video") ? (
 														<span className="text-lg">🎬</span>
 													) : (
@@ -930,7 +949,9 @@ export default function VerificationPage({ embedded = false }) {
 												<div className="min-w-0 flex-1">
 													<p className="truncate text-sm font-medium">{file.file_name}</p>
 													<p className={`text-xs ${mutedText}`}>
-														{file.uploaded_at ? new Date(file.uploaded_at).toLocaleDateString() : ""}
+														{file.uploaded_at
+															? new Date(file.uploaded_at).toLocaleDateString()
+															: ""}
 													</p>
 												</div>
 											</div>
@@ -1027,14 +1048,16 @@ export default function VerificationPage({ embedded = false }) {
 						</div>
 
 						<div className="mt-4 grid gap-3">
-						<button
-							onClick={handleRenewVerification}
-							className={`inline-flex items-center justify-center gap-2 rounded-2xl px-5 py-3 font-semibold transition-all ${buttonPrimary} opacity-80 cursor-default`}
-						>
-							<CreditCard className="h-4 w-4" />
-							Pay / Renew Verification
-							<span className="ml-1 rounded-full bg-white/20 px-2 py-0.5 text-[10px] uppercase tracking-wide">Coming Soon</span>
-						</button>
+							<button
+								onClick={handleRenewVerification}
+								className={`inline-flex items-center justify-center gap-2 rounded-2xl px-5 py-3 font-semibold transition-all ${buttonPrimary} opacity-80 cursor-default`}
+							>
+								<CreditCard className="h-4 w-4" />
+								Pay / Renew Verification
+								<span className="ml-1 rounded-full bg-white/20 px-2 py-0.5 text-[10px] uppercase tracking-wide">
+									Coming Soon
+								</span>
+							</button>
 							<button
 								onClick={loadStatus}
 								className={`inline-flex items-center justify-center gap-2 rounded-2xl border px-5 py-3 font-semibold transition-all ${buttonGhost}`}
@@ -1078,17 +1101,21 @@ export default function VerificationPage({ embedded = false }) {
 							<div className="flex items-center justify-between">
 								<span className={softText}>First month</span>
 								<span className="font-semibold">
-									{verificationPrice.firstMonth !== null
-										? `$${verificationPrice.firstMonth.toFixed(2)}`
-										: <span className="text-amber-500 text-xs">Pricing unavailable</span>}
+									{verificationPrice.firstMonth !== null ? (
+										`$${verificationPrice.firstMonth.toFixed(2)}`
+									) : (
+										<span className="text-amber-500 text-xs">Pricing unavailable</span>
+									)}
 								</span>
 							</div>
 							<div className="flex items-center justify-between">
 								<span className={softText}>Renewals</span>
 								<span className="font-semibold">
-									{verificationPrice.renewal !== null
-										? `${verificationPrice.renewal.toFixed(2)}/month`
-										: <span className="text-amber-500 text-xs">Pricing unavailable</span>}
+									{verificationPrice.renewal !== null ? (
+										`${verificationPrice.renewal.toFixed(2)}/month`
+									) : (
+										<span className="text-amber-500 text-xs">Pricing unavailable</span>
+									)}
 								</span>
 							</div>
 							<div className="flex items-center justify-between">
@@ -1110,7 +1137,9 @@ export default function VerificationPage({ embedded = false }) {
 
 			{duplicatePrompt && (
 				<div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
-					<div className={`relative w-full max-w-lg rounded-3xl border p-6 sm:p-8 shadow-2xl ${cardBg}`}>
+					<div
+						className={`relative w-full max-w-lg rounded-3xl border p-6 sm:p-8 shadow-2xl ${cardBg}`}
+					>
 						<button
 							onClick={() => setDuplicatePrompt(null)}
 							className="absolute right-4 top-4 rounded-full p-1 hover:bg-white/10 transition"
@@ -1120,11 +1149,7 @@ export default function VerificationPage({ embedded = false }) {
 
 						{duplicatePrompt.banner && (
 							<div className="mb-4 -mx-6 -mt-6 sm:-mx-8 sm:-mt-8 rounded-t-3xl overflow-hidden h-32 sm:h-40">
-								<img
-									src={duplicatePrompt.banner}
-									alt=""
-									className="h-full w-full object-cover"
-								/>
+								<img src={duplicatePrompt.banner} alt="" className="h-full w-full object-cover" />
 							</div>
 						)}
 
@@ -1146,7 +1171,12 @@ export default function VerificationPage({ embedded = false }) {
 									{duplicatePrompt.country && `${duplicatePrompt.country}`}
 									{duplicatePrompt.country && duplicatePrompt.website && " · "}
 									{duplicatePrompt.website && (
-										<a href={`https://${duplicatePrompt.website}`} target="_blank" rel="noopener noreferrer" className="text-sky-400 hover:underline">
+										<a
+											href={`https://${duplicatePrompt.website}`}
+											target="_blank"
+											rel="noopener noreferrer"
+											className="text-sky-400 hover:underline"
+										>
 											{duplicatePrompt.website}
 										</a>
 									)}
@@ -1154,19 +1184,28 @@ export default function VerificationPage({ embedded = false }) {
 							</div>
 						</div>
 
-						<div className={`mb-4 rounded-2xl border p-4 ${isDark ? "bg-amber-500/10 border-amber-400/20" : "bg-amber-50 border-amber-200"}`}>
+						<div
+							className={`mb-4 rounded-2xl border p-4 ${isDark ? "bg-amber-500/10 border-amber-400/20" : "bg-amber-50 border-amber-200"}`}
+						>
 							<p className={`text-sm font-medium ${isDark ? "text-amber-200" : "text-amber-800"}`}>
-								A Verified Company Account already exists with this information. Are you a representative of this company?
+								A Verified Company Account already exists with this information. Are you a
+								representative of this company?
 							</p>
 							{duplicatePrompt.matchedFields?.length > 0 && (
 								<p className={`mt-2 text-xs ${isDark ? "text-amber-300/70" : "text-amber-600"}`}>
-									Match confidence: {duplicatePrompt.tier === "exact" ? "Exact legal identifier match" : "Strong multi-field match"} — matched: {duplicatePrompt.matchedFields.join(", ")}
+									Match confidence:{" "}
+									{duplicatePrompt.tier === "exact"
+										? "Exact legal identifier match"
+										: "Strong multi-field match"}{" "}
+									— matched: {duplicatePrompt.matchedFields.join(", ")}
 								</p>
 							)}
 						</div>
 
 						<div className="space-y-3 mb-5">
-							<p className={`text-sm font-semibold ${softText}`}>Your details for the join request:</p>
+							<p className={`text-sm font-semibold ${softText}`}>
+								Your details for the join request:
+							</p>
 							<input
 								value={joinName}
 								onChange={(e) => setJoinName(e.target.value)}

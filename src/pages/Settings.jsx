@@ -278,7 +278,9 @@ export default function Settings({ embedded = false, initialTabProp = "", tabIds
 		: TABS.filter((t) => STANDALONE_TAB_IDS.includes(t.id));
 	const initialTab = useMemo(() => {
 		const candidate = searchParams.get(tabParamName) || initialTabProp || "profile";
-		return visibleTabs.some((t) => t.id === candidate) ? candidate : visibleTabs[0]?.id || "profile";
+		return visibleTabs.some((t) => t.id === candidate)
+			? candidate
+			: visibleTabs[0]?.id || "profile";
 	}, [searchParams, tabParamName, initialTabProp]);
 
 	const [tab, setTab] = useState(initialTab);
@@ -368,7 +370,10 @@ export default function Settings({ embedded = false, initialTabProp = "", tabIds
 	// Profile tab state
 	const [profileDisplayName, setProfileDisplayName] = useState(() =>
 		String(
-			currentUser?.profile?.organization_name || currentUser?.display_name || currentUser?.name || "",
+			currentUser?.profile?.organization_name ||
+				currentUser?.display_name ||
+				currentUser?.name ||
+				"",
 		),
 	);
 	const [orgNameChangedAt, setOrgNameChangedAt] = useState(0);
@@ -1325,8 +1330,11 @@ export default function Settings({ embedded = false, initialTabProp = "", tabIds
 		if (!(token && price)) {
 			return;
 		}
-		const action = subscriptionPlan === "premium" ? "Extend Premium by 30 days" : "Upgrade to Premium";
-		if (!window.confirm(`${action} for $${price.toFixed(2)}? It is paid from your wallet balance.`)) {
+		const action =
+			subscriptionPlan === "premium" ? "Extend Premium by 30 days" : "Upgrade to Premium";
+		if (
+			!window.confirm(`${action} for $${price.toFixed(2)}? It is paid from your wallet balance.`)
+		) {
 			return;
 		}
 		setUpgradingPremium(true);
@@ -1566,9 +1574,7 @@ export default function Settings({ embedded = false, initialTabProp = "", tabIds
 			members: loadMembers,
 		};
 		const names = neededLoaders ? neededLoaders.split(",") : [];
-		Promise.allSettled(names.map((name) => loaders[name]?.())).finally(() =>
-			setPageLoading(false),
-		);
+		Promise.allSettled(names.map((name) => loaders[name]?.())).finally(() => setPageLoading(false));
 	}, [
 		neededLoaders,
 		loadBilling,
@@ -1604,7 +1610,10 @@ export default function Settings({ embedded = false, initialTabProp = "", tabIds
 	const bodyTheme = theme === "dark" ? "dark" : "";
 
 	// Lock modal — defined here so it has access to Settings state
-	const LockModal = () => {
+	// Rendered by a plain function call, not as a JSX element: a component
+	// defined inside Settings is a new type on every render, so React remounted
+	// it on each keystroke and the password field lost focus.
+	const renderLockModal = () => {
 		if (!lockModalOpen) return null;
 		return (
 			<div class="fixed inset-0 z-[9999] flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm">
@@ -1687,6 +1696,7 @@ export default function Settings({ embedded = false, initialTabProp = "", tabIds
 								value={lockPassword}
 								onChange={(e) => setLockPassword(e.target.value)}
 								placeholder="Enter your password"
+								// biome-ignore lint/a11y/noAutofocus: focus moves into the dialog/editor the user just opened
 								autoFocus={true}
 								class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm outline-none transition focus:border-red-400 focus:ring-4 focus:ring-red-400/10 dark:border-slate-700 dark:bg-slate-800 dark:text-white"
 								onKeyDown={(e) => {
@@ -1753,6 +1763,7 @@ export default function Settings({ embedded = false, initialTabProp = "", tabIds
 								value={lockConfirmText}
 								onChange={(e) => setLockConfirmText(e.target.value)}
 								placeholder='Type "LOCK"'
+								// biome-ignore lint/a11y/noAutofocus: focus moves into the dialog/editor the user just opened
 								autoFocus={true}
 								class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-center text-sm font-mono uppercase outline-none transition focus:border-red-400 focus:ring-4 focus:ring-red-400/10 dark:border-slate-700 dark:bg-slate-800 dark:text-white"
 								onKeyDown={(e) => {
@@ -1797,35 +1808,35 @@ export default function Settings({ embedded = false, initialTabProp = "", tabIds
 
 	const settingsContent = (
 		<>
-			<LockModal />
+			{renderLockModal()}
 			{/* Tab Navigation */}
 			{accessibleTabs.length > 1 ? (
-			<div
-				class="mb-6 overflow-x-auto rounded-[1.75rem] border border-sky-200/60 bg-white/75 p-2 shadow-lg backdrop-blur dark:border-slate-800 dark:bg-slate-950/70"
-				style={{ WebkitOverflowScrolling: "touch", touchAction: "pan-x pan-y" }}
-			>
-				<div class="flex min-w-max gap-2">
-					{accessibleTabs.map((tabItem) => (
-						<button
-							key={tabItem.id}
-							onClick={() => {
-								if (tabItem.id === "members") {
-									loadMembers();
-								}
-								goSettingsTab(tabItem.id);
-							}}
-							class={cx(
-								"rounded-2xl px-4 py-3 text-sm font-semibold transition",
-								activeTab === tabItem.id
-									? "bg-gradient-to-r from-sky-500 to-blue-600 text-white shadow-lg shadow-sky-500/25"
-									: "text-slate-600 hover:bg-sky-50 dark:text-slate-300 dark:hover:bg-slate-900",
-							)}
-						>
-							{tabItem.label}
-						</button>
-					))}
+				<div
+					class="mb-6 overflow-x-auto rounded-[1.75rem] border border-sky-200/60 bg-white/75 p-2 shadow-lg backdrop-blur dark:border-slate-800 dark:bg-slate-950/70"
+					style={{ WebkitOverflowScrolling: "touch", touchAction: "pan-x pan-y" }}
+				>
+					<div class="flex min-w-max gap-2">
+						{accessibleTabs.map((tabItem) => (
+							<button
+								key={tabItem.id}
+								onClick={() => {
+									if (tabItem.id === "members") {
+										loadMembers();
+									}
+									goSettingsTab(tabItem.id);
+								}}
+								class={cx(
+									"rounded-2xl px-4 py-3 text-sm font-semibold transition",
+									activeTab === tabItem.id
+										? "bg-gradient-to-r from-sky-500 to-blue-600 text-white shadow-lg shadow-sky-500/25"
+										: "text-slate-600 hover:bg-sky-50 dark:text-slate-300 dark:hover:bg-slate-900",
+								)}
+							>
+								{tabItem.label}
+							</button>
+						))}
+					</div>
 				</div>
-			</div>
 			) : null}
 
 			{/* Save feedback. The old permanent "Status: Ready." panel with wallet

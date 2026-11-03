@@ -97,7 +97,9 @@ export async function createSupportTicket({
 			`Status: ${ticket.status}`,
 			`User: ${actor?.name || actor?.email || "Unknown"}`,
 			description ? `\nDescription:\n${description}` : "",
-		].filter(Boolean).join("\n");
+		]
+			.filter(Boolean)
+			.join("\n");
 
 		await Promise.all(
 			admins.map((admin) =>

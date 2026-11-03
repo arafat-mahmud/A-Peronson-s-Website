@@ -410,7 +410,9 @@ export function AdminHomeSection({
 						<div className="rounded-3xl border border-slate-200/70 bg-slate-50/90 p-4 dark:border-white/5 dark:bg-white/5">
 							<div className="mb-3 flex items-center justify-between">
 								<div>
-									<p className="text-sm font-medium text-slate-700 dark:text-slate-200">System Pulse</p>
+									<p className="text-sm font-medium text-slate-700 dark:text-slate-200">
+										System Pulse
+									</p>
 									<p className="text-xs text-slate-500 dark:text-slate-400">
 										Operational readiness and administrative controls.
 									</p>
@@ -424,7 +426,8 @@ export function AdminHomeSection({
 									<span className="text-sm text-slate-600 dark:text-slate-300">Live status</span>
 									{loading ? (
 										<span className="inline-flex items-center gap-2 text-sm font-medium text-amber-500 dark:text-amber-300">
-											<span className="h-2 w-2 animate-pulse rounded-full bg-amber-400" /> Checking...
+											<span className="h-2 w-2 animate-pulse rounded-full bg-amber-400" />{" "}
+											Checking...
 										</span>
 									) : error ? (
 										<span className="inline-flex items-center gap-2 text-sm font-medium text-rose-500 dark:text-rose-300">

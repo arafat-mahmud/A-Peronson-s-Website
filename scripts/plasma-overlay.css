@@ -581,7 +581,6 @@
 		rgba(34, 211, 238, 0.07) 100%
 	);
 	--theme-gradient-surface: linear-gradient(135deg, #0b0515 0%, #140b24 52%, #180d2b 100%);
-	--theme-gradient-dark: linear-gradient(90deg, #05020d 0%, #120821 100%);
 	--theme-gradient-success: linear-gradient(90deg, #0db677 0%, #10d98b 100%);
 	--theme-gradient-warning: linear-gradient(90deg, #bd7814 0%, #ffb020 100%);
 	--theme-gradient-danger: linear-gradient(90deg, #c82447 0%, #ff4568 100%);

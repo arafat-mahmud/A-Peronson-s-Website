@@ -1,7 +1,12 @@
 import { Router } from "express";
-import { runLightDiagnostics, runDeepDiagnostics, reportHealth, getStartTime } from "../services/diagnosticsService.js";
-import { logError } from "../utils/logger.js";
 import { allowRoles, requireAuth } from "../middleware/auth.js";
+import {
+	getStartTime,
+	reportHealth,
+	runDeepDiagnostics,
+	runLightDiagnostics,
+} from "../services/diagnosticsService.js";
+import { logError } from "../utils/logger.js";
 
 const router = Router();
 
@@ -32,7 +37,10 @@ router.get("/health", (_req, res) => {
 });
 
 router.get("/uptime", (_req, res) => {
-	res.json({ started_at: new Date(getStartTime()).toISOString(), uptime_s: Math.floor((Date.now() - getStartTime()) / 1000) });
+	res.json({
+		started_at: new Date(getStartTime()).toISOString(),
+		uptime_s: Math.floor((Date.now() - getStartTime()) / 1000),
+	});
 });
 
 export default router;

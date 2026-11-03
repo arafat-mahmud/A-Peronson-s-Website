@@ -176,7 +176,10 @@ function UltraToggle({ dark, on, label, hint, onToggle }) {
 			</div>
 			<div className="flex items-center gap-3">
 				<span
-					className={cn("text-sm", on ? "text-cyan-300" : dark ? "text-slate-400" : "text-slate-500")}
+					className={cn(
+						"text-sm",
+						on ? "text-cyan-300" : dark ? "text-slate-400" : "text-slate-500",
+					)}
 				>
 					{on ? "On" : "Off"}
 				</span>
@@ -256,7 +259,13 @@ function UltraTinyChart({
 					</linearGradient>
 				</defs>
 				<path d={area} fill="url(#ultraSkyFill)" />
-				<path d={path} fill="none" stroke="currentColor" strokeWidth="3" className="text-cyan-300" />
+				<path
+					d={path}
+					fill="none"
+					stroke="currentColor"
+					strokeWidth="3"
+					className="text-cyan-300"
+				/>
 				{safePoints.map((p, i) => (
 					<circle
 						key={i}
@@ -517,10 +526,14 @@ export function AdminSecuritySection({
 									>
 										<div className="flex items-center justify-between">
 											<div>
-												<p className={cn("font-medium", adminDark ? "text-white" : "text-slate-900")}>
+												<p
+													className={cn("font-medium", adminDark ? "text-white" : "text-slate-900")}
+												>
 													Rotate keys
 												</p>
-												<p className={cn("text-sm", adminDark ? "text-slate-400" : "text-slate-500")}>
+												<p
+													className={cn("text-sm", adminDark ? "text-slate-400" : "text-slate-500")}
+												>
 													Encryption keys and session secrets.
 												</p>
 											</div>
@@ -609,9 +622,14 @@ export function AdminSecuritySection({
 														adminDark ? "border-white/10" : "border-slate-200",
 													)}
 												>
-													<span className={adminDark ? "text-slate-400" : "text-slate-600"}>{key}</span>
+													<span className={adminDark ? "text-slate-400" : "text-slate-600"}>
+														{key}
+													</span>
 													<span
-														className={cn("font-medium", adminDark ? "text-white" : "text-slate-900")}
+														className={cn(
+															"font-medium",
+															adminDark ? "text-white" : "text-slate-900",
+														)}
 													>
 														{value}
 													</span>
@@ -628,10 +646,14 @@ export function AdminSecuritySection({
 									>
 										<div className="flex items-center justify-between">
 											<div>
-												<p className={cn("font-medium", adminDark ? "text-white" : "text-slate-900")}>
+												<p
+													className={cn("font-medium", adminDark ? "text-white" : "text-slate-900")}
+												>
 													Incident Response
 												</p>
-												<p className={cn("text-sm", adminDark ? "text-slate-400" : "text-slate-500")}>
+												<p
+													className={cn("text-sm", adminDark ? "text-slate-400" : "text-slate-500")}
+												>
 													Incident dashboard and approvals.
 												</p>
 											</div>
@@ -687,7 +709,10 @@ export function AdminSecuritySection({
 											{(securityState?.data_exports?.pending || []).slice(0, 2).map((req) => (
 												<div
 													key={req.id}
-													className={cn("text-[11px]", adminDark ? "text-slate-400" : "text-slate-600")}
+													className={cn(
+														"text-[11px]",
+														adminDark ? "text-slate-400" : "text-slate-600",
+													)}
 												>
 													Export {req.dataset} · {req.status}
 												</div>
@@ -815,10 +840,17 @@ export function AdminSecuritySection({
 													<span className={valueClass}>{value}</span>
 												</div>
 												<div
-													className={cn("h-2 rounded-full", adminDark ? "bg-white/10" : "bg-slate-200")}
+													className={cn(
+														"h-2 rounded-full",
+														adminDark ? "bg-white/10" : "bg-slate-200",
+													)}
 												>
 													<div
-														className={cn("h-2 rounded-full bg-gradient-to-r", widthClass, gradient)}
+														className={cn(
+															"h-2 rounded-full bg-gradient-to-r",
+															widthClass,
+															gradient,
+														)}
 													/>
 												</div>
 											</div>
@@ -878,7 +910,12 @@ export function AdminSecuritySection({
 											>
 												{row.user_name || row.user_email || row.user_id}
 											</p>
-											<p className={cn("text-[10px]", adminDark ? "text-slate-400" : "text-slate-600")}>
+											<p
+												className={cn(
+													"text-[10px]",
+													adminDark ? "text-slate-400" : "text-slate-600",
+												)}
+											>
 												Doc: {row.doc_type || row.type || "business"} · Status:{" "}
 												{row.status || "pending"}
 											</p>
@@ -935,7 +972,12 @@ export function AdminSecuritySection({
 											>
 												{dispute.title || dispute.contract_id || "Dispute"}
 											</p>
-											<p className={cn("text-[10px]", adminDark ? "text-slate-400" : "text-slate-600")}>
+											<p
+												className={cn(
+													"text-[10px]",
+													adminDark ? "text-slate-400" : "text-slate-600",
+												)}
+											>
 												Status: {dispute.status || "open"} · Priority:{" "}
 												{dispute.priority || "normal"}
 											</p>
@@ -980,7 +1022,9 @@ export function AdminSecuritySection({
 									>
 										<div className="flex items-start justify-between gap-4">
 											<div>
-												<p className={cn("font-medium", adminDark ? "text-white" : "text-slate-900")}>
+												<p
+													className={cn("font-medium", adminDark ? "text-white" : "text-slate-900")}
+												>
 													{entry.path || entry.action || "Admin action"}
 												</p>
 												<p
@@ -995,7 +1039,10 @@ export function AdminSecuritySection({
 											<ArrowUpRight className="h-4 w-4 text-cyan-300" />
 										</div>
 										<div
-											className={cn("mt-3 text-xs", adminDark ? "text-slate-400" : "text-slate-600")}
+											className={cn(
+												"mt-3 text-xs",
+												adminDark ? "text-slate-400" : "text-slate-600",
+											)}
 										>
 											Actor: {entry.actor_id || entry.actor || "system"} / Status:{" "}
 											{entry.status ?? 200}
@@ -1041,7 +1088,9 @@ export function AdminSecuritySection({
 									adminDark ? "border-white/10 bg-white/5" : "border-slate-200 bg-white",
 								)}
 							>
-								<Search className={cn("h-4 w-4", adminDark ? "text-slate-400" : "text-slate-500")} />
+								<Search
+									className={cn("h-4 w-4", adminDark ? "text-slate-400" : "text-slate-500")}
+								/>
 								<input
 									value={ultraAuditQuery}
 									onChange={(e) => setUltraAuditQuery(e.target.value)}

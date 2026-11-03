@@ -3,8 +3,6 @@ import { ACTIONS, authorize, buildCapabilityPayload } from "../services/authoriz
 import { ensureEntitlement, getEntitlements } from "../services/entitlementService.js";
 import { isImageFile } from "../services/imageProcessor.js";
 import { addImageToQueue } from "../services/imageQueue.js";
-import { sanitizeSvgFile } from "../utils/svgSanitizer.js";
-import prisma from "../utils/prisma.js";
 import {
 	adminForceLogout as adminForceLogoutUser,
 	adminLockMessaging as adminLockMessagingUser,
@@ -28,10 +26,11 @@ import {
 	unblockUser as unblockUserService,
 	updateProfile,
 } from "../services/userService.js";
+import prisma from "../utils/prisma.js";
+import { sanitizeSvgFile } from "../utils/svgSanitizer.js";
 
 export async function me(req, res) {
-	const user =
-		req.authUser?.id === req.user.id ? req.authUser : await findUserById(req.user.id);
+	const user = req.authUser?.id === req.user.id ? req.authUser : await findUserById(req.user.id);
 	if (!user) {
 		return res.status(404).json({ error: "User not found" });
 	}
@@ -383,9 +382,17 @@ export async function exportMyData(req, res) {
 			prisma.user.findUnique({
 				where: { id: userId },
 				select: {
-					id: true, name: true, email: true, role: true, country: true,
-					timezone: true, locale: true, plan: true, verified: true,
-					profile: true, created_at: true,
+					id: true,
+					name: true,
+					email: true,
+					role: true,
+					country: true,
+					timezone: true,
+					locale: true,
+					plan: true,
+					verified: true,
+					profile: true,
+					created_at: true,
 				},
 			}),
 			prisma.feedPost.findMany({ where: { user_id: userId }, orderBy: { created_at: "desc" } }),
@@ -404,20 +411,29 @@ export async function exportMyData(req, res) {
 			user,
 			feed_posts: feedPosts,
 			messages: messages.map((m) => ({
-				id: m.id, match_id: m.match_id,
-				message: m.message, created_at: m.created_at,
-				sender_id: m.sender_id, receiver_id: m.receiver_id,
+				id: m.id,
+				match_id: m.match_id,
+				message: m.message,
+				created_at: m.created_at,
+				sender_id: m.sender_id,
+				receiver_id: m.receiver_id,
 			})),
 			products,
 			requirements,
 			documents: documents.map((d) => ({
-				id: d.id, filename: d.filename, filetype: d.filetype,
-				filesize: d.filesize, created_at: d.created_at,
+				id: d.id,
+				filename: d.filename,
+				filetype: d.filetype,
+				filesize: d.filesize,
+				created_at: d.created_at,
 			})),
 		};
 
 		res.setHeader("Content-Type", "application/json");
-		res.setHeader("Content-Disposition", `attachment; filename="gartexhub_export_${userId}_${Date.now()}.json"`);
+		res.setHeader(
+			"Content-Disposition",
+			`attachment; filename="gartexhub_export_${userId}_${Date.now()}.json"`,
+		);
 		return res.json(exportData);
 	} catch (err) {
 		return res.status(500).json({ error: err.message || "Export failed" });

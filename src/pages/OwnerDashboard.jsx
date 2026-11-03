@@ -1,6 +1,8 @@
 import { memo, useCallback, useEffect, useMemo, useState } from "react";
 import { Mosaic } from "react-loading-indicators";
-import { useNavigate, useSearchParams, useLocation } from "react-router-dom";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import ConversionFunnel from "../components/analytics/ConversionFunnel.jsx";
+import CoreMetricsCards from "../components/analytics/CoreMetricsCards.jsx";
 import CountUp from "../components/CountUp.jsx";
 import HoverCard from "../components/HoverCard.jsx";
 import LeadManager from "../components/leads/LeadManager.jsx";
@@ -8,18 +10,16 @@ import ScaleIn from "../components/ScaleIn.jsx";
 import ScrollReveal from "../components/ScrollReveal.jsx";
 import { StaggerContainer, StaggerItem } from "../components/StaggerContainer.jsx";
 import NeonAtom from "../components/ui/NeonAtom.jsx";
-import ConversionFunnel from "../components/analytics/ConversionFunnel.jsx";
 import useAnalyticsDashboard from "../hooks/useAnalyticsDashboard.js";
 import usePageChrome from "../hooks/usePageChrome.js";
 import { apiRequest, getToken, syncUserFromApi } from "../lib/auth.js";
 import { cn } from "../lib/cn.js";
 import { isRouteValid } from "../lib/routeHealthCheck.js";
 import { useTheme } from "../lib/ThemeProvider.jsx";
-import CoreMetricsCards from "../components/analytics/CoreMetricsCards.jsx";
 import ContractVaultPage from "./ContractVault.jsx";
+import MemberManagement from "./MemberManagement.jsx";
 import Settings from "./Settings.jsx";
 import VerificationPage from "./VerificationPage.jsx";
-import MemberManagement from "./MemberManagement.jsx";
 
 function SparkIcon({ className = "" }) {
 	return (
@@ -140,7 +140,9 @@ const StatCard = memo(function StatCard({
 	return (
 		<HoverCard className="relative overflow-hidden rounded-3xl border border-white/60 bg-white/70 p-4 shadow-[0_18px_45px_rgba(8,15,33,0.08)] backdrop-blur dark:border-white/10 dark:bg-slate-900/70 sm:p-5">
 			<div className={cn("absolute inset-x-0 top-0 h-1 bg-gradient-to-r", accent)} />
-			<p className="truncate text-xs font-medium text-slate-500 dark:text-slate-400 sm:text-sm">{label}</p>
+			<p className="truncate text-xs font-medium text-slate-500 dark:text-slate-400 sm:text-sm">
+				{label}
+			</p>
 			<div className="mt-2 flex items-end justify-between gap-2 sm:mt-3 sm:gap-3">
 				<div className="min-w-0">
 					<div className="text-2xl font-semibold tracking-tight text-slate-950 dark:text-white sm:text-3xl">
@@ -152,7 +154,9 @@ const StatCard = memo(function StatCard({
 							value
 						)}
 					</div>
-					<p className="mt-1 truncate text-xs text-slate-500 dark:text-slate-400 sm:text-sm">{sub}</p>
+					<p className="mt-1 truncate text-xs text-slate-500 dark:text-slate-400 sm:text-sm">
+						{sub}
+					</p>
 				</div>
 				<div
 					className={cn(
@@ -326,7 +330,8 @@ export default function OwnerDashboard() {
 	const chartDocsData = dashboard?.series?.documents?.map((item) => item.count) || [];
 
 	if (pageLoading) {
-		return <NeonAtom fill={true} timeout={10000} />;	}
+		return <NeonAtom fill={true} timeout={10000} />;
+	}
 
 	return (
 		<div className={`${theme === "dark" ? "dark" : ""} flex min-h-0 flex-1 flex-col`}>
@@ -364,7 +369,10 @@ export default function OwnerDashboard() {
 							</button>
 						</div>
 
-						<nav data-lenis-prevent={true} className="mt-4 min-h-0 flex-1 space-y-1 overflow-y-auto overscroll-contain pr-1 scrollbar-invisible">
+						<nav
+							data-lenis-prevent={true}
+							className="mt-4 min-h-0 flex-1 space-y-1 overflow-y-auto overscroll-contain pr-1 scrollbar-invisible"
+						>
 							{menuItems.map((item) => (
 								<button
 									key={item.id}
@@ -728,7 +736,10 @@ export default function OwnerDashboard() {
 												data={{
 													requests: totals.buyer_requests ?? 0,
 													matched: dashboard?.top_metrics?.match_success_rate
-														? Math.round((totals.buyer_requests ?? 0) * (dashboard.top_metrics.match_success_rate / 100))
+														? Math.round(
+																(totals.buyer_requests ?? 0) *
+																	(dashboard.top_metrics.match_success_rate / 100),
+															)
 														: 0,
 													conversations: totals.chats ?? 0,
 													contracts: totals.contracts ?? 0,
@@ -951,7 +962,9 @@ export default function OwnerDashboard() {
 								>
 									<div className="grid gap-4 md:grid-cols-3">
 										<div className="rounded-2xl bg-slate-50 p-4 dark:bg-white/5">
-											<div className="text-sm text-slate-500 dark:text-slate-400">Total partners</div>
+											<div className="text-sm text-slate-500 dark:text-slate-400">
+												Total partners
+											</div>
 											<div className="mt-1 text-2xl font-semibold text-slate-950 dark:text-white">
 												{totals.partner_network ?? 0}
 											</div>
@@ -963,7 +976,9 @@ export default function OwnerDashboard() {
 											</div>
 										</div>
 										<div className="rounded-2xl bg-slate-50 p-4 dark:bg-white/5">
-											<div className="text-sm text-slate-500 dark:text-slate-400">Buying houses</div>
+											<div className="text-sm text-slate-500 dark:text-slate-400">
+												Buying houses
+											</div>
 											<div className="mt-1 text-2xl font-semibold text-slate-950 dark:text-white">
 												{totals.buying_houses ?? 0}
 											</div>
@@ -972,7 +987,9 @@ export default function OwnerDashboard() {
 
 									<div className="mt-6 space-y-3">
 										{(dashboard?.partners || []).length === 0 ? (
-											<div className="text-sm text-slate-500 dark:text-slate-400">No partners yet</div>
+											<div className="text-sm text-slate-500 dark:text-slate-400">
+												No partners yet
+											</div>
 										) : (
 											(dashboard?.partners || []).map((partner, i) => (
 												<div
@@ -1010,7 +1027,9 @@ export default function OwnerDashboard() {
 									>
 										<div className="space-y-3 text-sm">
 											<div className="rounded-2xl bg-slate-50 p-4 dark:bg-white/5">
-												<div className="text-slate-500 dark:text-slate-400">Assignment strategy</div>
+												<div className="text-slate-500 dark:text-slate-400">
+													Assignment strategy
+												</div>
 												<div className="mt-1 font-semibold text-slate-950 dark:text-white">
 													{policyData.assignmentStrategy}
 												</div>
@@ -1197,7 +1216,11 @@ export default function OwnerDashboard() {
 
 						{active === "settings" && !loading && (
 							<div className="flex-1 min-h-0" data-lenis-prevent={true}>
-								<Settings embedded={true} initialTabProp="security" tabIds={["privacy", "notifications", "security", "theme"]} />
+								<Settings
+									embedded={true}
+									initialTabProp="security"
+									tabIds={["privacy", "notifications", "security", "theme"]}
+								/>
 							</div>
 						)}
 
@@ -1209,7 +1232,11 @@ export default function OwnerDashboard() {
 
 						{active === "assistant" && !loading && (
 							<div className="flex-1 min-h-0" data-lenis-prevent={true}>
-								<Settings embedded={true} initialTabProp="assistant_knowledge" tabIds={["assistant_knowledge"]} />
+								<Settings
+									embedded={true}
+									initialTabProp="assistant_knowledge"
+									tabIds={["assistant_knowledge"]}
+								/>
 							</div>
 						)}
 
@@ -1237,7 +1264,9 @@ export default function OwnerDashboard() {
 											<div className="mt-2 text-sm opacity-90">Status: Active</div>
 										</div>
 										<div className="rounded-2xl bg-slate-50 p-5 dark:bg-white/5">
-											<div className="text-sm text-slate-500 dark:text-slate-400">Billing Settings</div>
+											<div className="text-sm text-slate-500 dark:text-slate-400">
+												Billing Settings
+											</div>
 											<button
 												type="button"
 												onClick={() =>

@@ -13,13 +13,12 @@
  */
 
 :root {
-  /* Main colors / Backgrounds */
-  --color-background: #0ea5e9; /* bg-sky-500 (page background) */
+	/* Main colors / Backgrounds */
+	--color-background: #0ea5e9; /* bg-sky-500 (page background) */
 
-  /* Text */
-  --color-text-primary: #ffffff; /* text-white (heading / primary text) */
+	/* Text */
+	--color-text-primary: #ffffff; /* text-white (heading / primary text) */
 
-  /* Semantic aliases (derived, not new colors) */
-  --color-info: #0ea5e9; /* alias -> --color-background (bg-sky-500 (page background)) */
-
+	/* Semantic aliases (derived, not new colors) */
+	--color-info: #0ea5e9; /* alias -> --color-background (bg-sky-500 (page background)) */
 }

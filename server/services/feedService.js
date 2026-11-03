@@ -712,10 +712,7 @@ export async function getCombinedFeed({
 					item.name ||
 					"Unknown",
 				company_name:
-					author?.profile?.organization_name ||
-					item.company_name ||
-					item.organization_name ||
-					"",
+					author?.profile?.organization_name || item.company_name || item.organization_name || "",
 				verified: Boolean(author?.verified),
 				role: String(author?.role || ""),
 				avatar_url:
