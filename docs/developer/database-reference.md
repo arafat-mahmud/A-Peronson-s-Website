@@ -3,7 +3,7 @@
 
 # Database reference
 
-PostgreSQL via Prisma 6. 103 models, 0 enums, 23 migrations.
+PostgreSQL via Prisma 6. 103 models, 0 enums, 24 migrations.
 Schema changes ship **only** as migrations (`prisma migrate deploy` runs on every Render deploy);
 see [database.md](database.md) for the workflow and safety rules.
 
@@ -32,6 +32,7 @@ see [database.md](database.md) for the workflow and safety rules.
 - `20261103010000_add_crash_events`
 - `20261103020000_add_requirement_priority`
 - `20261104000000_add_sessions_and_password_reset`
+- `20261104010000_documents_ai_early_exit_default`
 
 ## Models
 
