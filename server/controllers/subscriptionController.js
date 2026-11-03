@@ -21,8 +21,13 @@ export async function getMySubscription(req, res) {
 	);
 }
 
+// Self-service can only cancel (move to Free). Premium is granted by a paid
+// renewal (/me/renew-monthly, charged to the wallet) or by an admin.
 export async function updateMySubscription(req, res) {
-	const plan = req.body?.plan === "premium" ? "premium" : "free";
+	if (req.body?.plan === "premium") {
+		return res.status(402).json({ error: "Premium is activated through billing (renew-monthly)." });
+	}
+	const plan = "free";
 	const sub = await upsertSubscription(req.user.id, plan, req.body?.auto_renew, {
 		actor_id: req.user.id,
 		source: "user_request",

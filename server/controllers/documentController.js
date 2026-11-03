@@ -291,6 +291,11 @@ export async function createContractSignCallback(req, res) {
 			void 0;
 		}
 
+		// Without a shared secret anyone could mark a contract signed: refuse in
+		// production; local development may call it unauthenticated.
+		if (!secret && process.env.NODE_ENV === "production") {
+			return res.status(503).json({ error: "E-sign webhook is not configured" });
+		}
 		if (secret) {
 			if (signatureHeader) {
 				// Support formats: 't=timestamp,v1=hex' or 'sha256=hex' or raw hex

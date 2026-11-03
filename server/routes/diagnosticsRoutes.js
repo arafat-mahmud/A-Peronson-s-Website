@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { runLightDiagnostics, runDeepDiagnostics, reportHealth, getStartTime } from "../services/diagnosticsService.js";
 import { logError } from "../utils/logger.js";
+import { allowRoles, requireAuth } from "../middleware/auth.js";
 
 const router = Router();
 
@@ -14,7 +15,8 @@ router.get("/diagnostics", async (_req, res) => {
 	}
 });
 
-router.get("/diagnostics/deep", async (_req, res) => {
+// Runtime/CPU details and dependency errors: operators only.
+router.get("/diagnostics/deep", requireAuth, allowRoles("owner", "admin"), async (_req, res) => {
 	try {
 		const result = await runDeepDiagnostics();
 		res.json(result);

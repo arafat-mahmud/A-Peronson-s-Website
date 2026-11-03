@@ -456,7 +456,8 @@ app.use("/api/network", networkRoutes);
 app.use("/api/exports", exportRoutes);
 app.use("/api/logs", logRoutes);
 app.use("/log-viewer", viewerRouter);
-app.use("/api/dev", devRoutes);
+// E-sign sandbox: lets the caller mark any contract signed, so never in production.
+if (process.env.NODE_ENV !== "production") app.use("/api/dev", devRoutes);
 app.use(seoRoutes);
 // Liveness: the process is up and the event loop answers. Deliberately no
 // database or provider calls - a slow dependency must not get a healthy
