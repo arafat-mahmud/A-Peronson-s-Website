@@ -169,8 +169,11 @@ Evidence: `bugs/WhatsApp Chat with রহস্য/` (chat txt, 18 screenshots, 
 
 - **Owner:** rotate the credentials exposed in `render.yaml` / old `.env` history; move them to the dashboard (`sync: false`); set
   `ESIGN_WEBHOOK_SECRET` before enabling an e-sign provider.
-- **Owner:** review and merge the PR from `fix/client-feedback-2026-11-03` → Render deploys `main`; then verify `/health`, `/ready`,
-  migrate log (4 new migrations) and run `tests/e2e` read-only against the live URL (see `docs/developer/deployment.md`).
+- PR #101 (`1879ed8b`) is merged and live: `/health` 200, `/ready` 200, `index.html` `max-age=0`; read-only e2e on live 6 pass /
+  1 fail (forgot-password link — not merged yet) / 2 skipped (write tests).
+- **Owner:** review and merge the follow-up PR (`fix/client-feedback-2026-11-03`, commits after `1879ed8b`) → Render deploys `main`;
+  then verify `/health`, `/ready`, the migrate log (2 new: `20261104000000_add_sessions_and_password_reset`,
+  `20261104010000_documents_ai_early_exit_default`) and run `tests/e2e` read-only against the live URL (`docs/developer/deployment.md`).
 - Product decisions: party-side signing UI in Contract Vault; Premium upgrade UI (wallet-charged renew-monthly).
 - Lint backlog (~2,600 Biome findings, mostly style + CRLF) — this pass added no new errors in touched files.
 - `/api/chatbot/settings` 403 for free plans is the intended Premium gate.
