@@ -601,6 +601,12 @@ function AppRoutes() {
 
 function AppLayout() {
 	const location = useLocation();
+	// The first page of a visit is shown without the route fade: content that
+	// starts at opacity 0 delays first paint (LCP). Later navigations still fade.
+	const landingPathRef = useRef(location.pathname);
+	useEffect(() => {
+		if (location.pathname !== landingPathRef.current) landingPathRef.current = null;
+	}, [location.pathname]);
 	const isImmersiveRoute = location.pathname === "/chat" || location.pathname === "/call";
 	const isAdminRoute = location.pathname.startsWith("/admin");
 	const hideChrome = isImmersiveRoute;
@@ -644,7 +650,7 @@ function AppLayout() {
 								>
 									<motion.div
 										key={location.pathname}
-										initial={{ opacity: 0 }}
+										initial={landingPathRef.current === location.pathname ? false : { opacity: 0 }}
 										animate={{ opacity: 1 }}
 										transition={{ duration: 0.15, ease: "easeOut" }}
 										class="flex min-h-0 flex-1 flex-col"

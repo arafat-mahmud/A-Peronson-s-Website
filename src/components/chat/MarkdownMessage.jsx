@@ -1,5 +1,5 @@
 import remarkAbbr from "@syenchuk/remark-abbr";
-import { memo, useMemo } from "react";
+import { lazy, memo, Suspense, useMemo } from "react";
 import ReactMarkdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
 import rehypeSanitize, { defaultSchema } from "rehype-sanitize";
@@ -12,8 +12,10 @@ import remarkIns from "remark-ins";
 import remarkSmartypants from "remark-smartypants";
 import remarkSupersub from "remark-supersub";
 import remarkContainerDirective from "../../lib/remarkContainerDirective.js";
-import CodeBlock from "../ui/CodeBlock.jsx";
 import LazyImage from "../ui/LazyImage.jsx";
+
+// Prism is ~280 KB; load it only when a message actually contains a fenced code block.
+const CodeBlock = lazy(() => import("../ui/CodeBlock.jsx"));
 
 const EXTRA_ALLOWED_TAGS = ["sub", "sup", "ins", "details", "summary", "kbd", "mark", "input"];
 
@@ -132,9 +134,11 @@ function MarkdownMessage({ text = "" }) {
 							);
 						}
 						return (
-							<CodeBlock class={className} {...props}>
-								{children}
-							</CodeBlock>
+							<Suspense fallback={<code className={className}>{children}</code>}>
+								<CodeBlock className={className} {...props}>
+									{children}
+								</CodeBlock>
+							</Suspense>
 						);
 					},
 					table({ className = "", ...props }) {

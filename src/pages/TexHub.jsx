@@ -72,6 +72,17 @@ const staggerChildVariants = {
 	},
 };
 
+// Hero headline + subheadline are the page's LCP text: slide in without the
+// opacity fade, since text that starts at opacity 0 only counts as painted
+// once the fade has finished.
+const heroTextVariants = {
+	hidden: { y: 20 },
+	visible: {
+		y: 0,
+		transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] },
+	},
+};
+
 const srWave = (delay) => ({
 	duration: 0.6,
 	ease: [0.16, 1, 0.3, 1],
@@ -198,19 +209,13 @@ function AnimatedHeroHeading({ text, class: cls = "", className = "" }) {
 								{chars.map((ch, idx) => {
 									const charIndex = globalIndex++;
 									return (
-										<motion.span
+										<span
 											key={`${ch}-${idx}`}
-											class="inline-block"
-											initial={{ opacity: 0, y: 10 }}
-											animate={{ opacity: 1, y: 0 }}
-											transition={{
-												duration: 0.45,
-												ease: "easeOut",
-												delay: charIndex * 0.005,
-											}}
+											class="inline-block animate-hero-char"
+											style={{ animationDelay: `${charIndex * 5}ms` }}
 										>
 											{ch}
-										</motion.span>
+										</span>
 									);
 								})}
 							</span>
@@ -762,8 +767,11 @@ export default function TexHub() {
 			</div>
 
 			<main class="mx-auto max-w-7xl px-4 pb-20 pt-10 sm:px-6 lg:px-8">
+				{/* Above the fold: no reveal-on-scroll fade, so the hero text is the first
+				    thing painted (LCP); its children keep their staggered entrance. */}
 				<ScrollReveal
 					as="section"
+					initial={false}
 					transition={srWave(0)}
 					class="grid items-center gap-8 lg:grid-cols-[1.25fr_0.95fr]"
 				>
@@ -776,13 +784,13 @@ export default function TexHub() {
 						</motion.div>
 
 						<motion.h1
-							variants={staggerChildVariants}
+							variants={heroTextVariants}
 							fetchPriority="high"
 							class="mt-6 max-w-3xl text-4xl font-semibold tracking-tight text-slate-950 dark:text-white sm:text-5xl lg:text-6xl"
 						>
 							<AnimatedHeroHeading text={heroHeadline} />
 						</motion.h1>
-						<motion.div variants={staggerChildVariants}>
+						<motion.div variants={heroTextVariants}>
 							<p class="mt-5 max-w-2xl text-base leading-7 text-slate-600 dark:text-slate-200 sm:text-lg">
 								{heroSubheadline}
 							</p>

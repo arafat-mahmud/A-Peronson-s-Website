@@ -1,17 +1,7 @@
 @import "tailwindcss";
 @import "./theme/blueTheme.css";
 @import "./theme/themes/blue-overlay.css";
-@import "./theme/themes/aurora.css";
-@import "./theme/themes/violet.css";
-@import "./theme/themes/sapphire.css";
-@import "./theme/themes/arctic.css";
-@import "./theme/themes/emerald.css";
-@import "./theme/themes/blurple.css";
-@import "./theme/themes/mono.css";
-@import "./theme/themes/plasma.css";
-@import "./theme/themes/solaris.css";
-@import "./theme/themes/forest.css";
-@import "./theme/themes/crimson.css";
+/* The other 11 themes load on demand: src/theme/loadThemeStyles.js */
 @import "./theme/page-wash.css";
 @import "./theme/env-bg.css";
 @import "./theme/themes/tailwind-tokens.css";
@@ -169,7 +159,19 @@ body,
 	}
 }
 
+/* Home hero heading: per-character rise-in, run by the compositor instead of
+   ~100 framer-motion components (same timing as before). No opacity step: the
+   heading is the LCP element and must be painted on the first frame. */
+@keyframes hero-char-in {
+	from {
+		transform: translateY(10px);
+	}
+}
+
 @layer utilities {
+	.animate-hero-char {
+		animation: hero-char-in 0.45s ease-out both;
+	}
 	.animate-blob-spin-1 {
 		animation: blob-spin-1 40s linear infinite;
 	}

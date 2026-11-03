@@ -7,6 +7,7 @@ import {
 	syncThemeFromStorage,
 	toggleTheme,
 } from "../store/themeSlice.js";
+import { ensureThemeStyles } from "../theme/loadThemeStyles.js";
 
 function resolveTheme(mode) {
 	if (mode === "system") {
@@ -26,6 +27,7 @@ export function ThemeProvider({ children }) {
 	useEffect(() => {
 		// Theme personality scope; modes switch values centrally per theme.
 		document.documentElement.setAttribute("data-theme", themeName || "blue");
+		ensureThemeStyles(themeName || "blue");
 	}, [themeName]);
 
 	useEffect(() => {

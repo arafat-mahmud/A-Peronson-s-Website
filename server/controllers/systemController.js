@@ -81,7 +81,8 @@ export async function systemHome(_req, res) {
 	return res.json({
 		ok: true,
 		hero: {
-			headline: "Where global buyers, factories, and buying houses connect with clarity",
+			headline:
+				"Garment Sourcing Platform — Where Global Buyers, Factories & Buying Houses Connect in Bangladesh",
 			subheadline:
 				"A focused B2B sourcing workflow platform for garments and textiles. Post requests, showcase products, connect quickly, and move from first contact to contract in one place.",
 			presentation_rule:

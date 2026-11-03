@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { ensureThemeStyles } from "../theme/loadThemeStyles.js";
 import { DEFAULT_THEME, VALID_THEMES } from "../theme/themes/registry.js";
 
 function resolveTheme(mode) {
@@ -30,6 +31,7 @@ function applyThemeToDOM(mode, name) {
 	const root = document.documentElement;
 	// Canonical theme scope (section 11: runtime dynamic theming).
 	root.setAttribute("data-theme", themeName);
+	ensureThemeStyles(themeName);
 	root.setAttribute("data-mode", resolved);
 	if (resolved === "dark") {
 		root.classList.add("dark");
@@ -107,6 +109,7 @@ export function setThemeNameBySlug(name) {
 	}
 	if (typeof document !== "undefined") {
 		document.documentElement.setAttribute("data-theme", name);
+		ensureThemeStyles(name);
 	}
 }
 

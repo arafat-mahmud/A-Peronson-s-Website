@@ -1,13 +1,15 @@
 import { motion, useReducedMotion, useSpring } from "framer-motion";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { lazy, Suspense, useCallback, useEffect, useRef, useState } from "react";
 import { ThreeDot } from "react-loading-indicators";
 import { useLocation } from "react-router-dom";
 import useScrollDirection from "../hooks/useScrollDirection.js";
 import { answerFaq, formatFaqAnswer } from "../../shared/assistant/faqEngine.js";
 import { API_BASE, getCurrentUserAsync, getToken } from "../lib/auth.js";
 import { logger } from "../lib/logger.js";
-import MarkdownMessage from "./chat/MarkdownMessage.jsx";
 import BotLogo from "./ui/BotLogo.jsx";
+
+// The markdown renderer (~100 KB) is only needed once the chat panel shows a reply.
+const MarkdownMessage = lazy(() => import("./chat/MarkdownMessage.jsx"));
 
 /**
  * @typedef {Object} SessionData
@@ -588,7 +590,9 @@ export default function FloatingAssistant() {
 										{msg.role === "assistant" && msg.isNew ? (
 											<TypewriterText text={msg.text} onComplete={() => markAsOld(i)} />
 										) : msg.role === "assistant" ? (
-											<MarkdownMessage text={msg.text} />
+											<Suspense fallback={<span className="whitespace-pre-wrap">{msg.text}</span>}>
+												<MarkdownMessage text={msg.text} />
+											</Suspense>
 										) : (
 											msg.text
 										)}
