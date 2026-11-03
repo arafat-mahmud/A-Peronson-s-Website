@@ -95,3 +95,27 @@ describe("self-service subscription changes", () => {
 		expect(upsertSubscription).toHaveBeenCalledWith("u-1", "free", false, expect.any(Object));
 	});
 });
+
+describe("contract signatures (documentService.updateContractSignatures)", () => {
+	const contract = { id: "k-1", entity_type: "contract", buyer_id: "buyer-1", factory_id: "factory-1" };
+
+	test("a party cannot sign the other party's side", async () => {
+		jest.resetModules();
+		jest.unstable_mockModule("../../server/utils/prisma.js", () => ({
+			default: { document: { findFirst: async () => ({ ...contract }) } },
+		}));
+		const { updateContractSignatures } = await import("../../server/services/documentService.js");
+		const buyer = { id: "buyer-1", role: "buyer" };
+		const factory = { id: "factory-1", role: "factory" };
+
+		await expect(updateContractSignatures("k-1", { factory_signature_state: "signed" }, buyer)).resolves.toBe(
+			"forbidden",
+		);
+		await expect(updateContractSignatures("k-1", { buyer_signature_state: "signed" }, factory)).resolves.toBe(
+			"forbidden",
+		);
+		await expect(
+			updateContractSignatures("k-1", { buyer_signature_state: "signed" }, { id: "someone", role: "buyer" }),
+		).resolves.toBe("forbidden");
+	});
+});

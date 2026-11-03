@@ -906,6 +906,18 @@ export async function updateContractSignatures(contractId, patch, actor) {
 	if (!canModifyContract(actor, existing)) {
 		return "forbidden";
 	}
+	// Each party signs only its own side; staff may record either.
+	if (!isOwnerOrAdmin(actor)) {
+		const actorId = String(actor?.id || "");
+		const touchesBuyer = patch.buyer_signature_state !== undefined;
+		const touchesFactory = patch.factory_signature_state !== undefined;
+		if (
+			(touchesBuyer && actorId !== String(existing.buyer_id || "")) ||
+			(touchesFactory && actorId !== String(existing.factory_id || ""))
+		) {
+			return "forbidden";
+		}
+	}
 
 	if (existing.buyer_id && existing.factory_id) {
 		const callCompleted = await hasCompletedCallBetweenUsers(
