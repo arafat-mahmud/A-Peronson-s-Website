@@ -52,7 +52,7 @@ $${\color{#FF6EC7}{\text{⚡}}}\ {\color{#A78BFA}{\text{━━━}}}\ {\color{#3
 | **Frontend** | ![react](https://img.shields.io/badge/React-19-61DAFB.svg?style=flat-square&logo=react) ![vite](https://img.shields.io/badge/Vite-6-646CFF.svg?style=flat-square&logo=vite) ![redux](https://img.shields.io/badge/Redux%20Toolkit-2-764ABC.svg?style=flat-square&logo=redux) ![tailwind](https://img.shields.io/badge/Tailwind-4-38BDF8.svg?style=flat-square&logo=tailwindcss) |
 | **Backend** | ![express](https://img.shields.io/badge/Express-5-000000.svg?style=flat-square&logo=express) ![postgres](https://img.shields.io/badge/PostgreSQL-16-4169E1.svg?style=flat-square&logo=postgresql) ![prisma](https://img.shields.io/badge/Prisma-6-2D3748.svg?style=flat-square&logo=prisma) |
 | **Realtime** | ![ws](https://img.shields.io/badge/WebSocket-8-4A00E0.svg?style=flat-square) ![sse](https://img.shields.io/badge/SSE-realtime-FF6EC7.svg?style=flat-square) |
-| **Tests** | ![jest](https://img.shields.io/badge/Jest%20%2B%20RTL-59-512BD4.svg?style=flat-square&logo=jest) ![playwright](https://img.shields.io/badge/Playwright-e2e-2EAD33.svg?style=flat-square&logo=playwright) |
+| **Tests** | ![jest](https://img.shields.io/badge/Jest%20%2B%20RTL-78%20suites-512BD4.svg?style=flat-square&logo=jest) ![playwright](https://img.shields.io/badge/Playwright-e2e-2EAD33.svg?style=flat-square&logo=playwright) |
 | **Tooling** | ![biome](https://img.shields.io/badge/Biome-2-60A5FA.svg?style=flat-square&logo=biome) ![husky](https://img.shields.io/badge/Husky-pre--commit-FFB86C.svg?style=flat-square) |
 | **Deploy** | ![docker](https://img.shields.io/badge/Docker-ready-2496ED.svg?style=flat-square&logo=docker) ![render](https://img.shields.io/badge/Render-blueprint-46E3B7.svg?style=flat-square) |
 
@@ -73,8 +73,21 @@ $$\text{Trust} \times \text{Realtime} \times \text{Governance} = \text{GarTexHub
 
 ---
 
+## 📚 Documentation
+
+| For | Start here |
+| --- | --- |
+| **Users** (buyers, factories, buying houses, agents) | [docs/user/](docs/user/README.md) — getting started, profiles & verification, sourcing, messaging & calls, contracts & billing, account & security |
+| **Developers** | [docs/developer/](docs/developer/README.md) — local setup, configuration, architecture, database, testing, deployment & reliability, security, performance, contributing |
+| **Generated references** | [API](docs/developer/api-reference.md) · [Database](docs/developer/database-reference.md) · [Environment variables](docs/developer/env-reference.md) (`pnpm run docs:generate`) |
+
+All documentation: [docs/README.md](docs/README.md).
+
+---
+
 ## Table of Contents
 
+- [📚 Documentation](#-documentation)
 - [🏅 Badges](#-colorfbbf24textbadges)
 - [🎯 The Pitch](#-colorff6ec7textthe-pitch)
 - [⚡ Overview](#-color38bdf8textoverview)
@@ -221,7 +234,7 @@ flowchart LR
 | Routing | **React Router 7** | 36+ route table, `ProtectedRoute` role gates |
 | State | **Redux Toolkit 2** + `react-redux` | Theme, toast, user, config slices |
 | Styling | **Tailwind CSS 4** (`@tailwindcss/vite`) + custom `src/tailwind.css` | Utility-first styling, dark mode, scrollbar utilities |
-| Animation | **framer-motion 12**, **lenis 1** | Page transitions, micro-interactions, smooth scrolling |
+| Animation | **framer-motion 12** | Page transitions, micro-interactions (scrolling is native) |
 | Charts/maps | **recharts**, **leaflet** | Analytics dashboards, geo views |
 | Backend framework | **Express 5** | REST API monolith (port 4000) |
 | ORM / database | **Prisma 6** + **PostgreSQL** | 92 models, 19 migrations |
@@ -297,7 +310,7 @@ A-Peronson-s-Website/
 | `shared/` | Taxonomy/config imported by both client and server (single source of truth). |
 | `prisma/` | PostgreSQL schema + migration history. |
 | `tests/` | Jest (unit/integration) + Playwright (e2e) suites and shared test server. |
-| `docs/` | Generated, line-numbered documentation (regenerate with `npm run docs:generate`). |
+| `docs/` | User guide (`docs/user/`), developer guide (`docs/developer/`, API/database/env references generated with `pnpm run docs:generate`), older reference notes. |
 | `scripts/` | Dev/CI tooling: OpenSearch reindex, smoke tests, diagnostics, docs generation, `run.sh` launcher. |
 | `docker/` | Production nginx config (TLS termination, WebSocket upgrade proxying). |
 | `electron/` | Desktop app wrapper around the built SPA + local API. |
@@ -312,7 +325,7 @@ There is **one SPA**, bootstrapped in `src/main.jsx`:
 
 1. `index.html` → `src/main.jsx` mounts `StrictMode` → `<Provider store={store}>` (Redux) → `ThemeProvider` (dark/light) → `App`.
 2. `src/App.jsx` sets up `BrowserRouter` + `CyberpunkCursor` + `ToastProvider` + `ErrorBoundary`.
-3. `AppLayout` (App.jsx:373) renders **NavBar → main → Footer** inside an `.app-shell` flex column, wrapped in `LenisProvider` for smooth scroll. On `/chat`, `/call`, and `/admin*` the chrome (nav, footer, assistant, scroll bar) is hidden — **immersive routes**.
+3. `AppLayout` (App.jsx:373) renders **NavBar → main → Footer** inside an `.app-shell` flex column; scrolling is native (the Lenis smooth-scroll wrapper was removed because it hijacked wheel/touch scrolling), and `RouteScrollManager` resets the scroll position on navigation. On `/chat`, `/call`, and `/admin*` the chrome (nav, footer, assistant, scroll bar) is hidden — **immersive routes**.
 4. Every page is **lazy-loaded** (`safeLazy`) with a `LazyLoadError` fallback, so the initial bundle stays small; `vite.config.js` manualChunks splits React, motion, router, redux, icons, charts into vendor chunks.
 5. `ProtectedRoute` (App.jsx:93) gates pages by **token presence + role membership**; role mismatch → `/access-denied`.
 6. Global **event tracking** (`src/lib/events.js`) posts `page_view`, `page_duration`, `click`, `session_start/end` to `POST /api/events` (canonical event allowlist inside that file).
@@ -323,7 +336,7 @@ Key frontend facilities:
 - **User cache** — `getCurrentUser()` (60s TTL, primed from `localStorage`), `verifyAndSyncUser()` re-fetches from `/users/me` on load ("never trust localStorage for security").
 - **Realtime clients** — `notificationsRealtime.js` (WS heartbeat + reconnect), `feedRealtime.js` (SSE), inline WS logic in `ChatInterface.jsx` and `CallInterface.jsx`.
 - **Route health** — `src/lib/routeHealthCheck.js` `ROUTE_MANIFEST` (34 exact paths + dynamic regex patterns) keeps nav links honest; nav groups hide when empty.
-- **Styling** — Tailwind v4 with dark-mode class strategy; custom `src/tailwind.css` provides `scrollbar-invisible`, lenis CSS, and cyber-neon shadows; `data-lenis-prevent` marks independent scroll panels.
+- **Styling** — Tailwind v4 with dark-mode class strategy; custom `src/tailwind.css` provides `scrollbar-invisible` and cyber-neon shadows. Only the active colour theme's CSS is loaded (`src/theme/loadThemeStyles.js`).
 
 ---
 
@@ -433,7 +446,7 @@ Key frontend facilities:
 ### MainFeed (`/feed`)
 - Purpose: the marketplace heart — a combined feed of buyer requests and company products with filter tabs (category/type), a unique feed toggle, and live updates.
 - Architecture: three panels (sidebar/main/details); **SSE realtime** via `feedRealtime.js` (`new_post` / `updated_post` / `deleted_post`).
-- Key engineering: effects de-coupled from closure state via a `liveRef` pattern + `markLoaded`/`nextCursorRef` (fixes the historical infinite re-render loop — see Troubleshooting); height chain fixed in `App.jsx` (`h-screen` on `/feed`, `flex min-h-0 flex-1` on `<main>` and route wrapper); Lenis scroll delegation via `isLargeScreen` state.
+- Key engineering: effects de-coupled from closure state via a `liveRef` pattern + `markLoaded`/`nextCursorRef` (fixes the historical infinite re-render loop — see Troubleshooting); height chain fixed in `App.jsx` (`h-screen` on `/feed`, `flex min-h-0 flex-1` on `<main>` and route wrapper); scrolling is native.
 - Data: `GET /api/feed` (combined), `GET /api/feed/search`, posts CRUD, `POST /api/feed/posts/upload`.
 
 ### FeedManagement (`/feed/manage`)
@@ -901,13 +914,13 @@ All endpoints live under `/api`. The table below lists mount points; detailed do
 
 ### Authentication flow
 
-1. **Login** — `POST /api/auth/login` verifies `bcryptjs` hash → issues JWT (12h) via `signToken()` with claims `{ id, role, email, org_owner_id, member_id, auth_via_passkey }`, issuer `JWT_ISSUER` (default `gartexhub-api`), audience `JWT_AUDIENCE` (default `gartexhub-client`).
+1. **Login** — `POST /api/auth/login` verifies `bcryptjs` hash → issues JWT (12h by default; 24h / 7d / 30d selectable) bound to a revocable server-side session (`sid` → `user_sessions`) via `signToken()` with claims `{ id, role, email, org_owner_id, member_id, auth_via_passkey }`, issuer `JWT_ISSUER` (default `gartexhub-api`), audience `JWT_AUDIENCE` (default `gartexhub-client`).
 2. **Storage** — `saveSession()` writes the token to `localStorage` (or `sessionStorage` when "remember me" is off).
-3. **Every request** — `Authorization: Bearer <jwt>`; `requireAuth` verifies signature + issuer/audience + DB user existence + `password_reset_at` invalidation (tokens issued before a password reset are rejected with 401).
+3. **Every request** — `Authorization: Bearer <jwt>`; `requireAuth` verifies signature + issuer/audience + DB user existence + active session (revoked/expired → 401) + `password_reset_at` invalidation (tokens issued before a password reset are rejected with 401).
 4. **Client re-verification** — on page load `verifyAndSyncUser()` fetches `/users/me` and refreshes the cached user; `ProtectedRoute` renders a spinner until a user is known, then applies role gates.
-5. **Logout** — `POST /api/auth/logout` + `clearSession()` (client removes both storages).
+5. **Logout & sessions** — `POST /api/auth/logout` revokes the session server-side + `clearSession()`; Settings → Security lists active sessions and revokes one or all others (`/api/auth/sessions`).
 6. **Passkeys (WebAuthn)** — `@simplewebauthn` option/verify endpoints for login and registration; successful passkey logins mark the JWT with `auth_via_passkey` (usable as an admin security proof).
-7. **Password reset** — sets `password_reset_at`; all previously issued tokens become invalid (stateless invalidation).
+7. **Password reset** — `/forgot-password` → `POST /api/auth/password/forgot` (same answer for every email; hashed one-time token, 30 min) → `/reset-password` → `POST /api/auth/password/reset`; sets `password_reset_at` and revokes all sessions. Signed-in change: `PUT /api/auth/password` (current password required; other sessions revoked).
 
 ### Role assignment
 
@@ -1412,7 +1425,7 @@ Verify: frontend on `http://localhost:5173`, API on `http://localhost:4000` — 
 | `npm run ci:smoke` | Smoke-test search index |
 | `npm run ci:full` | reindex → test → smoke (CI pipeline) |
 | `npm run ai:eval` | AI extraction regression suite |
-| `npm run docs:generate` | Regenerate docs index + render |
+| `npm run docs:generate` | Regenerate the API, database and env references in `docs/developer/` (`docs:check` fails when stale) |
 | `npm run lint` / `npm run format` / `npm run check` | Biome checks (Biome, **not** ESLint) |
 | `npm run diagnose` | Environment diagnostics |
 
@@ -1523,8 +1536,8 @@ npm run ai:eval
 | Symptom | Cause | Fix |
 |---|---|---|
 | Feed stuck on "infinite loading"; `GET /api/users/me` storms; WS "closed before established" spam | Cascading callback/state loops in `MainFeed` + cold auth cache unmounting the page | `liveRef` pattern, stable `loadFeedPage`, `markLoaded`, auth cache priming from localStorage |
-| Scroll doesn't work inside feed panels (dead zone) | Broken flex height chain — `.app-shell` growable (`min-h-[125vh]`) and non-flex `<main>` | `h-screen` on `.app-shell` for `/feed`; `<main>` + route `<motion.div>` are flex; `data-lenis-prevent` only on large screens |
-| Sidebar/panels don't scroll with wheel anywhere | Lenis globally captures wheel events | `data-lenis-prevent` on every scroll container |
+| Scroll doesn't work inside feed panels (dead zone) | Broken flex height chain — `.app-shell` growable (`min-h-[125vh]`) and non-flex `<main>` | `h-screen` on `.app-shell` for `/feed`; `<main>` + route `<motion.div>` are flex |
+| Sidebar/panels don't scroll with wheel anywhere | (historical) Lenis globally captured wheel events | Lenis removed — scrolling is native |
 | Nav items (`/contracts`, `/verification`, `/leads`) hidden | Items pointed at non-existent routes (health check hides them) | Add route to App.jsx **and** `ROUTE_MANIFEST` (`src/lib/routeHealthCheck.js`) |
 | OrgSettings has no entry point | Standalone page only | Rendered embedded in OwnerDashboard via `embedded` prop |
 | WebSocket survives unmount; zombie connections | Cleanup didn't null handlers | All 4 WS sites nullify `onopen/onmessage/onerror/onclose` before `close()`; FloatingAssistant handles `CONNECTING` |
@@ -1552,7 +1565,7 @@ npm run ai:eval
 - **Branches:** feature/fix branches off `main`; squash-merge with a descriptive message (`feat:`, `fix:`, `docs:`, `chore:`).
 - **Lint/format:** Biome (husky `pre-commit` runs `biome check`). Do **not** add ESLint configs.
 - **Tests:** every change must keep Jest + Playwright suites green; add tests for new behavior (`npm test`, `npm run test:e2e`).
-- **Docs:** regenerate with `npm run docs:generate` when endpoints/pages change.
+- **Docs:** user-facing changes → `docs/user/`, implementation → `docs/developer/`; run `npm run docs:generate` when routes, the Prisma schema or env variables change.
 - **Secrets:** never commit `.env` or real keys — the repo treats `render.yaml` secrets as **already rotated / placeholder**.
 - **Routes:** adding a route? Update **both** `App.jsx` and `ROUTE_MANIFEST` in `src/lib/routeHealthCheck.js`, or nav items will disappear.
 - **Known issues:** see `AGENTS.md` for the full problems/fixes registry before reporting duplicates.
