@@ -105,7 +105,10 @@ export default function OfflineBanner() {
 		}
 		shownRef.current = state;
 		setNotice(state);
-		const timer = setTimeout(() => setNotice((current) => (current === state ? null : current)), copy.ms);
+		const timer = setTimeout(
+			() => setNotice((current) => (current === state ? null : current)),
+			copy.ms,
+		);
 		return () => clearTimeout(timer);
 	}, [status.state]);
 

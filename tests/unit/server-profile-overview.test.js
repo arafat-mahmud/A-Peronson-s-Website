@@ -102,7 +102,10 @@ describe("company facts taxonomy (shared/config/platformTaxonomy.js)", () => {
 				production_capacity: { quantity: "50000", unit: "pieces", period: "week" },
 			}),
 		).toEqual({
-			value: { employee_count: 1200, production_capacity: { quantity: 50000, unit: "pieces", period: "week" } },
+			value: {
+				employee_count: 1200,
+				production_capacity: { quantity: 50000, unit: "pieces", period: "week" },
+			},
 			errors: {},
 		});
 		const bad = tax.normalizeCompanyFacts({
@@ -149,17 +152,29 @@ describe("organization name rename rules (server/services/userService.js updateP
 		const recent = new Date(Date.now() - 5 * 24 * 3600 * 1000).toISOString();
 		await load({
 			...base,
-			profile: { organization_name: "Old Co", onboarding_completed: "true", organization_name_changed_at: recent },
+			profile: {
+				organization_name: "Old Co",
+				onboarding_completed: "true",
+				organization_name_changed_at: recent,
+			},
 		});
-		await expect(users.updateProfile("u-1", { organization_name: "Another Co" })).rejects.toMatchObject({
+		await expect(
+			users.updateProfile("u-1", { organization_name: "Another Co" }),
+		).rejects.toMatchObject({
 			status: 409,
 			code: "ORG_NAME_LOCKED",
 		});
 	});
 
 	test("verified companies must re-verify to rename; same name is not a rename", async () => {
-		await load({ ...base, verified: true, profile: { organization_name: "Old Co", onboarding_completed: "true" } });
-		await expect(users.updateProfile("u-1", { organization_name: "Renamed" })).rejects.toMatchObject({
+		await load({
+			...base,
+			verified: true,
+			profile: { organization_name: "Old Co", onboarding_completed: "true" },
+		});
+		await expect(
+			users.updateProfile("u-1", { organization_name: "Renamed" }),
+		).rejects.toMatchObject({
 			code: "ORG_NAME_REVERIFY_REQUIRED",
 		});
 		await expect(users.updateProfile("u-1", { organization_name: "old co" })).resolves.toBeTruthy();

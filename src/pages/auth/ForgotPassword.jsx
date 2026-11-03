@@ -45,7 +45,9 @@ function SubmitButton({ busy, children }) {
 			disabled={busy}
 			class="inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-sky-600 to-blue-600 px-5 py-3.5 text-sm font-bold text-white transition hover:brightness-110 disabled:cursor-wait disabled:opacity-80"
 		>
-			{busy ? <span class="h-4 w-4 animate-spin rounded-full border-2 border-white/40 border-t-white" /> : null}
+			{busy ? (
+				<span class="h-4 w-4 animate-spin rounded-full border-2 border-white/40 border-t-white" />
+			) : null}
 			{children}
 		</button>
 	);
@@ -68,7 +70,10 @@ export function ForgotPassword() {
 		}
 		setBusy(true);
 		try {
-			const data = await apiRequest("/auth/password/forgot", { method: "POST", body: { email: email.trim() } });
+			const data = await apiRequest("/auth/password/forgot", {
+				method: "POST",
+				body: { email: email.trim() },
+			});
 			setDone(data?.message || "If an account exists for that email, a reset link has been sent.");
 		} catch (err) {
 			setError(err?.message || "Could not send the reset link. Try again.");
@@ -83,12 +88,18 @@ export function ForgotPassword() {
 			subtitle="Enter your account email and we'll send you a link to choose a new password."
 		>
 			{done ? (
-				<div role="status" class="rounded-2xl border border-emerald-500/30 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-800 dark:text-emerald-200">
+				<div
+					role="status"
+					class="rounded-2xl border border-emerald-500/30 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-800 dark:text-emerald-200"
+				>
 					{done}
 				</div>
 			) : (
 				<form onSubmit={submit} noValidate={true} class="space-y-4">
-					<label htmlFor="forgot-email" class="text-sm font-medium text-slate-700 dark:text-slate-200">
+					<label
+						htmlFor="forgot-email"
+						class="text-sm font-medium text-slate-700 dark:text-slate-200"
+					>
 						Email
 					</label>
 					<input
@@ -153,7 +164,10 @@ export default function ResetPassword() {
 
 	if (!token) {
 		return (
-			<AuthCard title="Reset link missing" subtitle="Open the link from the reset email, or request a new one.">
+			<AuthCard
+				title="Reset link missing"
+				subtitle="Open the link from the reset email, or request a new one."
+			>
 				<Link to="/forgot-password" class="font-semibold text-sky-700 dark:text-sky-300">
 					Request a new reset link
 				</Link>
@@ -163,7 +177,10 @@ export default function ResetPassword() {
 
 	if (done) {
 		return (
-			<AuthCard title="Password updated" subtitle="All other sessions were signed out. Sign in with your new password.">
+			<AuthCard
+				title="Password updated"
+				subtitle="All other sessions were signed out. Sign in with your new password."
+			>
 				<Link
 					to="/login"
 					class="inline-flex w-full items-center justify-center rounded-2xl bg-gradient-to-r from-sky-600 to-blue-600 px-5 py-3.5 text-sm font-bold text-white"
@@ -175,10 +192,16 @@ export default function ResetPassword() {
 	}
 
 	return (
-		<AuthCard title="Choose a new password" subtitle="The link works once and expires 30 minutes after it was sent.">
+		<AuthCard
+			title="Choose a new password"
+			subtitle="The link works once and expires 30 minutes after it was sent."
+		>
 			<form onSubmit={submit} noValidate={true} class="space-y-4">
 				<div class="space-y-2">
-					<label htmlFor="reset-password" class="text-sm font-medium text-slate-700 dark:text-slate-200">
+					<label
+						htmlFor="reset-password"
+						class="text-sm font-medium text-slate-700 dark:text-slate-200"
+					>
 						New password
 					</label>
 					<div class="relative">
@@ -206,7 +229,9 @@ export default function ResetPassword() {
 									key={rule.id}
 									class={cn(
 										"text-xs",
-										rule.test(password) ? "text-emerald-600 dark:text-emerald-400" : "text-slate-500",
+										rule.test(password)
+											? "text-emerald-600 dark:text-emerald-400"
+											: "text-slate-500",
 									)}
 								>
 									{rule.test(password) ? "✓ " : "• "}
@@ -217,7 +242,10 @@ export default function ResetPassword() {
 					) : null}
 				</div>
 				<div class="space-y-2">
-					<label htmlFor="reset-confirm" class="text-sm font-medium text-slate-700 dark:text-slate-200">
+					<label
+						htmlFor="reset-confirm"
+						class="text-sm font-medium text-slate-700 dark:text-slate-200"
+					>
 						Confirm new password
 					</label>
 					<input

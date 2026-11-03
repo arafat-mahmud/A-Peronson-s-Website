@@ -17,7 +17,9 @@ import path from "node:path";
 const MB = 1024 * 1024;
 
 function envFlag(name, fallback) {
-	const raw = String(process.env[name] ?? "").trim().toLowerCase();
+	const raw = String(process.env[name] ?? "")
+		.trim()
+		.toLowerCase();
 	if (!raw) return fallback;
 	return !["0", "false", "no", "off"].includes(raw);
 }
@@ -110,7 +112,14 @@ export function setSubsystemState(name, state) {
 	subsystemState[String(name)] = String(state);
 }
 
-export function buildCrashRecord({ type, error, fatal = true, exitCode = null, signal = null, origin = null }) {
+export function buildCrashRecord({
+	type,
+	error,
+	fatal = true,
+	exitCode = null,
+	signal = null,
+	origin = null,
+}) {
 	const err = error instanceof Error ? error : new Error(String(error ?? "unknown error"));
 	const memory = process.memoryUsage();
 	let resource = null;
@@ -214,7 +223,10 @@ function humanBlock(record) {
 export function writeCrashSync(record, config = crashConfig()) {
 	const result = { file: null, stderr: false };
 	try {
-		fs.writeSync(2, `${JSON.stringify({ level: record.fatal ? "fatal" : "error", event: "crash", ...record })}\n`);
+		fs.writeSync(
+			2,
+			`${JSON.stringify({ level: record.fatal ? "fatal" : "error", event: "crash", ...record })}\n`,
+		);
 		result.stderr = true;
 	} catch {
 		// stderr closed: the file below is the remaining record
@@ -269,7 +281,12 @@ export async function persistCrashRecord(record, config = crashConfig()) {
 				node_version: record.node,
 				pid: record.pid,
 				uptime_s: record.uptime_s,
-				details: { memory: record.memory, resource: record.resource, subsystems: record.subsystems, origin: record.origin },
+				details: {
+					memory: record.memory,
+					resource: record.resource,
+					subsystems: record.subsystems,
+					origin: record.origin,
+				},
 			},
 		});
 		const timeout = new Promise((resolve) => {

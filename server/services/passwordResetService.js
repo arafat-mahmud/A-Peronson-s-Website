@@ -1,8 +1,8 @@
 import crypto from "node:crypto";
 import bcrypt from "bcryptjs";
 import { passwordProblems } from "../../shared/config/passwordPolicy.js";
-import prisma from "../utils/prisma.js";
 import { logWarn } from "../utils/logger.js";
+import prisma from "../utils/prisma.js";
 import { sendEmail } from "./emailService.js";
 import { revokeAllSessions } from "./sessionService.js";
 import { findUserByEmail, findUserById } from "./userService.js";
@@ -24,7 +24,9 @@ function hashToken(token) {
 
 function appBaseUrl() {
 	for (const candidate of [process.env.RENDER_EXTERNAL_URL, process.env.APP_BASE_URL]) {
-		const value = String(candidate || "").trim().replace(/\/+$/, "");
+		const value = String(candidate || "")
+			.trim()
+			.replace(/\/+$/, "");
 		if (value) return /^https?:\/\//i.test(value) ? value : `https://${value}`;
 	}
 	return `http://localhost:${process.env.PORT || 4000}`;
@@ -91,10 +93,13 @@ export async function resetPassword(token, newPassword) {
 		error.status = 400;
 		throw error;
 	}
-	const invalid = () => Object.assign(new Error(INVALID_LINK), { status: 400, code: "RESET_LINK_INVALID" });
+	const invalid = () =>
+		Object.assign(new Error(INVALID_LINK), { status: 400, code: "RESET_LINK_INVALID" });
 	if (!token || String(token).length > 200) throw invalid();
 
-	const row = await prisma.passwordResetToken.findUnique({ where: { token_hash: hashToken(token) } });
+	const row = await prisma.passwordResetToken.findUnique({
+		where: { token_hash: hashToken(token) },
+	});
 	if (!row || row.used_at || new Date(row.expires_at).getTime() <= Date.now()) throw invalid();
 
 	// Whole seconds: requireAuth compares token `iat` (seconds) with this, and a
@@ -122,20 +127,32 @@ export async function resetPassword(token, newPassword) {
 
 // Signed-in password change (Settings -> Security). Requires the current
 // password; keeps the caller's session and signs out every other one.
-export async function changePassword(userId, currentPassword, newPassword, { keepSessionId = "" } = {}) {
+export async function changePassword(
+	userId,
+	currentPassword,
+	newPassword,
+	{ keepSessionId = "" } = {},
+) {
 	const user = await findUserById(userId);
 	const matches = user?.password_hash
 		? await bcrypt.compare(String(currentPassword || ""), user.password_hash)
 		: false;
 	if (!matches) {
-		throw Object.assign(new Error("Current password is incorrect."), { status: 400, code: "CURRENT_PASSWORD_INCORRECT" });
+		throw Object.assign(new Error("Current password is incorrect."), {
+			status: 400,
+			code: "CURRENT_PASSWORD_INCORRECT",
+		});
 	}
 	const problems = passwordProblems(newPassword);
 	if (problems.length > 0) {
-		throw Object.assign(new Error(`Password: ${problems.join(", ").toLowerCase()}.`), { status: 400 });
+		throw Object.assign(new Error(`Password: ${problems.join(", ").toLowerCase()}.`), {
+			status: 400,
+		});
 	}
 	if (String(newPassword) === String(currentPassword)) {
-		throw Object.assign(new Error("Choose a password different from the current one."), { status: 400 });
+		throw Object.assign(new Error("Choose a password different from the current one."), {
+			status: 400,
+		});
 	}
 	const passwordHash = await bcrypt.hash(String(newPassword), 10);
 	await prisma.user.update({ where: { id: user.id }, data: { password_hash: passwordHash } });

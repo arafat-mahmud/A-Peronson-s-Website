@@ -6,7 +6,11 @@ export const PASSWORD_MIN_LENGTH = 8;
 export const PASSWORD_MAX_LENGTH = 128;
 
 export const PASSWORD_RULES = [
-	{ id: "length", label: `At least ${PASSWORD_MIN_LENGTH} characters`, test: (value) => value.length >= PASSWORD_MIN_LENGTH },
+	{
+		id: "length",
+		label: `At least ${PASSWORD_MIN_LENGTH} characters`,
+		test: (value) => value.length >= PASSWORD_MIN_LENGTH,
+	},
 	{ id: "letter", label: "Includes a letter", test: (value) => /\p{L}/u.test(value) },
 	{ id: "number", label: "Includes a number", test: (value) => /\p{N}/u.test(value) },
 ];
@@ -25,7 +29,9 @@ export function passwordProblems(password) {
 export function passwordStrength(password) {
 	const value = String(password ?? "");
 	if (passwordProblems(value).length > 0) return 0;
-	const variety = [/\p{Ll}/u, /\p{Lu}/u, /\p{N}/u, /[^\p{L}\p{N}]/u].filter((re) => re.test(value)).length;
+	const variety = [/\p{Ll}/u, /\p{Lu}/u, /\p{N}/u, /[^\p{L}\p{N}]/u].filter((re) =>
+		re.test(value),
+	).length;
 	let score = 1;
 	if (value.length >= 12 || variety >= 3) score += 1;
 	if (value.length >= 16 || (value.length >= 12 && variety >= 3)) score += 1;

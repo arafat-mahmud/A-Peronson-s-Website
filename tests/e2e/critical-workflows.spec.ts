@@ -29,15 +29,21 @@ test.describe("critical workflows", () => {
 		test.skip(!(await appUp(request)), `web app not served at ${BASE}`);
 	});
 
-	test("header shows the brand, not a cart icon, with the right descriptor (#12-13)", async ({ page }) => {
+	test("header shows the brand, not a cart icon, with the right descriptor (#12-13)", async ({
+		page,
+	}) => {
 		await page.goto(`${BASE}/`);
 		const home = page.getByRole("link", { name: "GarTexHub home" });
 		await expect(home).toBeVisible();
 		await expect(home).toContainText("Garments & Textile Sourcing");
-		await expect(page.getByRole("heading", { level: 1 })).toContainText("Garment Sourcing Platform");
+		await expect(page.getByRole("heading", { level: 1 })).toContainText(
+			"Garment Sourcing Platform",
+		);
 	});
 
-	test("guest menu has no Settings or Dark mode; account items sit in the list (#2, #16)", async ({ page }) => {
+	test("guest menu has no Settings or Dark mode; account items sit in the list (#2, #16)", async ({
+		page,
+	}) => {
 		await page.goto(`${BASE}/`);
 		await page.getByRole("button", { name: "Open menu" }).click();
 		// The drawer: innermost element holding the "Navigation" title and the Signup link.
@@ -59,7 +65,9 @@ test.describe("critical workflows", () => {
 		await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(0);
 	});
 
-	test("signup: form first, 3 password rules, mismatch only after confirming (#8b, #10)", async ({ page }) => {
+	test("signup: form first, 3 password rules, mismatch only after confirming (#8b, #10)", async ({
+		page,
+	}) => {
 		await page.goto(`${BASE}/signup`);
 		const password = page.locator('input[type="password"]').first();
 		await expect(password).toBeVisible();
@@ -70,7 +78,9 @@ test.describe("critical workflows", () => {
 		await expect(page.getByText(/do not match/i)).toHaveCount(0);
 	});
 
-	test("verification standards are public and Get verified leads to login (#15)", async ({ page }) => {
+	test("verification standards are public and Get verified leads to login (#15)", async ({
+		page,
+	}) => {
 		await page.goto(`${BASE}/help#verification`);
 		await expect(page.locator("#verification")).toBeVisible();
 		await page.goto(`${BASE}/verification`);
@@ -94,7 +104,9 @@ test.describe("critical workflows", () => {
 		await expect(page.getByRole("heading", { name: /forgot your password/i })).toBeVisible();
 	});
 
-	test("forgot password gives the same answer for unknown emails (no enumeration)", async ({ page }) => {
+	test("forgot password gives the same answer for unknown emails (no enumeration)", async ({
+		page,
+	}) => {
 		test.skip(!WRITES, "set E2E_ALLOW_WRITES=1 (local only)");
 		await page.goto(`${BASE}/forgot-password`);
 		await page.getByLabel("Email").fill(`nobody-${Date.now()}@example.test`);
@@ -115,7 +127,10 @@ test.describe("critical workflows", () => {
 		await page.getByRole("combobox", { name: "Industry" }).selectOption({ index: 1 });
 		const country = page.getByRole("combobox", { name: "Country" });
 		await country.fill("Bangla");
-		await page.getByRole("option", { name: /Bangladesh/ }).first().click();
+		await page
+			.getByRole("option", { name: /Bangladesh/ })
+			.first()
+			.click();
 		await page.getByRole("textbox", { name: "Number of Employees" }).fill("250");
 		await page.getByRole("textbox", { name: "Capacity quantity" }).fill("50000");
 		await page.getByRole("combobox", { name: "Capacity unit" }).selectOption({ label: "Pieces" });

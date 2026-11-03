@@ -97,12 +97,17 @@ function parseRouter(file) {
 function apiReference() {
 	const server = read("server/server.js");
 	const imports = new Map(
-		[...server.matchAll(/^import (\w+) from "\.\/routes\/(\w+\.js)";/gm)].map((m) => [m[1], `server/routes/${m[2]}`]),
+		[...server.matchAll(/^import (\w+) from "\.\/routes\/(\w+\.js)";/gm)].map((m) => [
+			m[1],
+			`server/routes/${m[2]}`,
+		]),
 	);
 	const mounts = [...server.matchAll(/^app\.use\("(\/api[^"]*)",\s*(?:[^;]*?,\s*)?(\w+)\);/gm)]
 		.map((m) => ({ base: m[1], file: imports.get(m[2]) }))
 		.filter((m) => m.file);
-	const direct = [...server.matchAll(/^app\.(get|post|head)\("([^"]+)"/gm)].map((m) => `${m[1].toUpperCase()} ${m[2]}`);
+	const direct = [...server.matchAll(/^app\.(get|post|head)\("([^"]+)"/gm)].map(
+		(m) => `${m[1].toUpperCase()} ${m[2]}`,
+	);
 
 	let total = 0;
 	const sections = mounts.map(({ base, file }) => {
@@ -136,7 +141,9 @@ function apiReference() {
 		"**Roles**: when listed, other roles get 403. Realtime (`/ws`, SSE) is described in",
 		"[architecture.md](architecture.md#realtime).",
 		"",
-		"Server-level endpoints in `server/server.js`: " + direct.map((d) => `\`${d}\``).join(", ") + ".",
+		"Server-level endpoints in `server/server.js`: " +
+			direct.map((d) => `\`${d}\``).join(", ") +
+			".",
 		"",
 		...sections,
 	].join("\n");
@@ -169,7 +176,12 @@ function databaseReference() {
 		return { name: m[1], table, fields, indexes };
 	});
 	const enums = [...schema.matchAll(/^enum (\w+) \{\n([\s\S]*?)^\}/gm)].map(
-		(m) => `- \`${m[1]}\`: ${m[2].split("\n").map((l) => l.trim()).filter((l) => l && !l.startsWith("//")).join(", ")}`,
+		(m) =>
+			`- \`${m[1]}\`: ${m[2]
+				.split("\n")
+				.map((l) => l.trim())
+				.filter((l) => l && !l.startsWith("//"))
+				.join(", ")}`,
 	);
 	const migrations = fs
 		.readdirSync(path.join(root, "prisma/migrations"))
@@ -183,7 +195,9 @@ function databaseReference() {
 			"| Column | Type | Notes |",
 			"| --- | --- | --- |",
 			...model.fields.map((f) => `| ${f.name} | \`${f.type}\` | ${f.notes} |`),
-			...(model.indexes.length ? ["", `Indexes: ${model.indexes.map((i) => `\`${i}\``).join(", ")}`] : []),
+			...(model.indexes.length
+				? ["", `Indexes: ${model.indexes.map((i) => `\`${i}\``).join(", ")}`]
+				: []),
 			"",
 		].join("\n"),
 	);
@@ -203,7 +217,9 @@ function databaseReference() {
 		...(enums.length ? ["## Enums", "", ...enums, ""] : []),
 		"## Models",
 		"",
-		models.map((m) => `[${m.name}](#${m.name.toLowerCase()}--${m.table.toLowerCase()})`).join(" · "),
+		models
+			.map((m) => `[${m.name}](#${m.name.toLowerCase()}--${m.table.toLowerCase()})`)
+			.join(" · "),
 		"",
 		...sections,
 	].join("\n");
@@ -216,7 +232,8 @@ function listFiles(dir, exts) {
 	for (const entry of fs.readdirSync(path.join(root, dir), { withFileTypes: true })) {
 		const rel = path.join(dir, entry.name);
 		if (entry.isDirectory()) {
-			if (!["node_modules", "dist", "__mocks__"].includes(entry.name)) out.push(...listFiles(rel, exts));
+			if (!["node_modules", "dist", "__mocks__"].includes(entry.name))
+				out.push(...listFiles(rel, exts));
 		} else if (exts.some((ext) => entry.name.endsWith(ext))) out.push(rel);
 	}
 	return out;
@@ -229,19 +246,29 @@ function envReference() {
 			const source = read(file);
 			for (const m of source.matchAll(/(?:process\.env|import\.meta\.env)\.([A-Z][A-Z0-9_]+)/g)) {
 				if (!used.has(m[1])) used.set(m[1], new Set());
-				used.get(m[1]).add(dir === "src" ? "frontend (build time)" : file.split(path.sep).slice(0, 2).join("/"));
+				used
+					.get(m[1])
+					.add(
+						dir === "src" ? "frontend (build time)" : file.split(path.sep).slice(0, 2).join("/"),
+					);
 			}
 		}
 	}
-	const example = new Set([...read(".env.example").matchAll(/^([A-Z][A-Z0-9_]+)=/gm)].map((m) => m[1]));
-	const render = new Set([...read("render.yaml").matchAll(/- key: ([A-Z][A-Z0-9_]+)/g)].map((m) => m[1]));
+	const example = new Set(
+		[...read(".env.example").matchAll(/^([A-Z][A-Z0-9_]+)=/gm)].map((m) => m[1]),
+	);
+	const render = new Set(
+		[...read("render.yaml").matchAll(/- key: ([A-Z][A-Z0-9_]+)/g)].map((m) => m[1]),
+	);
 	const rows = [...used.keys()].sort().map((name) => {
 		const where = [...used.get(name)].sort();
 		const shown = where.slice(0, 3).join(", ") + (where.length > 3 ? ` +${where.length - 3}` : "");
 		return `| \`${name}\` | ${example.has(name) ? "✓" : ""} | ${render.has(name) ? "✓" : ""} | ${shown} |`;
 	});
 	return [
-		HEADER("process.env / import.meta.env reads in server/, shared/, src/, scripts/, plus .env.example and render.yaml"),
+		HEADER(
+			"process.env / import.meta.env reads in server/, shared/, src/, scripts/, plus .env.example and render.yaml",
+		),
 		"# Environment variable reference",
 		"",
 		`${used.size} variables are read by the code. Which ones you need, and safe local values, are in`,

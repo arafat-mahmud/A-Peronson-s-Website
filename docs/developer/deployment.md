@@ -15,7 +15,12 @@ real Blueprint fields.
 | Shutdown window | `maxShutdownDelaySeconds: 30` |
 
 Because the build runs `prisma migrate deploy`, a schema change without a migration breaks production
-(see [database.md](database.md)). Secrets are set in the Render dashboard, never in `render.yaml` values.
+(see [database.md](database.md)).
+
+> **Secrets:** `render.yaml` currently carries literal values for several secrets (database URL, JWT secret,
+> admin codes, Gmail and OpenSearch passwords) and the repository is public. The owner should rotate them
+> and move each to the dashboard with `sync: false` (Render then keeps the dashboard value). New secrets
+> must never be added to `render.yaml` as values.
 
 **Before enabling an e-sign provider in production, set `ESIGN_WEBHOOK_SECRET`** — the webhook answers
 503 without it.

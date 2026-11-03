@@ -8,7 +8,9 @@ jest.unstable_mockModule("../../server/services/eSignService.js", () => ({
 	handleSignCallback,
 }));
 
-const { createContractSignCallback } = await import("../../server/controllers/documentController.js");
+const { createContractSignCallback } = await import(
+	"../../server/controllers/documentController.js"
+);
 
 function call(headers = {}) {
 	const res = {
@@ -57,7 +59,10 @@ describe("e-sign webhook guard (documentController)", () => {
 		process.env.ESIGN_WEBHOOK_SECRET = "test-webhook-secret";
 		const res = await call({ "x-esign-secret": "test-webhook-secret" });
 		expect(res.statusCode).toBe(200);
-		expect(handleSignCallback).toHaveBeenCalledWith("c-1", expect.objectContaining({ buyer_signed: true }));
+		expect(handleSignCallback).toHaveBeenCalledWith(
+			"c-1",
+			expect.objectContaining({ buyer_signed: true }),
+		);
 	});
 });
 
@@ -72,7 +77,9 @@ describe("self-service subscription changes", () => {
 			getRemainingDays: jest.fn(),
 			isSubscriptionValid: jest.fn(),
 		}));
-		const { updateMySubscription } = await import("../../server/controllers/subscriptionController.js");
+		const { updateMySubscription } = await import(
+			"../../server/controllers/subscriptionController.js"
+		);
 		const res = {
 			statusCode: 200,
 			status(code) {
@@ -90,14 +97,22 @@ describe("self-service subscription changes", () => {
 		expect(upsertSubscription).not.toHaveBeenCalled();
 
 		res.statusCode = 200;
-		await updateMySubscription({ user: { id: "u-1" }, body: { plan: "free", auto_renew: false } }, res);
+		await updateMySubscription(
+			{ user: { id: "u-1" }, body: { plan: "free", auto_renew: false } },
+			res,
+		);
 		expect(res.statusCode).toBe(200);
 		expect(upsertSubscription).toHaveBeenCalledWith("u-1", "free", false, expect.any(Object));
 	});
 });
 
 describe("contract signatures (documentService.updateContractSignatures)", () => {
-	const contract = { id: "k-1", entity_type: "contract", buyer_id: "buyer-1", factory_id: "factory-1" };
+	const contract = {
+		id: "k-1",
+		entity_type: "contract",
+		buyer_id: "buyer-1",
+		factory_id: "factory-1",
+	};
 
 	test("a party cannot sign the other party's side", async () => {
 		jest.resetModules();
@@ -108,14 +123,18 @@ describe("contract signatures (documentService.updateContractSignatures)", () =>
 		const buyer = { id: "buyer-1", role: "buyer" };
 		const factory = { id: "factory-1", role: "factory" };
 
-		await expect(updateContractSignatures("k-1", { factory_signature_state: "signed" }, buyer)).resolves.toBe(
-			"forbidden",
-		);
-		await expect(updateContractSignatures("k-1", { buyer_signature_state: "signed" }, factory)).resolves.toBe(
-			"forbidden",
-		);
 		await expect(
-			updateContractSignatures("k-1", { buyer_signature_state: "signed" }, { id: "someone", role: "buyer" }),
+			updateContractSignatures("k-1", { factory_signature_state: "signed" }, buyer),
+		).resolves.toBe("forbidden");
+		await expect(
+			updateContractSignatures("k-1", { buyer_signature_state: "signed" }, factory),
+		).resolves.toBe("forbidden");
+		await expect(
+			updateContractSignatures(
+				"k-1",
+				{ buyer_signature_state: "signed" },
+				{ id: "someone", role: "buyer" },
+			),
 		).resolves.toBe("forbidden");
 	});
 });
@@ -128,10 +147,16 @@ describe("boost purchase (boostService.purchaseBoost)", () => {
 			default: { boost: { findFirst: async () => null, create: async ({ data }) => data } },
 		}));
 		jest.unstable_mockModule("../../server/services/walletService.js", () => ({ debitWallet }));
-		jest.unstable_mockModule("../../server/services/eventTrackingService.js", () => ({ trackEvent: async () => {} }));
+		jest.unstable_mockModule("../../server/services/eventTrackingService.js", () => ({
+			trackEvent: async () => {},
+		}));
 		const { purchaseBoost } = await import("../../server/services/boostService.js");
 
-		const cheap = await purchaseBoost("u-1", { scope: "feed", duration_days: 3650, price_usd: 0.01 });
+		const cheap = await purchaseBoost("u-1", {
+			scope: "feed",
+			duration_days: 3650,
+			price_usd: 0.01,
+		});
 		expect(debitWallet).toHaveBeenLastCalledWith(expect.objectContaining({ amountUsd: 9.99 }));
 		expect(cheap.ends_at.getTime() - cheap.starts_at.getTime()).toBe(7 * 24 * 60 * 60 * 1000);
 

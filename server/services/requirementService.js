@@ -600,9 +600,7 @@ export async function updateRequirement(requirementId, patch, actor) {
 		assigned_agent_id: assignmentChanged
 			? requestedAssignedAgentId
 			: sanitizeString(existing.assigned_agent_id || "", 120),
-		assigned_at: assignmentChanged
-			? new Date().toISOString()
-			: normalizeDate(existing.assigned_at),
+		assigned_at: assignmentChanged ? new Date().toISOString() : normalizeDate(existing.assigned_at),
 		assigned_by: assignmentChanged
 			? sanitizeString(actor.id || "", 120)
 			: sanitizeString(existing.assigned_by || "", 120),

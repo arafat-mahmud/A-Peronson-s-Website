@@ -72,8 +72,11 @@ export default function OnboardingPage() {
 	// Categories come from the shared taxonomy for the company's industry; the
 	// old request went to /api/categories, an endpoint that does not exist.
 	useEffect(() => {
-		const sector = String(user?.profile?.industry || user?.profile?.factory_sector || "").toLowerCase();
-		const list = sector === "textile" ? textileCategories : sector === "garments" ? garmentCategories : null;
+		const sector = String(
+			user?.profile?.industry || user?.profile?.factory_sector || "",
+		).toLowerCase();
+		const list =
+			sector === "textile" ? textileCategories : sector === "garments" ? garmentCategories : null;
 		if (list) {
 			setAvailableCategories([...list, "Other"]);
 		}
@@ -527,8 +530,8 @@ export default function OnboardingPage() {
 										<div class="mb-4">
 											<h3 class="text-xl font-semibold">Certifications</h3>
 											<p class="mt-1 text-sm text-slate-500 dark:text-slate-400">
-												Select the certifications your company holds. This step is optional - you can
-												skip it and add certifications later from your company profile.
+												Select the certifications your company holds. This step is optional - you
+												can skip it and add certifications later from your company profile.
 											</p>
 										</div>
 										<div class="flex flex-wrap gap-2">

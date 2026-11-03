@@ -2,8 +2,8 @@ import { Router } from "express";
 import {
 	adminSetUserSubscription,
 	getMyRemainingDays,
-	getMyVerificationPricing,
 	getMySubscription,
+	getMyVerificationPricing,
 	markMyVerificationExpiringSoon,
 	renewMyPremiumMonthly,
 	updateMySubscription,

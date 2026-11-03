@@ -532,7 +532,10 @@ export default function Login() {
 								>
 									{showSessionExpiry ? "Hide session options" : "Session options"}
 								</button>
-								<Link to="/forgot-password" class="text-xs font-semibold text-sky-600 hover:text-sky-700">
+								<Link
+									to="/forgot-password"
+									class="text-xs font-semibold text-sky-600 hover:text-sky-700"
+								>
 									Forgot password?
 								</Link>
 							</div>

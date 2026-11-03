@@ -73,9 +73,11 @@ start `pnpm run start:prod`. Only `migrate deploy` runs on deploy — every sche
 
 - **A. Documentation:** `docs/` → দুই ভাগ: `docs/user/` ও `docs/developer/` (+ `docs/README.md` navigation); root `README.md` landing page।
   শুধু বাস্তবে implemented feature document করবে; mock/simulated (payment, e-sign sandbox) স্পষ্ট লিখবে।
+  **Status 2026-11-03: done** — `docs/user/` (6 guides), `docs/developer/` (9 guides + generated API/DB/env references);
+  routes/schema/env বদলালে `pnpm run docs:generate` (`docs:check` stale হলে fail করে)।
 - **B. History:** `history/HISTORY_MAINTENANCE_INSTRUCTIONS.md` অনুসরণ করে প্রতিটি undocumented commit-এর আলাদা file,
-  তারপর `history/index.md` + `history/progress.json` update। **Status 2026-11-03: 731 documented, HEAD-এ 885 commit → 154 pending**
-  (owner-এর token-economy নির্দেশে এই pass-এ generate করা হয়নি; আলাদা pass-এ করতে হবে)।
+  তারপর `history/index.md` + `history/progress.json` update। **Status 2026-11-03: 894/894 documented** (0732–0894 backfilled;
+  আগের last commit 0731 `83a8a9a` repo history-তে আর নেই, তাই full-hash দিয়ে undocumented commit খোঁজা হয়েছে)। পরের commits পরের pass-এ।
 - **C. Audit & security:** OWASP Top 10, IDOR/authz, JWT (issuer/audience), uploads, WS origin/auth, admin bypass codes, secret exposure।
 - **D. Performance:** baseline → change → same-condition re-measure; Core Web Vitals (LCP ≤2.5s, INP ≤200ms, CLS ≤0.1) lab vs field আলাদা;
   no full-table scans, no unbounded lists, lazy heavy modules, correct cache headers।
@@ -126,7 +128,9 @@ Evidence: `bugs/WhatsApp Chat with রহস্য/` (chat txt, 18 screenshots, 
 - **Schema drift (critical):** `schema.prisma`-এর ~500 লাইন (tables `assistant_rules`, `assistant_config`, `email_logs`, `orders`,
   `document_views`, `support_tickets`…; columns `content_hash/version`, rating sub-scores, `documents.ai_*`) কোনো migration-এ ছিল না।
   Fix: `prisma/migrations/20261103000000_reconcile_schema_drift` — fully idempotent, additive; migrations-only DB ও db-pushed DB দুইটাতেই
-  apply হয়ে residual drift 0 (verified)।
+  apply হয়ে residual drift 0 (verified)। **Correction (c3ffd270):** empty DB-তে fail করত — `add_ai_severity_early_exit`
+  (timestamp নেই, তাই সবার শেষে sort হয়) যে column বানায় সেটা reconcile আগেই ALTER করত; ঠিক করা হয়েছে, empty DB ও main-state DB
+  দুটোতেই `migrate diff` → "No difference detected"।
 - **Account takeover (critical):** register-এর "orphan recovery" existing email-এর জন্য password ছাড়াই JWT দিত।
 - Profile 500 (TDZ) — tracker #20। `ProtectedRoute`: hook after early return; timeout path clears wrong key (`ght_token`)।
 - Static serving: `index.html`, `sw.js`, `manifest.json` সহ সব dist file 1-year `immutable`।
@@ -145,11 +149,29 @@ Evidence: `bugs/WhatsApp Chat with রহস্য/` (chat txt, 18 screenshots, 
   build, mobile): 22/22 client checks pass. Lab perf (4× CPU, 1.6 Mbps, median of 3): LCP 7.8→3.8 s (home), 7.5→2.8 s
   (signup); JS −38%; initial JS+CSS brotli 825→261 KB. Crash injection: uncaught/rejection/DB-down/EADDRINUSE/supervisor all pass.
 
+- **Second pass 2026-11-03 (commits 697349bf…):**
+  - **CRITICAL, owner action:** public repo-র `render.yaml`-এ literal secret values আছে (`DATABASE_URL`, `JWT_SECRET`, `ADMIN_*` codes,
+    `GMAIL_APP_PASSWORD`, `OPENSEARCH_PASSWORD`; commit 9ceecfa1 "user asked")। আর একটা `.env` 2026-03-25 → 2026-10-17 পর্যন্ত tracked ছিল
+    (7adec7d4-এ untracked; history-তে রয়ে গেছে)। এই pass-এ কিছু rotate/মুছা হয়নি (নির্দেশ অনুযায়ী)। Owner: সব rotate করে Render
+    dashboard-এ `sync: false` দিয়ে রাখবেন; history purge করতে হলে force-push লাগবে — owner-এর সিদ্ধান্ত।
+  - Security fixes (tests fail on old code): e-sign webhook production-এ secret ছাড়া 503; `/api/dev` sandbox production-এ mount হয় না;
+    self-service `{plan:"premium"}` দিয়ে free Premium বন্ধ; contract-এ প্রত্যেক party শুধু নিজের side sign করতে পারে; boost price/duration
+    server-side (client `price_usd` ignored); `/api/diagnostics/deep` owner/admin only।
+  - Features: revocable sessions (list/revoke/logout), password reset (hashed one-time 30-min token, no enumeration),
+    `PUT /api/auth/password` (Settings → Change password আগে 404 দিত)।
+  - Perf (lab, same conditions, 697349bf → 6c0b27b2): home LCP 3516→2380 ms, signup 2616→2324, about 3300→2516; FCP 2.13→1.74 s;
+    TBT ~500→30–70 ms; transfer 823→393 KB। Theme CSS split, markdown/Prism lazy, hero text fade-from-0 removed, landing route fade skipped,
+    `/api/system/home` SEO headline mismatch fixed। Tooling: `scripts/perf/`।
+  - Known gap: Contract Vault sign buttons শুধু staff (owner/admin)-এর জন্য enabled; party-রা UI থেকে sign করতে পারে না (product decision দরকার)।
+    Premium upgrade-এর UI নেই (`renew-monthly` API আছে) — support দিয়ে activate।
+
 ## 9. Open items
 
-- History backfill (154 commits) — section 5B.
-- Not implemented (UI degrades gracefully): `GET/DELETE /api/auth/sessions` (active sessions), self-service password reset.
-- Main CSS ships all 12 themes (~1.1 MB raw) — lab FCP ≈ 2.2 s; split non-default themes next.
+- **Owner:** rotate the credentials exposed in `render.yaml` / old `.env` history; move them to the dashboard (`sync: false`); set
+  `ESIGN_WEBHOOK_SECRET` before enabling an e-sign provider.
+- **Owner:** review and merge the PR from `fix/client-feedback-2026-11-03` → Render deploys `main`; then verify `/health`, `/ready`,
+  migrate log (4 new migrations) and run `tests/e2e` read-only against the live URL (see `docs/developer/deployment.md`).
+- Product decisions: party-side signing UI in Contract Vault; Premium upgrade UI (wallet-charged renew-monthly).
+- Lint backlog (~2,600 Biome findings, mostly style + CRLF) — this pass added no new errors in touched files.
 - `/api/chatbot/settings` 403 for free plans is the intended Premium gate.
-- Developer docs (`docs/developer/*`) not updated in this pass (owner: no extra `.md`); this file holds the notes.
-- Live deployment verification needs the owner to merge the task branch (Render deploys `main` on commit).
+- A user on a non-default theme briefly sees the default palette while that theme's CSS chunk loads.

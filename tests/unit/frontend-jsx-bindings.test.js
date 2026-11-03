@@ -3,7 +3,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 // @babel/core is a direct devDependency and re-exports the parser and
 // traverse; pnpm's strict layout does not expose @babel/parser itself.
-import { parseSync, traverse as _traverse } from "@babel/core";
+import { traverse as _traverse, parseSync } from "@babel/core";
 
 /**
  * Guards the signed-URL surfaces against a JSX element name that has no binding.

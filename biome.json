@@ -52,6 +52,7 @@
 				"noProcessGlobal": "off",
 				"useQwikValidLexicalScope": "off",
 				"noSolidDestructuredProps": "off",
+				"noReactNativeRawText": "off",
 				"useImageSize": "warn",
 				"noUndeclaredDependencies": "warn",
 				"useUniqueElementIds": "warn",

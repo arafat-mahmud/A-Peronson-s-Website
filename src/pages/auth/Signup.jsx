@@ -15,10 +15,10 @@ import {
 import {
 	CAPACITY_PERIOD_OPTIONS,
 	COUNTRY_OPTIONS,
-	FACTORY_SECTOR_OPTIONS,
-	PUBLIC_ACCOUNT_TYPES,
 	capacityUnitsForSector,
+	FACTORY_SECTOR_OPTIONS,
 	normalizeCompanyFacts,
+	PUBLIC_ACCOUNT_TYPES,
 } from "../../../shared/config/platformTaxonomy.js";
 import BrandMark from "../../components/ui/BrandMark.jsx";
 import { apiRequest, saveSession } from "../../lib/auth.js";
@@ -127,7 +127,12 @@ function EyeIcon({ open }) {
 	) : (
 		<svg viewBox="0 0 24 24" fill="none" class="h-4 w-4" aria-hidden="true">
 			<path d="M3 3l18 18" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" />
-			<path d="M10.6 10.6a2 2 0 0 0 2.8 2.8" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" />
+			<path
+				d="M10.6 10.6a2 2 0 0 0 2.8 2.8"
+				stroke="currentColor"
+				strokeWidth="1.7"
+				strokeLinecap="round"
+			/>
 			<path
 				d="M9.9 5.1A10.6 10.6 0 0 1 12 5c6 0 9.5 7 9.5 7a18.2 18.2 0 0 1-3.1 4.1"
 				stroke="currentColor"
@@ -147,7 +152,13 @@ function EyeIcon({ open }) {
 function ChevronDown() {
 	return (
 		<svg viewBox="0 0 24 24" fill="none" class="h-4 w-4" aria-hidden="true">
-			<path d="m6 9 6 6 6-6" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+			<path
+				d="m6 9 6 6 6-6"
+				stroke="currentColor"
+				strokeWidth="1.8"
+				strokeLinecap="round"
+				strokeLinejoin="round"
+			/>
 		</svg>
 	);
 }
@@ -222,7 +233,9 @@ function CountryCombobox({ value, onChange, invalid }) {
 
 	useEffect(() => {
 		if (!open) return;
-		listRef.current?.querySelector(`[data-index="${active}"]`)?.scrollIntoView({ block: "nearest" });
+		listRef.current
+			?.querySelector(`[data-index="${active}"]`)
+			?.scrollIntoView({ block: "nearest" });
 	}, [active, open]);
 
 	const pick = (country) => {
@@ -300,7 +313,9 @@ function CountryCombobox({ value, onChange, invalid }) {
 							</div>
 						))
 					) : (
-						<p class="px-4 py-4 text-sm text-slate-500 dark:text-slate-300">No matching country found.</p>
+						<p class="px-4 py-4 text-sm text-slate-500 dark:text-slate-300">
+							No matching country found.
+						</p>
 					)}
 				</div>
 			) : null}
@@ -598,16 +613,30 @@ export default function Signup() {
 							</div>
 
 							{showPasswordHelp ? (
-								<div class="-mt-1 rounded-2xl bg-slate-50 px-4 py-3 dark:bg-white/5" aria-live="polite">
+								<div
+									class="-mt-1 rounded-2xl bg-slate-50 px-4 py-3 dark:bg-white/5"
+									aria-live="polite"
+								>
 									<div class="flex items-center gap-3">
 										<div class="h-1.5 flex-1 overflow-hidden rounded-full bg-slate-200 dark:bg-white/10">
-											<div class={cn("h-full rounded-full transition-all", strength.bar, strength.width)} />
+											<div
+												class={cn(
+													"h-full rounded-full transition-all",
+													strength.bar,
+													strength.width,
+												)}
+											/>
 										</div>
-										<span class="text-xs font-medium text-slate-600 dark:text-slate-300">{strength.label}</span>
+										<span class="text-xs font-medium text-slate-600 dark:text-slate-300">
+											{strength.label}
+										</span>
 									</div>
 									<ul class="mt-2 flex flex-wrap gap-x-4 gap-y-1">
 										{PASSWORD_RULES.map((rule) => (
-											<li key={rule.id} class="flex items-center gap-1.5 text-xs text-slate-600 dark:text-slate-300">
+											<li
+												key={rule.id}
+												class="flex items-center gap-1.5 text-xs text-slate-600 dark:text-slate-300"
+											>
 												<RuleMark ok={rule.test(password)} />
 												{rule.label}
 											</li>
@@ -625,7 +654,9 @@ export default function Signup() {
 										onClick={() => setAccountOpen((v) => !v)}
 										class="flex w-full items-center justify-between rounded-2xl border border-slate-200 bg-white px-4 py-3 text-left text-sm transition hover:border-sky-300 focus:outline-none focus:ring-4 focus:ring-sky-500/10 dark:border-white/10 dark:bg-white/5"
 									>
-										<span class="font-medium text-slate-800 dark:text-slate-100">{accountType.label}</span>
+										<span class="font-medium text-slate-800 dark:text-slate-100">
+											{accountType.label}
+										</span>
 										<span class="text-slate-500 dark:text-slate-300">
 											<ChevronDown />
 										</span>
@@ -658,7 +689,11 @@ export default function Signup() {
 								</div>
 							</FieldShell>
 
-							<FieldShell label="Organization Name" htmlFor="signup-org" error={fieldErrors.organizationName}>
+							<FieldShell
+								label="Organization Name"
+								htmlFor="signup-org"
+								error={fieldErrors.organizationName}
+							>
 								<input
 									id="signup-org"
 									value={organizationName}
@@ -689,7 +724,11 @@ export default function Signup() {
 								</FieldShell>
 
 								<FieldShell label="Country" htmlFor="signup-country" error={fieldErrors.country}>
-									<CountryCombobox value={country} onChange={setCountry} invalid={Boolean(fieldErrors.country)} />
+									<CountryCombobox
+										value={country}
+										onChange={setCountry}
+										invalid={Boolean(fieldErrors.country)}
+									/>
 								</FieldShell>
 							</div>
 

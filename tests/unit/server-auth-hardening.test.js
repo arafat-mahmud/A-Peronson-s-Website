@@ -17,7 +17,12 @@ function mockRes() {
 }
 
 describe("register orphan recovery (server/controllers/authController.js)", () => {
-	const existing = { id: "u-orphan", email: "owner@co.example", role: "factory", password_hash: "x" };
+	const existing = {
+		id: "u-orphan",
+		email: "owner@co.example",
+		role: "factory",
+		password_hash: "x",
+	};
 	let verifyPassword;
 	let register;
 
@@ -83,7 +88,13 @@ describe("register orphan recovery (server/controllers/authController.js)", () =
 	test("invalid company facts are rejected before any account work", async () => {
 		const res = mockRes();
 		await register(
-			{ body: { ...body("valid-pass-1"), email: "new@co.example", profile: { country: "BD", position: "Owner", employee_count: -2 } } },
+			{
+				body: {
+					...body("valid-pass-1"),
+					email: "new@co.example",
+					profile: { country: "BD", position: "Owner", employee_count: -2 },
+				},
+			},
 			res,
 		);
 		expect(res.statusCode).toBe(400);
@@ -122,9 +133,9 @@ describe("crash reporter (server/utils/crashReporter.js)", () => {
 		process.env.CRASH_LOG_MAX_SIZE_MB = "0.001";
 		process.env.CRASH_LOG_MAX_FILES = "2";
 		const realWriteSync = fs.writeSync;
-		jest.spyOn(fs, "writeSync").mockImplementation((fd, ...rest) =>
-			fd === 2 ? 0 : realWriteSync(fd, ...rest),
-		);
+		jest
+			.spyOn(fs, "writeSync")
+			.mockImplementation((fd, ...rest) => (fd === 2 ? 0 : realWriteSync(fd, ...rest)));
 		crash = await import("../../server/utils/crashReporter.js");
 	});
 
@@ -144,7 +155,12 @@ describe("crash reporter (server/utils/crashReporter.js)", () => {
 		);
 		const record = crash.buildCrashRecord({ type: "uncaughtException", error: err, exitCode: 1 });
 		const text = JSON.stringify(record);
-		expect(record).toMatchObject({ type: "uncaughtException", fatal: true, exit_code: 1, pid: process.pid });
+		expect(record).toMatchObject({
+			type: "uncaughtException",
+			fatal: true,
+			exit_code: 1,
+			pid: process.pid,
+		});
 		expect(record.memory.rss_mb).toBeGreaterThan(0);
 		expect(text).not.toContain("s3cr3t-value-123");
 		expect(text).not.toContain("user:pw@");
@@ -153,7 +169,9 @@ describe("crash reporter (server/utils/crashReporter.js)", () => {
 
 	test("records are written synchronously, once per error, and rotated", () => {
 		for (let i = 0; i < 6; i += 1) {
-			crash.writeCrashSync(crash.buildCrashRecord({ type: "test", error: new Error(`e${i} ${"x".repeat(400)}`) }));
+			crash.writeCrashSync(
+				crash.buildCrashRecord({ type: "test", error: new Error(`e${i} ${"x".repeat(400)}`) }),
+			);
 		}
 		const files = fs.readdirSync(dir);
 		expect(files).toContain("crash-history.jsonl");
@@ -166,7 +184,9 @@ describe("crash reporter (server/utils/crashReporter.js)", () => {
 	test("an unwritable log directory degrades to stderr instead of throwing", () => {
 		process.env.CRASH_LOG_DIR = path.join(dir, "file-not-dir");
 		fs.writeFileSync(process.env.CRASH_LOG_DIR, "");
-		const result = crash.writeCrashSync(crash.buildCrashRecord({ type: "test", error: new Error("x") }));
+		const result = crash.writeCrashSync(
+			crash.buildCrashRecord({ type: "test", error: new Error("x") }),
+		);
 		expect(result.file).toBeNull();
 	});
 });

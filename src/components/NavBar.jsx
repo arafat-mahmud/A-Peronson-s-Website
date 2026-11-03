@@ -55,7 +55,6 @@ import { flushSync } from "react-dom";
 import { ThreeDot } from "react-loading-indicators";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import useScrollDirection from "../hooks/useScrollDirection.js";
-import BrandMark from "./ui/BrandMark.jsx";
 import { apiRequest, clearSession, getCurrentUser, getRoleHome, getToken } from "../lib/auth.js";
 import { cn } from "../lib/cn.js";
 import {
@@ -65,6 +64,7 @@ import {
 import { isRouteValid } from "../lib/routeHealthCheck.js";
 import { useTheme } from "../lib/ThemeProvider.jsx";
 import SlideIn from "./SlideIn.jsx";
+import BrandMark from "./ui/BrandMark.jsx";
 import { IconNavLink } from "./ui/IconNavLink.jsx";
 import { MagneticNavLink } from "./ui/MagneticNavLink.jsx";
 import { NavDropdown } from "./ui/NavDropdown.jsx";

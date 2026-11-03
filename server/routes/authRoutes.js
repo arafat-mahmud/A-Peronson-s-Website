@@ -1,13 +1,11 @@
 import { Router } from "express";
 import {
 	changeMyPassword,
-	login,
 	completePasswordReset,
 	forgotPassword,
 	listMySessions,
+	login,
 	logout,
-	revokeMySession,
-	revokeOtherSessions,
 	me,
 	passkeyList,
 	passkeyLoginOptions,
@@ -17,6 +15,8 @@ import {
 	passkeyRemove,
 	refreshToken,
 	register,
+	revokeMySession,
+	revokeOtherSessions,
 } from "../controllers/authController.js";
 import { requireAuth } from "../middleware/auth.js";
 import { authLimiter, passkeyLimiter } from "../middleware/rateLimiter.js";

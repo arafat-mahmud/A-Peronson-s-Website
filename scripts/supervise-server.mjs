@@ -22,7 +22,9 @@ function envNumber(name, fallback) {
 }
 
 const config = {
-	enabled: !["0", "false", "no", "off"].includes(String(process.env.CRASH_RESTART_ENABLED || "").toLowerCase()),
+	enabled: !["0", "false", "no", "off"].includes(
+		String(process.env.CRASH_RESTART_ENABLED || "").toLowerCase(),
+	),
 	maxAttempts: Math.floor(envNumber("CRASH_RESTART_MAX_ATTEMPTS", 5)),
 	baseDelayMs: envNumber("CRASH_RESTART_BASE_DELAY_MS", 2000),
 	maxDelayMs: envNumber("CRASH_RESTART_MAX_DELAY_MS", 60_000),
@@ -36,12 +38,16 @@ export function restartDelay(attempt, { baseDelayMs, maxDelayMs }) {
 }
 
 function log(message, data = {}) {
-	process.stdout.write(`[supervisor] ${message}${Object.keys(data).length ? ` ${JSON.stringify(data)}` : ""}\n`);
+	process.stdout.write(
+		`[supervisor] ${message}${Object.keys(data).length ? ` ${JSON.stringify(data)}` : ""}\n`,
+	);
 }
 
 function main() {
 	if (process.env.RENDER) {
-		log("RENDER is set: run `node server/server.js` directly; Render restarts crashed processes itself.");
+		log(
+			"RENDER is set: run `node server/server.js` directly; Render restarts crashed processes itself.",
+		);
 		process.exit(2);
 	}
 
@@ -64,7 +70,11 @@ function main() {
 
 	const launch = () => {
 		const startedAt = Date.now();
-		child = spawn(process.execPath, [config.entry], { cwd: root, stdio: "inherit", env: process.env });
+		child = spawn(process.execPath, [config.entry], {
+			cwd: root,
+			stdio: "inherit",
+			env: process.env,
+		});
 		log("started", { pid: child.pid, attempt: attempts });
 
 		child.on("exit", (code, signal) => {
@@ -81,7 +91,9 @@ function main() {
 			writeCrashSync(
 				buildCrashRecord({
 					type: "childExit",
-					error: new Error(`API process exited (code=${code}, signal=${signal}) after ${Math.round(upMs / 1000)}s`),
+					error: new Error(
+						`API process exited (code=${code}, signal=${signal}) after ${Math.round(upMs / 1000)}s`,
+					),
 					fatal: true,
 					exitCode: code,
 					signal,

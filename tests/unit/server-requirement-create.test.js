@@ -36,7 +36,8 @@ describe("buyer requirement insert matches the Prisma model", () => {
 			{},
 			{
 				get: (_target, prop) => {
-					if (prop === "$transaction") return async (fn) => fn({ requirement: { create: capture } });
+					if (prop === "$transaction")
+						return async (fn) => fn({ requirement: { create: capture } });
 					if (typeof prop !== "string" || prop.startsWith("$")) return async () => undefined;
 					if (!models.has(prop)) {
 						models.set(prop, {

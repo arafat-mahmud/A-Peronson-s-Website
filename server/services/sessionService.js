@@ -22,7 +22,9 @@ export function normalizeSessionDuration(value) {
 }
 
 function clientIp(req) {
-	const forwarded = String(req?.headers?.["x-forwarded-for"] || "").split(",")[0].trim();
+	const forwarded = String(req?.headers?.["x-forwarded-for"] || "")
+		.split(",")[0]
+		.trim();
 	return (forwarded || req?.ip || req?.socket?.remoteAddress || "").slice(0, 64);
 }
 
@@ -54,7 +56,11 @@ export function describeUserAgent(userAgent = "") {
 	return os ? `${browser} on ${os}` : browser;
 }
 
-export async function createSession(userId, req, { duration = DEFAULT_SESSION_DURATION, method = "password" } = {}) {
+export async function createSession(
+	userId,
+	req,
+	{ duration = DEFAULT_SESSION_DURATION, method = "password" } = {},
+) {
 	const now = new Date();
 	const key = normalizeSessionDuration(duration);
 	const session = await prisma.userSession.create({

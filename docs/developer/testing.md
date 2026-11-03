@@ -35,6 +35,8 @@ E2E_BASE_URL=http://localhost:4173 E2E_ALLOW_WRITES=1 pnpm run test:e2e
 - Specs skip when nothing is served at `E2E_BASE_URL`. Tests that create data run only with
   `E2E_ALLOW_WRITES=1`; never set it against the live site.
 - `E2E_BROWSER_CHANNEL=chrome` uses the installed Chrome instead of Playwright's bundled browser.
+- `test-results/` is tracked in git (legacy artifacts). Pass `--output <scratch dir>` to Playwright, or
+  `git restore test-results` afterwards, so a run does not modify tracked files.
 
 ## Lint
 
