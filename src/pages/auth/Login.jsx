@@ -532,6 +532,9 @@ export default function Login() {
 								>
 									{showSessionExpiry ? "Hide session options" : "Session options"}
 								</button>
+								<Link to="/forgot-password" class="text-xs font-semibold text-sky-600 hover:text-sky-700">
+									Forgot password?
+								</Link>
 							</div>
 
 							{showSessionExpiry && (
@@ -545,7 +548,6 @@ export default function Login() {
 											{ value: "24h", label: "24 hours" },
 											{ value: "7d", label: "7 days" },
 											{ value: "30d", label: "30 days" },
-											{ value: "never", label: "Never expire" },
 										].map((opt) => (
 											<button
 												key={opt.value}

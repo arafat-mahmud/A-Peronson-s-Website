@@ -1816,3 +1816,32 @@ model CrashEvent {
   @@index([type, created_at])
   @@map("crash_events")
 }
+
+/// One row per sign-in; the JWT carries its id as `sid` (server/services/sessionService.js).
+model UserSession {
+  id           String    @id
+  user_id      String
+  created_at   DateTime  @default(now())
+  last_seen_at DateTime  @default(now())
+  expires_at   DateTime
+  revoked_at   DateTime?
+  ip           String?
+  user_agent   String?
+  auth_method  String?
+
+  @@index([user_id, revoked_at])
+  @@map("user_sessions")
+}
+
+/// Self-service password reset; only the SHA-256 of the emailed token is stored.
+model PasswordResetToken {
+  id         String    @id
+  user_id    String
+  token_hash String    @unique
+  expires_at DateTime
+  used_at    DateTime?
+  created_at DateTime  @default(now())
+
+  @@index([user_id])
+  @@map("password_reset_tokens")
+}

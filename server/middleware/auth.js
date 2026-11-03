@@ -1,4 +1,9 @@
 import jwt from "jsonwebtoken";
+import {
+	findActiveSession,
+	normalizeSessionDuration,
+	touchSession,
+} from "../services/sessionService.js";
 import { findUserById } from "../services/userService.js";
 import { deny, hasRole } from "../utils/permissions.js";
 
@@ -20,6 +25,7 @@ export function signToken(user, options = {}) {
 		member_id: user.member_id || "",
 		auth_via_passkey: Boolean(options.authViaPasskey),
 		passkey_verified_at: options.authViaPasskey ? new Date().toISOString() : "",
+		...(options.sessionId ? { sid: String(options.sessionId) } : {}),
 	};
 
 	const tokenOptions = {
@@ -28,11 +34,9 @@ export function signToken(user, options = {}) {
 		subject: user.id,
 	};
 
-	if (options.expiresIn && options.expiresIn > 0) {
-		tokenOptions.expiresIn = options.expiresIn;
-	} else if (!options.expiresIn) {
-		tokenOptions.expiresIn = "12h";
-	}
+	// Only the session lengths offered at login. A string such as "7d" used to
+	// skip both branches here, so those tokens were issued with no expiry.
+	tokenOptions.expiresIn = normalizeSessionDuration(options.expiresIn);
 
 	return jwt.sign(payload, JWT_SECRET, tokenOptions);
 }
@@ -49,10 +53,18 @@ export async function requireAuth(req, res, next) {
 			issuer: JWT_ISSUER,
 			audience: JWT_AUDIENCE,
 		});
-		const user = await findUserById(req.user.id);
+		const [user, session] = await Promise.all([
+			findUserById(req.user.id),
+			req.user.sid ? findActiveSession(req.user.sid, req.user.id) : null,
+		]);
 		if (!user) {
 			return res.status(401).json({ error: "Invalid token" });
 		}
+		// A token tied to a session dies with it (logout, revoke, password reset).
+		if (req.user.sid && !session) {
+			return res.status(401).json({ error: "Session expired" });
+		}
+		touchSession(session);
 		if (user.password_reset_at) {
 			const tokenIssuedAt = Number(req.user.iat || 0) * 1000;
 			const resetAt = new Date(user.password_reset_at).getTime();
@@ -98,7 +110,14 @@ export async function optionalAuth(req, _res, next) {
 			issuer: JWT_ISSUER,
 			audience: JWT_AUDIENCE,
 		});
-		const user = await findUserById(req.user.id);
+		const [user, session] = await Promise.all([
+			findUserById(req.user.id),
+			req.user.sid ? findActiveSession(req.user.sid, req.user.id) : null,
+		]);
+		if (req.user.sid && !session) {
+			req.user = null;
+			return next();
+		}
 		if (user?.password_reset_at) {
 			const tokenIssuedAt = Number(req.user.iat || 0) * 1000;
 			const resetAt = new Date(user.password_reset_at).getTime();

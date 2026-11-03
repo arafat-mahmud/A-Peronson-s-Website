@@ -2190,8 +2190,15 @@ export default function Settings({ embedded = false, initialTabProp = "", tabIds
 															{session.current && <Badge tone="green">Current</Badge>}
 														</div>
 														<div class="mt-1 text-sm text-slate-500 dark:text-slate-400">
-															{session.ip} · {session.location || "Unknown"} ·{" "}
-															{session.last_active || "recently"}
+															{[
+																session.ip,
+																session.auth_method === "passkey" ? "Passkey" : "",
+																session.last_active
+																	? `Active ${new Date(session.last_active).toLocaleString()}`
+																	: "",
+															]
+																.filter(Boolean)
+																.join(" · ")}
 														</div>
 													</div>
 													{!session.current && (
@@ -2588,8 +2595,15 @@ export default function Settings({ embedded = false, initialTabProp = "", tabIds
 													{session.current && <Badge tone="green">Current</Badge>}
 												</div>
 												<div class="mt-1 text-sm text-slate-500 dark:text-slate-400">
-													{session.ip} · {session.location || "Unknown"} ·{" "}
-													{session.last_active || "recently"}
+													{[
+														session.ip,
+														session.auth_method === "passkey" ? "Passkey" : "",
+														session.last_active
+															? `Active ${new Date(session.last_active).toLocaleString()}`
+															: "",
+													]
+														.filter(Boolean)
+														.join(" · ")}
 												</div>
 											</div>
 											{!session.current && (

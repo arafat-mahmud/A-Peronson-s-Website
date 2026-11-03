@@ -18,6 +18,15 @@ import {
 import { upsertSubscription } from "../services/subscriptionService.js";
 import { assertCouponRedeemable, creditWallet } from "../services/walletService.js";
 import { getAdminConfig } from "../services/adminConfigService.js";
+import { requestPasswordReset, resetPassword } from "../services/passwordResetService.js";
+import {
+	createSession,
+	extendSession,
+	listSessions,
+	revokeAllSessions,
+	revokeSession,
+} from "../services/sessionService.js";
+import { logError } from "../utils/logger.js";
 import { passwordProblems } from "../../shared/config/passwordPolicy.js";
 import {
 	isValidFactorySector,
@@ -119,7 +128,8 @@ export async function register(req, res) {
 				} catch {
 					// non-blocking: auto-credit is best-effort
 				}
-				const token = signToken(existing);
+				const session = await createSession(existing.id, req);
+				const token = signToken(existing, { sessionId: session.id });
 				const entitlements = await getEntitlements(existing);
 				return res.status(200).json({
 					user: { ...sanitizeUser(existing), entitlements },
@@ -147,7 +157,8 @@ export async function register(req, res) {
 		...req.body,
 		profile: { ...(req.body.profile || {}), ...companyFacts.value },
 	});
-	const token = signToken(user);
+	const session = await createSession(user.id, req);
+	const token = signToken(user, { sessionId: session.id });
 	const entitlements = await getEntitlements(user);
 	return res.status(201).json({ user: { ...sanitizeUser(user), entitlements }, token });
 }
@@ -181,8 +192,12 @@ export async function login(req, res) {
 		return res.status(401).json({ error: "Invalid credentials" });
 	}
 
-	const expiresIn = req.body?.expiresIn || "12h";
-	const token = signToken(user, { authViaPasskey: false, expiresIn });
+	const session = await createSession(user.id, req, { duration: req.body?.expiresIn });
+	const token = signToken(user, {
+		authViaPasskey: false,
+		expiresIn: session.duration,
+		sessionId: session.id,
+	});
 	const entitlements = await getEntitlements(user);
 	return res.json({ user: { ...sanitizeUser(user), entitlements }, token });
 }
@@ -196,11 +211,52 @@ export async function me(req, res) {
 	return res.json({ user: { ...sanitizeUser(user), entitlements } });
 }
 
-export async function logout(_req, res) {
+export async function logout(req, res) {
+	// The session row is what makes the token stop working server-side.
+	if (req.user?.sid) {
+		await revokeSession(req.user.id, req.user.sid);
+	}
+	return res.json({ ok: true });
+}
+
+export async function listMySessions(req, res) {
+	const sessions = await listSessions(req.user.id, req.user.sid || "");
+	return res.json({ sessions, current_session_tracked: Boolean(req.user.sid) });
+}
+
+export async function revokeMySession(req, res) {
+	if (String(req.params.sessionId) === String(req.user.sid || "")) {
+		return res.status(400).json({ error: "Use Logout to end the current session." });
+	}
+	const revoked = await revokeSession(req.user.id, req.params.sessionId);
+	if (!revoked) {
+		return res.status(404).json({ error: "Session not found" });
+	}
+	return res.json({ ok: true });
+}
+
+export async function revokeOtherSessions(req, res) {
+	const count = await revokeAllSessions(req.user.id, { exceptId: req.user.sid || "" });
+	return res.json({ ok: true, revoked: count });
+}
+
+export async function forgotPassword(req, res) {
+	const email = String(req.body?.email || "").trim();
+	if (!validateEmail(email)) {
+		return res.status(400).json({ error: "Enter a valid email address." });
+	}
+	// Same answer and no waiting on the email either way: the response must not
+	// reveal whether the address has an account.
+	requestPasswordReset(email).catch((error) => logError("password_reset_request_failed", error));
 	return res.json({
 		ok: true,
-		message: "Logout handled on client by dropping JWT",
+		message: "If an account exists for that email, a reset link has been sent. It expires in 30 minutes.",
 	});
+}
+
+export async function completePasswordReset(req, res) {
+	await resetPassword(req.body?.token, req.body?.password);
+	return res.json({ ok: true, message: "Password updated. Sign in with your new password." });
 }
 
 // BUG-033: Token refresh endpoint - issues a new JWT if the current one is about to expire.
@@ -215,7 +271,17 @@ export async function refreshToken(req, res) {
 	if (user.status === "locked") {
 		return res.status(403).json({ error: "Account locked", code: "ACCOUNT_LOCKED" });
 	}
-	const token = signToken(user);
+	// Same session, new expiry; a pre-session token is moved onto a session.
+	let sessionId = req.user.sid || "";
+	let duration;
+	if (sessionId) {
+		duration = await extendSession(sessionId);
+	} else {
+		const session = await createSession(user.id, req);
+		sessionId = session.id;
+		duration = session.duration;
+	}
+	const token = signToken(user, { sessionId, expiresIn: duration });
 	const entitlements = await getEntitlements(user);
 	return res.json({ user: { ...sanitizeUser(user), entitlements }, token });
 }
@@ -293,7 +359,12 @@ export async function passkeyLoginVerify(req, res) {
 			}
 		}
 		const expiresIn = req.body?.expiresIn || "12h";
-		const token = signToken(user, { authViaPasskey: true, expiresIn });
+		const session = await createSession(user.id, req, { duration: expiresIn, method: "passkey" });
+		const token = signToken(user, {
+			authViaPasskey: true,
+			expiresIn: session.duration,
+			sessionId: session.id,
+		});
 		const entitlements = await getEntitlements(user);
 		return res.json({
 			user: { ...sanitizeUser(user), entitlements },

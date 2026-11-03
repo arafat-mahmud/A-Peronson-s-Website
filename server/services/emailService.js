@@ -99,7 +99,15 @@ async function queueEmail(entry) {
 	await prisma.emailOutbox.create({ data: entry });
 }
 
+// Emails whose body is a credential (a one-time reset link) are logged
+// without it: the log is readable by admins and anyone with database access.
+const REDACTED_BODY_SOURCES = new Set(["password_reset"]);
+
 async function logEmailToDb({ to, subject, text, html, status, source, error }) {
+	if (REDACTED_BODY_SOURCES.has(source)) {
+		text = "[redacted: contains a one-time password reset link]";
+		html = null;
+	}
 	try {
 		await prisma.emailLog.create({
 			data: {

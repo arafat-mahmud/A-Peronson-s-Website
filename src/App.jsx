@@ -89,6 +89,10 @@ const TexHub = safeLazy(() => import("./pages/TexHub.jsx"));
 const Pricing = safeLazy(() => import("./pages/Pricing.jsx"));
 const Login = safeLazy(() => import("./pages/auth/Login.jsx"));
 const Signup = safeLazy(() => import("./pages/auth/Signup.jsx"));
+const ForgotPassword = safeLazy(() =>
+	import("./pages/auth/ForgotPassword.jsx").then((m) => ({ default: m.ForgotPassword })),
+);
+const ResetPassword = safeLazy(() => import("./pages/auth/ForgotPassword.jsx"));
 const SignupUltra = safeLazy(() => import("./pages/auth/SignupUltra.jsx"));
 const OnboardingPage = safeLazy(() => import("./pages/auth/OnboardingPage.jsx"));
 const SharedPost = safeLazy(() => import("./pages/SharedPost.jsx"));
@@ -309,6 +313,8 @@ function AppRoutes() {
 					</ErrorBoundary>
 				}
 			/>
+			<Route path="/forgot-password" element={<ForgotPassword />} />
+			<Route path="/reset-password" element={<ResetPassword />} />
 			<Route
 				path="/share/:entityType/:entityId"
 				element={

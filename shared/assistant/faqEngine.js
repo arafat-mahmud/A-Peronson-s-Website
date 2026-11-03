@@ -139,9 +139,9 @@ const INTENTS = [
 		id: "login_help",
 		keywords: ["forgot password", "reset password", "can't login", "cannot login", "login problem", "lost password", "পাসওয়ার্ড ভুলে", "লগইন হচ্ছে না", "লগইন সমস্যা"],
 		combos: [[["forgot", "forget", "reset", "lost", "recover", "ভুলে", "রিসেট"], ["password", "পাসওয়ার্ড"]]],
-		link: { to: "/help", label: "Help Center" },
-		en: `There is no self-service password reset yet. Email ${SUPPORT_EMAIL} from the address you registered with and the team will help you get back in.`,
-		bn: `এখনো নিজে নিজে পাসওয়ার্ড রিসেটের ব্যবস্থা নেই। রেজিস্টার করা ইমেইল থেকে ${SUPPORT_EMAIL}-এ লিখুন, টিম আপনাকে সাহায্য করবে।`,
+		link: { to: "/forgot-password", label: "Reset password" },
+		en: `On the login page choose "Forgot password?", enter your account email and open the link we send (it works once and expires in 30 minutes). No email after a few minutes? Check spam, or contact ${SUPPORT_EMAIL}.`,
+		bn: `লগইন পেজে "Forgot password?" চাপুন, অ্যাকাউন্টের ইমেইল দিন এবং পাঠানো লিংকটি খুলুন (একবারই কাজ করে, ৩০ মিনিটে মেয়াদ শেষ)। কয়েক মিনিটেও ইমেইল না এলে spam দেখুন অথবা ${SUPPORT_EMAIL}-এ যোগাযোগ করুন।`,
 	},
 	{
 		id: "support",

@@ -1,7 +1,12 @@
 import { Router } from "express";
 import {
 	login,
+	completePasswordReset,
+	forgotPassword,
+	listMySessions,
 	logout,
+	revokeMySession,
+	revokeOtherSessions,
 	me,
 	passkeyList,
 	passkeyLoginOptions,
@@ -28,5 +33,10 @@ router.get("/passkeys", requireAuth, passkeyList);
 router.delete("/passkeys/:credentialId", requireAuth, passkeyRemove);
 router.get("/me", requireAuth, me);
 router.post("/logout", requireAuth, logout);
+router.get("/sessions", requireAuth, listMySessions);
+router.delete("/sessions/:sessionId", requireAuth, revokeMySession);
+router.post("/sessions/revoke-others", requireAuth, revokeOtherSessions);
+router.post("/password/forgot", authLimiter, forgotPassword);
+router.post("/password/reset", authLimiter, completePasswordReset);
 
 export default router;
