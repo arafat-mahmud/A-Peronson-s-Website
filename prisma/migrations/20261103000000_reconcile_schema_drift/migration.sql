@@ -30,8 +30,9 @@ ADD COLUMN IF NOT EXISTS "ai_label" TEXT,
 ADD COLUMN IF NOT EXISTS "ai_score" DOUBLE PRECISION,
 ADD COLUMN IF NOT EXISTS "ai_signals" JSONB,
 ADD COLUMN IF NOT EXISTS "ai_timing" JSONB,
-ADD COLUMN IF NOT EXISTS "video_status" TEXT,
-ALTER COLUMN "ai_early_exit" DROP DEFAULT;
+ADD COLUMN IF NOT EXISTS "video_status" TEXT;
+-- "ai_early_exit" keeps DEFAULT false: it is added by add_ai_severity_early_exit,
+-- which sorts after every timestamped migration (fresh databases get it last).
 
 ALTER TABLE "feed_posts" ADD COLUMN IF NOT EXISTS "content_hash" TEXT,
 ADD COLUMN IF NOT EXISTS "version" INTEGER NOT NULL DEFAULT 1;

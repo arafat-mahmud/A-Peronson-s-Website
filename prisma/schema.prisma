@@ -665,7 +665,7 @@ model Document {
   ai_details              Json?
   ai_timing               Json?
   ai_severity             String?
-  ai_early_exit           Boolean?
+  ai_early_exit           Boolean?  @default(false)
   ai_analyzed_at          DateTime?
   ai_auto_approved        Boolean?
   video_status            String?
